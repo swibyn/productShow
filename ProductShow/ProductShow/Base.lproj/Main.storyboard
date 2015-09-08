@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="F2T-z2-RmR">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="49e-Tb-3d3">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <scenes>
-        <!--热门-->
+        <!--热门产品-->
         <scene sceneID="48T-r3-6at">
             <objects>
-                <navigationController id="4Qi-aA-TQV" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="热门" id="i72-Cs-Ge6"/>
+                <navigationController id="4Qi-aA-TQV" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="热门产品" id="i72-Cs-Ge6"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UJg-8i-In6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -48,12 +48,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jCN-Zy-5eR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="38" y="-2482"/>
+            <point key="canvasLocation" x="722" y="-2482"/>
         </scene>
         <!--Root View Controller-->
         <scene sceneID="9Rh-7t-e5I">
             <objects>
-                <tableViewController id="xKT-Fj-vao" sceneMemberID="viewController">
+                <tableViewController id="xKT-Fj-vao" customClass="SearchProductsViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IS8-2U-6tN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -81,6 +81,7 @@
                             <outlet property="delegate" destination="xKT-Fj-vao" id="TFz-3W-t0r"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="Item" id="zb6-t7-7jR"/>
                     <navigationItem key="navigationItem" title="Root View Controller" id="xlJ-o6-4gb"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="xSh-GN-8xQ" id="2BF-C8-RCc"/>
@@ -99,11 +100,11 @@
             </objects>
             <point key="canvasLocation" x="38" y="-1122"/>
         </scene>
-        <!--搜索-->
+        <!--产品搜索-->
         <scene sceneID="CBd-PF-2SI">
             <objects>
-                <navigationController id="bD3-bC-NH0" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="搜索" id="UTN-w0-TSD"/>
+                <navigationController id="bD3-bC-NH0" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="产品搜索" id="UTN-w0-TSD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ssA-dg-hck">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -119,7 +120,7 @@
         <!--Login View Controller-->
         <scene sceneID="c8P-An-yCi">
             <objects>
-                <viewController id="F2T-z2-RmR" customClass="LoginViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="F2T-z2-RmR" customClass="LoginViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="H8a-5x-0pX"/>
                         <viewControllerLayoutGuide type="bottom" id="IfP-3O-FI9"/>
@@ -137,7 +138,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="3Lg-BV-f0b" kind="show" id="7Xy-Up-4u4"/>
+                                            <action selector="loginButtonAction:" destination="F2T-z2-RmR" eventType="touchUpInside" id="4KX-QV-D7f"/>
                                         </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="用户名" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xf2-JN-u7D">
@@ -173,7 +174,7 @@
         <!--First Page View Controller-->
         <scene sceneID="xEd-cO-a0a">
             <objects>
-                <viewController id="3Lg-BV-f0b" customClass="FirstPageViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FirstPageViewController" id="3Lg-BV-f0b" customClass="FirstPageViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="acd-PN-uhD"/>
                         <viewControllerLayoutGuide type="bottom" id="lIM-3O-CgG"/>
@@ -194,7 +195,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="49e-Tb-3d3" kind="show" identifier="hotProducts" id="OEY-L3-01k"/>
+                                            <action selector="buttonClick:" destination="3Lg-BV-f0b" eventType="touchUpInside" id="zHp-ce-q92"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dBN-l0-7mf">
@@ -206,7 +207,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="49e-Tb-3d3" kind="show" identifier="productCategories" id="uPY-Rn-i4m"/>
+                                            <action selector="buttonClick:" destination="3Lg-BV-f0b" eventType="touchUpInside" id="wrd-us-ehD"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pey-x4-vw4">
@@ -218,7 +219,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="49e-Tb-3d3" kind="show" identifier="productSearch" id="Orr-VH-XYi"/>
+                                            <action selector="buttonClick:" destination="3Lg-BV-f0b" eventType="touchUpInside" id="url-xb-H9Z"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YBT-MH-pAm">
@@ -230,7 +231,7 @@
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="49e-Tb-3d3" kind="show" identifier="userCenter" id="mUq-jc-1Ap"/>
+                                            <action selector="buttonClick:" destination="3Lg-BV-f0b" eventType="touchUpInside" id="zfx-rN-HiF"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -269,13 +270,15 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NLV-ri-6EN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2160" y="-149"/>
+            <point key="canvasLocation" x="-2828" y="-1581"/>
         </scene>
-        <!--Home Tab Bar View Controller-->
+        <!--tabbar-->
         <scene sceneID="yl2-sM-qoP">
             <objects>
                 <tabBarController id="49e-Tb-3d3" customClass="HomeTabBarViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="elR-sm-TZ6"/>
+                    <navigationItem key="navigationItem" title="tabbar" id="elR-sm-TZ6">
+                        <barButtonItem key="backBarButtonItem" title="houtui" id="hMn-Ef-h0r"/>
+                    </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
@@ -283,21 +286,21 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
-                        <segue destination="4Qi-aA-TQV" kind="relationship" relationship="viewControllers" id="PcZ-wo-HWl"/>
-                        <segue destination="bD3-bC-NH0" kind="relationship" relationship="viewControllers" id="V8u-Ho-mCN"/>
-                        <segue destination="8DN-JN-W1m" kind="relationship" relationship="viewControllers" id="aWN-FL-5ob"/>
-                        <segue destination="oCL-G5-09i" kind="relationship" relationship="viewControllers" id="7ze-RG-B8s"/>
+                        <segue destination="4Qi-aA-TQV" kind="relationship" relationship="viewControllers" id="vTI-Of-XMv"/>
+                        <segue destination="8DN-JN-W1m" kind="relationship" relationship="viewControllers" id="noU-9C-q93"/>
+                        <segue destination="bD3-bC-NH0" kind="relationship" relationship="viewControllers" id="hhQ-FC-eOP"/>
+                        <segue destination="oCL-G5-09i" kind="relationship" relationship="viewControllers" id="udg-ho-1vh"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1424" y="-864"/>
         </scene>
-        <!--类目-->
+        <!--产品类目-->
         <scene sceneID="KYs-44-vPa">
             <objects>
-                <navigationController id="8DN-JN-W1m" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="类目" id="1wm-uh-Agj"/>
+                <navigationController id="8DN-JN-W1m" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="产品类目" id="1wm-uh-Agj"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nye-En-h7w">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -379,7 +382,7 @@
         <!--Root View Controller-->
         <scene sceneID="s18-zo-cTR">
             <objects>
-                <tableViewController id="TG9-E0-rIC" sceneMemberID="viewController">
+                <tableViewController id="TG9-E0-rIC" customClass="UserCenterTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="zfX-bE-5Zl">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -407,6 +410,7 @@
                             <outlet property="delegate" destination="TG9-E0-rIC" id="zVh-TB-OBj"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="Item" id="9Yv-GH-K64"/>
                     <navigationItem key="navigationItem" title="Root View Controller" id="h8y-od-ZAM"/>
                     <connections>
                         <outlet property="searchDisplayController" destination="xSh-GN-8xQ" id="q9o-kr-6fz"/>
@@ -428,7 +432,7 @@
         <!--个人中心-->
         <scene sceneID="DBT-gq-YUy">
             <objects>
-                <navigationController id="oCL-G5-09i" sceneMemberID="viewController">
+                <navigationController id="oCL-G5-09i" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="个人中心" id="kIj-Xn-oFz"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wC3-xi-wfY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -444,7 +448,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="mUq-jc-1Ap"/>
-        <segue reference="hKY-f6-7oW"/>
+        <segue reference="GJg-Ib-JcW"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -8,12 +8,22 @@
 
 import UIKit
 
-class FirstPageViewController: UIViewController {
+protocol FirstPageViewControllerDelegate : NSObjectProtocol{
+    func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton)
+}
+
+class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UITabBarControllerDelegate*/ {
 
     @IBOutlet var hotProducts: UIButton!
     @IBOutlet var productCategories: UIButton!
     @IBOutlet var productSearch: UIButton!
     @IBOutlet var userCenter: UIButton!
+    
+    @IBAction func buttonClick(sender: UIButton) {
+        delegate?.firstPageViewController(self, didClickButton: sender)
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    var delegate: FirstPageViewControllerDelegate?
     
     //Mark: 增加阴影
     func addShadows(){
@@ -26,6 +36,7 @@ class FirstPageViewController: UIViewController {
 //        hotProducts.layer.shadowColor 
     }
     
+    // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "首页"
@@ -34,15 +45,46 @@ class FirstPageViewController: UIViewController {
         addShadows()
         
     }
+    
+    
+    override func viewDidAppear(animated: Bool) {
+        if !UserCenterTableViewController.signIn{
+            presentLoginVC(UIModalTransitionStyle.CoverVertical, animated: true, completion: nil)
+        }
+        
+    }
+    
+    deinit{
+        println("\(self) \(__FUNCTION__)")
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-  
     
-
+    // MARK: 初始化一个实例
+    static func shareInstance()->FirstPageViewController{
+        
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("FirstPageViewController") as! FirstPageViewController
+        return aInstance
+    }
+    
+    // MARK: metheds
+    
+    func presentLoginVC(modalTransitionStyle: UIModalTransitionStyle,animated: Bool, completion:(()->Void)?){
+        let loginVC = LoginViewController.shareInstance()
+        loginVC.modalTransitionStyle = modalTransitionStyle
+        loginVC.delegate = self
+        self.presentViewController(loginVC, animated: animated, completion: completion)
+    }
+    
+    // MARK: LoginViewControllerDelegate
+    func loginViewController(loginViewController: LoginViewController, userInfo: AnyObject?) {
+        loginViewController.dismissViewControllerAnimated(true, completion: nil)
+        //        presentFirstPageVC()
+    }
     
     // MARK: - Navigation
 
@@ -50,24 +92,30 @@ class FirstPageViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-//        let destVC = segue.destinationViewController as! UINavigationController
-//        let tabVC = destVC.viewControllers[0] as! UITabBarController
         
         let tabVC = segue.destinationViewController as! UITabBarController
-        
-        
-        switch segue.identifier!{
-        case "hotProducts":
-            tabVC.selectedIndex = 0
-        case "productCategories":
-            tabVC.selectedIndex = 1
-        case "productSearch":
-            tabVC.selectedIndex = 2
-        case "userCenter":
-            tabVC.selectedIndex = 3
-        default:
-            tabVC.selectedIndex = 0
+        let btn = sender as! UIButton
+        for vc in tabVC.viewControllers! as! [UIViewController]{
+            if vc.tabBarItem.title == btn.titleForState(UIControlState.Normal){
+                tabVC.selectedViewController = vc
+//                let window = UIApplication.sharedApplication().delegate?.window!
+//                window!.rootViewController = tabVC
+                break
+            }
         }
+        
+//        switch segue.identifier!{
+//        case "hotProducts":
+//            tabVC.selectedIndex = 0
+//        case "productCategories":
+//            tabVC.selectedIndex = 1
+//        case "productSearch":
+//            tabVC.selectedIndex = 2
+//        case "userCenter":
+//            tabVC.selectedIndex = 3
+//        default:
+//            tabVC.selectedIndex = 0
+//        }
     }
     
 

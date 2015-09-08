@@ -1,16 +1,14 @@
 //
-//  HotProductsTableViewController.swift
-//  test
+//  TabTableViewControllerBase.swift
+//  ProductShow
 //
-//  Created by s on 15/8/21.
-//  Copyright (c) 2015年 sunward. All rights reserved.
+//  Created by s on 15/9/8.
+//  Copyright (c) 2015年 gaozgao. All rights reserved.
 //
 
 import UIKit
 
-class ProductsTableViewController: TabTableViewControllerBase {
-    
-    var dataArray: NSArray!
+class TabTableViewControllerBase: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,11 +19,32 @@ class ProductsTableViewController: TabTableViewControllerBase {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        
+        self.setLeftButtonItems()
+        println("\(self.title) \(self.view.frame)")
+
     }
     
-
-
+    //增加返回首页按钮
+    func firstPageButtonClick(sender: UIBarButtonItem){
+        (self.tabBarController as! HomeTabBarViewController).presentFirstPageVC()
+        
+//        if let nav = self.navigationController?.navigationController{
+//            nav.popViewControllerAnimated(true)
+//        }else{
+//            self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+//        }
+    }
+    
+    func setLeftButtonItems(){
+//        println("\(__FUNCTION__)")
+//        let backBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Reply, target: self, action: Selector("back"))
+        let firstPageButtonItem = UIBarButtonItem(title: "首页", style: UIBarButtonItemStyle.Plain,target: self, action: Selector("firstPageButtonClick:"))
+        self.navigationItem.leftBarButtonItems = [/*backBarButtonItem,*/firstPageButtonItem]
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -36,25 +55,24 @@ class ProductsTableViewController: TabTableViewControllerBase {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 10
+        return 0
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 10
+        return 0
     }
 
-    
+    /*
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
-        cell.textLabel?.text = "产品\(indexPath.row)"
 
         return cell
     }
-    
+    */
 
     /*
     // Override to support conditional editing of the table view.

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D58043F1B9E7D390030EE85 /* TabTableViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58043E1B9E7D390030EE85 /* TabTableViewControllerBase.swift */; };
 		4D7D66B61B9C30C200F19927 /* FirstPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D66B51B9C30C200F19927 /* FirstPageViewController.swift */; };
 		4D7D66B81B9C375500F19927 /* HomeTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D66B71B9C375500F19927 /* HomeTabBarViewController.swift */; };
 		4D87E5FD1B9BE03700E0AD74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D87E5FC1B9BE03700E0AD74 /* AppDelegate.swift */; };
@@ -21,6 +22,7 @@
 		4D87E62B1B9BE5FF00E0AD74 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D87E62A1B9BE5FF00E0AD74 /* LoginViewController.swift */; };
 		4DCB22CE1B9D2E830016DA13 /* CategoriesTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */; };
 		4DCB23021B9D7F9D0016DA13 /* UserCenterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB23011B9D7F9D0016DA13 /* UserCenterTableViewController.swift */; };
+		4DCB23071B9D8F4E0016DA13 /* TabNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB23061B9D8F4E0016DA13 /* TabNavigationController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D58043E1B9E7D390030EE85 /* TabTableViewControllerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabTableViewControllerBase.swift; sourceTree = "<group>"; };
 		4D7D66B51B9C30C200F19927 /* FirstPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstPageViewController.swift; sourceTree = "<group>"; };
 		4D7D66B71B9C375500F19927 /* HomeTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarViewController.swift; sourceTree = "<group>"; };
 		4D87E5F71B9BE03700E0AD74 /* ProductShow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProductShow.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -52,6 +55,7 @@
 		4D87E62A1B9BE5FF00E0AD74 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController2.swift; sourceTree = "<group>"; };
 		4DCB23011B9D7F9D0016DA13 /* UserCenterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterTableViewController.swift; sourceTree = "<group>"; };
+		4DCB23061B9D8F4E0016DA13 /* TabNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigationController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +139,8 @@
 		4DCB23031B9D7FEB0016DA13 /* SubControllers */ = {
 			isa = PBXGroup;
 			children = (
+				4DCB23061B9D8F4E0016DA13 /* TabNavigationController.swift */,
+				4D58043E1B9E7D390030EE85 /* TabTableViewControllerBase.swift */,
 				4D87E61E1B9BE29E00E0AD74 /* CategoriesTableViewController.swift */,
 				4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */,
 				4D87E61F1B9BE29E00E0AD74 /* ProductsTableViewController.swift */,
@@ -247,7 +253,9 @@
 			files = (
 				4D7D66B81B9C375500F19927 /* HomeTabBarViewController.swift in Sources */,
 				4D7D66B61B9C30C200F19927 /* FirstPageViewController.swift in Sources */,
+				4D58043F1B9E7D390030EE85 /* TabTableViewControllerBase.swift in Sources */,
 				4D87E5FD1B9BE03700E0AD74 /* AppDelegate.swift in Sources */,
+				4DCB23071B9D8F4E0016DA13 /* TabNavigationController.swift in Sources */,
 				4D87E6211B9BE29E00E0AD74 /* CategoriesTableViewController.swift in Sources */,
 				4D87E6231B9BE29E00E0AD74 /* SearchProductsViewController.swift in Sources */,
 				4D87E62B1B9BE5FF00E0AD74 /* LoginViewController.swift in Sources */,
