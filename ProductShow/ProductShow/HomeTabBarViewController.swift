@@ -39,6 +39,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     
     func presentFirstPageVC(modalTransitionStyle: UIModalTransitionStyle, animated: Bool, completion:(()->Void)?){
         let firstPageVC = FirstPageViewController.shareInstance()
+        firstPageVC.delegate = self
         firstPageVC.modalTransitionStyle = modalTransitionStyle
         self.presentViewController(firstPageVC, animated: animated, completion: nil)
     }
@@ -57,7 +58,8 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     // MARK: FirstPageViewControllerDelegate
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
         for vc in self.viewControllers! as! [UIViewController]{
-            if vc.title == button.titleForState(UIControlState.Normal){
+            println("vc.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
+            if vc.tabBarItem.title == button.titleForState(UIControlState.Normal){
                 self.selectedViewController = vc
                 break
             }

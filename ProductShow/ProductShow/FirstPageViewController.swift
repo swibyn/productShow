@@ -14,6 +14,10 @@ protocol FirstPageViewControllerDelegate : NSObjectProtocol{
 
 class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UITabBarControllerDelegate*/ {
 
+    //MARK: Property
+    var delegate: FirstPageViewControllerDelegate?
+    
+    //MARK: @IB
     @IBOutlet var hotProducts: UIButton!
     @IBOutlet var productCategories: UIButton!
     @IBOutlet var productSearch: UIButton!
@@ -23,7 +27,6 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
         delegate?.firstPageViewController(self, didClickButton: sender)
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-    var delegate: FirstPageViewControllerDelegate?
     
     //Mark: 增加阴影
     func addShadows(){

@@ -20,7 +20,7 @@ class TabTableViewControllerBase: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         self.setLeftButtonItems()
-        println("\(self.title) \(self.view.frame)")
+//        println("\(self.title) \(self.view.frame)")
 
     }
     
