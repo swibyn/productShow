@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		4D58043F1B9E7D390030EE85 /* TabTableViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58043E1B9E7D390030EE85 /* TabTableViewControllerBase.swift */; };
+		4D6F72811BCCE38200E40853 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F72801BCCE38200E40853 /* StringExtension.swift */; };
+		4D6F72851BCCEAA500E40853 /* NSString+MessageDigest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F72841BCCEAA500E40853 /* NSString+MessageDigest.m */; };
+		4D6F72911BCCF1EF00E40853 /* HotProductsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F72901BCCF1EF00E40853 /* HotProductsTableViewController.swift */; };
 		4D7D66B61B9C30C200F19927 /* FirstPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D66B51B9C30C200F19927 /* FirstPageViewController.swift */; };
 		4D7D66B81B9C375500F19927 /* HomeTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D66B71B9C375500F19927 /* HomeTabBarViewController.swift */; };
 		4D822B0F1BCBA45700864CB5 /* WebApiTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D822B0D1BCBA45700864CB5 /* WebApiTest.swift */; };
@@ -42,6 +45,11 @@
 
 /* Begin PBXFileReference section */
 		4D58043E1B9E7D390030EE85 /* TabTableViewControllerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabTableViewControllerBase.swift; sourceTree = "<group>"; };
+		4D6F727C1BCCE31500E40853 /* ProductShow-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProductShow-Bridging-Header.h"; sourceTree = "<group>"; };
+		4D6F72801BCCE38200E40853 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = extension/StringExtension.swift; sourceTree = "<group>"; };
+		4D6F72831BCCEAA500E40853 /* NSString+MessageDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MessageDigest.h"; path = "Objc/NSString+MessageDigest.h"; sourceTree = "<group>"; };
+		4D6F72841BCCEAA500E40853 /* NSString+MessageDigest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+MessageDigest.m"; path = "Objc/NSString+MessageDigest.m"; sourceTree = "<group>"; };
+		4D6F72901BCCF1EF00E40853 /* HotProductsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotProductsTableViewController.swift; sourceTree = "<group>"; };
 		4D7D66B51B9C30C200F19927 /* FirstPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstPageViewController.swift; sourceTree = "<group>"; };
 		4D7D66B71B9C375500F19927 /* HomeTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeTabBarViewController.swift; sourceTree = "<group>"; };
 		4D822B0D1BCBA45700864CB5 /* WebApiTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebApiTest.swift; sourceTree = "<group>"; };
@@ -85,6 +93,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D6F727A1BCCE25A00E40853 /* extension */ = {
+			isa = PBXGroup;
+			children = (
+				4D6F72801BCCE38200E40853 /* StringExtension.swift */,
+			);
+			name = extension;
+			sourceTree = "<group>";
+		};
+		4D6F72821BCCEA1700E40853 /* Objc */ = {
+			isa = PBXGroup;
+			children = (
+				4D6F72831BCCEAA500E40853 /* NSString+MessageDigest.h */,
+				4D6F72841BCCEAA500E40853 /* NSString+MessageDigest.m */,
+			);
+			name = Objc;
+			sourceTree = "<group>";
+		};
 		4D87E5EE1B9BE03700E0AD74 = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +131,8 @@
 		4D87E5F91B9BE03700E0AD74 /* ProductShow */ = {
 			isa = PBXGroup;
 			children = (
+				4D6F72821BCCEA1700E40853 /* Objc */,
+				4D6F727A1BCCE25A00E40853 /* extension */,
 				4DA382491B9FD02800B68AA0 /* WebApi */,
 				4D87E5FC1B9BE03700E0AD74 /* AppDelegate.swift */,
 				4DA3824E1B9FD9AE00B68AA0 /* Global.swift */,
@@ -117,6 +144,7 @@
 				4D87E6051B9BE03700E0AD74 /* Images.xcassets */,
 				4D87E6071B9BE03700E0AD74 /* LaunchScreen.xib */,
 				4D87E5FA1B9BE03700E0AD74 /* Supporting Files */,
+				4D6F727C1BCCE31500E40853 /* ProductShow-Bridging-Header.h */,
 			);
 			path = ProductShow;
 			sourceTree = "<group>";
@@ -165,6 +193,7 @@
 				4D87E61E1B9BE29E00E0AD74 /* CategoriesTableViewController.swift */,
 				4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */,
 				4D87E61F1B9BE29E00E0AD74 /* ProductsTableViewController.swift */,
+				4D6F72901BCCF1EF00E40853 /* HotProductsTableViewController.swift */,
 				4D87E6201B9BE29E00E0AD74 /* SearchProductsViewController.swift */,
 				4DCB23011B9D7F9D0016DA13 /* UserCenterTableViewController.swift */,
 			);
@@ -274,6 +303,7 @@
 			files = (
 				4D7D66B81B9C375500F19927 /* HomeTabBarViewController.swift in Sources */,
 				4D7D66B61B9C30C200F19927 /* FirstPageViewController.swift in Sources */,
+				4D6F72811BCCE38200E40853 /* StringExtension.swift in Sources */,
 				4D58043F1B9E7D390030EE85 /* TabTableViewControllerBase.swift in Sources */,
 				4D87E5FD1B9BE03700E0AD74 /* AppDelegate.swift in Sources */,
 				4DCB23071B9D8F4E0016DA13 /* TabNavigationController.swift in Sources */,
@@ -282,6 +312,8 @@
 				4D87E6231B9BE29E00E0AD74 /* SearchProductsViewController.swift in Sources */,
 				4D87E62B1B9BE5FF00E0AD74 /* LoginViewController.swift in Sources */,
 				4DCB23021B9D7F9D0016DA13 /* UserCenterTableViewController.swift in Sources */,
+				4D6F72851BCCEAA500E40853 /* NSString+MessageDigest.m in Sources */,
+				4D6F72911BCCF1EF00E40853 /* HotProductsTableViewController.swift in Sources */,
 				4DCB22CE1B9D2E830016DA13 /* CategoriesTableViewController2.swift in Sources */,
 				4DA3824D1B9FD90100B68AA0 /* JsonField.swift in Sources */,
 				4D87E6221B9BE29E00E0AD74 /* ProductsTableViewController.swift in Sources */,
@@ -416,10 +448,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ProductShow/ProductShow-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -427,10 +462,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "ProductShow/ProductShow-Bridging-Header.h";
 			};
 			name = Release;
 		};

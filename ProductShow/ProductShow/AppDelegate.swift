@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
-        WebApi.SendEquipCode(["eqNo":"EQNO","eqName":"EQNAME"], completedHandler: nil)
+//        WebApi.SendEquipCode(["eqNo":"EQNO","eqName":"EQNAME"], completedHandler: nil)
 
     
         return true

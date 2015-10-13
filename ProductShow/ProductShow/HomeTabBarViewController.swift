@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelegate,LoginViewControllerDelegate {
+class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelegate/*,LoginViewControllerDelegate*/ {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,18 +23,22 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
+//        self.navigationController?.navigationBarHidden = true
 //        println("\(self) \(__FUNCTION__)")
     }
     
     
     override func viewDidAppear(animated: Bool) {
         //如果还没登录，则弹出登录界面
-        if !UserCenterTableViewController.signIn{
-            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
-//            self.presentLoginVC(.CoverVertical, animated: true, completion: nil)
-//            signin = true
+        var bsignin = false
+        let statusIntOpt = Global.userInfo?.objectForKey(jfstatus) as? Int
+        if let status = statusIntOpt{
+            bsignin = status == 1
         }
+        if !bsignin{
+            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
+        }
+        
     }
     
     func presentFirstPageVC(modalTransitionStyle: UIModalTransitionStyle, animated: Bool, completion:(()->Void)?){
@@ -48,12 +52,12 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: true, completion: nil)
     }
     
-    func presentLoginVC(modalTransitionStyle: UIModalTransitionStyle,animated: Bool, completion:(()->Void)?){
-        let loginVC = LoginViewController.shareInstance()
-        loginVC.modalTransitionStyle = modalTransitionStyle
-        loginVC.delegate = self
-        self.presentViewController(loginVC, animated: animated, completion: completion)
-    }
+//    func presentLoginVC(modalTransitionStyle: UIModalTransitionStyle,animated: Bool, completion:(()->Void)?){
+//        let loginVC = LoginViewController.shareInstance()
+//        loginVC.modalTransitionStyle = modalTransitionStyle
+//        loginVC.delegate = self
+//        self.presentViewController(loginVC, animated: animated, completion: completion)
+//    }
     
     // MARK: FirstPageViewControllerDelegate
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
@@ -68,10 +72,10 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     
     
     // MARK: LoginViewControllerDelegate
-    func loginViewController(loginViewController: LoginViewController, userInfo: AnyObject?) {
-        loginViewController.dismissViewControllerAnimated(true, completion: nil)
-//        presentFirstPageVC()
-    }
+//    func loginViewController(loginViewController: LoginViewController, userInfo: AnyObject?) {
+//        loginViewController.dismissViewControllerAnimated(true, completion: nil)
+//        
+//    }
 
 
     /*

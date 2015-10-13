@@ -14,7 +14,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="jM1-vl-RUn" kind="relationship" relationship="rootViewController" id="GJg-Ib-JcW"/>
+                        <segue destination="IQp-Mp-hwz" kind="relationship" relationship="rootViewController" id="Qdk-wu-HmT"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j0d-EY-GuQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -48,7 +48,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jCN-Zy-5eR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="722" y="-2482"/>
+            <point key="canvasLocation" x="1422" y="-1785"/>
         </scene>
         <!--产品搜索-->
         <scene sceneID="9Rh-7t-e5I">
@@ -130,10 +130,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8pm-9n-zA8">
-                                <rect key="frame" x="150" y="150" width="300" height="300"/>
+                                <rect key="frame" x="100" y="100" width="400" height="400"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9lH-nW-MCY">
-                                        <rect key="frame" x="52" y="183" width="196" height="30"/>
+                                        <rect key="frame" x="102" y="229" width="196" height="30"/>
                                         <state key="normal" title="登录">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -141,21 +141,27 @@
                                             <action selector="loginButtonAction:" destination="F2T-z2-RmR" eventType="touchUpInside" id="4KX-QV-D7f"/>
                                         </connections>
                                     </button>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="用户名" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xf2-JN-u7D">
-                                        <rect key="frame" x="30" y="66" width="240" height="30"/>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="1" borderStyle="roundedRect" placeholder="密码" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S1A-ps-jOD">
+                                        <rect key="frame" x="80" y="177" width="240" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
-                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="密码" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="S1A-ps-jOD">
-                                        <rect key="frame" x="30" y="118" width="240" height="30"/>
+                                    <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="管理员未允许该设备进行访问，请联系管理员。 设备编码： 设备名称：" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tWh-4w-dKT">
+                                        <rect key="frame" x="5" y="5" width="400" height="103"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <textField opaque="NO" clipsSubviews="YES" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" text="admin" borderStyle="roundedRect" placeholder="用户名" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xf2-JN-u7D">
+                                        <rect key="frame" x="80" y="116" width="240" height="30"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="300" id="3LP-MS-p2x"/>
-                                    <constraint firstAttribute="width" constant="300" id="nah-0j-7qg"/>
+                                    <constraint firstAttribute="height" constant="400" id="3LP-MS-p2x"/>
+                                    <constraint firstAttribute="width" constant="400" id="nah-0j-7qg"/>
                                 </constraints>
                             </view>
                         </subviews>
@@ -166,6 +172,12 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="EBo-W2-FTG"/>
+                    <connections>
+                        <outlet property="eqNoAllowHintLabel" destination="tWh-4w-dKT" id="Ctt-1u-aTg"/>
+                        <outlet property="loginButton" destination="9lH-nW-MCY" id="pdE-To-p23"/>
+                        <outlet property="passwordTextField" destination="S1A-ps-jOD" id="tqw-hR-1Qn"/>
+                        <outlet property="usernameTextField" destination="xf2-JN-u7D" id="3gW-qt-p2z"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LTA-Zn-chZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -494,8 +506,34 @@
             </objects>
             <point key="canvasLocation" x="-656" y="-434"/>
         </scene>
+        <!--热门产品-->
+        <scene sceneID="9h7-t0-D7W">
+            <objects>
+                <tableViewController title="热门产品" id="IQp-Mp-hwz" customClass="HotProductsTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yus-bq-tAn">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="nXg-Z0-9Mw">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nXg-Z0-9Mw" id="knH-dr-lj0">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="IQp-Mp-hwz" id="8Nb-LJ-aZX"/>
+                            <outlet property="delegate" destination="IQp-Mp-hwz" id="T5x-Du-TC6"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="XH5-nk-FlK"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HXq-bp-NUA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="38" y="-2482"/>
+        </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="GJg-Ib-JcW"/>
-    </inferredMetricsTieBreakers>
 </document>

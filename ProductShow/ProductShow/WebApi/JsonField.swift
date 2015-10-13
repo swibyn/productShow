@@ -30,6 +30,8 @@ let jforderIndex = "orderIndex" //排序顺序
 let jfisHot = "isHot" //是否热门产品，是=1，否=0
 let jfpromemo = "promemo" //详细信息
 let jfproVer = "proVer" //产品版本号
+let jfdata = "data"
+let jfdt = "dt"
 
 //MARK:4. 获取一级产品分类
 let jfcatName = "catName" //产品分类名称

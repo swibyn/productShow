@@ -1,25 +1,22 @@
 //
-//  CategoriesTableViewController2.swift
+//  HotProductsTableViewController.swift
 //  ProductShow
 //
-//  Created by s on 15/9/7.
+//  Created by s on 15/10/13.
 //  Copyright (c) 2015年 gaozgao. All rights reserved.
 //
 
 import UIKit
 
-class CategoriesTableViewController2: UITableViewController {
-    
-    var catId: Int = 0
-    var catName: String = "二级产品类目" //一级名称
+class HotProductsTableViewController: TabTableViewControllerBase {
     var dataArray: NSArray?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = catName
+        self.title = "热门产品"
         
         let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
-        WebApi.GetProLeave2([jfeqNo : eqNo, jfpId : catId], completedHandler: { (response, data, error) -> Void in
+        WebApi.GetHotPro([jfeqNo : eqNo], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
@@ -38,10 +35,11 @@ class CategoriesTableViewController2: UITableViewController {
                     let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
-                
+
                 
             }
         })
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -67,27 +65,14 @@ class CategoriesTableViewController2: UITableViewController {
         // Return the number of rows in the section.
         return dataArray?.count ?? 0
     }
-    
-    
-//    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        let dic = dataArray[section] as! NSDictionary
-//        let name = dic.valueForKey("name") as! String
-//        return "\(name)"
-//    }
-//    
-//    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-//        return 50
-//    }
-
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
-        let dic = dataArray?[indexPath.row] as! NSDictionary
-        let name = dic.valueForKey(jfcatName) as! String
-        cell.textLabel?.text = "\(name)"
+        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
+        cell.textLabel?.text = dic.objectForKey(jfproName) as? String
 
         return cell
     }
@@ -128,21 +113,14 @@ class CategoriesTableViewController2: UITableViewController {
     }
     */
 
-    
+    /*
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        let selectedIndexPath = self.tableView.indexPathForSelectedRow()!
-        let destVC: AnyObject = segue.destinationViewController
-        let dic = self.dataArray?[selectedIndexPath.row] as! NSDictionary
-        let catId = dic[jfcatId] as! Int
-        let catName = dic[jfcatName] as! String
-        destVC.setValue(catId, forKey: "catId")
-        destVC.setValue(catName, forKey: "catName")
     }
-    
+    */
 
 }

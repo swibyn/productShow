@@ -10,19 +10,44 @@ import UIKit
 
 class CategoriesTableViewController: TabTableViewControllerBase {
     
-    var categories: NSArray!
+    var dataArray: NSArray?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "产品类目"
+        self.title = "一级产品类目"
+        
 
+        let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
+        WebApi.GetProLeave1([jfeqNo : eqNo], completedHandler: { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
+                debugPrintln("\(self) \(__FUNCTION__) json=\(json)")
+                
+                let statusInt = json.objectForKey(jfstatus) as! Int
+                if (statusInt == 1){
+                    //获取成功
+                    let data = json.objectForKey(jfdata) as! NSDictionary
+                    let dt = data.objectForKey(jfdt) as! NSArray
+                    
+                    self.dataArray = dt
+                    self.tableView.reloadData()
+                }else{
+                    let msgString = json.objectForKey(jfmessage) as! String
+                    let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                }
+                
+                
+            }
+        })
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
-        categories = getCategoriesArray()        
+//        categories = getCategoriesArray()        
 
     }
     
@@ -59,7 +84,7 @@ class CategoriesTableViewController: TabTableViewControllerBase {
 //        let dic = categories[section] as! NSDictionary
 //        let items = dic.valueForKey("items") as! NSArray
 //        return items.count
-        return categories.count
+        return dataArray?.count ?? 0
     }
 
     
@@ -76,8 +101,8 @@ class CategoriesTableViewController: TabTableViewControllerBase {
 //        cell.textLabel?.text = "\(indexPath.row + 1). \(value)"
 //
 //        return cell
-        let dic = categories[indexPath.row] as! NSDictionary
-        let name = dic.valueForKey("name") as! String
+        let dic = dataArray?[indexPath.row] as! NSDictionary
+        let name = dic.valueForKey(jfcatName) as! String
         cell.textLabel?.text = "\(name)"
 //        cell.accessoryType = UITableViewCellAccessoryType.DisclosureIndicator
 //        cell.accessoryType = .DisclosureIndicator
@@ -140,9 +165,11 @@ class CategoriesTableViewController: TabTableViewControllerBase {
         // Pass the selected object to the new view controller.
         let selectedIndexPath = self.tableView.indexPathForSelectedRow()!
         let destVC: AnyObject = segue.destinationViewController
-        let dic = categories[selectedIndexPath.row] as! NSDictionary
-        let dataArray = NSArray(object: dic)
-        destVC.setValue(dataArray, forKey: "dataArray")
+        let dic = self.dataArray?[selectedIndexPath.row] as! NSDictionary
+        let catId = dic[jfcatId] as! Int
+        let catName = dic[jfcatName] as! String
+        destVC.setValue(catId, forKey: "catId")
+        destVC.setValue(catName, forKey: "catName")
     }
     
 

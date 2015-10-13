@@ -8,13 +8,17 @@
 
 import UIKit
 
-class ProductsTableViewController: TabTableViewControllerBase {
+class ProductsTableViewController: UITableViewController {
     
-    var dataArray: NSArray!
+    var catId: Int = 0
+    var catName: String = "产品列表" //一级名称
+    var dataArray: NSArray?
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = catName
 
+//        WebApi.SelectPro(<#dic: NSDictionary#>, completedHandler: <#((NSURLResponse?, NSData?, NSError?) -> Void)?##(NSURLResponse?, NSData?, NSError?) -> Void#>)
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
