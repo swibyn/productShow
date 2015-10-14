@@ -18,8 +18,7 @@ class CategoriesTableViewController2: UITableViewController {
         super.viewDidLoad()
         self.title = catName
         
-        let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
-        WebApi.GetProLeave2([jfeqNo : eqNo, jfpId : catId], completedHandler: { (response, data, error) -> Void in
+        WebApi.GetProLeave2([jfpId : catId], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary

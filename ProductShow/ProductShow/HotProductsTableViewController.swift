@@ -15,8 +15,20 @@ class HotProductsTableViewController: TabTableViewControllerBase {
         super.viewDidLoad()
         self.title = "热门产品"
         
-        let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
-        WebApi.GetHotPro([jfeqNo : eqNo], completedHandler: { (response, data, error) -> Void in
+        let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+        
+        // Uncomment the following line to preserve selection between presentations
+        // self.clearsSelectionOnViewWillAppear = false
+
+        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        self.showFirstPage()
+    }
+    
+    func showFirstPage(){
+        WebApi.GetHotPro(nil, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
@@ -35,16 +47,8 @@ class HotProductsTableViewController: TabTableViewControllerBase {
                     let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
-
-                
             }
         })
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,15 +72,44 @@ class HotProductsTableViewController: TabTableViewControllerBase {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+        
         // Configure the cell...
         let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
-        cell.textLabel?.text = dic.objectForKey(jfproName) as? String
+        cell.productDic = dic
+        cell.proNameLabel.text = dic.objectForKey(jfproName) as? String
+        cell.proSizeLabel.text = dic.objectForKey(jfproSize) as? String
+        cell.remarkLabel.text = dic.objectForKey(jfremark) as? String
 
         return cell
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(UIProductTableViewCell.rowHeight)
+    }
+    
+
+    //MARK: UIScrollViewDalegate
+//    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+//        
+//        debugPrintln("\(__FUNCTION__) \(scrollView.contentOffset)")
+//
+//    }
+    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+        debugPrintln("\(__FUNCTION__) \(scrollView.contentOffset)")
+        if scrollView.contentOffset.y < -200{
+            self.showFirstPage()
+        }
+    }
+    
+//    override func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+//        debugPrintln("\(__FUNCTION__)")
+//    }
+//    override func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView!, atScale scale: CGFloat) {
+//        
+//        debugPrintln("\(__FUNCTION__)")
+//
+//    }
 
     /*
     // Override to support conditional editing of the table view.

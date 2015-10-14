@@ -18,7 +18,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
 //        WebApi.SendEquipCode(["eqNo":"EQNO","eqName":"EQNAME"], completedHandler: nil)
-
+//http://www.gaozgao.com/uploadfile/20130530100541401.jpg
+//        NSData(contentsOfURL: <#NSURL#>)
+//        WebApi.GetFile("http://www.gaozgao.com/uploadfile/20130530100541401.jpg", completedHandler: { (response, data, error) -> Void in
+//            debugPrintln("执行响应")
+//        })
+        
     
         return true
     }

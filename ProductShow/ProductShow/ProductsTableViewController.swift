@@ -17,8 +17,34 @@ class ProductsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = catName
+        
+        WebApi.GetProductsByCatId([jfcatId : catId], completedHandler: { (response, data, error) -> Void in
+            
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
+                debugPrintln("\(self) \(__FUNCTION__) json=\(json)")
+                
+                let statusInt = json.objectForKey(jfstatus) as! Int
+                if (statusInt == 1){
+                    //获取成功
+                    let data = json.objectForKey(jfdata) as! NSDictionary
+                    let dt = data.objectForKey(jfdt) as! NSArray
+                    
+                    self.dataArray = dt
+                    self.tableView.reloadData()
+                }else{
+                    let msgString = json.objectForKey(jfmessage) as! String
+                    let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                }
+                
+                
+            }
 
-//        WebApi.SelectPro(<#dic: NSDictionary#>, completedHandler: <#((NSURLResponse?, NSData?, NSError?) -> Void)?##(NSURLResponse?, NSData?, NSError?) -> Void#>)
+            
+        })
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -40,13 +66,13 @@ class ProductsTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 10
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 10
+        return dataArray?.count ?? 0
     }
 
     
@@ -54,7 +80,9 @@ class ProductsTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
-        cell.textLabel?.text = "产品\(indexPath.row)"
+        let dic = dataArray?[indexPath.row] as! NSDictionary
+        let name = dic.objectForKey(jfproName) as! String
+        cell.textLabel?.text = "\(name)"
 
         return cell
     }

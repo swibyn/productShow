@@ -26,8 +26,8 @@ class WebApi: NSObject {
         return baseURL + subURL
     }
     
-    class func isHttpSucceed(response: NSURLResponse!, data: NSData!, error: NSError!) -> Bool{
-        let bOK = (error == nil) && (data.length > 0) && (response == nil || (response as? NSHTTPURLResponse)!.statusCode == 200)
+    class func isHttpSucceed(response: NSURLResponse?, data: NSData?, error: NSError?) -> Bool{
+        let bOK = (error == nil) && (data?.length > 0) && (response == nil || (response as? NSHTTPURLResponse)!.statusCode == 200)
         return bOK
     }
     
@@ -36,11 +36,16 @@ class WebApi: NSObject {
         
         //prepare parameters
         var para: NSMutableString
-        
-        if let mJsonObj: AnyObject = jsonObj{
+        let mutableJsonObj = NSMutableDictionary()
+        if let mJsonObj = jsonObj{
+            mutableJsonObj.setDictionary(mJsonObj as [NSObject : AnyObject])
+        }
+        let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
+        mutableJsonObj.setValue(eqNo, forKey: "eqNo")
+//        if let mJsonObj: AnyObject = jsonObj{
             if httpMethod == httpGet{
                 para = NSMutableString(string: "")
-                jsonObj?.enumerateKeysAndObjectsUsingBlock({ (key, obj, stop) -> Void in
+                mutableJsonObj.enumerateKeysAndObjectsUsingBlock({ (key, obj, stop) -> Void in
                     if para.length == 0{
                         para.appendString("\(key)=\(obj)")
                     }else{
@@ -49,7 +54,7 @@ class WebApi: NSObject {
                 })
                 subURL = "\(subURL)?\(para)"
             }
-        }
+//        }
         
         //urlRequest init
         var url = fullURL(subURL)
@@ -89,11 +94,16 @@ class WebApi: NSObject {
         debugPrintln("发送 \(urlRequest)\n HTTPBody=\(urlRequest.HTTPBody)")
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, connectionError) -> Void in
-           // debugPrintln("返回 \(response)\n data.length=\(data.length) \nconnecttionError=\(connectionError)")
+            
+            if connectionError == nil{
+                debugPrintln("返回 \(response)\n data.length=\(data.length) \nconnectionError=\(connectionError)")
+            }else{
+                debugPrintln("返回失败 connectionError=\(connectionError)")
+            }
         
-            var errorPointer: NSErrorPointer = nil
-            var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: errorPointer)
-            println("返回 json=\(json)")
+//            var errorPointer: NSErrorPointer = nil
+//            var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: errorPointer)
+//            println("返回 json=\(json)")
 
 //            var bHandle = false
 //            let httpResponse = response as? NSHTTPURLResponse
@@ -178,9 +188,103 @@ class WebApi: NSObject {
         }
     }
     
-    class func getFile(filePath: String, completedHandler:((NSURLResponse!,NSData!,NSError!)->Void)?){
+    class func GetFile(fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+//        let fileManager = NSFileManager()
+        if fileURL == nil{
+            debugPrintln("----文件URL为nil----")
+            completedHandler?(nil,nil,nil)
+        }
+        
+        let url = NSURL(string: fileURL!)!
         let fileManager = NSFileManager()
+        
+        //本地对应的文件名称
+        let fileSavedName = NSTemporaryDirectory().stringByAppendingPathComponent(url.path!)
+        
+        //如果文件存在，则直接导入
+        if fileManager.fileExistsAtPath(fileSavedName){
+            let data = NSData(contentsOfFile: fileSavedName)
+            completedHandler?(nil,data,nil)
+            return
+        }
+        
+        //不存在则创建目录
+        let fileSavedPath = fileSavedName.stringByDeletingLastPathComponent
+        
+        fileManager.createDirectoryAtPath(fileSavedPath, withIntermediateDirectories: true, attributes: nil, error: nil)
+        let urlRequest = NSURLRequest(URL: url)
+        let queue = NSOperationQueue()
+        debugPrintln("开始下载文件:\(fileURL)")
+        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                debugPrintln("文件下载成功:\(fileURL)")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    data.writeToFile(fileSavedName, atomically: true)
+                })
+            }
+            completedHandler?(response,data,error)
+        }
     }
+    
+    /*
+    //获取文件，保存到本地  已在本地则，handler 可能在当前线程跑，也可能在子线程跑
+    +(void)GetFile:(NSString*)urlString completionHandler:(CompletionHandlerBlock) handler
+    {
+    
+    if (urlString == nil) {
+    GGLog(@"文件路径为nil");
+    handler(nil,nil,nil);
+    return;
+    }
+    if (![urlString isKindOfClass:[NSString class]]){
+    GGLog(@"文件路径有错：urlString=%@",urlString);
+    handler(nil,nil,nil);
+    return;
+    }
+    NSURL * url = [NSURL URLWithString:urlString];
+    NSFileManager * fileManager = [[NSFileManager alloc] init];
+    //本地对应的文件名称
+    NSString *fileSavedName = [NSTemporaryDirectory() stringByAppendingPathComponent:[url path]];
+    //如果图片存在，则直接导入
+    if ([fileManager fileExistsAtPath:fileSavedName]) {
+    //        GGLog(@"%@ %@",@"从本地导入",fileSavedName);
+    NSData * data = [NSData dataWithContentsOfFile:fileSavedName];
+    
+    handler(nil,data,nil);
+    return;
+    }
+    
+    //不存在则创建目录
+    NSString *fileSavedPath = [fileSavedName stringByDeletingLastPathComponent];
+    NSError * error = nil;
+    BOOL bCreate = [fileManager createDirectoryAtPath:fileSavedPath withIntermediateDirectories:YES attributes:nil error:&error];
+    if (bCreate) {
+    
+    //下载文件
+    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
+    
+    GGLog(@"开始下载文件：%@",url);
+    [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+    dispatch_async(dispatch_get_main_queue(), ^{
+    if ([ServerAPIUtils isHttpSucceed:response Data:data Error:connectionError]){
+    GGLog(@"下载文件成功：length=%d, %@",data.length, url);
+    [data writeToFile:fileSavedName atomically:YES];
+    }
+    handler(response,data,connectionError);
+    
+    });
+    }];
+    
+    
+    }else{
+    GGLog(@"创建目录失败:%@",fileSavedPath);
+    handler(nil,nil,error);
+    }
+    
+    }
+
+    */
     
     //MARK: 1. 发送设备编码
     class func SendEquipCode(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
@@ -193,12 +297,12 @@ class WebApi: NSObject {
     }
     
     //MARK: 3. 获取热门产品：
-    class func GetHotPro(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func GetHotPro(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetHotPro", subURL: "CrmGetHotPro", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
     //MARK: 4. 获取一级产品分类
-    class func GetProLeave1(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func GetProLeave1(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProLeave1", subURL: "CrmGetProLeave1", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     

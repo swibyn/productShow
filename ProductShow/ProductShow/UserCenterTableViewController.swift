@@ -8,10 +8,14 @@
 
 import UIKit
 
+class UITableViewCell0 : UITableViewCell {
+    
+    @IBOutlet var userIconImageView: UIImageView!
+    @IBOutlet var userNameLabel: UILabel!
+}
+
 class UserCenterTableViewController: TabTableViewControllerBase {
     
-    static var signIn = false
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,24 +39,39 @@ class UserCenterTableViewController: TabTableViewControllerBase {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return 5
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath) as! UITableViewCell
 
         // Configure the cell...
+        if indexPath.row == 0{
+            let cell0 = cell as! UITableViewCell0
+            let data = Global.userInfo!.objectForKey(jfdata) as! NSDictionary
+            let dt = data.objectForKey(jfdt) as! NSArray
+            let userinfo = dt.objectAtIndex(0) as! NSDictionary
+            cell0.userNameLabel.text = userinfo.objectForKey(jfuname) as? String
+        }
 
         return cell
     }
-    */
+    
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.row == 0{
+            return 160
+        }else{
+            return tableView.rowHeight
+        }
+        
+    }
 
     /*
     // Override to support conditional editing of the table view.

@@ -14,11 +14,10 @@ class CategoriesTableViewController: TabTableViewControllerBase {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "一级产品类目"
+        self.title = "产品类目"
+//        self.tabBarItem.title = "产品类目"
         
-
-        let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
-        WebApi.GetProLeave1([jfeqNo : eqNo], completedHandler: { (response, data, error) -> Void in
+        WebApi.GetProLeave1(nil, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary

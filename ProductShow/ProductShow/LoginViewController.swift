@@ -35,12 +35,11 @@ class LoginViewController: UIViewController {
     @IBAction func loginButtonAction(sender: UIButton) {
         //如果登录成功，则交给代理处理
         let username = usernameTextField.text
-        let password = (passwordTextField.text as NSString).md5()
+        let password = passwordTextField.text.md5 // (passwordTextField.text as NSString).md5()
         
-        let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
         let authcodeobjopt: AnyObject? = Global.userInfo?.objectForKey(jfauthcode)
         
-        WebApi.Login([jfeqNo : eqNo,jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
+        WebApi.Login([jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
@@ -74,7 +73,7 @@ class LoginViewController: UIViewController {
         //检查设备是否允许访问
         let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
         let eqName = UIDevice.currentDevice().name
-        WebApi.SendEquipCode([jfeqNo: eqNo, jfeqName:eqName],  completedHandler: { (response, data, error) -> Void in
+        WebApi.SendEquipCode([jfeqName:eqName],  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary

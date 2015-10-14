@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D09FBE91BCE01820058F8EA /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D09FBE81BCE01820058F8EA /* StringExtension.swift */; };
 		4D58043F1B9E7D390030EE85 /* TabTableViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D58043E1B9E7D390030EE85 /* TabTableViewControllerBase.swift */; };
-		4D6F72811BCCE38200E40853 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F72801BCCE38200E40853 /* StringExtension.swift */; };
 		4D6F72851BCCEAA500E40853 /* NSString+MessageDigest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F72841BCCEAA500E40853 /* NSString+MessageDigest.m */; };
 		4D6F72911BCCF1EF00E40853 /* HotProductsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6F72901BCCF1EF00E40853 /* HotProductsTableViewController.swift */; };
 		4D7D66B61B9C30C200F19927 /* FirstPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D7D66B51B9C30C200F19927 /* FirstPageViewController.swift */; };
@@ -28,6 +28,9 @@
 		4DA3824B1B9FD08A00B68AA0 /* WebApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA3824A1B9FD08A00B68AA0 /* WebApi.swift */; };
 		4DA3824D1B9FD90100B68AA0 /* JsonField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA3824C1B9FD90100B68AA0 /* JsonField.swift */; };
 		4DA3824F1B9FD9AE00B68AA0 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA3824E1B9FD9AE00B68AA0 /* Global.swift */; };
+		4DC73A4E1BCE30FF0051AB6E /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC73A4D1BCE30FF0051AB6E /* ProductTableViewCell.swift */; };
+		4DC73A501BCE31240051AB6E /* ProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC73A4F1BCE31240051AB6E /* ProductTableViewCell.xib */; };
+		4DC73A521BCE3E9D0051AB6E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC73A511BCE3E9D0051AB6E /* UIImageExtension.swift */; };
 		4DCB22CE1B9D2E830016DA13 /* CategoriesTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */; };
 		4DCB23021B9D7F9D0016DA13 /* UserCenterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB23011B9D7F9D0016DA13 /* UserCenterTableViewController.swift */; };
 		4DCB23071B9D8F4E0016DA13 /* TabNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB23061B9D8F4E0016DA13 /* TabNavigationController.swift */; };
@@ -44,9 +47,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D09FBE81BCE01820058F8EA /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = extension/StringExtension.swift; sourceTree = "<group>"; };
 		4D58043E1B9E7D390030EE85 /* TabTableViewControllerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabTableViewControllerBase.swift; sourceTree = "<group>"; };
 		4D6F727C1BCCE31500E40853 /* ProductShow-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProductShow-Bridging-Header.h"; sourceTree = "<group>"; };
-		4D6F72801BCCE38200E40853 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StringExtension.swift; path = extension/StringExtension.swift; sourceTree = "<group>"; };
 		4D6F72831BCCEAA500E40853 /* NSString+MessageDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+MessageDigest.h"; path = "Objc/NSString+MessageDigest.h"; sourceTree = "<group>"; };
 		4D6F72841BCCEAA500E40853 /* NSString+MessageDigest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+MessageDigest.m"; path = "Objc/NSString+MessageDigest.m"; sourceTree = "<group>"; };
 		4D6F72901BCCF1EF00E40853 /* HotProductsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HotProductsTableViewController.swift; sourceTree = "<group>"; };
@@ -70,6 +73,9 @@
 		4DA3824A1B9FD08A00B68AA0 /* WebApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WebApi.swift; path = WebApi/WebApi.swift; sourceTree = "<group>"; };
 		4DA3824C1B9FD90100B68AA0 /* JsonField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JsonField.swift; path = WebApi/JsonField.swift; sourceTree = "<group>"; };
 		4DA3824E1B9FD9AE00B68AA0 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		4DC73A4D1BCE30FF0051AB6E /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductTableViewCell.swift; path = Cell/ProductTableViewCell.swift; sourceTree = "<group>"; };
+		4DC73A4F1BCE31240051AB6E /* ProductTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductTableViewCell.xib; path = Cell/ProductTableViewCell.xib; sourceTree = "<group>"; };
+		4DC73A511BCE3E9D0051AB6E /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController2.swift; sourceTree = "<group>"; };
 		4DCB23011B9D7F9D0016DA13 /* UserCenterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterTableViewController.swift; sourceTree = "<group>"; };
 		4DCB23061B9D8F4E0016DA13 /* TabNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigationController.swift; sourceTree = "<group>"; };
@@ -96,7 +102,8 @@
 		4D6F727A1BCCE25A00E40853 /* extension */ = {
 			isa = PBXGroup;
 			children = (
-				4D6F72801BCCE38200E40853 /* StringExtension.swift */,
+				4D09FBE81BCE01820058F8EA /* StringExtension.swift */,
+				4DC73A511BCE3E9D0051AB6E /* UIImageExtension.swift */,
 			);
 			name = extension;
 			sourceTree = "<group>";
@@ -131,6 +138,7 @@
 		4D87E5F91B9BE03700E0AD74 /* ProductShow */ = {
 			isa = PBXGroup;
 			children = (
+				4DC73A4C1BCE30D30051AB6E /* Cell */,
 				4D6F72821BCCEA1700E40853 /* Objc */,
 				4D6F727A1BCCE25A00E40853 /* extension */,
 				4DA382491B9FD02800B68AA0 /* WebApi */,
@@ -183,6 +191,15 @@
 				4DA3824C1B9FD90100B68AA0 /* JsonField.swift */,
 			);
 			name = WebApi;
+			sourceTree = "<group>";
+		};
+		4DC73A4C1BCE30D30051AB6E /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				4DC73A4D1BCE30FF0051AB6E /* ProductTableViewCell.swift */,
+				4DC73A4F1BCE31240051AB6E /* ProductTableViewCell.xib */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		4DCB23031B9D7FEB0016DA13 /* SubControllers */ = {
@@ -282,6 +299,7 @@
 			files = (
 				4D87E6251B9BE2CD00E0AD74 /* category.txt in Resources */,
 				4D87E6041B9BE03700E0AD74 /* Main.storyboard in Resources */,
+				4DC73A501BCE31240051AB6E /* ProductTableViewCell.xib in Resources */,
 				4D87E6091B9BE03700E0AD74 /* LaunchScreen.xib in Resources */,
 				4D87E6061B9BE03700E0AD74 /* Images.xcassets in Resources */,
 			);
@@ -303,19 +321,21 @@
 			files = (
 				4D7D66B81B9C375500F19927 /* HomeTabBarViewController.swift in Sources */,
 				4D7D66B61B9C30C200F19927 /* FirstPageViewController.swift in Sources */,
-				4D6F72811BCCE38200E40853 /* StringExtension.swift in Sources */,
 				4D58043F1B9E7D390030EE85 /* TabTableViewControllerBase.swift in Sources */,
 				4D87E5FD1B9BE03700E0AD74 /* AppDelegate.swift in Sources */,
 				4DCB23071B9D8F4E0016DA13 /* TabNavigationController.swift in Sources */,
 				4D87E6211B9BE29E00E0AD74 /* CategoriesTableViewController.swift in Sources */,
 				4DA3824F1B9FD9AE00B68AA0 /* Global.swift in Sources */,
 				4D87E6231B9BE29E00E0AD74 /* SearchProductsViewController.swift in Sources */,
+				4D09FBE91BCE01820058F8EA /* StringExtension.swift in Sources */,
 				4D87E62B1B9BE5FF00E0AD74 /* LoginViewController.swift in Sources */,
 				4DCB23021B9D7F9D0016DA13 /* UserCenterTableViewController.swift in Sources */,
+				4DC73A4E1BCE30FF0051AB6E /* ProductTableViewCell.swift in Sources */,
 				4D6F72851BCCEAA500E40853 /* NSString+MessageDigest.m in Sources */,
 				4D6F72911BCCF1EF00E40853 /* HotProductsTableViewController.swift in Sources */,
 				4DCB22CE1B9D2E830016DA13 /* CategoriesTableViewController2.swift in Sources */,
 				4DA3824D1B9FD90100B68AA0 /* JsonField.swift in Sources */,
+				4DC73A521BCE3E9D0051AB6E /* UIImageExtension.swift in Sources */,
 				4D87E6221B9BE29E00E0AD74 /* ProductsTableViewController.swift in Sources */,
 				4DA3824B1B9FD08A00B68AA0 /* WebApi.swift in Sources */,
 			);
