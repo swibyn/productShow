@@ -30,7 +30,6 @@
 		4DA3824F1B9FD9AE00B68AA0 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DA3824E1B9FD9AE00B68AA0 /* Global.swift */; };
 		4DC73A4E1BCE30FF0051AB6E /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC73A4D1BCE30FF0051AB6E /* ProductTableViewCell.swift */; };
 		4DC73A501BCE31240051AB6E /* ProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DC73A4F1BCE31240051AB6E /* ProductTableViewCell.xib */; };
-		4DC73A521BCE3E9D0051AB6E /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DC73A511BCE3E9D0051AB6E /* UIImageExtension.swift */; };
 		4DCB22CE1B9D2E830016DA13 /* CategoriesTableViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */; };
 		4DCB23021B9D7F9D0016DA13 /* UserCenterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB23011B9D7F9D0016DA13 /* UserCenterTableViewController.swift */; };
 		4DCB23071B9D8F4E0016DA13 /* TabNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DCB23061B9D8F4E0016DA13 /* TabNavigationController.swift */; };
@@ -75,7 +74,6 @@
 		4DA3824E1B9FD9AE00B68AA0 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		4DC73A4D1BCE30FF0051AB6E /* ProductTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProductTableViewCell.swift; path = Cell/ProductTableViewCell.swift; sourceTree = "<group>"; };
 		4DC73A4F1BCE31240051AB6E /* ProductTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProductTableViewCell.xib; path = Cell/ProductTableViewCell.xib; sourceTree = "<group>"; };
-		4DC73A511BCE3E9D0051AB6E /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		4DCB22CD1B9D2E830016DA13 /* CategoriesTableViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CategoriesTableViewController2.swift; sourceTree = "<group>"; };
 		4DCB23011B9D7F9D0016DA13 /* UserCenterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterTableViewController.swift; sourceTree = "<group>"; };
 		4DCB23061B9D8F4E0016DA13 /* TabNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigationController.swift; sourceTree = "<group>"; };
@@ -103,7 +101,6 @@
 			isa = PBXGroup;
 			children = (
 				4D09FBE81BCE01820058F8EA /* StringExtension.swift */,
-				4DC73A511BCE3E9D0051AB6E /* UIImageExtension.swift */,
 			);
 			name = extension;
 			sourceTree = "<group>";
@@ -261,6 +258,7 @@
 		4D87E5EF1B9BE03700E0AD74 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = gaozgao;
 				TargetAttributes = {
@@ -335,7 +333,6 @@
 				4D6F72911BCCF1EF00E40853 /* HotProductsTableViewController.swift in Sources */,
 				4DCB22CE1B9D2E830016DA13 /* CategoriesTableViewController2.swift in Sources */,
 				4DA3824D1B9FD90100B68AA0 /* JsonField.swift in Sources */,
-				4DC73A521BCE3E9D0051AB6E /* UIImageExtension.swift in Sources */,
 				4D87E6221B9BE29E00E0AD74 /* ProductsTableViewController.swift in Sources */,
 				4DA3824B1B9FD08A00B68AA0 /* WebApi.swift in Sources */,
 			);
