@@ -2,7 +2,7 @@
 //  AppDelegate.swift
 //  ProductShow
 //
-//  Created by s on 15/9/6.
+//  Created by s on 15/10/15.
 //  Copyright (c) 2015年 gaozgao. All rights reserved.
 //
 
@@ -16,15 +16,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-//        WebApi.SendEquipCode(["eqNo":"EQNO","eqName":"EQNAME"], completedHandler: nil)
-//http://www.gaozgao.com/uploadfile/20130530100541401.jpg
-//        NSData(contentsOfURL: <#NSURL#>)
-//        WebApi.GetFile("http://www.gaozgao.com/uploadfile/20130530100541401.jpg", completedHandler: { (response, data, error) -> Void in
-//            debugPrintln("执行响应")
-//        })
-        
-    
         return true
     }
 

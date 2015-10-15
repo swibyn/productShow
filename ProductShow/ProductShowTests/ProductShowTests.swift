@@ -2,13 +2,12 @@
 //  ProductShowTests.swift
 //  ProductShowTests
 //
-//  Created by s on 15/9/6.
+//  Created by s on 15/10/15.
 //  Copyright (c) 2015年 gaozgao. All rights reserved.
 //
 
 import UIKit
 import XCTest
-import ProductShow
 
 class ProductShowTests: XCTestCase {
     
@@ -32,10 +31,6 @@ class ProductShowTests: XCTestCase {
         self.measureBlock() {
             // Put the code you want to measure the time of here.
         }
-    }
-    
-    func testSendEquipCode(){
-        
     }
     
 }
