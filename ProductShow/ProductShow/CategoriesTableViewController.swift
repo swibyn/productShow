@@ -8,7 +8,7 @@
 
 import UIKit
 
-class CategoriesTableViewController: TabTableViewControllerBase {
+class CategoriesTableViewController: UITableViewController {
     
     var dataArray: NSArray?
 
@@ -16,6 +16,7 @@ class CategoriesTableViewController: TabTableViewControllerBase {
         super.viewDidLoad()
         self.title = "产品类目"
 //        self.tabBarItem.title = "产品类目"
+        self.addFirstPageButton()
         
         WebApi.GetProLeave1(nil, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){

@@ -22,6 +22,34 @@
             </objects>
             <point key="canvasLocation" x="-656" y="-2482"/>
         </scene>
+        <!--购物车-->
+        <scene sceneID="V4T-aG-kU6">
+            <objects>
+                <tableViewController title="购物车" id="b0J-xx-U9v" customClass="CartTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="8wc-Ie-G37">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="TG6-4E-HAw">
+                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="TG6-4E-HAw" id="hdw-aH-t37">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="b0J-xx-U9v" id="rQM-Rs-y2p"/>
+                            <outlet property="delegate" destination="b0J-xx-U9v" id="sqp-3L-CTX"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5M5-H6-3wl" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1422" y="-2482"/>
+        </scene>
         <!--产品列表-->
         <scene sceneID="caF-J3-dcB">
             <objects>
@@ -45,7 +73,15 @@
                             <outlet property="delegate" destination="jM1-vl-RUn" id="0Jd-PO-PKe"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="0gE-JD-l9E"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="0gE-JD-l9E">
+                        <barButtonItem key="rightBarButtonItem" title="购物车" id="gUq-Zd-11b">
+                            <connections>
+                                <segue destination="b0J-xx-U9v" kind="show" id="yPt-ox-QQM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jCN-Zy-5eR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -83,7 +119,13 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="zb6-t7-7jR"/>
-                    <navigationItem key="navigationItem" title="Root View Controller" id="xlJ-o6-4gb"/>
+                    <navigationItem key="navigationItem" title="产品搜索" id="xlJ-o6-4gb">
+                        <barButtonItem key="rightBarButtonItem" title="购物车" id="XbU-dZ-mYa">
+                            <connections>
+                                <segue destination="b0J-xx-U9v" kind="show" id="A2e-Ua-Ncj"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pup-Hi-0sr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -534,11 +576,23 @@
                             <outlet property="delegate" destination="IQp-Mp-hwz" id="T5x-Du-TC6"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="XH5-nk-FlK"/>
+                    <navigationItem key="navigationItem" id="XH5-nk-FlK">
+                        <barButtonItem key="rightBarButtonItem" title="购物车" id="pzU-XB-9u3">
+                            <connections>
+                                <segue destination="b0J-xx-U9v" kind="show" id="VQ7-uo-Zju"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="cartBarButton" destination="pzU-XB-9u3" id="Waw-9z-0Ax"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HXq-bp-NUA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="38" y="-2482"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="VQ7-uo-Zju"/>
+    </inferredMetricsTieBreakers>
 </document>

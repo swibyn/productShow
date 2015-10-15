@@ -206,6 +206,7 @@ class WebApi: NSObject {
         if fileURL == nil{
             debugPrint("----文件URL为nil----")
             completedHandler?(nil,nil,nil)
+            return
         }
         
         let url = NSURL(string: fileURL!)!

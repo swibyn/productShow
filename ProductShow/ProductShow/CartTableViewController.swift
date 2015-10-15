@@ -1,83 +1,83 @@
 //
-//  UserCenterTableViewController.swift
+//  CartTableViewController.swift
 //  ProductShow
 //
-//  Created by s on 15/9/7.
-//  Copyright (c) 2015年 gaozgao. All rights reserved.
+//  Created by s on 15/10/15.
+//  Copyright © 2015年 gaozgao. All rights reserved.
 //
 
 import UIKit
 
-class UITableViewCell0 : UITableViewCell {
+class CartTableViewController: UITableViewController {
     
-    @IBOutlet var userIconImageView: UIImageView!
-    @IBOutlet var userNameLabel: UILabel!
-}
+    
+    let dataArray = Global.cart.products.objectsForKeys(Global.cart.products.allKeys, notFoundMarker: "a")
+    
 
-class UserCenterTableViewController: UITableViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.addFirstPageButton()
+        
+        let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
     }
-    
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
+    //MARK: 删除事件
+    func removeProductAction(sender:UIButton){
+        let indexPath = tableView.indexPathForSelectedRow
+        debugPrint("indexPath=\(indexPath)")
+        let dic = dataArray[(indexPath?.row)!]
+        Global.cart.removeProduct(dic as! NSDictionary)
+        tableView.reloadData()
+    }
+    
+    
+    
 
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
+        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 5
+        // #warning Incomplete implementation, return the number of rows
+        return dataArray.count
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath) 
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+        
         // Configure the cell...
-        if indexPath.row == 0{
-            let cell0 = cell as! UITableViewCell0
-            let data = Global.userInfo!.objectForKey(jfdata) as! NSDictionary
-            let dt = data.objectForKey(jfdt) as! NSArray
-            let userinfo = dt.objectAtIndex(0) as! NSDictionary
-            cell0.userNameLabel.text = userinfo.objectForKey(jfuname) as? String
-        }
-
+        let dic = dataArray[indexPath.row] as! NSDictionary
+        cell.productDic = dic
+        cell.configureFromDictionary()
+        cell.addToCartButton.titleLabel?.text = "删除"
+        cell.addToCartButton.addTarget(self, action: Selector("removeProductAction:"), forControlEvents: UIControlEvents.TouchUpInside)
+        debugPrint("title.text=\(cell.addToCartButton.titleLabel?.text) titleForState=\(cell.addToCartButton.titleForState(UIControlState.Normal))")
+        
         return cell
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0{
-            return 160
-        }else{
-            return tableView.rowHeight
-        }
-        
+        return CGFloat(UIProductTableViewCell.rowHeight)
     }
 
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
+        // Return false if you do not want the specified item to be editable.
         return true
     }
     */
@@ -104,7 +104,7 @@ class UserCenterTableViewController: UITableViewController {
     /*
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
+        // Return false if you do not want the item to be re-orderable.
         return true
     }
     */
@@ -114,7 +114,7 @@ class UserCenterTableViewController: UITableViewController {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
+        // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
     */

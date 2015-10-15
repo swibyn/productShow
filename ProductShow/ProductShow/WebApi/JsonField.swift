@@ -32,6 +32,7 @@ let jfpromemo = "promemo" //详细信息
 let jfproVer = "proVer" //产品版本号
 let jfdata = "data"
 let jfdt = "dt"
+let jfimgUrl = "imgUrl"
 
 //MARK:4. 获取一级产品分类
 let jfcatName = "catName" //产品分类名称

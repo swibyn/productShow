@@ -8,12 +8,16 @@
 
 import UIKit
 
-class HotProductsTableViewController: TabTableViewControllerBase {
+class HotProductsTableViewController: UITableViewController {
+    
     var dataArray: NSArray?
 
+    @IBOutlet var cartBarButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "热门产品"
+        self.addFirstPageButton()
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
@@ -25,8 +29,34 @@ class HotProductsTableViewController: TabTableViewControllerBase {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         self.showFirstPage()
+        self.addNotificationObserver()
     }
     
+    deinit{
+        self.removeNotificationObserver()
+    }
+    
+    //MARK: 消息通知
+    func addNotificationObserver(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
+    }
+    
+    func removeNotificationObserver(){
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func handleProductsInCartChanged(){
+        self.cartBarButton.title = "购物车\(Global.cart.productIdCount)"
+    }
+    
+
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+    //MARK:显示第一页
     func showFirstPage(){
         WebApi.GetHotPro(nil, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
@@ -50,12 +80,7 @@ class HotProductsTableViewController: TabTableViewControllerBase {
             }
         })
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -77,9 +102,7 @@ class HotProductsTableViewController: TabTableViewControllerBase {
         // Configure the cell...
         let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
         cell.productDic = dic
-        cell.proNameLabel.text = dic.objectForKey(jfproName) as? String
-        cell.proSizeLabel.text = dic.objectForKey(jfproSize) as? String
-        cell.remarkLabel.text = dic.objectForKey(jfremark) as? String
+        cell.configureFromDictionary()
 
         return cell
     }

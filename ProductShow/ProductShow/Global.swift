@@ -8,11 +8,15 @@
 
 import Foundation
 
-let kPostData = "PostData"
-let kReturnData = "ReturnData"
+//let kPostData = "PostData"
+//let kReturnData = "ReturnData"
+
+let kProductsInCartChanged = "kProductsInCartChanged"
 
 class Global: NSObject {
-    static var userInfo: NSMutableDictionary?
     
+    static var userInfo: NSMutableDictionary? //用户信息
+    
+    static var cart = Cart()  //购物车
 
 }

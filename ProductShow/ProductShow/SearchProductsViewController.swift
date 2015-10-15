@@ -8,13 +8,14 @@
 
 import UIKit
 
-class SearchProductsViewController: TabTableViewControllerBase, UISearchBarDelegate {
+class SearchProductsViewController: UITableViewController, UISearchBarDelegate {
     
     var dataArray: NSArray?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "产品搜索"
+        self.addFirstPageButton()
         // Do any additional setup after loading the view, typically from a nib.
         
                 

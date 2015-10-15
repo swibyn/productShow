@@ -24,7 +24,24 @@ class UIProductTableViewCell : UITableViewCell {
     @IBOutlet var addToCartButton: UIButton!
     
     @IBAction func addToCartButtonAction(sender: UIButton) {
+        Global.cart.addProduct(productDic)
+        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
         
+    }
+    
+    func configureFromDictionary(){
+        let dic = productDic
+        self.proNameLabel.text = dic.objectForKey(jfproName) as? String
+        self.proSizeLabel.text = dic.objectForKey(jfproSize) as? String
+        self.remarkLabel.text = dic.objectForKey(jfremark) as? String
+        
+        let imgUrl = dic.objectForKey(jfimgUrl) as? String
+        WebApi.GetFile(imgUrl) { (response, data, error) -> Void in
+            if data?.length > 0{
+                self.proThumbImageView.image = UIImage(data: data!)
+            }
+        }
+
         
     }
     
