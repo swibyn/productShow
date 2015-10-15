@@ -31,8 +31,8 @@ class HotProductsTableViewController: TabTableViewControllerBase {
         WebApi.GetHotPro(nil, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
-                debugPrintln("\(self) \(__FUNCTION__) json=\(json)")
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 let statusInt = json.objectForKey(jfstatus) as! Int
                 if (statusInt == 1){
@@ -96,7 +96,7 @@ class HotProductsTableViewController: TabTableViewControllerBase {
 //
 //    }
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        debugPrintln("\(__FUNCTION__) \(scrollView.contentOffset)")
+        debugPrint("\(__FUNCTION__) \(scrollView.contentOffset)")
         if scrollView.contentOffset.y < -200{
             self.showFirstPage()
         }

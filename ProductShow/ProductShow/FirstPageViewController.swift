@@ -63,7 +63,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
     }
     
     deinit{
-        println("\(self) \(__FUNCTION__)")
+        print("\(self) \(__FUNCTION__)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -103,7 +103,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
         
         let tabVC = segue.destinationViewController as! UITabBarController
         let btn = sender as! UIButton
-        for vc in tabVC.viewControllers! as! [UIViewController]{
+        for vc in tabVC.viewControllers! {
             if vc.tabBarItem.title == btn.titleForState(UIControlState.Normal){
                 tabVC.selectedViewController = vc
 //                let window = UIApplication.sharedApplication().delegate?.window!

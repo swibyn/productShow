@@ -20,8 +20,8 @@ class CategoriesTableViewController: TabTableViewControllerBase {
         WebApi.GetProLeave1(nil, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: nil) as! NSDictionary
-                debugPrintln("\(self) \(__FUNCTION__) json=\(json)")
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 let statusInt = json.objectForKey(jfstatus) as! Int
                 if (statusInt == 1){
@@ -62,9 +62,15 @@ class CategoriesTableViewController: TabTableViewControllerBase {
         //let filepath:String? = "category.txt"
         let filepath = NSBundle.mainBundle().pathForResource("category", ofType: "txt")
 //        println("filepath=\(filepath)")
-        let data = NSData(contentsOfURL: NSURL(fileURLWithPath: filepath!)!)
-//        println("data=\(data)")
-        let jsonobj: AnyObject? = NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments, error: error1)
+        let data = NSData(contentsOfURL: NSURL(fileURLWithPath: filepath!))
+        //        println("data=\(data)")
+        let jsonobj: AnyObject?
+        do {
+            jsonobj = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
+        } catch var error as NSError {
+            error1.memory = error
+            jsonobj = nil
+        }
 //        println("json=\(jsonobj)")
         return jsonobj! as! NSArray
         
@@ -88,7 +94,7 @@ class CategoriesTableViewController: TabTableViewControllerBase {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) 
 
         // Configure the cell...
       
@@ -162,7 +168,7 @@ class CategoriesTableViewController: TabTableViewControllerBase {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        let selectedIndexPath = self.tableView.indexPathForSelectedRow()!
+        let selectedIndexPath = self.tableView.indexPathForSelectedRow!
         let destVC: AnyObject = segue.destinationViewController
         let dic = self.dataArray?[selectedIndexPath.row] as! NSDictionary
         let catId = dic[jfcatId] as! Int

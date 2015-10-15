@@ -32,7 +32,7 @@ class WebApi: NSObject {
     }
     
     
-    class func AsynchronousRequest(var subURL: String, httpMethod:String, jsonObj: NSDictionary?, completedHandler:((NSURLResponse?,NSData,NSError?)->Void)?){
+    class func AsynchronousRequest(var subURL: String, httpMethod:String, jsonObj: NSDictionary?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         //prepare parameters
         var para: NSMutableString
@@ -40,7 +40,7 @@ class WebApi: NSObject {
         if let mJsonObj = jsonObj{
             mutableJsonObj.setDictionary(mJsonObj as [NSObject : AnyObject])
         }
-        let eqNo = UIDevice.currentDevice().identifierForVendor.UUIDString
+        let eqNo = UIDevice.currentDevice().identifierForVendor!.UUIDString
         mutableJsonObj.setValue(eqNo, forKey: "eqNo")
 //        if let mJsonObj: AnyObject = jsonObj{
             if httpMethod == httpGet{
@@ -58,13 +58,22 @@ class WebApi: NSObject {
         
         //urlRequest init
         var url = fullURL(subURL)
-        url = url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        url = url.stringByReplacingOccurrencesOfString(" ", withString: "")
+        
+//        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())!// url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
         urlRequest.HTTPMethod = httpMethod
         if httpMethod == httpPost{
             if let mJson = jsonObj{
                 var error: NSErrorPointer = nil
-                let jsonData = NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions.allZeros, error: error)
+                let jsonData: NSData?
+                do {
+                    jsonData = try! NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
+                } catch var error1 as NSError {
+                    error.memory = error1
+                    jsonData = nil
+                    print("Error:  \(self)\(__FUNCTION__) msg=\(error)")
+                }
                 urlRequest.HTTPBody = jsonData
             }
         }
@@ -91,14 +100,14 @@ class WebApi: NSObject {
 //            urlRequest.setValue(base64PhoneNo, forHTTPHeaderField: "Authorization")
 //        }
         
-        debugPrintln("发送 \(urlRequest)\n HTTPBody=\(urlRequest.HTTPBody)")
+        debugPrint("发送 \(urlRequest)\n HTTPBody=\(urlRequest.HTTPBody)")
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, connectionError) -> Void in
             
             if connectionError == nil{
-                debugPrintln("返回 \(response)\n data.length=\(data.length) \nconnectionError=\(connectionError)")
+                debugPrint("返回 \(response)\n data.length=\(data!.length) \nconnectionError=\(connectionError)")
             }else{
-                debugPrintln("返回失败 connectionError=\(connectionError)")
+                debugPrint("返回失败 connectionError=\(connectionError)")
             }
         
 //            var errorPointer: NSErrorPointer = nil
@@ -135,10 +144,10 @@ class WebApi: NSObject {
             
             let localData = NSUserDefaults.standardUserDefaults().objectForKey(saveKey) as? NSData
             if let mLocalData = localData{
-                debugPrintln("本地读到数据：\(saveKey) =\(mLocalData)")
+                debugPrint("本地读到数据：\(saveKey) =\(mLocalData)")
                 completedHandle?(nil,mLocalData,nil)
             }else{
-                debugPrintln("本地未读到数据：\(saveKey)")
+                debugPrint("本地未读到数据：\(saveKey)")
             }
             
         case RequestType.Request:
@@ -151,9 +160,15 @@ class WebApi: NSObject {
             let localData = NSUserDefaults.standardUserDefaults().objectForKey(saveKey) as? NSData
             if let mLocalData = localData{
                 //                debugPrintln("本地读到数据：\(saveKey) = \(mLocalData)")
-                var errorPointer: NSErrorPointer = nil
-                var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments, error: errorPointer)
-                debugPrintln("本地读到数据：\(saveKey) =\(json!)")
+                let errorPointer: NSErrorPointer = nil
+                var json:AnyObject?
+                do {
+                    json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
+                } catch let error as NSError {
+                    errorPointer.memory = error
+                    json = nil
+                }
+                debugPrint("本地读到数据：\(saveKey) =\(json!)")
                 
                 bhandle = true
                 completedHandle?(nil,mLocalData,nil)
@@ -172,7 +187,7 @@ class WebApi: NSObject {
             
             let localData = NSUserDefaults.standardUserDefaults().objectForKey(saveKey) as? NSData
             if let mLocalData = localData{
-                debugPrintln("本地读到数据：\(saveKey) data.length=\(mLocalData.length)")
+                debugPrint("本地读到数据：\(saveKey) data.length=\(mLocalData.length)")
                 completedHandle?(nil,mLocalData,nil)
             }else{
                 self.AsynchronousRequest(subURL, httpMethod: httpMethod, jsonObj: jsonObj, completedHandler:{
@@ -191,7 +206,7 @@ class WebApi: NSObject {
     class func GetFile(fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
 //        let fileManager = NSFileManager()
         if fileURL == nil{
-            debugPrintln("----文件URL为nil----")
+            debugPrint("----文件URL为nil----")
             completedHandler?(nil,nil,nil)
         }
         
@@ -199,7 +214,7 @@ class WebApi: NSObject {
         let fileManager = NSFileManager()
         
         //本地对应的文件名称
-        let fileSavedName = NSTemporaryDirectory().stringByAppendingPathComponent(url.path!)
+        let fileSavedName = NSTemporaryDirectory().stringByAppendingString(url.path!)
         
         //如果文件存在，则直接导入
         if fileManager.fileExistsAtPath(fileSavedName){
@@ -209,17 +224,22 @@ class WebApi: NSObject {
         }
         
         //不存在则创建目录
-        let fileSavedPath = fileSavedName.stringByDeletingLastPathComponent
+       
         
-        fileManager.createDirectoryAtPath(fileSavedPath, withIntermediateDirectories: true, attributes: nil, error: nil)
+        let fileSavedPath = NSString(string: fileSavedName).stringByDeletingLastPathComponent
+        
+        do {
+            try fileManager.createDirectoryAtPath(fileSavedPath, withIntermediateDirectories: true, attributes: nil)
+        } catch _ {
+        }
         let urlRequest = NSURLRequest(URL: url)
         let queue = NSOperationQueue()
-        debugPrintln("开始下载文件:\(fileURL)")
+        debugPrint("开始下载文件:\(fileURL)")
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
-                debugPrintln("文件下载成功:\(fileURL)")
+                debugPrint("文件下载成功:\(fileURL)")
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    data.writeToFile(fileSavedName, atomically: true)
+                    data!.writeToFile(fileSavedName, atomically: true)
                 })
             }
             completedHandler?(response,data,error)

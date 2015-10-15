@@ -249,6 +249,8 @@
 		4D66BB021BCF4E4400AF5CDC /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0640;
 				ORGANIZATIONNAME = gaozgao;
 				TargetAttributes = {
@@ -528,6 +530,7 @@
 				4D66BB2D1BCF4E4400AF5CDC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		4D66BB2E1BCF4E4400AF5CDC /* Build configuration list for PBXNativeTarget "ProductShowTests" */ = {
 			isa = XCConfigurationList;
@@ -536,6 +539,7 @@
 				4D66BB301BCF4E4400AF5CDC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

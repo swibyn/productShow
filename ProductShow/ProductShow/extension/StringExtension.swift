@@ -12,6 +12,6 @@ import Foundation
 extension String {
     
     var md5: String{
-        return ""//(self as NSString).md5()
+        return (self as NSString).md5()
     }
 }
