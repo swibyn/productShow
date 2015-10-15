@@ -65,15 +65,17 @@ class WebApi: NSObject {
         urlRequest.HTTPMethod = httpMethod
         if httpMethod == httpPost{
             if let mJson = jsonObj{
-                var error: NSErrorPointer = nil
+//                let error: NSErrorPointer = nil
                 let jsonData: NSData?
-                do {
-                    jsonData = try! NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
-                } catch var error1 as NSError {
-                    error.memory = error1
-                    jsonData = nil
-                    print("Error:  \(self)\(__FUNCTION__) msg=\(error)")
-                }
+                jsonData = try? NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
+                
+//                do {
+//                    jsonData = try! NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
+//                } catch let error1 as NSError {
+//                    error.memory = error1
+//                    jsonData = nil
+//                    print("Error:  \(self)\(__FUNCTION__) msg=\(error)")
+//                }
                 urlRequest.HTTPBody = jsonData
             }
         }
@@ -160,14 +162,10 @@ class WebApi: NSObject {
             let localData = NSUserDefaults.standardUserDefaults().objectForKey(saveKey) as? NSData
             if let mLocalData = localData{
                 //                debugPrintln("本地读到数据：\(saveKey) = \(mLocalData)")
-                let errorPointer: NSErrorPointer = nil
-                var json:AnyObject?
-                do {
-                    json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
-                } catch let error as NSError {
-                    errorPointer.memory = error
-                    json = nil
-                }
+
+                
+                let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
+               
                 debugPrint("本地读到数据：\(saveKey) =\(json!)")
                 
                 bhandle = true

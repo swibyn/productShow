@@ -56,25 +56,6 @@ class CategoriesTableViewController: TabTableViewControllerBase {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - Table view data source
-    func getCategoriesArray()->NSArray{
-        var error1:NSErrorPointer = nil;
-        //let filepath:String? = "category.txt"
-        let filepath = NSBundle.mainBundle().pathForResource("category", ofType: "txt")
-//        println("filepath=\(filepath)")
-        let data = NSData(contentsOfURL: NSURL(fileURLWithPath: filepath!))
-        //        println("data=\(data)")
-        let jsonobj: AnyObject?
-        do {
-            jsonobj = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
-        } catch var error as NSError {
-            error1.memory = error
-            jsonobj = nil
-        }
-//        println("json=\(jsonobj)")
-        return jsonobj! as! NSArray
-        
-    }
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.

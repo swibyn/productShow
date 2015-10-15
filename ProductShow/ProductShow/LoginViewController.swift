@@ -37,7 +37,7 @@ class LoginViewController: UIViewController {
         let username = usernameTextField.text!
         let password = passwordTextField.text!.md5 // (passwordTextField.text as NSString).md5()
         
-        let authcodeobjopt: AnyObject? = Global.userInfo?.objectForKey(jfauthcode)
+//        let authcodeobjopt: AnyObject? = Global.userInfo?.objectForKey(jfauthcode)
         
         WebApi.Login([jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){

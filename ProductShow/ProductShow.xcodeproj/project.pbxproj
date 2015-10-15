@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4D66BB101BCF4E4400AF5CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB0F1BCF4E4400AF5CDC /* AppDelegate.swift */; };
-		4D66BB121BCF4E4400AF5CDC /* FirstViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB111BCF4E4400AF5CDC /* FirstViewController.swift */; };
-		4D66BB141BCF4E4400AF5CDC /* SecondViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB131BCF4E4400AF5CDC /* SecondViewController.swift */; };
 		4D66BB171BCF4E4400AF5CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D66BB151BCF4E4400AF5CDC /* Main.storyboard */; };
 		4D66BB191BCF4E4400AF5CDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D66BB181BCF4E4400AF5CDC /* Images.xcassets */; };
 		4D66BB1C1BCF4E4400AF5CDC /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66BB1A1BCF4E4400AF5CDC /* LaunchScreen.xib */; };
@@ -48,8 +46,6 @@
 		4D66BB0A1BCF4E4400AF5CDC /* ProductShow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProductShow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D66BB0E1BCF4E4400AF5CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D66BB0F1BCF4E4400AF5CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		4D66BB111BCF4E4400AF5CDC /* FirstViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstViewController.swift; sourceTree = "<group>"; };
-		4D66BB131BCF4E4400AF5CDC /* SecondViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondViewController.swift; sourceTree = "<group>"; };
 		4D66BB161BCF4E4400AF5CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4D66BB181BCF4E4400AF5CDC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		4D66BB1B1BCF4E4400AF5CDC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -134,8 +130,6 @@
 				4D66BB3B1BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift */,
 				4D66BB3C1BCF4F5F00AF5CDC /* UserCenterTableViewController.swift */,
 				4D66BB0F1BCF4E4400AF5CDC /* AppDelegate.swift */,
-				4D66BB111BCF4E4400AF5CDC /* FirstViewController.swift */,
-				4D66BB131BCF4E4400AF5CDC /* SecondViewController.swift */,
 				4D66BB151BCF4E4400AF5CDC /* Main.storyboard */,
 				4D66BB181BCF4E4400AF5CDC /* Images.xcassets */,
 				4D66BB1A1BCF4E4400AF5CDC /* LaunchScreen.xib */,
@@ -251,7 +245,7 @@
 			attributes = {
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = gaozgao;
 				TargetAttributes = {
 					4D66BB091BCF4E4400AF5CDC = {
@@ -309,12 +303,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4D66BB3F1BCF4F5F00AF5CDC /* FirstPageViewController.swift in Sources */,
-				4D66BB141BCF4E4400AF5CDC /* SecondViewController.swift in Sources */,
 				4D66BB421BCF4F5F00AF5CDC /* HotProductsTableViewController.swift in Sources */,
 				4D66BB541BCF4FDA00AF5CDC /* ProductTableViewCell.swift in Sources */,
 				4D66BB461BCF4F5F00AF5CDC /* TabNavigationController.swift in Sources */,
 				4D66BB101BCF4E4400AF5CDC /* AppDelegate.swift in Sources */,
-				4D66BB121BCF4E4400AF5CDC /* FirstViewController.swift in Sources */,
 				4D66BB4D1BCF4F7E00AF5CDC /* WebApi.swift in Sources */,
 				4D66BB3E1BCF4F5F00AF5CDC /* CategoriesTableViewController2.swift in Sources */,
 				4D66BB411BCF4F5F00AF5CDC /* HomeTabBarViewController.swift in Sources */,
@@ -390,6 +382,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -405,7 +398,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -444,7 +437,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -459,6 +452,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gaozgao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProductShow/ProductShow-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -472,6 +466,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gaozgao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProductShow/ProductShow-Bridging-Header.h";
 			};
@@ -491,6 +486,7 @@
 				);
 				INFOPLIST_FILE = ProductShowTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gaozgao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProductShow.app/ProductShow";
 			};
@@ -506,6 +502,7 @@
 				);
 				INFOPLIST_FILE = ProductShowTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.gaozgao.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ProductShow.app/ProductShow";
 			};
