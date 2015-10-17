@@ -20,6 +20,16 @@ let jfusername = "username" //用户名
 let jfpwd = "pwd" //密码，需MD5加密
 let jfauthcode = "authcode" //识别码
 
+let jfuid = "uid"
+let jfuname = "uname"
+let jfmail = "mail"
+let jfweixin = "weixin"
+let jfqq = "qq"
+let jfuserNo = "userNo"
+let jfsex = "sex"
+let jfrole = "role"
+let jfdeptNo = "deptNo"
+
 //MARK:3. 获取热门产品：
 let jfproId = "proId" //产品编号
 let jfproName = "proName" //产品名称
@@ -81,19 +91,25 @@ let jfcreditLine = "creditLine"
 
 //MARK:10. 获取客户关注产品
 //MARK:11. 获取用户数据
-let jfuid = "uid"
-let jfuname = "uname"
-//let jftel = "tel"
 
-let jfmail = "mail"
-let jfweixin = "weixin"
-let jfqq = "qq"
-let jfuserNo = "userNo"
-let jfsex = "sex"
-let jfrole = "role"
-let jfdeptNo = "deptNo"
+//MARK:12. 获取系统公告
+let jfnoticeId = "noticeId"
+let jftitle = "title"
+let jfcontents = "contents"
+let jfreleaseDate = "releaseDate"
+let jfisUse = "isUse"
 
+//MARK:13. 写拜访日志
+let jflogDate = "logDate"
+let jflogContent = "logContent"
 
+//MARK:14. 提交购物车及照片
+let jfproIds = "proIds"
+let jfimgPaths = "imgPaths"
+//MARK:15. 提交图片
+let jfurl = "url"
+
+//MARK:
 
 
 

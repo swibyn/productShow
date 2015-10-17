@@ -8,9 +8,37 @@
 
 import Foundation
 
+/*保存格式,proId作为key,并增加amount字段*/
+/* 
+[
+    "1":[
+        "amount":1,
+        "proId":1,
+        "proName":"产品名称",
+        "...":"..."
+    ],
+    "2":[
+        "amount":1,
+        "proId":2,
+        "proName":"产品名称",
+        "...":"..."
+    ]
+]
+*/
+
+
+
+let kProductsInCartChanged = "kProductsInCartChanged"
+
 class Cart: NSObject {
     
     let products = NSMutableDictionary()
+    
+    
+    private static var _defaultCart = Cart()
+    class func defaultCart()->Cart {
+        return _defaultCart
+    }
     
     //MARK:增加产品
     func addProduct(dic: NSDictionary){
@@ -43,11 +71,8 @@ class Cart: NSObject {
         return count
     }
     
-    var productIdCount: Int{
-        return products.count
-    }
     
-    //MARK:产品id系列
+    //MARK:产品id集
     func getProductIds(division: String)->String{
         let ids = NSMutableString()
         products.enumerateKeysAndObjectsUsingBlock { (key, value, stop) -> Void in

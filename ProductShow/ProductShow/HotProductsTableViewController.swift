@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HotProductsTableViewController: UITableViewController {
+class HotProductsTableViewController: UITableViewController,UIProductTableViewCellDelegate {
     
     var dataArray: NSArray?
 
@@ -27,13 +27,31 @@ class HotProductsTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        self.showFirstPage()
+//        if Global.userInfo != nil{
+            self.showFirstPage()
+//        }
         self.addNotificationObserver()
+    }
+    override func viewWillAppear(animated: Bool) {
+        debugPrint("\(self) \(__FUNCTION__)")
+    }
+    override func viewDidAppear(animated: Bool) { //首页过来，没有触发，现在viewdidload中showfirstpage
+        debugPrint("\(self) \(__FUNCTION__)")
+
+        if dataArray?.count > 0{
+            
+        }else{
+            self.showFirstPage()
+        }
     }
     
     deinit{
         self.removeNotificationObserver()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
     
     //MARK: 消息通知
@@ -46,15 +64,9 @@ class HotProductsTableViewController: UITableViewController {
     }
     
     func handleProductsInCartChanged(){
-        self.cartBarButton.title = "购物车\(Global.cart.productIdCount)"
+        self.cartBarButton.title = "购物车\(Cart.defaultCart().products.count)"
     }
     
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
 
     //MARK:显示第一页
     func showFirstPage(){
@@ -101,8 +113,8 @@ class HotProductsTableViewController: UITableViewController {
         
         // Configure the cell...
         let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
-        cell.productDic = dic
-        cell.configureFromDictionary()
+        
+        ConfigureCell(cell, buttonTitle: "Add", productDic: dic, delegate: self)
 
         return cell
     }
@@ -168,7 +180,13 @@ class HotProductsTableViewController: UITableViewController {
         return true
     }
     */
-
+    
+    //MARK: UIProductTableViewCellDelegate
+    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
+        Cart.defaultCart().addProduct(cell.productDic)
+        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+    }
+    
     /*
     // MARK: - Navigation
 

@@ -1,0 +1,30 @@
+{
+    "status": 1,
+    "message": "",
+    "data": {
+        "dt": [
+               {
+               "uid": 2,
+               "uname": "陈晨",
+               "tel": "",
+               "mail": "",
+               "weixin": "",
+               "qq": "",
+               "state": 1,
+               "userNo": "A001",
+               "sex": 1,
+               "deptId": 6,
+               "dept": "倍特雷",
+               "role": "超级管理员,业务员",
+               "deptNo": "A"
+               }
+               ]
+    },
+    "data1": null,
+    "data2": null,
+    "lenght": 0,
+    "islastpage": 1,
+    "tag": ""
+}
+
+

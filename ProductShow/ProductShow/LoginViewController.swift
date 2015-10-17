@@ -37,19 +37,16 @@ class LoginViewController: UIViewController {
         let username = usernameTextField.text!
         let password = passwordTextField.text!.md5 // (passwordTextField.text as NSString).md5()
         
-//        let authcodeobjopt: AnyObject? = Global.userInfo?.objectForKey(jfauthcode)
         
         WebApi.Login([jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                 debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-//                let statusobj: AnyObject? = json.objectForKey(jfstatus)
-//                let statusString = statusobj as! Int
-                let statusInt = json.objectForKey(jfstatus) as! Int
-                if (statusInt == 1){
+                
+                UserInfo.defaultUserInfo().setInfo(json)
+                if (UserInfo.defaultUserInfo().status == 1){
                     //登录成功
-                    Global.userInfo = NSMutableDictionary(dictionary: json)
                     self.delegate?.loginViewController(self, userInfo: json)
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
@@ -59,11 +56,11 @@ class LoginViewController: UIViewController {
             }else{
                 let alertView = UIAlertView(title: "登录失败", message: "请求失败", delegate: nil, cancelButtonTitle: "OK")
                 alertView.show()
-
-                
             }
         })
     }
+    
+
     
     //MARK: Lifecycle
     override func viewDidLoad() {

@@ -1,30 +1,22 @@
 //
-//  CartTableViewController.swift
+//  MyOrdersTableViewController.swift
 //  ProductShow
 //
-//  Created by s on 15/10/15.
+//  Created by s on 15/10/16.
 //  Copyright © 2015年 gaozgao. All rights reserved.
 //
 
 import UIKit
-import MobileCoreServices 
 
-class CartTableViewController: UITableViewController/*,UIProductTableViewCellDelegate */{
+class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
     
+    var dataArray : NSMutableArray?
     
-    let cart = Cart.defaultCart()// Global.cart.products.objectsForKeys(Global.cart.products.allKeys, notFoundMarker: "a")
-    
-
-    @IBAction func placeOrderButtonItemAction(sender: AnyObject) {        
-        
-    }
-    
-    //MARK: life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        dataArray = OrderManager.defaultManager().orders //保持这个引用，不要重新赋值
         
-        let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         self.addNotificationObserver()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -39,52 +31,69 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     }
     
     deinit{
-        self.removeNotificationObserver()
+        removeNotificationObserver()
     }
-    
     
     //MARK: 消息通知
     func addNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleOrdersChanged"), name: kOrdersChanged, object: nil)
     }
     
     func removeNotificationObserver(){
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
-    func handleProductsInCartChanged(){
-//        dataArray = Global.cart.products.objectsForKeys(Global.cart.products.allKeys, notFoundMarker: "a")
+    func handleOrdersChanged(){
+        dataArray = OrderManager.defaultManager().orders
         self.tableView.reloadData()
     }
-    
-    
 
+    //MARK: UIAlertViewDelegate
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        let title = alertView.buttonTitleAtIndex(buttonIndex)
+        if title == "OK"{
+            let indexPath = self.tableView.indexPathForSelectedRow
+            let dic = dataArray?.objectAtIndex((indexPath?.row)!) as? NSMutableDictionary
+            Order(dic: dic!).orderName = alertView.textFieldAtIndex(0)?.text ?? ""
+           
+        }
+    
+    }
+    
+    func alertViewCancel(alertView: UIAlertView) {
+        
+    }
+
+    // MARK: Table View Delegate
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+        let alert = UIAlertView(title: "修改订单名称", message: "message", delegate: self, cancelButtonTitle: "Cancel")
+        alert.addButtonWithTitle("OK")
+        alert.show()
+    }
+    
     // MARK: - Table view data source
-
+    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
-
+    
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return cart.products.count
+        return dataArray?.count ?? 0
     }
-
+    
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
         // Configure the cell...
-        let dic = cart.products.allValues[indexPath.row] as! NSDictionary
-//        ConfigureCell(cell, buttonTitle: "Delete", productDic: dic, delegate: self)
-        ConfigureCell(cell, buttonTitle: "", productDic: dic, delegate: nil)
+        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSMutableDictionary
+        cell.textLabel?.text = Order(dic: dic).orderName
+        cell.detailTextLabel?.text = dic.objectForKey(OrderSaveKey.orderTime) as? String
+        
         
         return cell
-    }
-    
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return CGFloat(UIProductTableViewCell.rowHeight)
     }
 
     
@@ -100,8 +109,9 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            let key = cart.products.allKeys[indexPath.row]
-            cart.products.removeObjectForKey(key)
+//            dataArray?.removeObjectAtIndex(indexPath.row)
+            OrderManager.defaultManager().removeObjectAtIndex(indexPath.row)
+
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -124,78 +134,19 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     }
     */
 
-    //MARK: UIProductTableViewCellDelegate
-//    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
-//        Global.cart.removeProduct(cell.productDic)
-//        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
-//    }
     
     // MARK: - Navigation
-    
-    override  func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool{
-        if identifier == "CartToMyOrders"{
-            if cart.products.count > 0{
-                //订单信息
-                let order = Order()
-                order.products = cart.products.allValues
-                
-                
-//                let orderDic = NSMutableDictionary()
-//                let formatter = NSDateFormatter()
-//                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//                orderDic.setObject(formatter.stringFromDate(NSDate()) as NSString, forKey: OrderSaveKey.orderTime)
-////                orderDic.setObject(NSString(string: "未命名"), forKey: OrderSaveKey.orderName)
-//                orderDic.setObject(NSMutableArray(), forKey: OrderSaveKey.imagePaths)
-//                orderDic.setObject(dataArray, forKey: OrderSaveKey.products)
-                
-                OrderManager.defaultManager().addOrder(order)
-                
-            }else{
-                return false
-                //没东西
-            }
-        }
-        return true
-    }
-    
+
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let selectedIndexPath = self.tableView.indexPathForSelectedRow!
+        let destVC: AnyObject = segue.destinationViewController
+        let dic = self.dataArray?[selectedIndexPath.row] as! NSMutableDictionary
+        
+        destVC.setValue(Order(dic: dic), forKey: "order")
     }
     
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

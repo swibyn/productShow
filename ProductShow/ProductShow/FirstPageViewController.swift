@@ -51,11 +51,12 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
     
     
     override func viewDidAppear(animated: Bool) {
-        var bsignin = false
-        if let userinfo = Global.userInfo{
-            let status = userinfo.objectForKey(jfstatus) as! Int
-            bsignin = status == 1
-        }
+        let bsignin = UserInfo.defaultUserInfo().status == 1
+//        var bsignin = false
+//        if let userinfo = Global.userInfo{
+//            let status = userinfo.objectForKey(jfstatus) as! Int
+//            bsignin = status == 1
+//        }
         if (!bsignin){
             presentLoginVC(UIModalTransitionStyle.CoverVertical, animated: true, completion: nil)
         }

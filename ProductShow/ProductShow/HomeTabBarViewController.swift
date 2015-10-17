@@ -30,11 +30,12 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     
     override func viewDidAppear(animated: Bool) {
         //如果还没登录，则弹出登录界面
-        var bsignin = false
-        let statusIntOpt = Global.userInfo?.objectForKey(jfstatus) as? Int
-        if let status = statusIntOpt{
-            bsignin = status == 1
-        }
+        let bsignin = UserInfo.defaultUserInfo().status == 1
+//        var bsignin = false
+//        let statusIntOpt = Global.userInfo.infoValueForKey(jfstatus)
+//        if let status = statusIntOpt{
+//            bsignin = status == 1
+//        }
         if !bsignin{
             self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
         }

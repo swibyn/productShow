@@ -20,7 +20,7 @@ extension UIViewController{
     
     
     //增加返回首页按钮
-    private func firstPageButtonAction(sender: UIBarButtonItem){
+    func firstPageButtonAction(sender: UIBarButtonItem){
         (self.tabBarController as! HomeTabBarViewController).presentFirstPageVC()
     }
 

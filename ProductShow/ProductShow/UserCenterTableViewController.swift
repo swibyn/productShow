@@ -46,7 +46,7 @@ class UserCenterTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 5
+        return 6
     }
 
     
@@ -56,10 +56,10 @@ class UserCenterTableViewController: UITableViewController {
         // Configure the cell...
         if indexPath.row == 0{
             let cell0 = cell as! UITableViewCell0
-            let data = Global.userInfo!.objectForKey(jfdata) as! NSDictionary
-            let dt = data.objectForKey(jfdt) as! NSArray
-            let userinfo = dt.objectAtIndex(0) as! NSDictionary
-            cell0.userNameLabel.text = userinfo.objectForKey(jfuname) as? String
+//            let data = Global.userInfo!.objectForKey(jfdata) as! NSDictionary
+//            let dt = data.objectForKey(jfdt) as! NSArray
+//            let userinfo = dt.objectAtIndex(0) as! NSDictionary
+            cell0.userNameLabel.text = UserInfo.defaultUserInfo().infoForKey(jfusername) as? String // userinfo.objectForKey(jfuname) as? String
         }
 
         return cell

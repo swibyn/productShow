@@ -17,13 +17,13 @@ enum RequestType: UInt8{
 }
 
 class WebApi: NSObject {
-    static let baseURL = "http://btl.zhiwx.com/crmapi/"
+    static let baseUrlStr = "http://btl.zhiwx.com/crmapi/"
     static let httpPost = "POST"
     static let httpGet = "GET"
     
     //MARK: 基础方法
-    class func fullURL(subURL: String) -> String{
-        return baseURL + subURL
+    class func fullUrlStr(subUrlStr: String) -> String{
+        return baseUrlStr + subUrlStr
     }
     
     class func isHttpSucceed(response: NSURLResponse?, data: NSData?, error: NSError?) -> Bool{
@@ -32,7 +32,7 @@ class WebApi: NSObject {
     }
     
     
-    class func AsynchronousRequest(var subURL: String, httpMethod:String, jsonObj: NSDictionary?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func AsynchronousRequest(var subUrlStr: String, httpMethod:String, jsonObj: NSDictionary?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         //prepare parameters
         var para: NSMutableString
@@ -52,12 +52,12 @@ class WebApi: NSObject {
                         para.appendString("&\(key)=\(obj)")
                     }
                 })
-                subURL = "\(subURL)?\(para)"
+                subUrlStr = "\(subUrlStr)?\(para)"
             }
 //        }
         
         //urlRequest init
-        var url = fullURL(subURL)
+        var url = fullUrlStr(subUrlStr)
         url = url.stringByReplacingOccurrencesOfString(" ", withString: "")
         
 //        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())!// url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
@@ -65,17 +65,8 @@ class WebApi: NSObject {
         urlRequest.HTTPMethod = httpMethod
         if httpMethod == httpPost{
             if let mJson = jsonObj{
-//                let error: NSErrorPointer = nil
                 let jsonData: NSData?
                 jsonData = try? NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
-                
-//                do {
-//                    jsonData = try! NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
-//                } catch let error1 as NSError {
-//                    error.memory = error1
-//                    jsonData = nil
-//                    print("Error:  \(self)\(__FUNCTION__) msg=\(error)")
-//                }
                 urlRequest.HTTPBody = jsonData
             }
         }
@@ -312,7 +303,11 @@ class WebApi: NSObject {
     
     //MARK: 2. 登录校验
     class func Login(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readAndRequest(RequestType.Request, saveKey: "Login", subURL: "CrmLogin", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+//        self.readAndRequest(RequestType.Request, saveKey: "Login", subURL: "CrmLogin", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+        
+        let path = NSBundle.mainBundle().pathForResource("userinfo", ofType: "json")
+        let userinfoData = NSData(contentsOfFile: path!)
+        completedHandler?(nil,userinfoData,nil)
     }
     
     //MARK: 3. 获取热门产品：
@@ -344,7 +339,38 @@ class WebApi: NSObject {
         self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProductsByCatId-\(catId)", subURL: "CrmSelectPro", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
-   
+    //MARK: 14. 提交购物车及照片
+    class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+    }
+
+   //MARK: 15. 提交图片
+    class func UpFile(image: UIImage, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyyMMddHHmmss"
+        let dic = [jfurl:"http://test.com/IMG_\(formatter.stringFromDate(NSDate())).png"]
+        let data = try! NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions())
+        completedHandler?(nil,data,nil)
+        return
+        
+        
+        let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
+        
+        let url = self.fullUrlStr("crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
+        
+        let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!)
+        urlRequest.HTTPMethod = self.httpPost
+        urlRequest.setValue("Raw", forHTTPHeaderField: "Content-Type")
+        urlRequest.HTTPBody = UIImageJPEGRepresentation(image, 1)
+        
+        let queue = NSOperationQueue()
+        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                completedHandler?(response,data,error)
+            })
+        }
+    }
 }
 
 
