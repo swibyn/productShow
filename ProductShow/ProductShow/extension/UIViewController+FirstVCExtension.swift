@@ -18,21 +18,9 @@ extension UIViewController{
         self.navigationItem.leftBarButtonItems = [firstPageButtonItem]
     }
     
-    
     //增加返回首页按钮
     func firstPageButtonAction(sender: UIBarButtonItem){
         (self.tabBarController as! HomeTabBarViewController).presentFirstPageVC()
     }
-
-    //MARK:增加购物车按钮
-//    func addCartButton(){
-//        let cartButton = UIBarButtonItem(title: "购物车", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("cartButtonAction:"))
-//        self.navigationItem.rightBarButtonItem = cartButton
-//    }
-//    
-//    private func cartButtonAction(sender: UIBarButtonItem){
-//        
-//    }
-    
     
 }

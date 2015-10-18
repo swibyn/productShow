@@ -16,6 +16,11 @@ class UITableViewCell0 : UITableViewCell {
 
 class UserCenterTableViewController: UITableViewController {
     
+    @IBAction func signoutBarButtonAction(sender: UIBarButtonItem) {
+        UserInfo.defaultUserInfo().signout()
+    
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

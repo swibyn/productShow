@@ -32,9 +32,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 //        }
         self.addNotificationObserver()
     }
-    override func viewWillAppear(animated: Bool) {
-        debugPrint("\(self) \(__FUNCTION__)")
-    }
+    
     override func viewDidAppear(animated: Bool) { //首页过来，没有触发，现在viewdidload中showfirstpage
         debugPrint("\(self) \(__FUNCTION__)")
 
@@ -91,6 +89,15 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
                 }
             }
         })
+    }
+    
+    //MARK: Table view delegate
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
+        let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
+        let detailVc = selectCell?.productTableViewController()
+        detailVc?.productDic = selectCell?.productDic
+        self.navigationController?.pushViewController(detailVc!, animated: true)
     }
     
     // MARK: - Table view data source

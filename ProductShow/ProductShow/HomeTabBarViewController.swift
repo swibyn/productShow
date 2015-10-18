@@ -13,8 +13,16 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-//        println("\(self) \(__FUNCTION__)")
+        self.addUserSignOutNotificationObserver()
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        //如果还没登录，则弹出登录界面
+        let bsignin = UserInfo.defaultUserInfo().status == 1
+
+        if !bsignin{
+            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -22,26 +30,25 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-//        self.navigationController?.navigationBarHidden = true
-//        println("\(self) \(__FUNCTION__)")
+    deinit{
+        self.removeUserSignOutNotificationObserver()
     }
     
     
-    override func viewDidAppear(animated: Bool) {
-        //如果还没登录，则弹出登录界面
-        let bsignin = UserInfo.defaultUserInfo().status == 1
-//        var bsignin = false
-//        let statusIntOpt = Global.userInfo.infoValueForKey(jfstatus)
-//        if let status = statusIntOpt{
-//            bsignin = status == 1
-//        }
-        if !bsignin{
-            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
-        }
-        
+    //MARK: 监听注销消息通知
+    func addUserSignOutNotificationObserver(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleUserSignOutNotification"), name: kUserSignOutNotification, object: nil)
     }
     
+    func removeUserSignOutNotificationObserver(){
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: kUserSignOutNotification, object: nil)
+    }
+    
+    func handleUserSignOutNotification(){
+        self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
+    }
+    
+    //MARK: 弹出首页
     func presentFirstPageVC(modalTransitionStyle: UIModalTransitionStyle, animated: Bool, completion:(()->Void)?){
         let firstPageVC = FirstPageViewController.shareInstance()
         firstPageVC.delegate = self

@@ -15,6 +15,7 @@ postDic={
 }
 */
 
+let kUserSignOutNotification = "kUserSignOutNotification"
 
 class UserInfo: NSObject {
     
@@ -37,6 +38,11 @@ class UserInfo: NSObject {
     
     func setUser(info: NSDictionary){
         postDic = info
+    }
+    
+    func signout(){
+        returnDic = nil
+        NSNotificationCenter.defaultCenter().postNotificationName(kUserSignOutNotification, object: nil)
     }
     
     func infoForKey(key: String)->AnyObject?{

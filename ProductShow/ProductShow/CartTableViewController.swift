@@ -14,11 +14,6 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     
     let cart = Cart.defaultCart()// Global.cart.products.objectsForKeys(Global.cart.products.allKeys, notFoundMarker: "a")
     
-
-    @IBAction func placeOrderButtonItemAction(sender: AnyObject) {        
-        
-    }
-    
     //MARK: life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +21,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         self.addNotificationObserver()
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -51,6 +47,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     func removeNotificationObserver(){
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
     
     func handleProductsInCartChanged(){
 //        dataArray = Global.cart.products.objectsForKeys(Global.cart.products.allKeys, notFoundMarker: "a")

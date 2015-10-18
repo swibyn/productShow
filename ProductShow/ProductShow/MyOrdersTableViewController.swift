@@ -18,17 +18,13 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
         dataArray = OrderManager.defaultManager().orders //保持这个引用，不要重新赋值
         
         self.addNotificationObserver()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     deinit{
         removeNotificationObserver()
@@ -48,25 +44,30 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
         self.tableView.reloadData()
     }
 
-    //MARK: UIAlertViewDelegate
+    //MARK: - UIAlertViewDelegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        debugPrint("\(self) \(__FUNCTION__)")
         let title = alertView.buttonTitleAtIndex(buttonIndex)
         if title == "OK"{
-            let indexPath = self.tableView.indexPathForSelectedRow
-            let dic = dataArray?.objectAtIndex((indexPath?.row)!) as? NSMutableDictionary
+            let dic = dataArray?.objectAtIndex((indexPathForAccessoryButtonTappedRow?.row)!) as? NSMutableDictionary
             Order(dic: dic!).orderName = alertView.textFieldAtIndex(0)?.text ?? ""
-           
+            self.tableView.reloadData()
         }
-    
     }
     
     func alertViewCancel(alertView: UIAlertView) {
-        
+        debugPrint("\(self) \(__FUNCTION__)")
     }
 
-    // MARK: Table View Delegate
+    // MARK: - Table View Delegate
+    var indexPathForAccessoryButtonTappedRow: NSIndexPath?
     override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        let alert = UIAlertView(title: "修改订单名称", message: "message", delegate: self, cancelButtonTitle: "Cancel")
+        indexPathForAccessoryButtonTappedRow = indexPath
+        let alert = UIAlertView(title: "修改订单名称", message: nil, delegate: self, cancelButtonTitle: "Cancel")
+        alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        let dic = dataArray?.objectAtIndex(indexPath.row) as? NSMutableDictionary
+        
+        alert.textFieldAtIndex(0)?.text = Order(dic: dic!).orderName
         alert.addButtonWithTitle("OK")
         alert.show()
     }

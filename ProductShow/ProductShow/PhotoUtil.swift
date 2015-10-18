@@ -31,5 +31,18 @@ class PhotoUtil: NSObject {
         }
         return nil
     }
+    
+    class func deletePhoto(fileName: String){
+        let filePath = NSTemporaryDirectory().stringByAppendingString(fileName)
+        try! NSFileManager.defaultManager().removeItemAtPath(filePath)
+    }
+    
+    class func deletePhotosInOrder(order: Order){
+        order.imagePaths?.enumerateObjectsUsingBlock({ (imagePathDic, index, stop) -> Void in
+            let localPath = imagePathDic.objectForKey(OrderSaveKey.localpath) as? String
+            deletePhoto(localPath!)
+            
+        })
+    }
 
 }

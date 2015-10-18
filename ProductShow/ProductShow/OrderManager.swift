@@ -57,11 +57,12 @@ class Order: NSObject {
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         let time = formatter.stringFromDate(NSDate())
-        self.orderDic = NSMutableDictionary(dictionary: [OrderSaveKey.orderId: time,
+        self.orderDic = NSMutableDictionary(dictionary:
+            [OrderSaveKey.orderId: time,
             OrderSaveKey.orderTime: time,
             OrderSaveKey.orderName: "",
-            OrderSaveKey.imagePaths:[],
-            OrderSaveKey.products:[]])
+            OrderSaveKey.imagePaths: NSMutableArray(),
+            OrderSaveKey.products: NSMutableArray()])
         super.init()
     }
     
@@ -135,7 +136,8 @@ class Order: NSObject {
             if _orderName?.length>0{
                 return _orderName as! String
             }else{
-                return "(\(products.count)个产品) (\(imagePaths?.count ?? 0)张图片)"
+//                return "(\(products.count)个产品) (\(imagePaths?.count ?? 0)张图片)"
+                return "(\(products.count)个产品)"
             }
         }
         set{
@@ -168,9 +170,9 @@ class OrderManager: NSObject {
         }
     }
     
-    private static var vdefaultManager = OrderManager()
+    private static var _defaultManager = OrderManager()
     class func defaultManager()->OrderManager {
-        return vdefaultManager
+        return _defaultManager
     }
     
     internal func flush(){
@@ -187,9 +189,9 @@ class OrderManager: NSObject {
     
     func removeOrder(order: Order){
         
-        let orderId = order.orderDic.objectForKey(OrderSaveKey.orderId) as! String
+        let orderId = order.orderDic.objectForKey(OrderSaveKey.orderId) as? String
         orders.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
-            let orderId2 = (productDic as! NSDictionary).objectForKey(OrderSaveKey.orderId) as! String
+            let orderId2 = (productDic as? NSDictionary)?.objectForKey(OrderSaveKey.orderId) as? String
             if orderId == orderId2{
 //                stop = YES //TODO: stop 如何置true
                 self.orders.removeObjectAtIndex(index)

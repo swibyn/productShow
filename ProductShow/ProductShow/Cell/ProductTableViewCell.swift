@@ -28,42 +28,7 @@ class UIProductTableViewCell : UITableViewCell {
     
     @IBAction func operationButtonAction(sender: UIButton) {
         delegate?.productTableViewCellButtonDidClick(self)
-        
-//        if operationButtonType == .add{
-//            Global.cart.addProduct(productDic)
-//        }else if operationButtonType == .delete{
-//            Global.cart.removeProduct(productDic)
-//        }else{
-//            return
-//        }
-//        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
     }
-    
-//    enum ButtonType{
-//        case add
-//        case delete
-//        case none
-//    }
-//     var operationButtonType : ButtonType = .add
-    
-//    var OperationButtonType: ButtonType{
-//        get{
-//            return operationButtonType
-//        }
-//        set{
-//            operationButtonType = newValue
-//            if operationButtonType == .add{
-//                operationButton.setTitle("Add", forState: UIControlState.Normal)
-//            }else if operationButtonType == .delete{
-//                operationButton.setTitle("Delete", forState: UIControlState.Normal)
-//            }else if operationButtonType == .none{
-//                operationButton.setTitle("", forState: UIControlState.Normal)
-//            }else{
-//                operationButton.setTitle("unknown operation Type", forState: UIControlState.Normal)
-//            }
-//        }
-//    }
-    
     
     func configureFromDictionary(){
         let dic = productDic
@@ -77,6 +42,12 @@ class UIProductTableViewCell : UITableViewCell {
                 self.proThumbImageView.image = UIImage(data: data!)
             }
         }
+    }
+    
+    func productTableViewController()->UIProductTableViewController{
+        let detailVc = UIProductTableViewController.newInstance()
+        detailVc.productDic = productDic
+        return detailVc
     }
 }
 

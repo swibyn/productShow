@@ -58,9 +58,10 @@ class WebApi: NSObject {
         
         //urlRequest init
         var url = fullUrlStr(subUrlStr)
-        url = url.stringByReplacingOccurrencesOfString(" ", withString: "")
+//        url = url.stringByReplacingOccurrencesOfString(" ", withString: "")
         
-//        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet())!// url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!// url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
+        debugPrint("\(url)")
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
         urlRequest.HTTPMethod = httpMethod
         if httpMethod == httpPost{
@@ -298,7 +299,7 @@ class WebApi: NSObject {
     
     //MARK: 1. 发送设备编码
     class func SendEquipCode(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readAndRequest(RequestType.ReadOrRequest, saveKey: "SendEquipCode", subURL: "CrmSendEquipCode", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+        self.readAndRequest(RequestType.Request, saveKey: "SendEquipCode", subURL: "CrmSendEquipCode", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
     //MARK: 2. 登录校验
@@ -341,25 +342,32 @@ class WebApi: NSObject {
     
     //MARK: 14. 提交购物车及照片
     class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        //TODO: 模拟提交订单 to be remove
+//        let dic = [jfstatus: 1]
+//        let data = try! NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions())
+//        completedHandler?(nil,data,nil)
+//        return
         
         self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
     }
 
    //MARK: 15. 提交图片
     class func UpFile(image: UIImage, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyyMMddHHmmss"
-        let dic = [jfurl:"http://test.com/IMG_\(formatter.stringFromDate(NSDate())).png"]
-        let data = try! NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions())
-        completedHandler?(nil,data,nil)
-        return
+        
+        //TODO: 模拟提交图片成功 to be remove
+//        let formatter = NSDateFormatter()
+//        formatter.dateFormat = "yyyyMMddHHmmss"
+//        let dic = [jfurl:"http://test.com/IMG_\(formatter.stringFromDate(NSDate())).png"]
+//        let data = try! NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions())
+//        completedHandler?(nil,data,nil)
+//        return
         
         
         let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
         
         let url = self.fullUrlStr("crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
         
-        let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!)
+        let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!,cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringCacheData, timeoutInterval: 5)
         urlRequest.HTTPMethod = self.httpPost
         urlRequest.setValue("Raw", forHTTPHeaderField: "Content-Type")
         urlRequest.HTTPBody = UIImageJPEGRepresentation(image, 1)

@@ -8,15 +8,23 @@
 
 import UIKit
 
-class ProductsTableViewController: UITableViewController {
+class ProductsTableViewController: UITableViewController,UIProductTableViewCellDelegate {
     
     var catId: Int = 0
     var catName: String = "产品列表" //一级名称
     var dataArray: NSArray?
 
+    @IBOutlet var cartBarButton: UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = catName
+        
+        let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+        
+        self.addNotificationObserver()
+        self.cartBarButton.title = "购物车\(Cart.defaultCart().products.count)"
         
         WebApi.GetProductsByCatId([jfcatId : catId], completedHandler: { (response, data, error) -> Void in
             
@@ -60,7 +68,34 @@ class ProductsTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    deinit{
+        self.removeNotificationObserver()
+    }
+    
+    //MARK: 消息通知
+    func addNotificationObserver(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
+    }
+    
+    func removeNotificationObserver(){
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func handleProductsInCartChanged(){
+        self.cartBarButton.title = "购物车\(Cart.defaultCart().products.count)"
+    }
+    
+    
+    //MARK: - Table view delegate
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
+        let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
+        let detailVc = selectCell?.productTableViewController()
+        detailVc?.productDic = selectCell?.productDic
+        self.navigationController?.pushViewController(detailVc!, animated: true)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -74,19 +109,28 @@ class ProductsTableViewController: UITableViewController {
         // Return the number of rows in the section.
         return dataArray?.count ?? 0
     }
-
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) 
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+        
         // Configure the cell...
-        let dic = dataArray?[indexPath.row] as! NSDictionary
-        let name = dic.objectForKey(jfproName) as! String
-        cell.textLabel?.text = "\(name)"
-
+        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
+        
+        ConfigureCell(cell, buttonTitle: "Add", productDic: dic, delegate: self)
+        
         return cell
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(UIProductTableViewCell.rowHeight)
+    }
+
+    
+    //MARK: UIProductTableViewCellDelegate
+    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
+        Cart.defaultCart().addProduct(cell.productDic)
+        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+    }
 
     /*
     // Override to support conditional editing of the table view.
