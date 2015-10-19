@@ -119,6 +119,14 @@ class Order: NSObject {
         }
     }
     
+    func productAtIndex(index: Int) -> Product?{
+        let productDicOpt = products.objectAtIndex(index) as? NSDictionary
+        if let productDic = productDicOpt{
+            return Product(productDic: productDic)
+        }
+        return nil
+    }
+    
     var proIds: String{
         let _proIds =  NSMutableString()
         self.products.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in

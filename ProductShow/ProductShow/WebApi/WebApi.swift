@@ -193,13 +193,20 @@ class WebApi: NSObject {
         }
     }
     
-    class func GetFile(fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func GetFile(var fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
 //        let fileManager = NSFileManager()
         if fileURL == nil{
             debugPrint("----文件URL为nil----")
             completedHandler?(nil,nil,nil)
             return
         }
+        if fileURL!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""{
+            debugPrint("----文件URL为空----")
+            completedHandler?(nil,nil,nil)
+            return
+        }
+ 
+        fileURL = fileURL!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         
         let url = NSURL(string: fileURL!)!
         let fileManager = NSFileManager()
@@ -215,8 +222,6 @@ class WebApi: NSObject {
         }
         
         //不存在则创建目录
-       
-        
         let fileSavedPath = NSString(string: fileSavedName).stringByDeletingLastPathComponent
         
         do {
@@ -340,6 +345,14 @@ class WebApi: NSObject {
         self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProductsByCatId-\(catId)", subURL: "CrmSelectPro", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
+    //MARK: 8. 根据产品ID获取产品的图片地址和视频地址
+    
+    class func GetProFilesByID(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProFilesByID", subURL: "CrmGetProFilesByID", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
+
+    
     //MARK: 14. 提交购物车及照片
     class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         //TODO: 模拟提交订单 to be remove
@@ -365,7 +378,8 @@ class WebApi: NSObject {
         
         let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
         
-        let url = self.fullUrlStr("crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
+        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
+//        self.fullUrlStr("crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
         
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!,cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringCacheData, timeoutInterval: 5)
         urlRequest.HTTPMethod = self.httpPost

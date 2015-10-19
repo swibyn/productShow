@@ -8,20 +8,6 @@
 
 import Foundation
 
-//let kPostData = "PostData"
-//let kReturnData = "ReturnData"
-
-
 class Global: NSObject {
     
-//    static var userInfo = UserInfo() //用户信息
-    
-//    static var cart = Cart()  //购物车
-    
-//    static var myOrders = 
-//    func getMyOrders()->NSArray{
-//        NSUserDefaults.standardUserDefaults().objectForKey("myorders")
-//        
-//    }
-
 }

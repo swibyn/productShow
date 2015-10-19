@@ -9,7 +9,8 @@
 import UIKit
 
 class UIProductTableViewController: UITableViewController {
-    var productDic: NSDictionary?
+    var product: Product?
+//    var productDic: NSDictionary?
 //    let listInfo = [jfproName]
     
     
@@ -48,12 +49,16 @@ class UIProductTableViewController: UITableViewController {
         // Configure the cell...
         switch indexPath.row{
         case 0:
-            cell.textLabel?.text = "名称: \(productDic?.objectForKey(jfproName) as! String)"
+            cell.textLabel?.text = "名称: \((product?.proName)!)"
         case 1:
-            cell.textLabel?.text = "型号: \(productDic?.objectForKey(jfproSize) as! String)"
+            cell.textLabel?.text = "型号: \((product?.proSize)!)"
         case 2:
             let textView = cell.viewWithTag(100) as! UITextView
-            textView.text = productDic?.objectForKey(jfremark) as? String
+            textView.text = product?.remark// productDic?.objectForKey(jfremark) as? String
+//        case 3: //产品详情
+//            ;
+//        case 4: //
+//            cell.textLabel?.text =
         default: break
             //nothing
         }
@@ -71,11 +76,10 @@ class UIProductTableViewController: UITableViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        if segue.identifier == "productDetailsegue"{
-            let destVc = segue.destinationViewController
-            let promemo = productDic?.objectForKey(jfpromemo) as? String
-            destVc.setValue(promemo, forKey: "promemo")
-        }
+        
+        let destVc = segue.destinationViewController
+        destVc.setValue(product, forKey: "product")
+        
     }
 
 }

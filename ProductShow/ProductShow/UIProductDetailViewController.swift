@@ -9,12 +9,14 @@
 import UIKit
 
 class UIProductDetailViewController: UIViewController {
-    var promemo : String = ""
+//    var productDic: NSDictionary?
+    var product: Product?
     
     @IBOutlet var webView: UIWebView!
     
     override func viewDidLoad() {
-        webView.loadHTMLString(promemo, baseURL: nil)
+        
+        webView.loadHTMLString((product?.promemo!)!, baseURL: nil)
     }
     
     

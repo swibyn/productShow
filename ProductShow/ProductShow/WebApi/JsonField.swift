@@ -54,9 +54,11 @@ let jfpId = "pId" //一级产品分类ID
 
 //MARK:6. 产品查询
 //MARK:7. 根据产品ID获取产品数据
+
 //MARK:8. 根据产品ID获取产品的图片地址和视频地址
 let jffileType = "fileType" //文件类型，1=图片地址，2=视频地址
-let jffilePath = "filePath" //文件url，注意：图片地址在应用时需手动补充前缀
+let jffileId = "fileId"
+let jffilePath = "filePath"
 
 //MARK:9. 获取客户数据
 let jfcustId = "custId" //客户ID,为空时查询所有在用客户数据
@@ -106,8 +108,10 @@ let jflogContent = "logContent"
 //MARK:14. 提交购物车及照片
 let jfproIds = "proIds"
 let jfimgPaths = "imgPaths"
+
 //MARK:15. 提交图片
-let jfurl = "url"
+let jfimgPath = "imgPath"
+let jfmsg = "msg"
 
 //MARK:
 

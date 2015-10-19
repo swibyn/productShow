@@ -10,7 +10,8 @@ import UIKit
 
 class SearchProductsViewController: UITableViewController, UISearchBarDelegate, UIProductTableViewCellDelegate{
     
-    var dataArray: NSArray?
+//    var dataArray: NSArray?
+    var products = Products()
 
     @IBOutlet var cartBarButton: UIBarButtonItem!
     
@@ -62,14 +63,16 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                 debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                self.products.productsDic = json
                 
-                let statusInt = json.objectForKey(jfstatus) as! Int
-                if (statusInt == 1){
+//                let statusInt = json.objectForKey(jfstatus) as! Int
+//                if (statusInt == 1){
+                if self.products.status == 1{
                     //获取成功
-                    let data = json.objectForKey(jfdata) as! NSDictionary
-                    let dt = data.objectForKey(jfdt) as! NSArray
-                    
-                    self.dataArray = dt
+//                    let data = json.objectForKey(jfdata) as! NSDictionary
+//                    let dt = data.objectForKey(jfdt) as! NSArray
+//                    
+//                    self.dataArray = dt
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
@@ -96,7 +99,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productTableViewController()
-        detailVc?.productDic = selectCell?.productDic
+        detailVc?.product = selectCell?.product
         self.navigationController?.pushViewController(detailVc!, animated: true)
     }
     
@@ -111,7 +114,8 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return dataArray?.count ?? 0
+//        return dataArray?.count ?? 0
+        return products.productsCount
     }
     
     
@@ -120,9 +124,9 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
-        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
+//        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
         
-        ConfigureCell(cell, buttonTitle: "Add", productDic: dic, delegate: self)
+        ConfigureCell(cell, buttonTitle: "Add", product: products.productAtIndex(indexPath.row)!, delegate: self)
         
         return cell
     }
@@ -134,7 +138,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     //MARK: - UIProductTableViewCellDelegate
     func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
-        Cart.defaultCart().addProduct(cell.productDic)
+        Cart.defaultCart().addProduct(cell.product.productDic!)
         NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
     }
     //MARK: 

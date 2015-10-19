@@ -75,9 +75,17 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                 {
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                     debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                    let remoteUrl = json.objectForKey(jfurl) as! String
-                    Order.setRemotePath(remoteUrl, toDic: imagePathDic)
-                    self.performSelector(Selector("placeOrder"), withObject: nil, afterDelay: 1)
+                    let status = json.objectForKey(jfstatus) as! Int
+                    if status == 1{
+                        let remoteUrl = json.objectForKey(jfimgPath) as! String
+                        Order.setRemotePath(remoteUrl, toDic: imagePathDic)
+                        self.performSelector(Selector("placeOrder"), withObject: nil, afterDelay: 1)
+                    }else{
+                        let msg = json.objectForKey(jfmsg) as! String
+                        let alertView = UIAlertView(title: "图片提交失败", message: msg, delegate: nil, cancelButtonTitle: "OK")
+                        alertView.show()
+                        
+                    }
                 }else{
                     let alertView = UIAlertView(title: "图片提交失败", message: "网络不通畅", delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
@@ -218,9 +226,9 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if indexPath.row < products.count{ //显示产品
             let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
             
-            let dic = products.objectAtIndex(indexPath.row) as! NSDictionary
+//            let dic = products.objectAtIndex(indexPath.row) as! NSDictionary
             
-            ConfigureCell(cell, buttonTitle: "", productDic: dic, delegate: nil)
+            ConfigureCell(cell, buttonTitle: "", product: order.productAtIndex(indexPath.row)!, delegate: nil)
             //ConfigureCell(cell, buttonTitle: "Delete", productDic: dic, delegate: self)
             
             return cell
@@ -245,7 +253,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if indexPath.row < products.count{
             return CGFloat(UIProductTableViewCell.rowHeight)
         }else{
-            return self.tableView.rowHeight
+            return self.view.bounds.size.height  // self.tableView.rowHeight
         }
     }
     /*

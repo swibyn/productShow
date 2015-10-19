@@ -11,7 +11,8 @@ import UIKit
 
 class UIProductTableViewCell : UITableViewCell {
     
-    var productDic: NSDictionary!
+//    var productDic: NSDictionary!
+    var product: Product!
     
     var delegate: UIProductTableViewCellDelegate?
     
@@ -30,14 +31,14 @@ class UIProductTableViewCell : UITableViewCell {
         delegate?.productTableViewCellButtonDidClick(self)
     }
     
-    func configureFromDictionary(){
-        let dic = productDic
-        self.proNameLabel.text = dic.objectForKey(jfproName) as? String
-        self.proSizeLabel.text = dic.objectForKey(jfproSize) as? String
-        self.remarkLabel.text = dic.objectForKey(jfremark) as? String
+    func refreshView(){
+//        let dic = productDic
+        self.proNameLabel.text = product.proName// dic.objectForKey(jfproName) as? String
+        self.proSizeLabel.text = product.proSize// dic.objectForKey(jfproSize) as? String
+        self.remarkLabel.text = product.remark// dic.objectForKey(jfremark) as? String
         
-        let imgUrl = dic.objectForKey(jfimgUrl) as? String
-        WebApi.GetFile(imgUrl) { (response, data, error) -> Void in
+//        let imgUrl = dic.objectForKey(jfimgUrl) as? String
+        WebApi.GetFile(product.imgUrl) { (response, data, error) -> Void in
             if data?.length > 0{
                 self.proThumbImageView.image = UIImage(data: data!)
             }
@@ -46,16 +47,16 @@ class UIProductTableViewCell : UITableViewCell {
     
     func productTableViewController()->UIProductTableViewController{
         let detailVc = UIProductTableViewController.newInstance()
-        detailVc.productDic = productDic
+        detailVc.product = product
         return detailVc
     }
 }
 
-func ConfigureCell(cell: UIProductTableViewCell, buttonTitle:String, productDic: NSDictionary, delegate: UIProductTableViewCellDelegate?){
-    cell.productDic = productDic
+func ConfigureCell(cell: UIProductTableViewCell, buttonTitle:String, product: Product, delegate: UIProductTableViewCellDelegate?){
+    cell.product = product
     cell.operationButton.setTitle(buttonTitle, forState: UIControlState.Normal)
     cell.delegate = delegate
-    cell.configureFromDictionary()
+    cell.refreshView()
 }
 
 
