@@ -61,6 +61,10 @@ class Cart: NSObject {
         products.removeObjectForKey(key)
     }
 
+    //MARK:删除所有产品
+    func removeProducts(){
+        products.removeAllObjects()
+    }
     
     //MARK:产品数量
     var productCount: Int{
@@ -83,6 +87,10 @@ class Cart: NSObject {
             }
         }
         return ids as String
+    }
+    
+    var title: String{
+        return "Cart(\(products.count))"
     }
     
 }

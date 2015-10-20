@@ -23,6 +23,7 @@ class UserCenterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "User Center"
 
         self.addFirstPageButton()
         // Uncomment the following line to preserve selection between presentations

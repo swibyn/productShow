@@ -70,7 +70,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     // MARK: FirstPageViewControllerDelegate
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
         for vc in self.viewControllers! {
-            print("vc.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
+            print("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
             if vc.tabBarItem.title == button.titleForState(UIControlState.Normal){
                 self.selectedViewController = vc
                 break

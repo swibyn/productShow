@@ -24,6 +24,7 @@ class TabNavigationController: UINavigationController {
     override func viewWillAppear(animated: Bool) {
 //        self.navigationController?.navigationBarHidden = true
 //        self.title = self.topViewController.title ?? "未命名"
+        self.tabBarItem.title = self.viewControllers[0].title
     }
     override func viewWillDisappear(animated: Bool) {
 //        self.navigationController?.navigationBarHidden = false

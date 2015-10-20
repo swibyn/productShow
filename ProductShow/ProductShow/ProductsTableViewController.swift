@@ -11,7 +11,7 @@ import UIKit
 class ProductsTableViewController: UITableViewController,UIProductTableViewCellDelegate {
     
     var catId: Int = 0
-    var catName: String = "产品列表" //一级名称
+    var catName: String = "Products" //一级名称
 //    var dataArray: NSArray?
     var products = Products()
 
@@ -25,14 +25,14 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
         self.addNotificationObserver()
-        self.cartBarButton.title = "购物车\(Cart.defaultCart().products.count)"
+        self.cartBarButton.title = Cart.defaultCart().title
         
         WebApi.GetProductsByCatId([jfcatId : catId], completedHandler: { (response, data, error) -> Void in
             
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.products.productsDic = json
                 
 //                let statusInt = json.objectForKey(jfstatus) as! Int
@@ -45,7 +45,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
                 
@@ -85,7 +85,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     }
     
     func handleProductsInCartChanged(){
-        self.cartBarButton.title = "购物车\(Cart.defaultCart().products.count)"
+        self.cartBarButton.title = Cart.defaultCart().title
     }
     
     

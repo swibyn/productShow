@@ -43,7 +43,7 @@
 		4DBFC91D1BD1E15B0076123D /* userinfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DBFC91C1BD1E15B0076123D /* userinfo.json */; settings = {ASSET_TAGS = (); }; };
 		4DBFC9201BD1EFA80076123D /* PhotoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFC91F1BD1EFA80076123D /* PhotoUtil.swift */; settings = {ASSET_TAGS = (); }; };
 		4DBFC9221BD24F300076123D /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFC9211BD24F300076123D /* UserInfo.swift */; settings = {ASSET_TAGS = (); }; };
-		4DD472561BD1453900626143 /* OrderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD472551BD1453900626143 /* OrderManager.swift */; settings = {ASSET_TAGS = (); }; };
+		4DD472561BD1453900626143 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD472551BD1453900626143 /* Order.swift */; settings = {ASSET_TAGS = (); }; };
 		4DF5FCA01BD36AA800EBC238 /* UIProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF5FC9F1BD36AA800EBC238 /* UIProductDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -100,7 +100,7 @@
 		4DBFC91C1BD1E15B0076123D /* userinfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userinfo.json; sourceTree = "<group>"; };
 		4DBFC91F1BD1EFA80076123D /* PhotoUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUtil.swift; sourceTree = "<group>"; };
 		4DBFC9211BD24F300076123D /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
-		4DD472551BD1453900626143 /* OrderManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderManager.swift; sourceTree = "<group>"; };
+		4DD472551BD1453900626143 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
 		4DF5FC9F1BD36AA800EBC238 /* UIProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIProductDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -242,7 +242,7 @@
 			isa = PBXGroup;
 			children = (
 				4D95CB321BCF8ED800E10FD3 /* Cart.swift */,
-				4DD472551BD1453900626143 /* OrderManager.swift */,
+				4DD472551BD1453900626143 /* Order.swift */,
 				4DBFC91F1BD1EFA80076123D /* PhotoUtil.swift */,
 				4DBFC9211BD24F300076123D /* UserInfo.swift */,
 				4D66BB341BCF4F5F00AF5CDC /* Global.swift */,
@@ -370,7 +370,7 @@
 				4D66BB3E1BCF4F5F00AF5CDC /* CategoriesTableViewController2.swift in Sources */,
 				4DBFC9221BD24F300076123D /* UserInfo.swift in Sources */,
 				4D95CB331BCF8ED800E10FD3 /* Cart.swift in Sources */,
-				4DD472561BD1453900626143 /* OrderManager.swift in Sources */,
+				4DD472561BD1453900626143 /* Order.swift in Sources */,
 				4D66BB411BCF4F5F00AF5CDC /* HomeTabBarViewController.swift in Sources */,
 				4D66BB4C1BCF4F7E00AF5CDC /* JsonField.swift in Sources */,
 				4D66BB3D1BCF4F5F00AF5CDC /* CategoriesTableViewController.swift in Sources */,

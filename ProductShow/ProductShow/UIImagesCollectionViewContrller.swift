@@ -21,7 +21,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 self.productFiles.filesDic = json
                 self.collectionView?.reloadData()
@@ -46,6 +46,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
         cell.tag = indexPath.row
         let imageView = cell.viewWithTag(100) as! UIImageView
+        imageView.image = UIImage(named: "ic_suoluetu_90_75")
         WebApi.GetFile(productFiles.productFileAtIndex(indexPath.row)!.filePath) { (response, data, error) -> Void in
             
             if data?.length > 0{

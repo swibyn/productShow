@@ -8,14 +8,14 @@
 
 import UIKit
 
-class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
+class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, OrderDetailTableViewControllerDelegate {
     
-    var dataArray : NSMutableArray?
+//    var dataArray : NSMutableArray?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        dataArray = OrderManager.defaultManager().orders //保持这个引用，不要重新赋值
+//        dataArray = OrderManager.defaultManager().orders //保持这个引用，不要重新赋值
         
         self.addNotificationObserver()
     }
@@ -40,7 +40,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
     }
     
     func handleOrdersChanged(){
-        dataArray = OrderManager.defaultManager().orders
+//        dataArray = OrderManager.defaultManager().orders
         self.tableView.reloadData()
     }
 
@@ -49,8 +49,12 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
         debugPrint("\(self) \(__FUNCTION__)")
         let title = alertView.buttonTitleAtIndex(buttonIndex)
         if title == "OK"{
-            let dic = dataArray?.objectAtIndex((indexPathForAccessoryButtonTappedRow?.row)!) as? NSMutableDictionary
-            Order(dic: dic!).orderName = alertView.textFieldAtIndex(0)?.text ?? ""
+            let order = Orders.defaultOrders().orderAtIndex((indexPathForAccessoryButtonTappedRow?.row)!)
+                order?.orderName = alertView.textFieldAtIndex(0)?.text ?? ""
+            
+//            dataArray?.objectAtIndex((indexPathForAccessoryButtonTappedRow?.row)!) as? NSMutableDictionary
+//            
+//            Order(dic: dic!).orderName = alertView.textFieldAtIndex(0)?.text ?? ""
             self.tableView.reloadData()
         }
     }
@@ -63,11 +67,11 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
     var indexPathForAccessoryButtonTappedRow: NSIndexPath?
     override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
         indexPathForAccessoryButtonTappedRow = indexPath
-        let alert = UIAlertView(title: "修改订单名称", message: nil, delegate: self, cancelButtonTitle: "Cancel")
+        let alert = UIAlertView(title: "Set order name to", message: nil, delegate: self, cancelButtonTitle: "Cancel")
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
-        let dic = dataArray?.objectAtIndex(indexPath.row) as? NSMutableDictionary
+//        let dic = dataArray?.objectAtIndex(indexPath.row) as? NSMutableDictionary
         
-        alert.textFieldAtIndex(0)?.text = Order(dic: dic!).orderName
+        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(indexPath.row)?.orderName// Order(dic: dic!).orderName
         alert.addButtonWithTitle("OK")
         alert.show()
     }
@@ -81,7 +85,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return dataArray?.count ?? 0
+        return Orders.defaultOrders().orderCount // dataArray?.count ?? 0
     }
     
     
@@ -89,9 +93,10 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
         // Configure the cell...
-        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSMutableDictionary
-        cell.textLabel?.text = Order(dic: dic).orderName
-        cell.detailTextLabel?.text = dic.objectForKey(OrderSaveKey.orderTime) as? String
+        let order = Orders.defaultOrders().orderAtIndex(indexPath.row)
+//        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSMutableDictionary
+        cell.textLabel?.text = order?.orderName
+        cell.detailTextLabel?.text = order?.orderTime // dic.objectForKey(OrderSaveKey.orderTime) as? String
         
         
         return cell
@@ -111,7 +116,8 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
         if editingStyle == .Delete {
             // Delete the row from the data source
 //            dataArray?.removeObjectAtIndex(indexPath.row)
-            OrderManager.defaultManager().removeObjectAtIndex(indexPath.row)
+//            OrderManager.defaultManager().removeObjectAtIndex(indexPath.row)
+            Orders.defaultOrders().removeObjectAtIndex(indexPath.row)
 
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
@@ -144,10 +150,17 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate {
         // Pass the selected object to the new view controller.
         let selectedIndexPath = self.tableView.indexPathForSelectedRow!
         let destVC: AnyObject = segue.destinationViewController
-        let dic = self.dataArray?[selectedIndexPath.row] as! NSMutableDictionary
+        (destVC as? OrderDetailTableViewController)?.delegate = self
+//        let dic = self.dataArray?[selectedIndexPath.row] as! NSMutableDictionary
         
-        destVC.setValue(Order(dic: dic), forKey: "order")
+        destVC.setValue(Orders.defaultOrders().orderAtIndex(selectedIndexPath.row), forKey: "order")
     }
     
+    //MARK: OrderDetailTableViewControllerDelegate
+    func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController) {
+//        self.navigationController?.popToViewController(self, animated: true)
+//        self.navigationController?.popViewControllerAnimated(true)
+        self.tableView.reloadData()
+    }
 
 }

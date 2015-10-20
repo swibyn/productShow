@@ -61,7 +61,7 @@ class WebApi: NSObject {
 //        url = url.stringByReplacingOccurrencesOfString(" ", withString: "")
         
         url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!// url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-        debugPrint("\(url)")
+//        debugPrint("\(url)")
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
         urlRequest.HTTPMethod = httpMethod
         if httpMethod == httpPost{
@@ -94,15 +94,15 @@ class WebApi: NSObject {
 //            urlRequest.setValue(base64PhoneNo, forHTTPHeaderField: "Authorization")
 //        }
         
-        debugPrint("发送 \(urlRequest)\n HTTPBody=\(urlRequest.HTTPBody)")
+//        debugPrint("发送 \(urlRequest)\n HTTPBody=\(urlRequest.HTTPBody)")
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, connectionError) -> Void in
             
-            if connectionError == nil{
-                debugPrint("返回 \(response)\n data.length=\(data!.length) \nconnectionError=\(connectionError)")
-            }else{
-                debugPrint("返回失败 connectionError=\(connectionError)")
-            }
+//            if connectionError == nil{
+//                debugPrint("返回 \(response)\n data.length=\(data!.length) \nconnectionError=\(connectionError)")
+//            }else{
+//                debugPrint("返回失败 connectionError=\(connectionError)")
+//            }
         
 //            var errorPointer: NSErrorPointer = nil
 //            var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: errorPointer)
@@ -138,7 +138,7 @@ class WebApi: NSObject {
             
             let localData = NSUserDefaults.standardUserDefaults().objectForKey(saveKey) as? NSData
             if let mLocalData = localData{
-                debugPrint("本地读到数据：\(saveKey) =\(mLocalData)")
+//                debugPrint("本地读到数据：\(saveKey) =\(mLocalData)")
                 completedHandle?(nil,mLocalData,nil)
             }else{
                 debugPrint("本地未读到数据：\(saveKey)")
@@ -158,7 +158,7 @@ class WebApi: NSObject {
                 
                 let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
                
-                debugPrint("本地读到数据：\(saveKey) =\(json!)")
+//                debugPrint("本地读到数据：\(saveKey) =\(json!)")
                 
                 bhandle = true
                 completedHandle?(nil,mLocalData,nil)
@@ -232,13 +232,15 @@ class WebApi: NSObject {
         let queue = NSOperationQueue()
         debugPrint("开始下载文件:\(fileURL)")
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
-            if WebApi.isHttpSucceed(response, data: data, error: error){
-                debugPrint("文件下载成功:\(fileURL)")
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if WebApi.isHttpSucceed(response, data: data, error: error){
+                    debugPrint("文件下载成功:\(fileURL)")
                     data!.writeToFile(fileSavedName, atomically: true)
-                })
-            }
-            completedHandler?(response,data,error)
+                }
+                completedHandler?(response,data,error)
+            })
+
         }
     }
     
@@ -365,7 +367,7 @@ class WebApi: NSObject {
     }
 
    //MARK: 15. 提交图片
-    class func UpFile(image: UIImage, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func UpFile(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         //TODO: 模拟提交图片成功 to be remove
 //        let formatter = NSDateFormatter()
@@ -383,8 +385,11 @@ class WebApi: NSObject {
         
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!,cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringCacheData, timeoutInterval: 5)
         urlRequest.HTTPMethod = self.httpPost
-        urlRequest.setValue("Raw", forHTTPHeaderField: "Content-Type")
-        urlRequest.HTTPBody = UIImageJPEGRepresentation(image, 1)
+        urlRequest.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("1234.png", forHTTPHeaderField: "FileName")
+//        let contentLength = UIImageJPEGRepresentation(image, 1)?.length ?? 0
+        urlRequest.setValue("\(imageData.length)", forHTTPHeaderField: "ContentLength")
+        urlRequest.HTTPBody = imageData// UIImageJPEGRepresentation(image, 1)
         
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in

@@ -7,11 +7,11 @@
         <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
-        <!--热门产品-->
+        <!--Hot Products-->
         <scene sceneID="48T-r3-6at">
             <objects>
-                <navigationController id="4Qi-aA-TQV" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="热门产品" id="i72-Cs-Ge6"/>
+                <navigationController id="4Qi-aA-TQV" userLabel="Hot Products" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Hot Products" id="i72-Cs-Ge6"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="UJg-8i-In6">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -49,7 +49,7 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="FxU-pG-h7X">
-                        <barButtonItem key="rightBarButtonItem" title="生成订单" id="9Ku-VE-lhk">
+                        <barButtonItem key="rightBarButtonItem" title="Generate order" id="9Ku-VE-lhk">
                             <connections>
                                 <segue destination="w8t-1m-QFN" kind="show" identifier="CartToMyOrders" id="XSj-5m-Git"/>
                             </connections>
@@ -134,7 +134,7 @@
                     </tableView>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="0gE-JD-l9E">
-                        <barButtonItem key="rightBarButtonItem" title="购物车" id="gUq-Zd-11b">
+                        <barButtonItem key="rightBarButtonItem" title="Cart" id="gUq-Zd-11b">
                             <connections>
                                 <segue destination="b0J-xx-U9v" kind="show" id="o83-my-XFQ"/>
                             </connections>
@@ -149,15 +149,15 @@
             </objects>
             <point key="canvasLocation" x="1422" y="-1785"/>
         </scene>
-        <!--产品搜索-->
+        <!--Item-->
         <scene sceneID="9Rh-7t-e5I">
             <objects>
-                <tableViewController title="产品搜索" id="xKT-Fj-vao" customClass="SearchProductsViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="xKT-Fj-vao" customClass="SearchProductsViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="IS8-2U-6tN">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="产品名称模糊查询" id="F0f-TP-7Iz">
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="product name" id="F0f-TP-7Iz">
                             <rect key="frame" x="0.0" y="64" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
@@ -181,8 +181,8 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="zb6-t7-7jR"/>
-                    <navigationItem key="navigationItem" title="产品搜索" id="xlJ-o6-4gb">
-                        <barButtonItem key="rightBarButtonItem" title="购物车" id="XbU-dZ-mYa">
+                    <navigationItem key="navigationItem" id="xlJ-o6-4gb">
+                        <barButtonItem key="rightBarButtonItem" title="Cart" id="XbU-dZ-mYa">
                             <connections>
                                 <segue destination="b0J-xx-U9v" kind="show" id="A2e-Ua-Ncj"/>
                             </connections>
@@ -196,11 +196,11 @@
             </objects>
             <point key="canvasLocation" x="38" y="-1122"/>
         </scene>
-        <!--产品搜索-->
+        <!--Search-->
         <scene sceneID="CBd-PF-2SI">
             <objects>
-                <navigationController id="bD3-bC-NH0" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="产品搜索" id="UTN-w0-TSD"/>
+                <navigationController title="Search" id="bD3-bC-NH0" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Search" id="UTN-w0-TSD"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ssA-dg-hck">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -230,7 +230,7 @@
                                 <subviews>
                                     <button opaque="NO" contentMode="center" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9lH-nW-MCY">
                                         <rect key="frame" x="102" y="229" width="196" height="30"/>
-                                        <state key="normal" title="登录">
+                                        <state key="normal" title="Sign in">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -298,7 +298,7 @@
                                         <rect key="frame" x="22" y="105" width="188" height="390"/>
                                         <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="热门产品">
+                                        <state key="normal" title="Hot Products">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -310,7 +310,7 @@
                                         <rect key="frame" x="218" y="105" width="191" height="387"/>
                                         <color key="backgroundColor" red="0.32763886776940981" green="0.62758349867724861" blue="0.23815572217622533" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="产品类目">
+                                        <state key="normal" title="Product Categories">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -322,7 +322,7 @@
                                         <rect key="frame" x="417" y="105" width="167" height="186"/>
                                         <color key="backgroundColor" red="0.5860940983073325" green="0.60821612419251381" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="产品搜索">
+                                        <state key="normal" title="Search">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -334,7 +334,7 @@
                                         <rect key="frame" x="417" y="304" width="167" height="188"/>
                                         <color key="backgroundColor" red="0.8364955357142857" green="0.74871621793732335" blue="0.019642589353867361" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                        <state key="normal" title="个人中心">
+                                        <state key="normal" title="User Center">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
@@ -391,11 +391,11 @@
             </objects>
             <point key="canvasLocation" x="-1424" y="-864"/>
         </scene>
-        <!--产品类目-->
+        <!--Product Categories-->
         <scene sceneID="KYs-44-vPa">
             <objects>
                 <navigationController id="8DN-JN-W1m" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="产品类目" id="1wm-uh-Agj"/>
+                    <tabBarItem key="tabBarItem" title="Product Categories" id="1wm-uh-Agj"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nye-En-h7w">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -408,7 +408,7 @@
             </objects>
             <point key="canvasLocation" x="-656" y="-1788"/>
         </scene>
-        <!--类目-->
+        <!--Categories Table View Controller-->
         <scene sceneID="5nZ-bP-yF6">
             <objects>
                 <tableViewController id="MWN-Dh-Bnr" customClass="CategoriesTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
@@ -434,7 +434,7 @@
                             <outlet property="delegate" destination="MWN-Dh-Bnr" id="k17-Nm-eCf"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="类目" id="Vdy-3L-BYD"/>
+                    <tabBarItem key="tabBarItem" title="" id="Vdy-3L-BYD"/>
                     <navigationItem key="navigationItem" id="6G5-dn-9R6"/>
                 </tableViewController>
                 <navigationItem id="8bK-lG-sRi"/>
@@ -474,7 +474,7 @@
             </objects>
             <point key="canvasLocation" x="722" y="-1788"/>
         </scene>
-        <!--个人中心-->
+        <!--Item-->
         <scene sceneID="s18-zo-cTR">
             <objects>
                 <tableViewController id="TG9-E0-rIC" customClass="UserCenterTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
@@ -497,7 +497,7 @@
                                                 <constraint firstAttribute="height" constant="60" id="Sg6-Nc-XdB"/>
                                             </constraints>
                                         </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="用户名" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULR-MU-CJ4">
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="username" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ULR-MU-CJ4">
                                             <rect key="frame" x="130" y="118" width="341" height="21"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="341" id="PjO-pw-vxg"/>
@@ -615,8 +615,8 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Item" id="9Yv-GH-K64"/>
-                    <navigationItem key="navigationItem" title="个人中心" id="h8y-od-ZAM">
-                        <barButtonItem key="rightBarButtonItem" title="注销" id="6mN-IU-l74">
+                    <navigationItem key="navigationItem" id="h8y-od-ZAM">
+                        <barButtonItem key="rightBarButtonItem" title="Sign out" id="6mN-IU-l74">
                             <connections>
                                 <action selector="signoutBarButtonAction:" destination="TG9-E0-rIC" id="21X-IO-Pvx"/>
                             </connections>
@@ -627,11 +627,11 @@
             </objects>
             <point key="canvasLocation" x="38" y="-434"/>
         </scene>
-        <!--个人中心-->
+        <!--User Center-->
         <scene sceneID="DBT-gq-YUy">
             <objects>
                 <navigationController id="oCL-G5-09i" customClass="TabNavigationController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="个人中心" id="kIj-Xn-oFz"/>
+                    <tabBarItem key="tabBarItem" title="User Center" id="kIj-Xn-oFz"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="wC3-xi-wfY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -660,11 +660,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="名称" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nyo-jf-io7">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Nyo-jf-io7">
                                             <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -677,11 +677,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="型号" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="acy-yP-2Z0">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Size" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="acy-yP-2Z0">
                                             <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -694,7 +694,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="210"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="100" contentMode="scaleToFill" text="简介 简介 简介 " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eOC-nh-DKa">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" tag="100" contentMode="scaleToFill" text="remark " textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="eOC-nh-DKa">
                                             <rect key="frame" x="13" y="8" width="579" height="195"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <textInputTraits key="textInputTraits"/>
@@ -715,11 +715,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="产品详情" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zee-kC-PJN">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="memo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zee-kC-PJN">
                                             <rect key="frame" x="15" y="0.0" width="550" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -735,11 +735,11 @@
                                     <rect key="frame" x="0.0" y="0.0" width="567" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="图片和视频" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8L4-h4-Qns">
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Product Files" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="8L4-h4-Qns">
                                             <rect key="frame" x="15" y="0.0" width="550" height="43"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
@@ -798,7 +798,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="190" height="176"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="H8P-c0-HWa">
+                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_suoluetu_90_75" translatesAutoresizingMaskIntoConstraints="NO" id="H8P-c0-HWa">
                                             <rect key="frame" x="0.0" y="0.0" width="190" height="176"/>
                                         </imageView>
                                     </subviews>
@@ -825,10 +825,10 @@
             </objects>
             <point key="canvasLocation" x="-656" y="1067"/>
         </scene>
-        <!--热门产品-->
+        <!--Hot Products Table View Controller-->
         <scene sceneID="9h7-t0-D7W">
             <objects>
-                <tableViewController title="热门产品" id="IQp-Mp-hwz" customClass="HotProductsTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="IQp-Mp-hwz" customClass="HotProductsTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yus-bq-tAn">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -849,7 +849,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="XH5-nk-FlK">
-                        <barButtonItem key="rightBarButtonItem" title="购物车" id="pzU-XB-9u3">
+                        <barButtonItem key="rightBarButtonItem" title="Cart" id="pzU-XB-9u3">
                             <connections>
                                 <segue destination="b0J-xx-U9v" kind="show" id="VQ7-uo-Zju"/>
                             </connections>
@@ -863,10 +863,10 @@
             </objects>
             <point key="canvasLocation" x="38" y="-2482"/>
         </scene>
-        <!--订单详情-->
+        <!--Order Detail Table View Controller-->
         <scene sceneID="bI7-b4-AiP">
             <objects>
-                <tableViewController title="订单详情" id="k3q-dG-6F2" customClass="OrderDetailTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="k3q-dG-6F2" customClass="OrderDetailTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="500" sectionHeaderHeight="28" sectionFooterHeight="28" id="pyq-zS-Bgd">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -899,12 +899,12 @@
                     </tableView>
                     <navigationItem key="navigationItem" id="cOy-4f-jnJ">
                         <rightBarButtonItems>
-                            <barButtonItem title="提交" id="pHB-dE-eia">
+                            <barButtonItem title="Submit" id="pHB-dE-eia">
                                 <connections>
                                     <action selector="submitButtonAction:" destination="k3q-dG-6F2" id="6J1-6f-X7q"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem title="增加图片" id="5St-l0-4hL">
+                            <barButtonItem title="AddPicture" id="5St-l0-4hL">
                                 <connections>
                                     <action selector="addPictureButtonAction:" destination="k3q-dG-6F2" id="2yO-4f-MJg"/>
                                 </connections>
@@ -937,7 +937,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="190" height="176"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="7uI-KU-ABp">
+                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_suoluetu_125_75" translatesAutoresizingMaskIntoConstraints="NO" id="7uI-KU-ABp">
                                             <rect key="frame" x="0.0" y="0.0" width="190" height="176"/>
                                         </imageView>
                                     </subviews>
@@ -963,10 +963,12 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ic_suoluetu_125_75" width="125" height="75"/>
+        <image name="ic_suoluetu_90_75" width="90" height="75"/>
         <image name="person" width="130" height="130"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="o83-my-XFQ"/>
-        <segue reference="3hB-eX-0tV"/>
+        <segue reference="XSj-5m-Git"/>
     </inferredMetricsTieBreakers>
 </document>

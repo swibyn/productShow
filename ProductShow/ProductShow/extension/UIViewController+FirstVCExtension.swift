@@ -13,7 +13,7 @@ extension UIViewController{
     
     //MARK: 增加首页按钮
     func addFirstPageButton(){
-        let firstPageButtonItem = UIBarButtonItem(title: "首页", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("firstPageButtonAction:"))
+        let firstPageButtonItem = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("firstPageButtonAction:"))
 //        self.navigationItem.leftBarButtonItems?.append(firstPageButtonItem)
         self.navigationItem.leftBarButtonItems = [firstPageButtonItem]
     }

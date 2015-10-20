@@ -52,7 +52,7 @@
                             <action selector="operationButtonAction:" destination="btd-bX-WoH" eventType="touchUpInside" id="0So-cT-vgS"/>
                         </connections>
                     </button>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="8Em-Jk-fU1">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="ic_suoluetu_90_75" translatesAutoresizingMaskIntoConstraints="NO" id="8Em-Jk-fU1">
                         <rect key="frame" x="13" y="4" width="82" height="78"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="82" id="AUb-Bu-fJi"/>
@@ -88,4 +88,7 @@
             <point key="canvasLocation" x="285" y="170.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="ic_suoluetu_90_75" width="90" height="75"/>
+    </resources>
 </document>

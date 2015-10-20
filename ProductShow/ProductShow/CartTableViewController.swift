@@ -18,6 +18,8 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.title = "Cart"
+        
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         self.addNotificationObserver()
@@ -136,16 +138,9 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
                 let order = Order()
                 order.products = cart.products.allValues
                 
-                
-//                let orderDic = NSMutableDictionary()
-//                let formatter = NSDateFormatter()
-//                formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-//                orderDic.setObject(formatter.stringFromDate(NSDate()) as NSString, forKey: OrderSaveKey.orderTime)
-////                orderDic.setObject(NSString(string: "未命名"), forKey: OrderSaveKey.orderName)
-//                orderDic.setObject(NSMutableArray(), forKey: OrderSaveKey.imagePaths)
-//                orderDic.setObject(dataArray, forKey: OrderSaveKey.products)
-                
-                OrderManager.defaultManager().addOrder(order)
+                Orders.defaultOrders().addOrder(order)
+                cart.removeProducts()
+                self.tableView.reloadData()
                 
             }else{
                 return false

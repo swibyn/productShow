@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 UserInfo.defaultUserInfo().setInfo(json)
                 if (UserInfo.defaultUserInfo().status == 1){
@@ -50,11 +50,11 @@ class LoginViewController: UIViewController {
                     self.delegate?.loginViewController(self, userInfo: json)
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "登录失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             }else{
-                let alertView = UIAlertView(title: "登录失败", message: "请求失败", delegate: nil, cancelButtonTitle: "OK")
+                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
                 alertView.show()
             }
         })
@@ -67,7 +67,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "登录"
+        self.title = "Sign In"
         
     }
     
@@ -84,7 +84,7 @@ class LoginViewController: UIViewController {
                 let statusString = statusobj as! Int
                 if (statusString == 0){
                     self.eqNoAllowHintLabel.hidden = false
-                    self.eqNoAllowHintLabel.text = "设备未允许，请联系管理员。\n设备编码：\(eqNo)\n设备名称：\(eqName)"
+                    self.eqNoAllowHintLabel.text = "Equipment forbided，contact the admin\nNO：\(eqNo)\nName：\(eqName)"
                     self.loginButton.enabled = false
                 }
                 

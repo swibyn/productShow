@@ -70,7 +70,7 @@ class Order: NSObject {
         let imagePaths = orderDic.objectForKey(OrderSaveKey.imagePaths) as! NSMutableArray
         let result = NSMutableDictionary(dictionary: [OrderSaveKey.localpath : localPath])
         imagePaths.addObject(result)
-        OrderManager.defaultManager().flush()
+        Orders.defaultOrders().flush()
         return result
     }
     
@@ -115,7 +115,7 @@ class Order: NSObject {
         }
         set{
             orderDic.setObject(newValue, forKey: OrderSaveKey.products)
-            OrderManager.defaultManager().flush()
+            Orders.defaultOrders().flush()
         }
     }
     
@@ -138,32 +138,43 @@ class Order: NSObject {
         return _proIds as String
     }
     
+    var orderId: String?{
+        return orderDic.objectForKey(OrderSaveKey.orderId) as? String
+    }
+    
+    var orderTime: String?{
+        return orderDic.objectForKey(OrderSaveKey.orderTime) as? String
+    }
+    
     var orderName: String{
         get{
             let _orderName = orderDic.objectForKey(OrderSaveKey.orderName)
             if _orderName?.length>0{
                 return _orderName as! String
+            }else if products.count == 1{
+                return "(1 product)"
             }else{
-//                return "(\(products.count)个产品) (\(imagePaths?.count ?? 0)张图片)"
-                return "(\(products.count)个产品)"
+                return "(\(products.count) products)"
             }
         }
         set{
             orderDic.setObject(newValue, forKey: OrderSaveKey.orderName)
-            OrderManager.defaultManager().flush()
+            Orders.defaultOrders().flush()
         }
     }
     
     func addImage(imgfile:String){
         let imagePaths = orderDic.objectForKey(jfimgPaths) as! NSMutableArray
         imagePaths.addObject([OrderSaveKey.localpath : imgfile])
+        imagePaths.addObject([OrderSaveKey.remotepath: imgfile])
     }
+    
     
 }
 
-class OrderManager: NSObject {
+class Orders: NSObject {
     
-    var orders = NSMutableArray()
+    var _orders = NSMutableArray()
     
     override init() {
         //订单列表
@@ -174,23 +185,23 @@ class OrderManager: NSObject {
         }
         
         if let json = jsonOpt{
-            orders = json as! NSMutableArray
+            _orders = json as! NSMutableArray
         }
     }
     
-    private static var _defaultManager = OrderManager()
-    class func defaultManager()->OrderManager {
-        return _defaultManager
+    private static var _defaultOrders = Orders()
+    class func defaultOrders()->Orders {
+        return _defaultOrders
     }
     
     internal func flush(){
-        let newOrdersData = try! NSJSONSerialization.dataWithJSONObject(orders, options: NSJSONWritingOptions())
+        let newOrdersData = try! NSJSONSerialization.dataWithJSONObject(_orders, options: NSJSONWritingOptions())
         NSUserDefaults.standardUserDefaults().setObject(newOrdersData, forKey: OrderSaveKey.orderArray)
     }
     
     func addOrder(order: Order){
         
-        orders.addObject(order.orderDic)
+        _orders.addObject(order.orderDic)
         flush()
        
     }
@@ -198,46 +209,32 @@ class OrderManager: NSObject {
     func removeOrder(order: Order){
         
         let orderId = order.orderDic.objectForKey(OrderSaveKey.orderId) as? String
-        orders.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
+        _orders.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
             let orderId2 = (productDic as? NSDictionary)?.objectForKey(OrderSaveKey.orderId) as? String
             if orderId == orderId2{
 //                stop = YES //TODO: stop 如何置true
-                self.orders.removeObjectAtIndex(index)
+                self._orders.removeObjectAtIndex(index)
             }
         }
         flush()
     }
     
+    func orderAtIndex(index:Int)->Order?{
+        let dicOpt = _orders.objectAtIndex(index) as? NSMutableDictionary
+        if let dic = dicOpt{
+            return Order(dic: dic)
+        }
+        return nil
+    }
+    
     func removeObjectAtIndex(index:Int){
-        orders.removeObjectAtIndex(index)
+        _orders.removeObjectAtIndex(index)
         flush()
     }
-//    class func addLocalImage
-//    func addImage(imgfile:String, toOrderDic orderDic: NSMutableDictionary)->Bool{
-//        let orderId = orderDic.objectForKey(OrderSaveKey.orderId) as! String
-//        orders.enumerateObjectsUsingBlock { (productDic, index, var stop) -> Void in
-//            let orderId2 = (productDic as! NSDictionary).objectForKey(OrderSaveKey.orderId) as! String
-//            if orderId == orderId2{
-//                //                stop = YES //TODO: stop 如何置true
-//                let mutableDic = productDic as! NSMutableDictionary
-//                let imagePaths = mutableDic.objectForKey(jfimgPaths) as! NSMutableArray
-//                imagePaths.addObject([OrderSaveKey.localpath : imgfile])
-//                //                save()
-//            }
-//        }
-//        self.saveChangs()
-//        return true
-//        
-//    }
-    
-//    class func getOrders()-> NSMutableArray?{
-//        let dataOpt = NSUserDefaults.standardUserDefaults().objectForKey(OrderSaveKey.orderArray) as? NSData
-//        if let data = dataOpt{
-//            let json = try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.MutableContainers) as! NSMutableArray
-//            return json
-//        }
-//        return nil
-//    }
+
+    var orderCount: Int{
+        return _orders.count
+    }
     
 
 }

@@ -8,22 +8,26 @@
 
 import UIKit
 
-
+protocol OrderDetailTableViewControllerDelegate{
+    func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController)
+}
 
 class OrderDetailTableViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIProductTableViewCellDelegate,UIAlertViewDelegate {
     
     var order: Order! //可修改内容，不要重新赋值，不然保存不了订单,由调用者传过来
     private var bGoOnPlace = false
     
+    var delegate: OrderDetailTableViewControllerDelegate?
+    
     //MARK: IBAction
     @IBAction func addPictureButtonAction(sender: UIBarButtonItem) {
         
         let isAvailable = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
         
-        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil)
-        actionSheet.addButtonWithTitle("从照片库中读取")
+        let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil)
+        actionSheet.addButtonWithTitle("From photo library")
         if isAvailable {
-            actionSheet.addButtonWithTitle("拍一张")
+            actionSheet.addButtonWithTitle("Take a photo")
         }
         
         actionSheet.showInView(self.tableView)
@@ -39,6 +43,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     //MARK: view lift cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Order-\(order.orderName)"
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
@@ -66,15 +71,15 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if let imagePathDic = imagePathDicOpt{
             //有图片需要提交
             let localPath = imagePathDic.objectForKey(OrderSaveKey.localpath) as! String
-            let image = PhotoUtil.getPhoto(localPath)
-            let alertView = UIAlertView(title: "图片提交中...", message: localPath, delegate: self, cancelButtonTitle: "Cancel")
+            let imageData = PhotoUtil.getPhotoData(localPath)
+            let alertView = UIAlertView(title: "photo uploading...", message: localPath, delegate: self, cancelButtonTitle: "Cancel")
             alertView.show()
-            WebApi.UpFile(image!, completedHandler: { (response, data, error) -> Void in
+            WebApi.UpFile(imageData!, completedHandler: { (response, data, error) -> Void in
                 alertView.dismissWithClickedButtonIndex(-1, animated: true)
                 if WebApi.isHttpSucceed(response, data: data, error: error)
                 {
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     let status = json.objectForKey(jfstatus) as! Int
                     if status == 1{
                         let remoteUrl = json.objectForKey(jfimgPath) as! String
@@ -82,12 +87,12 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                         self.performSelector(Selector("placeOrder"), withObject: nil, afterDelay: 1)
                     }else{
                         let msg = json.objectForKey(jfmsg) as! String
-                        let alertView = UIAlertView(title: "图片提交失败", message: msg, delegate: nil, cancelButtonTitle: "OK")
+                        let alertView = UIAlertView(title: "Fail", message: msg, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                         
                     }
                 }else{
-                    let alertView = UIAlertView(title: "图片提交失败", message: "网络不通畅", delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             })
@@ -110,31 +115,33 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         //图片
         let imgPaths = order.remotePathsDivideBy("|")
         
-        let alertView = UIAlertView(title: "订单提交中...", message: nil, delegate: nil, cancelButtonTitle: "Cancel")
-        alertView.show()
+//        let alertView = UIAlertView(title: "订单提交中...", message: nil, delegate: nil, cancelButtonTitle: "Cancel")
+//        alertView.show()
 
         WebApi.SendShopData([jfeqNo : eqNo, jfuid : uid,  "uName" : uname, jfproIds : order.proIds, jfimgPaths : imgPaths],
             completedHandler: { (response, data, error) -> Void in
                 
-                alertView.dismissWithClickedButtonIndex(-1, animated: false)//隐藏弹出的提示
+//                alertView.dismissWithClickedButtonIndex(-1, animated: false)//隐藏弹出的提示
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     
                     let statusInt = json.objectForKey(jfstatus) as! Int
                     if (statusInt == 1){
                         //提交成功
-                        OrderManager.defaultManager().removeOrder(self.order)
-                        let alertView = UIAlertView(title: "提交成功", message: "订单提交成功", delegate: nil, cancelButtonTitle: "OK")
+//                        OrderManager.defaultManager().removeOrder(self.order)
+                        Orders.defaultOrders().removeOrder(self.order)
+                        let alertView = UIAlertView(title: "Succeed", message: "Order placed", delegate: nil, cancelButtonTitle: "OK")
+                        alertView.delegate = self
                         alertView.show()
                     }else{
                         let msgString = json.objectForKey(jfmessage) as! String
-                        let alertView = UIAlertView(title: "提交失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                        let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                     }
                 }else{
-                    let alertView = UIAlertView(title: "提交失败", message: "请求失败", delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
         })
@@ -162,10 +169,10 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
         
         if error != nil {
-            UIAlertView(title: "提示", message: "图片保存失败", delegate: nil, cancelButtonTitle: "好的").show()
+            UIAlertView(title: "Hint", message: "Photo save to library fail", delegate: nil, cancelButtonTitle: "OK").show()
         }else{
             
-            UIAlertView(title: "提示", message: "图片已保存到照片库", delegate: nil, cancelButtonTitle: "好的").show()
+            UIAlertView(title: "Hint", message: "Photo save to library succeed", delegate: nil, cancelButtonTitle: "OK").show()
         }
     }
     //MARK: UIAlertViewDelegate
@@ -174,7 +181,11 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if buttontitle == "Cancel"{
             bGoOnPlace = false
             
+        }else if ((alertView.message == "order placed") && (buttontitle == "OK")){
+            self.delegate?.OrderDetailTableViewDidPlaceOrder(self)
+            self.navigationController?.popViewControllerAnimated(true)
         }
+        
     }
     
     // Called when we cancel a view (eg. the user clicks the Home button). This is not called when the user clicks the cancel button.
@@ -238,8 +249,8 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
             
             let imgIndex = indexPath.row - products.count
             let imageView = cell.viewWithTag(100) as! UIImageView
-            let image = PhotoUtil.getPhoto((imgPahts!.objectAtIndex(imgIndex) as! NSDictionary).objectForKey(OrderSaveKey.localpath) as! String)
-            imageView.image = image
+            let imageData = PhotoUtil.getPhotoData((imgPahts!.objectAtIndex(imgIndex) as! NSDictionary).objectForKey(OrderSaveKey.localpath) as! String)
+            imageView.image = UIImage(data: imageData!)
             return cell
             
         }

@@ -17,7 +17,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "产品搜索"
+        self.title = "Search"
         self.addFirstPageButton()
         // Do any additional setup after loading the view, typically from a nib.
         
@@ -25,7 +25,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
-        self.cartBarButton.title = "购物车\(Cart.defaultCart().products.count)"
+        self.cartBarButton.title = Cart.defaultCart().title
         
         self.addNotificationObserver()
     }
@@ -50,7 +50,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     }
     
     func handleProductsInCartChanged(){
-        self.cartBarButton.title = "购物车\(Cart.defaultCart().products.count)"
+        self.cartBarButton.title = Cart.defaultCart().title
     }
 
     //MARK: - UISearchBarDelegate
@@ -62,7 +62,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.products.productsDic = json
                 
 //                let statusInt = json.objectForKey(jfstatus) as! Int
@@ -76,11 +76,11 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             }else{
-                let alertView = UIAlertView(title: "数据获取失败", message: "服务请求失败", delegate: nil, cancelButtonTitle: "OK")
+                let alertView = UIAlertView(title: "Fail", message: "Check the internet connetion", delegate: nil, cancelButtonTitle: "OK")
                 alertView.show()
             }
         })

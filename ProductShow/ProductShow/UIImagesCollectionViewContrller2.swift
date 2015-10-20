@@ -38,6 +38,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     override  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
         let imageView = cell.viewWithTag(100) as! UIImageView
+        imageView.image = UIImage(named: "ic_suoluetu_90_75")
         WebApi.GetFile(productFiles.productFileAtIndex(indexPath.row)!.filePath) { (response, data, error) -> Void in
             
             if data?.length > 0{

@@ -22,14 +22,15 @@ class PhotoUtil: NSObject {
         return (bsave ?? false) ? name : nil
     }
     
-    class func getPhoto(fileName: String)->UIImage?{
+    class func getPhotoData(fileName: String)->NSData?{
         let filepath = NSTemporaryDirectory().stringByAppendingString(fileName)
-        let imgDataOpt = NSData(contentsOfFile: filepath)
-        if let imgData = imgDataOpt{
-            let image = UIImage(data: imgData)
-            return image
-        }
-        return nil
+        return NSData(contentsOfFile: filepath)
+//        let imgDataOpt = NSData(contentsOfFile: filepath)
+//        if let imgData = imgDataOpt{
+//            let image = UIImage(data: imgData)
+//            return image
+//        }
+//        return nil
     }
     
     class func deletePhoto(fileName: String){

@@ -42,7 +42,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "首页"
+        self.title = "Home"
 
         // Do any additional setup after loading the view
         addShadows()

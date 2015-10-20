@@ -49,9 +49,9 @@ class UIProductTableViewController: UITableViewController {
         // Configure the cell...
         switch indexPath.row{
         case 0:
-            cell.textLabel?.text = "名称: \((product?.proName)!)"
+            cell.textLabel?.text = "Name: \((product?.proName)!)"
         case 1:
-            cell.textLabel?.text = "型号: \((product?.proSize)!)"
+            cell.textLabel?.text = "Size: \((product?.proSize)!)"
         case 2:
             let textView = cell.viewWithTag(100) as! UITextView
             textView.text = product?.remark// productDic?.objectForKey(jfremark) as? String

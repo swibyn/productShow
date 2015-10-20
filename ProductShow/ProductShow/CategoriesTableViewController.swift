@@ -14,7 +14,7 @@ class CategoriesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "产品类目"
+        self.title = "Product Categories"
 //        self.tabBarItem.title = "产品类目"
         self.addFirstPageButton()
         
@@ -22,7 +22,7 @@ class CategoriesTableViewController: UITableViewController {
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 let statusInt = json.objectForKey(jfstatus) as! Int
                 if (statusInt == 1){
@@ -34,7 +34,7 @@ class CategoriesTableViewController: UITableViewController {
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
                 

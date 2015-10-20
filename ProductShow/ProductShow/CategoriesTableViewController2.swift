@@ -11,7 +11,7 @@ import UIKit
 class CategoriesTableViewController2: UITableViewController {
     
     var catId: Int = 0
-    var catName: String = "二级产品类目" //一级名称
+    var catName: String = "" //一级名称
     var dataArray: NSArray?
     
     override func viewDidLoad() {
@@ -22,7 +22,7 @@ class CategoriesTableViewController2: UITableViewController {
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 let statusInt = json.objectForKey(jfstatus) as! Int
                 if (statusInt == 1){
@@ -34,7 +34,7 @@ class CategoriesTableViewController2: UITableViewController {
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "数据获取失败", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
                 
