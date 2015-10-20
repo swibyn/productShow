@@ -20,6 +20,11 @@ class UIProductTableViewController: UITableViewController {
         
     }
     
+    //MARK: View life
+    override func viewDidLoad() {
+        self.title = "Product Detail"
+    }
+    
     //MARK: Table view delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")

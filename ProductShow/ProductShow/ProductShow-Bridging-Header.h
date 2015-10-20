@@ -6,3 +6,4 @@
 
 #import <CommonCrypto/CommonDigest.h>
 #import "Objc/NSString+MessageDigest.h"
+#import "UploadFile.h"

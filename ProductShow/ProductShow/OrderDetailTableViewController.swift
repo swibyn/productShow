@@ -74,7 +74,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
             let imageData = PhotoUtil.getPhotoData(localPath)
             let alertView = UIAlertView(title: "photo uploading...", message: localPath, delegate: self, cancelButtonTitle: "Cancel")
             alertView.show()
-            WebApi.UpFile(imageData!, completedHandler: { (response, data, error) -> Void in
+            WebApi.UpFile1(imageData!, completedHandler: { (response, data, error) -> Void in
                 alertView.dismissWithClickedButtonIndex(-1, animated: true)
                 if WebApi.isHttpSucceed(response, data: data, error: error)
                 {
@@ -181,7 +181,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if buttontitle == "Cancel"{
             bGoOnPlace = false
             
-        }else if ((alertView.message == "order placed") && (buttontitle == "OK")){
+        }else if ((alertView.message == "Order placed") && (buttontitle == "OK")){
             self.delegate?.OrderDetailTableViewDidPlaceOrder(self)
             self.navigationController?.popViewControllerAnimated(true)
         }

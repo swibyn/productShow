@@ -366,9 +366,22 @@ class WebApi: NSObject {
         self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
     }
 
-   //MARK: 15. 提交图片
-    class func UpFile(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    //MARK: 15. 提交图片,模拟网页提交的格式
+    class func UpFile1(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
+        let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
+        //        let url = ("http://192.168.1.84:8001/Handler1.ashx")
+        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
+        UploadFile().uploadFileWithURL(NSURL(string: url)!, data: imageData) { (response, data, error) -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                completedHandler?(response,data,error)
+            })
+        }
+
+        
+    }
+    
+    class func UpFile(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         //TODO: 模拟提交图片成功 to be remove
 //        let formatter = NSDateFormatter()
 //        formatter.dateFormat = "yyyyMMddHHmmss"
@@ -379,17 +392,23 @@ class WebApi: NSObject {
         
         
         let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
-        
+//        let url = ("http://192.168.1.84:8001/Handler1.ashx")
         let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
 //        self.fullUrlStr("crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
         
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!,cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringCacheData, timeoutInterval: 5)
         urlRequest.HTTPMethod = self.httpPost
-        urlRequest.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
+        urlRequest.setValue("Raw", forHTTPHeaderField: "Content-Type")
         urlRequest.setValue("1234.png", forHTTPHeaderField: "FileName")
 //        let contentLength = UIImageJPEGRepresentation(image, 1)?.length ?? 0
         urlRequest.setValue("\(imageData.length)", forHTTPHeaderField: "ContentLength")
+//        urlRequest.setValue(imageData.length, forHTTPHeaderField: "ContentLength")
         urlRequest.HTTPBody = imageData// UIImageJPEGRepresentation(image, 1)
+        
+//        urlRequest.setValue(imageData, forKey: "FileData")
+//        urlRequest.setValue("\(imageData.length)", forKey: "ContentLength")
+//        urlRequest.setValue("1234.png", forKey: "FileName")
+
         
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
