@@ -311,11 +311,11 @@ class WebApi: NSObject {
     
     //MARK: 2. 登录校验
     class func Login(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-//        self.readAndRequest(RequestType.Request, saveKey: "Login", subURL: "CrmLogin", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+        self.readAndRequest(RequestType.Request, saveKey: "Login", subURL: "CrmLogin", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
         
-        let path = NSBundle.mainBundle().pathForResource("userinfo", ofType: "json")
-        let userinfoData = NSData(contentsOfFile: path!)
-        completedHandler?(nil,userinfoData,nil)
+//        let path = NSBundle.mainBundle().pathForResource("userinfo", ofType: "json")
+//        let userinfoData = NSData(contentsOfFile: path!)
+//        completedHandler?(nil,userinfoData,nil)
     }
     
     //MARK: 3. 获取热门产品：

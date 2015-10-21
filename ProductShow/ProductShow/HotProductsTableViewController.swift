@@ -71,8 +71,9 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     //MARK:显示第一页
     func showFirstPage(){
         WebApi.GetHotPro(nil, completedHandler: { (response, data, error) -> Void in
+            self.refreshControl?.endRefreshing()
+
             if WebApi.isHttpSucceed(response, data: data, error: error){
-                
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.products.productsDic = json
@@ -100,8 +101,9 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productTableViewController()
-        detailVc?.product = selectCell?.product
-        self.navigationController?.pushViewController(detailVc!, animated: true)
+//        detailVc?.product = selectCell?.product
+        let nav = self.navigationController
+        nav?.pushViewController(detailVc!, animated: true)
     }
     
     // MARK: - Table view data source

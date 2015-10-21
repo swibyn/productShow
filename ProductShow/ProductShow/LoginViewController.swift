@@ -83,9 +83,11 @@ class LoginViewController: UIViewController {
                 let statusobj: AnyObject? = json.objectForKey(jfstatus)
                 let statusString = statusobj as! Int
                 if (statusString == 0){
-                    self.eqNoAllowHintLabel.hidden = false
-                    self.eqNoAllowHintLabel.text = "Equipment forbidden，contact the admin\nNO：\(eqNo)\nName：\(eqName)"
-                    self.loginButton.enabled = false
+                    let alertView = UIAlertView(title: "Hint", message: "Equipment forbidden，contact the admin\nNO：\(eqNo)\nName：\(eqName)", delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+//                    self.eqNoAllowHintLabel.hidden = false
+//                    self.eqNoAllowHintLabel.text = "Equipment forbidden，contact the admin\nNO：\(eqNo)\nName：\(eqName)"
+//                    self.loginButton.enabled = false
                 }
                 
             }

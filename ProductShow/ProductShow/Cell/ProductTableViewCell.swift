@@ -16,7 +16,7 @@ class UIProductTableViewCell : UITableViewCell {
     
     var delegate: UIProductTableViewCellDelegate?
     
-    static let rowHeight = 90
+    static let rowHeight = 110
 
     
     
@@ -39,7 +39,7 @@ class UIProductTableViewCell : UITableViewCell {
         
 //        let imgUrl = dic.objectForKey(jfimgUrl) as? String
         debugPrint("\(product.proName) \(product.imgUrl)")
-        self.proThumbImageView.image = UIImage(named: "ic_suoluetu_90_75")
+        self.proThumbImageView.image = UIImage(named: "LOGO76X76")
         WebApi.GetFile(product.imgUrl) { (response, data, error) -> Void in
             if data?.length > 0{
                 self.proThumbImageView.image = UIImage(data: data!)

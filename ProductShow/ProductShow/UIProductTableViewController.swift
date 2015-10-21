@@ -44,17 +44,36 @@ class UIProductTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 5
+        return 3
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+//        let cell1 = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
+//        cell1.textLabel?.text = "\(indexPath)"
+//        return cell1
+        
+        
         let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath)
         
         // Configure the cell...
         switch indexPath.row{
         case 0:
-            cell.textLabel?.text = "Name: \((product?.proName)!)"
+            let productImageView = cell.viewWithTag(100) as! UIImageView
+            let namelabel = cell.viewWithTag(101) as! UILabel
+            let sizelabel = cell.viewWithTag(102) as! UILabel
+            let remarkTextView = cell.viewWithTag(103) as! UITextView
+            
+            WebApi.GetFile(product?.imgUrl, completedHandler: { (response, data, error) -> Void in
+                if data?.length > 0{
+                productImageView.image = UIImage(data:data!)
+                }
+            })
+            namelabel.text = "Name: \((product?.proName)!)"
+            sizelabel.text = "Size: \((product?.proSize)!)"
+            remarkTextView.text = product?.remark
+            
+//            cell.textLabel?.text = "Name: \((product?.proName)!)"
         case 1:
             cell.textLabel?.text = "Size: \((product?.proSize)!)"
         case 2:
@@ -72,7 +91,7 @@ class UIProductTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row == 2 ? 211 : 44
+        return indexPath.row == 0 ? CGFloat(310) : CGFloat(44)
     }
     
     // MARK: - Navigation
