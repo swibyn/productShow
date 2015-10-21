@@ -84,7 +84,7 @@ class LoginViewController: UIViewController {
                 let statusString = statusobj as! Int
                 if (statusString == 0){
                     self.eqNoAllowHintLabel.hidden = false
-                    self.eqNoAllowHintLabel.text = "Equipment forbided，contact the admin\nNO：\(eqNo)\nName：\(eqName)"
+                    self.eqNoAllowHintLabel.text = "Equipment forbidden，contact the admin\nNO：\(eqNo)\nName：\(eqName)"
                     self.loginButton.enabled = false
                 }
                 
