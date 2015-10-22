@@ -42,9 +42,9 @@ class LoginViewController: UIViewController {
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
-                UserInfo.defaultUserInfo().setInfo(json)
+                UserInfo.defaultUserInfo().returnDic = json
                 if (UserInfo.defaultUserInfo().status == 1){
                     //登录成功
                     self.delegate?.loginViewController(self, userInfo: json)

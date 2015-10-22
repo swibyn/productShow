@@ -69,36 +69,11 @@ class Product: NSObject{
     }
 }
 
-class Products: NSObject {
+class Products: ReturnDic {
     
-    private var _productsDic: NSDictionary?
-    
-    init(productsDic: NSDictionary) {
-        _productsDic = productsDic
-    }
-    
-    override init(){
-        
-    }
-    
-    var productsDic: NSDictionary?{
-        get{
-            return _productsDic
-        }
-        set{
-            _productsDic = newValue
-        }
-    }
-    
-    var status: Int{
-        return (_productsDic?.objectForKey(jfstatus) as? Int) ?? 0
-    }
     
     private var products: NSArray?{
-        //用户信息
-        let data = _productsDic?.objectForKey(jfdata) as? NSDictionary
-        let dt = data?.objectForKey(jfdt) as? NSArray
-        return dt
+        return data_dt
     }
     
     var productsCount: Int{

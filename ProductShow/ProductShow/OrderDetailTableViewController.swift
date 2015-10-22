@@ -109,8 +109,8 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
         
         //用户信息
-        let uname = UserInfo.defaultUserInfo().infoForKey(jfuname)!
-        let uid = UserInfo.defaultUserInfo().uid!
+        let uname = UserInfo.defaultUserInfo().firstUser?.uname
+        let uid = UserInfo.defaultUserInfo().firstUser?.uid
         
         //图片
         let imgPaths = order.remotePathsDivideBy("|")
@@ -118,7 +118,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
 //        let alertView = UIAlertView(title: "订单提交中...", message: nil, delegate: nil, cancelButtonTitle: "Cancel")
 //        alertView.show()
 
-        WebApi.SendShopData([jfeqNo : eqNo, jfuid : uid,  "uName" : uname, jfproIds : order.proIds, jfimgPaths : imgPaths],
+        WebApi.SendShopData([jfeqNo : eqNo, jfuid : uid!,  jfuName : uname!, jfproIds : order.proIds, jfimgPaths : imgPaths],
             completedHandler: { (response, data, error) -> Void in
                 
 //                alertView.dismissWithClickedButtonIndex(-1, animated: false)//隐藏弹出的提示

@@ -69,7 +69,9 @@ let jfshortName = "shortName" //助记码
 let jfstate = "state" //状态，0=使用，1=未使用，2=冻结
 let jfaddress = "address" //公司地址
 let jfgiveAddress = "giveAddress" //交货地址
-let jfareaId = "areaId" //区域IDlet jf = "cityId = "城市ID
+let jfareaId = "areaId" //区域ID
+let jfarea = "area" //城市ID
+let jfcityId = "cityId"
 let jfcity = "city"	//城市名称
 let jflinkman = "linkman"	//联系人
 let jftel = "tel"	//电话
@@ -93,6 +95,7 @@ let jfcreditLine = "creditLine"
 
 //MARK:10. 获取客户关注产品
 //MARK:11. 获取用户数据
+let jfauthCode = "authCode"
 
 //MARK:12. 获取系统公告
 let jfnoticeId = "noticeId"
@@ -104,6 +107,7 @@ let jfisUse = "isUse"
 //MARK:13. 写拜访日志
 let jflogDate = "logDate"
 let jflogContent = "logContent"
+let jfuName = "uName"
 
 //MARK:14. 提交购物车及照片
 let jfproIds = "proIds"

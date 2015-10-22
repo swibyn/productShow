@@ -9,6 +9,8 @@
 import UIKit
 //import WebApi.JsonField
 
+let bOffLine = true
+
 enum RequestType: UInt8{
     case ReadOnly = 1
     case Request = 2
@@ -31,102 +33,94 @@ class WebApi: NSObject {
         return bOK
     }
     
-    
-    class func AsynchronousRequest(var subUrlStr: String, httpMethod:String, jsonObj: NSDictionary?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func URLRequestWith(var subUrlStr: String, httpMethod: String, jsonObj: NSDictionary?)->NSURLRequest{
         
-        //prepare parameters
-        var para: NSMutableString
-        let mutableJsonObj = NSMutableDictionary()
-        if let mJsonObj = jsonObj{
-            mutableJsonObj.setDictionary(mJsonObj as [NSObject : AnyObject])
-        }
         let eqNo = UIDevice.currentDevice().identifierForVendor!.UUIDString
-        mutableJsonObj.setValue(eqNo, forKey: "eqNo")
-//        if let mJsonObj: AnyObject = jsonObj{
-            if httpMethod == httpGet{
-                para = NSMutableString(string: "")
-                mutableJsonObj.enumerateKeysAndObjectsUsingBlock({ (key, obj, stop) -> Void in
-                    if para.length == 0{
-                        para.appendString("\(key)=\(obj)")
-                    }else{
-                        para.appendString("&\(key)=\(obj)")
-                    }
-                })
+        let paraDic = NSMutableDictionary()
+        if let json = jsonObj{
+            paraDic.setDictionary(json as [NSObject : AnyObject])
+            paraDic.setObject(eqNo, forKey: jfeqNo)
+        }
+        if httpMethod == httpGet{
+            let para = NSMutableString()
+            
+            paraDic.enumerateKeysAndObjectsUsingBlock({ (key, obj, stop) -> Void in
+                if para.length == 0{
+                    para.appendString("\(key)=\(obj)")
+                }else{
+                    para.appendString("&\(key)=\(obj)")
+                }
+            })
+            if para.length > 0{
                 subUrlStr = "\(subUrlStr)?\(para)"
             }
-//        }
-        
-        //urlRequest init
-        var url = fullUrlStr(subUrlStr)
-//        url = url.stringByReplacingOccurrencesOfString(" ", withString: "")
-        
-        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!// url.stringByAddingPercentEscapesUsingEncoding(NSUTF8StringEncoding)!
-//        debugPrint("\(url)")
-        let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
-        urlRequest.HTTPMethod = httpMethod
-        if httpMethod == httpPost{
-            if let mJson = jsonObj{
-                let jsonData: NSData?
-                jsonData = try? NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
-                urlRequest.HTTPBody = jsonData
-            }
+            
+            var fullUrlStr = self.fullUrlStr(subUrlStr)
+            fullUrlStr = fullUrlStr.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+            
+            let urlRequest = NSMutableURLRequest(URL: NSURL(string: fullUrlStr)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
+            urlRequest.HTTPMethod = httpGet
+            return urlRequest
+            
+        }else{
+            let fullUrlStr = self.fullUrlStr(subUrlStr)
+            let urlRequest = NSMutableURLRequest(URL: NSURL(string: fullUrlStr)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
+            urlRequest.HTTPMethod = httpPost
+            
+            let paraData = try! NSJSONSerialization.dataWithJSONObject(paraDic, options: NSJSONWritingOptions())
+            urlRequest.HTTPBody = paraData
+            
+            
+            return urlRequest
         }
+    }
+    
+    class func AsynchronousRequest(subUrlStr: String, httpMethod:String, jsonObj: NSDictionary?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-        //set http header
-//        if urlRequest.valueForHTTPHeaderField("Content-Type") == nil{
-//            urlRequest.setValue("application/json", forHTTPHeaderField:"Content-Type")
+//        //prepare parameters
+//        var para: NSMutableString
+//        let mutableJsonObj = NSMutableDictionary()
+//        if let mJsonObj = jsonObj{
+//            mutableJsonObj.setDictionary(mJsonObj as [NSObject : AnyObject])
+//        }
+//        let eqNo = UIDevice.currentDevice().identifierForVendor!.UUIDString
+//        mutableJsonObj.setValue(eqNo, forKey: "eqNo")
+////        if let mJsonObj: AnyObject = jsonObj{
+//            if httpMethod == httpGet{
+//                para = NSMutableString(string: "")
+//                mutableJsonObj.enumerateKeysAndObjectsUsingBlock({ (key, obj, stop) -> Void in
+//                    if para.length == 0{
+//                        para.appendString("\(key)=\(obj)")
+//                    }else{
+//                        para.appendString("&\(key)=\(obj)")
+//                    }
+//                })
+//                subUrlStr = "\(subUrlStr)?\(para)"
+//            }
+//        
+//        var url = fullUrlStr(subUrlStr)
+//        
+//        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+//        
+//        let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
+//        urlRequest.HTTPMethod = httpMethod
+//        if httpMethod == httpPost{
+//            if let mJson = jsonObj{
+//                let jsonData: NSData?
+//                jsonData = try? NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
+//                urlRequest.HTTPBody = jsonData
+//            }
 //        }
         
-        //set token
-//        let errorCode = Global.userInfo?.objectForKey(jfErrorCode) as? String
-//        if errorCode == "0"{
-//            let dicData = Global.userInfo?.objectForKey(jfData) as? NSDictionary
-//            let token = dicData?.objectForKey(jfToken) as? String
-//            urlRequest.setValue(token, forHTTPHeaderField: jfToken)
-//        }
         
-        //Authorization
-//        let dicPostData = Global.userInfo?.objectForKey(kPostData) as? NSDictionary
-//        let phoneNo = dicPostData?.valueForKey(jfMobile) as? String
-//        if phoneNo != nil{
-//            let phoneNoData = phoneNo?.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-//            let base64PhoneNo = phoneNoData?.base64EncodedStringWithOptions(NSDataBase64EncodingOptions.Encoding64CharacterLineLength)
-//            urlRequest.setValue(base64PhoneNo, forHTTPHeaderField: "Authorization")
-//        }
-        
-//        debugPrint("发送 \(urlRequest)\n HTTPBody=\(urlRequest.HTTPBody)")
+        let urlRequest = self.URLRequestWith(subUrlStr, httpMethod: httpMethod, jsonObj: jsonObj)
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, connectionError) -> Void in
             
-//            if connectionError == nil{
-//                debugPrint("返回 \(response)\n data.length=\(data!.length) \nconnectionError=\(connectionError)")
-//            }else{
-//                debugPrint("返回失败 connectionError=\(connectionError)")
-//            }
-        
-//            var errorPointer: NSErrorPointer = nil
-//            var json:AnyObject? = NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions.AllowFragments, error: errorPointer)
-//            println("返回 json=\(json)")
-
-//            var bHandle = false
-//            let httpResponse = response as? NSHTTPURLResponse
-//            if (httpResponse?.statusCode == 202){
-//                //TOKEN 过期
-//                if (!(subURL == "Login")){
-//                    //阻塞方式重新登录
-//                    let dicPost = Global.userInfo?.objectForKey(kPostData) as? NSDictionary
-//                    let mobile = dicPost?.objectForKey(jfMobile) as? String
-//                    let password = dicPost?.objectForKey(jfPassword) as? String
-//                    
-//                    //TODO: 尝试登录 再发送一次请求
-//                }
-//            }
-            //处理响应
-//            if (!bHandle){
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     completedHandler?(response,data,connectionError)
                 })
-//            }
+
         }
     }
     
@@ -158,7 +152,7 @@ class WebApi: NSObject {
                 
                 let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
                
-//                debugPrint("本地读到数据：\(saveKey) =\(json!)")
+                debugPrint("本地读到数据：\(saveKey) =\(json!)")
                 
                 bhandle = true
                 completedHandle?(nil,mLocalData,nil)
@@ -311,11 +305,15 @@ class WebApi: NSObject {
     
     //MARK: 2. 登录校验
     class func Login(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readAndRequest(RequestType.Request, saveKey: "Login", subURL: "CrmLogin", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
-        
-//        let path = NSBundle.mainBundle().pathForResource("userinfo", ofType: "json")
-//        let userinfoData = NSData(contentsOfFile: path!)
-//        completedHandler?(nil,userinfoData,nil)
+        if bOffLine {
+            let path = NSBundle.mainBundle().pathForResource("userinfo", ofType: "json")
+            let userinfoData = NSData(contentsOfFile: path!)
+            completedHandler?(nil,userinfoData,nil)
+            
+        }else{
+            self.readAndRequest(RequestType.Request, saveKey: "Login", subURL: "CrmLogin", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+            
+        }
     }
     
     //MARK: 3. 获取热门产品：
@@ -331,37 +329,62 @@ class WebApi: NSObject {
     //MARK: 5. 获取二级产品分类
     class func GetProLeave2(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-        let catId = dic.objectForKey("pId") as! Int //jfpId unresolved why?
+        let catId = dic.objectForKey(jfpId) as! Int
         self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProLeave2-\(catId)", subURL: "CrmGetProLeave2", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
     //MARK: 6. 产品查询
-    class func SelectPro(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func SelectPro(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSelectPro", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
     class func GetProductsByCatId(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-        let catId = dic.objectForKey("catId") as! Int
+        let catId = dic.objectForKey(jfcatId) as! Int
         self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProductsByCatId-\(catId)", subURL: "CrmSelectPro", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
     //MARK: 8. 根据产品ID获取产品的图片地址和视频地址
     
-    class func GetProFilesByID(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func GetProFilesByID(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProFilesByID", subURL: "CrmGetProFilesByID", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
+    
+    //MARK: 9. 获取客户数据
+    class func GetCustomer(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetCustomer", subURL: "CrmGetCustomer", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
+    
+    //MARK: 10. 获取客户关注产品
+    class func GetCustomerCare(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetCustomerCare", subURL: "CrmGetCustomerCare", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
 
+
+    //MARK: 11. 获取用户数据
+    class func GetUserInfo(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetUserInfo", subURL: "CrmGetUserInfo", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
+    
+    //MARK: 12. 获取系统公告
+    class func GetNotice(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetNotice", subURL: "CrmGetNotice", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
+    
+    //MARK: 13. 写拜访日志
+    class func WriteCustLog(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmWriteCustLog", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+    }
     
     //MARK: 14. 提交购物车及照片
     class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        //TODO: 模拟提交订单 to be remove
-//        let dic = [jfstatus: 1]
-//        let data = try! NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions())
-//        completedHandler?(nil,data,nil)
-//        return
         
         self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
     }
@@ -370,8 +393,8 @@ class WebApi: NSObject {
     class func UpFile1(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
-        //        let url = ("http://192.168.1.84:8001/Handler1.ashx")
-        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
+        let uid = UserInfo.defaultUserInfo().firstUser?.uid
+        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(uid!)")
         UploadFile().uploadFileWithURL(NSURL(string: url)!, data: imageData) { (response, data, error) -> Void in
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 completedHandler?(response,data,error)
@@ -392,8 +415,8 @@ class WebApi: NSObject {
         
         
         let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
-//        let url = ("http://192.168.1.84:8001/Handler1.ashx")
-        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
+        let uid = UserInfo.defaultUserInfo().firstUser?.uid
+        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(uid!)")
 //        self.fullUrlStr("crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
         
         let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!,cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringCacheData, timeoutInterval: 5)

@@ -1,40 +1,50 @@
 //
-//  UserCenterTableViewController.swift
+//  UICustomersTableViewController.swift
 //  ProductShow
 //
-//  Created by s on 15/9/7.
-//  Copyright (c) 2015年 gaozgao. All rights reserved.
+//  Created by s on 15/10/22.
+//  Copyright © 2015年 gaozgao. All rights reserved.
 //
 
 import UIKit
 
-class UITableViewCell0 : UITableViewCell {
+class UICustomersTableViewController: UITableViewController {
     
-    @IBOutlet var userIconImageView: UIImageView!
-    @IBOutlet var userNameLabel: UILabel!
-}
+    var customers = Customers()
 
-class UserCenterTableViewController: UITableViewController {
-    
-    @IBAction func signoutBarButtonAction(sender: UIBarButtonItem) {
-        UserInfo.defaultUserInfo().signout()
-    
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "User Center"
 
-        self.addFirstPageButton()
+        self.title = "Customers"
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
+        let uid = UserInfo.defaultUserInfo().firstUser?.uid
+        debugPrint("\(self) userinfo=\(UserInfo.defaultUserInfo().returnDic)")
+        WebApi.GetCustomer([jfsaleId: uid!],  completedHandler: { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                
+                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                self.customers.returnDic = json
+                
+                if (self.customers.status == 1){
+                    self.tableView.reloadData()
+                    
+                }else{
+                    let msgString = json.objectForKey(jfmessage) as! String
+                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                }
+            }else{
+                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+                alertView.show()
+            }
+        })
     }
-    
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -44,46 +54,33 @@ class UserCenterTableViewController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Potentially incomplete method implementation.
-        // Return the number of sections.
+        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 5
+        // #warning Incomplete implementation, return the number of rows
+        return customers.customersCount
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath) 
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
 
         // Configure the cell...
-        if indexPath.row == 0{
-            let cell0 = cell as! UITableViewCell0
-//            let data = Global.userInfo!.objectForKey(jfdata) as! NSDictionary
-//            let dt = data.objectForKey(jfdt) as! NSArray
-//            let userinfo = dt.objectAtIndex(0) as! NSDictionary
-            cell0.userNameLabel.text = UserInfo.defaultUserInfo().firstUser?.uname// infoForKey(jfusername) as? String // userinfo.objectForKey(jfuname) as? String
-        }
+        let customer = customers.customerAtIndex(indexPath.row)
+        let linkman = customer?.linkman ?? ""
+        let custName = customer?.custName ?? ""
+        cell.textLabel?.text = "\(linkman) - \(custName)"
 
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0{
-            return 160
-        }else{
-            return tableView.rowHeight
-        }
-        
-    }
 
     /*
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
+        // Return false if you do not want the specified item to be editable.
         return true
     }
     */
@@ -110,19 +107,24 @@ class UserCenterTableViewController: UITableViewController {
     /*
     // Override to support conditional rearranging of the table view.
     override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
+        // Return false if you do not want the item to be re-orderable.
         return true
     }
     */
 
-    /*
+    
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using [segue destinationViewController].
+        // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
+        let selectedIndexPath = self.tableView.indexPathForSelectedRow!
+        let customer = customers.customerAtIndex(selectedIndexPath.row)
+        let destVc = segue.destinationViewController
+        
+        destVc.setValue(customer, forKey: "customer")
     }
-    */
+    
 
 }

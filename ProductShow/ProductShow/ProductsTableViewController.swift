@@ -33,7 +33,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                self.products.productsDic = json
+                self.products.returnDic = json
                 
 //                let statusInt = json.objectForKey(jfstatus) as! Int
                 if (self.products.status == 1){

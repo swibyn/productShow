@@ -76,7 +76,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                self.products.productsDic = json
+                self.products.returnDic = json
                 
 //                let statusInt = json.objectForKey(jfstatus) as! Int
 //                if (statusInt == 1){

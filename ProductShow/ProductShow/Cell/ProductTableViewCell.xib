@@ -18,7 +18,7 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNi-k1-2UX">
                         <rect key="frame" x="18" y="13" width="471" height="97"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LOGO76X76" translatesAutoresizingMaskIntoConstraints="NO" id="8Em-Jk-fU1">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="商品默认图片96X96" translatesAutoresizingMaskIntoConstraints="NO" id="8Em-Jk-fU1">
                                 <rect key="frame" x="0.0" y="0.0" width="96" height="97"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="96" id="zaN-WY-y78"/>
@@ -109,6 +109,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="LOGO76X76" width="76" height="76"/>
+        <image name="商品默认图片96X96" width="96" height="96"/>
     </resources>
 </document>

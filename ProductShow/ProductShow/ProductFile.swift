@@ -46,36 +46,10 @@ class ProductFile: NSObject{
     
 }
 
-class ProductFiles: NSObject {
-    
-    private var _proFilesDic: NSDictionary?
-    
-    init(proFilesDic: NSDictionary) {
-        _proFilesDic = proFilesDic
-    }
-    
-    override init(){
-        
-    }
-
-    var filesDic: NSDictionary?{
-        get{
-            return _proFilesDic
-        }
-        set{
-            _proFilesDic = newValue
-        }
-    }
-    
-    var status: Int{
-        return (_proFilesDic?.objectForKey(jfstatus) as? Int) ?? 0
-    }
+class ProductFiles: ReturnDic {
     
     private var files: NSArray?{
-        //用户信息
-        let data = _proFilesDic?.objectForKey(jfdata) as? NSDictionary
-        let dt = data?.objectForKey(jfdt) as? NSArray
-        return dt
+        return data_dt
     }
     
     var filesCount: Int{

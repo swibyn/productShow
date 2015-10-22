@@ -23,7 +23,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
-                self.productFiles.filesDic = json
+                self.productFiles.returnDic = json
                 self.collectionView?.reloadData()
             }
         }

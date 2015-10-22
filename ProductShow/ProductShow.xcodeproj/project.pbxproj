@@ -45,6 +45,14 @@
 		4DBFC9201BD1EFA80076123D /* PhotoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFC91F1BD1EFA80076123D /* PhotoUtil.swift */; settings = {ASSET_TAGS = (); }; };
 		4DBFC9221BD24F300076123D /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFC9211BD24F300076123D /* UserInfo.swift */; settings = {ASSET_TAGS = (); }; };
 		4DD472561BD1453900626143 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DD472551BD1453900626143 /* Order.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB313D1BD87E0B0030B3EE /* UICustomersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB313C1BD87E0B0030B3EE /* UICustomersTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB313F1BD87E5E0030B3EE /* Customer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB313E1BD87E5E0030B3EE /* Customer.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB31411BD88BF70030B3EE /* UIVisitLogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB31401BD88BF70030B3EE /* UIVisitLogViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB31431BD893D50030B3EE /* ReturnDic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB31421BD893D50030B3EE /* ReturnDic.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB31451BD8BA190030B3EE /* UINoticeTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB31441BD8BA190030B3EE /* UINoticeTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB31471BD8BA3F0030B3EE /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB31461BD8BA3F0030B3EE /* Notice.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB31491BD8C0D70030B3EE /* UINoticeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB31481BD8C0D70030B3EE /* UINoticeViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4DDB314D1BD8C5CA0030B3EE /* UIUserTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DDB314C1BD8C5CA0030B3EE /* UIUserTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4DF5FCA01BD36AA800EBC238 /* UIProductDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DF5FC9F1BD36AA800EBC238 /* UIProductDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -104,6 +112,14 @@
 		4DBFC91F1BD1EFA80076123D /* PhotoUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUtil.swift; sourceTree = "<group>"; };
 		4DBFC9211BD24F300076123D /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		4DD472551BD1453900626143 /* Order.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		4DDB313C1BD87E0B0030B3EE /* UICustomersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UICustomersTableViewController.swift; sourceTree = "<group>"; };
+		4DDB313E1BD87E5E0030B3EE /* Customer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Customer.swift; sourceTree = "<group>"; };
+		4DDB31401BD88BF70030B3EE /* UIVisitLogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIVisitLogViewController.swift; sourceTree = "<group>"; };
+		4DDB31421BD893D50030B3EE /* ReturnDic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReturnDic.swift; sourceTree = "<group>"; };
+		4DDB31441BD8BA190030B3EE /* UINoticeTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINoticeTableViewController.swift; sourceTree = "<group>"; };
+		4DDB31461BD8BA3F0030B3EE /* Notice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
+		4DDB31481BD8C0D70030B3EE /* UINoticeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UINoticeViewController.swift; sourceTree = "<group>"; };
+		4DDB314C1BD8C5CA0030B3EE /* UIUserTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIUserTableViewController.swift; sourceTree = "<group>"; };
 		4DF5FC9F1BD36AA800EBC238 /* UIProductDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIProductDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -151,24 +167,19 @@
 				4D66BB511BCF4FDA00AF5CDC /* Cell */,
 				4D66BB4E1BCF4FB600AF5CDC /* extension */,
 				4D66BB491BCF4F7E00AF5CDC /* WebApi */,
+				4DDB314A1BD8C4830030B3EE /* UserCenter */,
+				4DDB314B1BD8C5240030B3EE /* Product */,
 				4D66BB311BCF4F5F00AF5CDC /* CategoriesTableViewController.swift */,
 				4D66BB321BCF4F5F00AF5CDC /* CategoriesTableViewController2.swift */,
 				4D66BB331BCF4F5F00AF5CDC /* FirstPageViewController.swift */,
 				4D66BB351BCF4F5F00AF5CDC /* HomeTabBarViewController.swift */,
 				4D66BB361BCF4F5F00AF5CDC /* HotProductsTableViewController.swift */,
 				4D66BB371BCF4F5F00AF5CDC /* LoginViewController.swift */,
-				4D66BB381BCF4F5F00AF5CDC /* ProductsTableViewController.swift */,
 				4D66BB391BCF4F5F00AF5CDC /* SearchProductsViewController.swift */,
 				4D66BB3A1BCF4F5F00AF5CDC /* TabNavigationController.swift */,
 				4D66BB3B1BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift */,
-				4D66BB3C1BCF4F5F00AF5CDC /* UserCenterTableViewController.swift */,
 				4D95CB341BCF9A6700E10FD3 /* CartTableViewController.swift */,
-				4D81BFCA1BD0E73200B1AA34 /* MyOrdersTableViewController.swift */,
 				4D81BFC81BD0D96A00B1AA34 /* OrderDetailTableViewController.swift */,
-				4D7EF68A1BD33A8F00CBFEFC /* UIProductTableViewController.swift */,
-				4DF5FC9F1BD36AA800EBC238 /* UIProductDetailViewController.swift */,
-				4DBA71B51BD489DE0031945C /* UIImagesCollectionViewContrller.swift */,
-				4DBA71BD1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift */,
 				4D66BB0F1BCF4E4400AF5CDC /* AppDelegate.swift */,
 				4D66BB151BCF4E4400AF5CDC /* Main.storyboard */,
 				4D66BB181BCF4E4400AF5CDC /* Images.xcassets */,
@@ -253,8 +264,37 @@
 				4D66BB341BCF4F5F00AF5CDC /* Global.swift */,
 				4DBA71B91BD49EB50031945C /* ProductFile.swift */,
 				4DBA71BB1BD4C0BA0031945C /* Product.swift */,
+				4DDB313E1BD87E5E0030B3EE /* Customer.swift */,
+				4DDB31421BD893D50030B3EE /* ReturnDic.swift */,
+				4DDB31461BD8BA3F0030B3EE /* Notice.swift */,
 			);
 			name = Util;
+			sourceTree = "<group>";
+		};
+		4DDB314A1BD8C4830030B3EE /* UserCenter */ = {
+			isa = PBXGroup;
+			children = (
+				4D66BB3C1BCF4F5F00AF5CDC /* UserCenterTableViewController.swift */,
+				4D81BFCA1BD0E73200B1AA34 /* MyOrdersTableViewController.swift */,
+				4DDB313C1BD87E0B0030B3EE /* UICustomersTableViewController.swift */,
+				4DDB31401BD88BF70030B3EE /* UIVisitLogViewController.swift */,
+				4DDB31441BD8BA190030B3EE /* UINoticeTableViewController.swift */,
+				4DDB31481BD8C0D70030B3EE /* UINoticeViewController.swift */,
+				4DDB314C1BD8C5CA0030B3EE /* UIUserTableViewController.swift */,
+			);
+			name = UserCenter;
+			sourceTree = "<group>";
+		};
+		4DDB314B1BD8C5240030B3EE /* Product */ = {
+			isa = PBXGroup;
+			children = (
+				4D66BB381BCF4F5F00AF5CDC /* ProductsTableViewController.swift */,
+				4D7EF68A1BD33A8F00CBFEFC /* UIProductTableViewController.swift */,
+				4DF5FC9F1BD36AA800EBC238 /* UIProductDetailViewController.swift */,
+				4DBA71B51BD489DE0031945C /* UIImagesCollectionViewContrller.swift */,
+				4DBA71BD1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift */,
+			);
+			name = Product;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -364,20 +404,27 @@
 				4D66BB3F1BCF4F5F00AF5CDC /* FirstPageViewController.swift in Sources */,
 				4D66BB421BCF4F5F00AF5CDC /* HotProductsTableViewController.swift in Sources */,
 				4D66BB541BCF4FDA00AF5CDC /* ProductTableViewCell.swift in Sources */,
+				4DDB31451BD8BA190030B3EE /* UINoticeTableViewController.swift in Sources */,
 				4DBA71BE1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift in Sources */,
 				4DF5FCA01BD36AA800EBC238 /* UIProductDetailViewController.swift in Sources */,
+				4DDB313D1BD87E0B0030B3EE /* UICustomersTableViewController.swift in Sources */,
 				4D66BB461BCF4F5F00AF5CDC /* TabNavigationController.swift in Sources */,
 				4D66BB101BCF4E4400AF5CDC /* AppDelegate.swift in Sources */,
+				4DDB31431BD893D50030B3EE /* ReturnDic.swift in Sources */,
+				4DDB313F1BD87E5E0030B3EE /* Customer.swift in Sources */,
 				4DBA71B61BD489DE0031945C /* UIImagesCollectionViewContrller.swift in Sources */,
 				4D66BB4D1BCF4F7E00AF5CDC /* WebApi.swift in Sources */,
 				4DBA71BC1BD4C0BA0031945C /* Product.swift in Sources */,
 				4DBFC9201BD1EFA80076123D /* PhotoUtil.swift in Sources */,
+				4DDB31471BD8BA3F0030B3EE /* Notice.swift in Sources */,
 				4D66BB3E1BCF4F5F00AF5CDC /* CategoriesTableViewController2.swift in Sources */,
 				4DBFC9221BD24F300076123D /* UserInfo.swift in Sources */,
 				4D95CB331BCF8ED800E10FD3 /* Cart.swift in Sources */,
 				4DD472561BD1453900626143 /* Order.swift in Sources */,
+				4DDB314D1BD8C5CA0030B3EE /* UIUserTableViewController.swift in Sources */,
 				4D66BB411BCF4F5F00AF5CDC /* HomeTabBarViewController.swift in Sources */,
 				4D66BB4C1BCF4F7E00AF5CDC /* JsonField.swift in Sources */,
+				4DDB31491BD8C0D70030B3EE /* UINoticeViewController.swift in Sources */,
 				4D66BB3D1BCF4F5F00AF5CDC /* CategoriesTableViewController.swift in Sources */,
 				4D95CB311BCF85E600E10FD3 /* UIViewController+FirstVCExtension.swift in Sources */,
 				4D66BB481BCF4F5F00AF5CDC /* UserCenterTableViewController.swift in Sources */,
@@ -390,6 +437,7 @@
 				4D66BB501BCF4FB600AF5CDC /* StringExtension.swift in Sources */,
 				4D66BB431BCF4F5F00AF5CDC /* LoginViewController.swift in Sources */,
 				4DBA71BA1BD49EB50031945C /* ProductFile.swift in Sources */,
+				4DDB31411BD88BF70030B3EE /* UIVisitLogViewController.swift in Sources */,
 				4D66BB451BCF4F5F00AF5CDC /* SearchProductsViewController.swift in Sources */,
 				4D81BFC91BD0D96A00B1AA34 /* OrderDetailTableViewController.swift in Sources */,
 				4D81BFCB1BD0E73200B1AA34 /* MyOrdersTableViewController.swift in Sources */,

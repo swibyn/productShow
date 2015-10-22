@@ -45,40 +45,42 @@ class UIProductTableViewController: UITableViewController {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return 3
+        
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-//        let cell1 = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
+//        let cell1 = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath)
 //        cell1.textLabel?.text = "\(indexPath)"
 //        return cell1
         
-        
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath)
+//        debugPrint("")
+        let identifier = "cell\(indexPath.row)"
+        let cell = tableView.dequeueReusableCellWithIdentifier(identifier, forIndexPath: indexPath)
         
         // Configure the cell...
         switch indexPath.row{
         case 0:
-            let productImageView = cell.viewWithTag(100) as! UIImageView
-            let namelabel = cell.viewWithTag(101) as! UILabel
-            let sizelabel = cell.viewWithTag(102) as! UILabel
-            let remarkTextView = cell.viewWithTag(103) as! UITextView
+            let productImageView = cell.viewWithTag(100) as? UIImageView
+            let namelabel = cell.viewWithTag(101) as? UILabel
+            let sizelabel = cell.viewWithTag(102) as? UILabel
+            let remarkTextView = cell.viewWithTag(103) as? UITextView
             
             WebApi.GetFile(product?.imgUrl, completedHandler: { (response, data, error) -> Void in
                 if data?.length > 0{
-                productImageView.image = UIImage(data:data!)
+                productImageView?.image = UIImage(data:data!)
                 }
             })
-            namelabel.text = "Name: \((product?.proName)!)"
-            sizelabel.text = "Size: \((product?.proSize)!)"
-            remarkTextView.text = product?.remark
+            namelabel?.text = "Name: \((product?.proName)!)"
+            sizelabel?.text = "Size: \((product?.proSize)!)"
+//            remarkTextView?.text = product?.remark
             
 //            cell.textLabel?.text = "Name: \((product?.proName)!)"
-        case 1:
-            cell.textLabel?.text = "Size: \((product?.proSize)!)"
-        case 2:
-            let textView = cell.viewWithTag(100) as! UITextView
-            textView.text = product?.remark// productDic?.objectForKey(jfremark) as? String
+//        case 1:
+//            cell.textLabel?.text =  "Size: \((product?.proSize)!)"
+//        case 2:
+//            let textView = cell.viewWithTag(100) as! UITextView
+//            textView.text = product?.remark// productDic?.objectForKey(jfremark) as? String
 //        case 3: //产品详情
 //            ;
 //        case 4: //
@@ -91,7 +93,7 @@ class UIProductTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return indexPath.row == 0 ? CGFloat(310) : CGFloat(44)
+        return (indexPath.row == 0) ? CGFloat(310) : CGFloat(44)
     }
     
     // MARK: - Navigation
