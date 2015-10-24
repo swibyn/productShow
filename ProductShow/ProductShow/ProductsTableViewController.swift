@@ -91,7 +91,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     
     //MARK: - Table view delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
+//        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productTableViewController()
@@ -119,7 +119,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
         // Configure the cell...
 //        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
         
-        ConfigureCell(cell, buttonTitle: "Add", product: products.productAtIndex(indexPath.row)!, delegate: self)
+        ConfigureCell(cell, canAddToCart:true, product: products.productAtIndex(indexPath.row)!, delegate: self)
         
         return cell
     }

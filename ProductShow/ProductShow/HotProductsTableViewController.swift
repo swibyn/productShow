@@ -29,20 +29,28 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 //        if Global.userInfo != nil{
-            self.showFirstPage()
+//            self.showFirstPage()
 //        }
         self.addNotificationObserver()
     }
-    
-    override func viewDidAppear(animated: Bool) { //首页过来，没有触发，现在viewdidload中showfirstpage
-        debugPrint("\(self) \(__FUNCTION__)")
-
-//        if dataArray?.count > 0{
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         if products.productsCount > 0{
-        
+            
         }else{
             self.showFirstPage()
         }
+//        let backBarButton = UIBarButtonItem(title: "aaaaa", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("didReceiveMemoryWarning"))
+//        backBarButton.tintColor = UIColor.whiteColor()
+//        self.navigationItem.backBarButtonItem = backBarButton
+//        self.setBarButtonTint(UIColor.whiteColor())
+    }
+    
+    override func viewDidAppear(animated: Bool) { //首页过来，没有触发，现在viewdidload中showfirstpage
+        super.viewDidAppear(animated)
+//        debugPrint("\(self) \(__FUNCTION__)")
+
+        
     }
     
     deinit{
@@ -98,7 +106,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     
     //MARK: Table view delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
+//        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productTableViewController()
 //        detailVc?.product = selectCell?.product
@@ -127,7 +135,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         // Configure the cell...
 //        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
         
-        ConfigureCell(cell, buttonTitle: "Add", product: products.productAtIndex(indexPath.row)!, delegate: self)
+        ConfigureCell(cell, canAddToCart:true, product: products.productAtIndex(indexPath.row)!, delegate: self)
 
         return cell
     }
@@ -144,7 +152,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 //
 //    }
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        debugPrint("\(__FUNCTION__) \(scrollView.contentOffset)")
+//        debugPrint("\(__FUNCTION__) \(scrollView.contentOffset)")
         if scrollView.contentOffset.y < -200{
             self.showFirstPage()
         }

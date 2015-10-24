@@ -145,6 +145,14 @@ class Customer: NSObject{
     var memo: String?{
         return _customerDic?.objectForKey(jfmemo) as? String
     }
+    
+    func stringForKey(key: String)->String?{
+        let objOpt = _customerDic?.objectForKey(key)
+        if let obj = objOpt{
+            return "\(obj)"
+        }
+        return nil
+    }
 }
 
 class Customers: ReturnDic {

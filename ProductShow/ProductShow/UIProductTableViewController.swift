@@ -22,10 +22,32 @@ class UIProductTableViewController: UITableViewController {
     
     //MARK: View life
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.title = "Product Detail"
+        
+//        self.setBarButtonTint(UIColor.whiteColor())
+        
     }
-    
-    //MARK: Table view delegate
+//    override func viewWillAppear(animated: Bool) {
+//        super.viewWillAppear(animated)
+//        let backBarButton = UIBarButtonItem(title: "bbbbb", style: UIBarButtonItemStyle.Bordered, target: self, action: Selector("didReceiveMemoryWarning"))
+//        backBarButton.tintColor = UIColor.whiteColor()
+//        self.navigationItem.backBarButtonItem = backBarButton
+//        self.setBarButtonTint(UIColor.whiteColor())
+//    }
+//    override func viewDidAppear(animated: Bool) {
+//        super.viewDidAppear(animated)
+//        //        self.setBarButtonTint(UIColor.whiteColor())
+//    }
+    //MARK: Events
+    func addProductToCart(button:UIButton){
+        Cart.defaultCart().addProduct(product!.productDic!)
+        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+        let alertView = UIAlertView(title: "Hint", message: "Add to cart successfully", delegate: nil, cancelButtonTitle: "OK")
+        alertView.show()
+        
+    }
+    //MARK: - Table view delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         
@@ -65,6 +87,7 @@ class UIProductTableViewController: UITableViewController {
             let namelabel = cell.viewWithTag(101) as? UILabel
             let sizelabel = cell.viewWithTag(102) as? UILabel
             let remarkTextView = cell.viewWithTag(103) as? UITextView
+            let button = cell.viewWithTag(104) as? UIButton
             
             WebApi.GetFile(product?.imgUrl, completedHandler: { (response, data, error) -> Void in
                 if data?.length > 0{
@@ -73,18 +96,10 @@ class UIProductTableViewController: UITableViewController {
             })
             namelabel?.text = "Name: \((product?.proName)!)"
             sizelabel?.text = "Size: \((product?.proSize)!)"
-//            remarkTextView?.text = product?.remark
-            
-//            cell.textLabel?.text = "Name: \((product?.proName)!)"
-//        case 1:
-//            cell.textLabel?.text =  "Size: \((product?.proSize)!)"
-//        case 2:
-//            let textView = cell.viewWithTag(100) as! UITextView
-//            textView.text = product?.remark// productDic?.objectForKey(jfremark) as? String
-//        case 3: //产品详情
-//            ;
-//        case 4: //
-//            cell.textLabel?.text =
+        
+            remarkTextView?.text = product?.remark
+            button?.addTarget(self, action: "addProductToCart:", forControlEvents: UIControlEvents.TouchUpInside)
+
         default: break
             //nothing
         }
@@ -93,7 +108,17 @@ class UIProductTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        return (indexPath.row == 0) ? CGFloat(310) : CGFloat(44)
+        var height = tableView.rowHeight
+        switch indexPath.row{
+        case 0: height = 310
+        case 3: height = 157
+        default: break
+        }
+        
+        return height
+        
+        
+//        return (indexPath.row == 0) ? CGFloat(310) : CGFloat(44)
     }
     
     // MARK: - Navigation

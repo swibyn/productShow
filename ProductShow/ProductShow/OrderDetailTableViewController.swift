@@ -198,7 +198,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     //MARK: UIActionSheetDelegate
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
         
-        debugPrint("actionSheet buttonindex=\(buttonIndex)")
+//        debugPrint("actionSheet buttonindex=\(buttonIndex)")
         
         
         let imagePicker = UIImagePickerController()
@@ -239,7 +239,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
             
 //            let dic = products.objectAtIndex(indexPath.row) as! NSDictionary
             
-            ConfigureCell(cell, buttonTitle: "", product: order.productAtIndex(indexPath.row)!, delegate: nil)
+            ConfigureCell(cell, canAddToCart:false, product: order.productAtIndex(indexPath.row)!, delegate: nil)
             //ConfigureCell(cell, buttonTitle: "Delete", productDic: dic, delegate: self)
             
             return cell
@@ -318,5 +318,13 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         // Pass the selected object to the new view controller.
     }
     */
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.All
+    }
+    
+    override func shouldAutorotate() -> Bool {
+        return true
+    }
 
 }

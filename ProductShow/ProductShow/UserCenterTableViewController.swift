@@ -73,7 +73,8 @@ class UserCenterTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0{
-            return 160
+            return 206
+            
         }else{
             return tableView.rowHeight
         }

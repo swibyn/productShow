@@ -24,15 +24,14 @@
                                     <constraint firstAttribute="width" constant="96" id="zaN-WY-y78"/>
                                 </constraints>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cbK-IZ-gmO">
-                                <rect key="frame" x="391" y="0.0" width="80" height="97"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cbK-IZ-gmO">
+                                <rect key="frame" x="375" y="0.0" width="96" height="97"/>
                                 <color key="backgroundColor" red="0.87445825730000004" green="0.72701523729999995" blue="0.40355799669999998" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="79n-DK-QMH"/>
-                                    <constraint firstAttribute="width" constant="80" id="gd7-VO-f8w"/>
+                                    <constraint firstAttribute="width" constant="96" id="gd7-VO-f8w"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" name="STHeitiSC-Light" family="Heiti SC" pointSize="15"/>
-                                <state key="normal" title="Add"/>
+                                <state key="normal" image="加入购物车96X96"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="79n-DK-QMH"/>
@@ -43,7 +42,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="产品名称" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B0V-xJ-HcK">
-                                <rect key="frame" x="104" y="0.0" width="282" height="21"/>
+                                <rect key="frame" x="104" y="5" width="266" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="1S9-1C-TQx"/>
                                 </constraints>
@@ -52,7 +51,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="简介 简介" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zkd-gL-9kB">
-                                <rect key="frame" x="104" y="46" width="282" height="36"/>
+                                <rect key="frame" x="104" y="51" width="266" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="oCM-OC-kcS"/>
                                 </constraints>
@@ -61,7 +60,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="型号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9OT-Pn-r0q">
-                                <rect key="frame" x="104" y="27" width="282" height="18"/>
+                                <rect key="frame" x="104" y="32" width="266" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="BPp-E0-KwD"/>
                                 </constraints>
@@ -83,8 +82,8 @@
                             <constraint firstItem="B0V-xJ-HcK" firstAttribute="leading" secondItem="8Em-Jk-fU1" secondAttribute="trailing" constant="8" id="WQu-eq-VuV"/>
                             <constraint firstItem="8Em-Jk-fU1" firstAttribute="leading" secondItem="BNi-k1-2UX" secondAttribute="leading" id="Z5w-MP-FfY"/>
                             <constraint firstItem="Zkd-gL-9kB" firstAttribute="top" secondItem="9OT-Pn-r0q" secondAttribute="bottom" constant="1" id="bix-nf-Bi7"/>
-                            <constraint firstItem="B0V-xJ-HcK" firstAttribute="top" secondItem="BNi-k1-2UX" secondAttribute="top" id="oHk-HV-cZU"/>
-                            <constraint firstItem="B0V-xJ-HcK" firstAttribute="top" secondItem="8Em-Jk-fU1" secondAttribute="top" id="ua1-6K-tTJ"/>
+                            <constraint firstItem="B0V-xJ-HcK" firstAttribute="top" secondItem="BNi-k1-2UX" secondAttribute="top" constant="5" id="oHk-HV-cZU"/>
+                            <constraint firstItem="B0V-xJ-HcK" firstAttribute="top" secondItem="8Em-Jk-fU1" secondAttribute="top" constant="5" id="ua1-6K-tTJ"/>
                             <constraint firstItem="cbK-IZ-gmO" firstAttribute="top" secondItem="BNi-k1-2UX" secondAttribute="top" id="xCK-W9-Voh"/>
                             <constraint firstItem="Zkd-gL-9kB" firstAttribute="leading" secondItem="B0V-xJ-HcK" secondAttribute="leading" id="zPC-ha-zzF"/>
                         </constraints>
@@ -109,6 +108,7 @@
         </tableViewCell>
     </objects>
     <resources>
+        <image name="加入购物车96X96" width="96" height="96"/>
         <image name="商品默认图片96X96" width="96" height="96"/>
     </resources>
 </document>

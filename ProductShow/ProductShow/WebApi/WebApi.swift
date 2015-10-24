@@ -9,7 +9,7 @@
 import UIKit
 //import WebApi.JsonField
 
-let bOffLine = true
+let bOffLine = false
 
 enum RequestType: UInt8{
     case ReadOnly = 1
@@ -39,8 +39,9 @@ class WebApi: NSObject {
         let paraDic = NSMutableDictionary()
         if let json = jsonObj{
             paraDic.setDictionary(json as [NSObject : AnyObject])
-            paraDic.setObject(eqNo, forKey: jfeqNo)
         }
+        paraDic.setObject(eqNo, forKey: jfeqNo)
+
         if httpMethod == httpGet{
             let para = NSMutableString()
             
@@ -135,7 +136,7 @@ class WebApi: NSObject {
 //                debugPrint("本地读到数据：\(saveKey) =\(mLocalData)")
                 completedHandle?(nil,mLocalData,nil)
             }else{
-                debugPrint("本地未读到数据：\(saveKey)")
+//                debugPrint("本地未读到数据：\(saveKey)")
             }
             
         case RequestType.Request:
@@ -152,7 +153,7 @@ class WebApi: NSObject {
                 
                 let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
                
-                debugPrint("本地读到数据：\(saveKey) =\(json!)")
+//                debugPrint("本地读到数据：\(saveKey) =\(json!)")
                 
                 bhandle = true
                 completedHandle?(nil,mLocalData,nil)
@@ -171,7 +172,7 @@ class WebApi: NSObject {
             
             let localData = NSUserDefaults.standardUserDefaults().objectForKey(saveKey) as? NSData
             if let mLocalData = localData{
-                debugPrint("本地读到数据：\(saveKey) data.length=\(mLocalData.length)")
+//                debugPrint("本地读到数据：\(saveKey) data.length=\(mLocalData.length)")
                 completedHandle?(nil,mLocalData,nil)
             }else{
                 self.AsynchronousRequest(subURL, httpMethod: httpMethod, jsonObj: jsonObj, completedHandler:{
@@ -185,6 +186,19 @@ class WebApi: NSObject {
                 )
             }
         }
+    }
+    
+    class func localFileName(var fileURL: String?)->String? {
+        if fileURL?.characters.count > 0{
+            fileURL = fileURL!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+            
+            let url = NSURL(string: fileURL!)!
+            
+            //本地对应的文件名称
+            let fileSavedName = NSTemporaryDirectory().stringByAppendingString(url.path!)
+            return fileSavedName
+        }
+        return nil
     }
     
     class func GetFile(var fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
@@ -211,7 +225,9 @@ class WebApi: NSObject {
         //如果文件存在，则直接导入
         if fileManager.fileExistsAtPath(fileSavedName){
             let data = NSData(contentsOfFile: fileSavedName)
-            completedHandler?(nil,data,nil)
+//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                completedHandler?(nil,data,nil)
+//            })
             return
         }
         
@@ -349,7 +365,8 @@ class WebApi: NSObject {
     
     class func GetProFilesByID(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProFilesByID", subURL: "CrmGetProFilesByID", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+        let proId = dic?.objectForKey(jfproId) as! Int
+        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProFilesByID-\(proId)", subURL: "CrmGetProFilesByID", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
     //MARK: 9. 获取客户数据
@@ -400,46 +417,8 @@ class WebApi: NSObject {
                 completedHandler?(response,data,error)
             })
         }
-
-        
     }
     
-    class func UpFile(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        //TODO: 模拟提交图片成功 to be remove
-//        let formatter = NSDateFormatter()
-//        formatter.dateFormat = "yyyyMMddHHmmss"
-//        let dic = [jfurl:"http://test.com/IMG_\(formatter.stringFromDate(NSDate())).png"]
-//        let data = try! NSJSONSerialization.dataWithJSONObject(dic, options: NSJSONWritingOptions())
-//        completedHandler?(nil,data,nil)
-//        return
-        
-        
-        let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
-        let uid = UserInfo.defaultUserInfo().firstUser?.uid
-        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(uid!)")
-//        self.fullUrlStr("crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(UserInfo.defaultUserInfo().uid!)")
-        
-        let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!,cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringCacheData, timeoutInterval: 5)
-        urlRequest.HTTPMethod = self.httpPost
-        urlRequest.setValue("Raw", forHTTPHeaderField: "Content-Type")
-        urlRequest.setValue("1234.png", forHTTPHeaderField: "FileName")
-//        let contentLength = UIImageJPEGRepresentation(image, 1)?.length ?? 0
-        urlRequest.setValue("\(imageData.length)", forHTTPHeaderField: "ContentLength")
-//        urlRequest.setValue(imageData.length, forHTTPHeaderField: "ContentLength")
-        urlRequest.HTTPBody = imageData// UIImageJPEGRepresentation(image, 1)
-        
-//        urlRequest.setValue(imageData, forKey: "FileData")
-//        urlRequest.setValue("\(imageData.length)", forKey: "ContentLength")
-//        urlRequest.setValue("1234.png", forKey: "FileName")
-
-        
-        let queue = NSOperationQueue()
-        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                completedHandler?(response,data,error)
-            })
-        }
-    }
 }
 
 

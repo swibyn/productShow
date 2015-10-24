@@ -46,7 +46,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
 
     //MARK: - UIAlertViewDelegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        debugPrint("\(self) \(__FUNCTION__)")
+//        debugPrint("\(self) \(__FUNCTION__)")
         let title = alertView.buttonTitleAtIndex(buttonIndex)
         if title == "OK"{
             let order = Orders.defaultOrders().orderAtIndex((indexPathForAccessoryButtonTappedRow?.row)!)
@@ -60,7 +60,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     }
     
     func alertViewCancel(alertView: UIAlertView) {
-        debugPrint("\(self) \(__FUNCTION__)")
+//        debugPrint("\(self) \(__FUNCTION__)")
     }
 
     // MARK: - Table View Delegate

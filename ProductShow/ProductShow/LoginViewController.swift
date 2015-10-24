@@ -16,7 +16,7 @@ protocol LoginViewControllerDelegate : NSObjectProtocol{
 class LoginViewController: UIViewController {
     
     //MARK: 初始化一个实例
-    static func shareInstance()->LoginViewController{
+    static func newInstance()->LoginViewController{
         
         let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
         return aInstance
@@ -42,7 +42,7 @@ class LoginViewController: UIViewController {
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 UserInfo.defaultUserInfo().returnDic = json
                 if (UserInfo.defaultUserInfo().status == 1){
@@ -105,7 +105,7 @@ class LoginViewController: UIViewController {
     }
     
     deinit{
-        print("\(self) deinit")
+//        print("\(self) deinit")
     }
 
     
@@ -123,6 +123,10 @@ class LoginViewController: UIViewController {
         return true
     }
     
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Landscape
+    }
     
 
 

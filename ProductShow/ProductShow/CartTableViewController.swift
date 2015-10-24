@@ -77,7 +77,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         // Configure the cell...
         let dic = cart.products.allValues[indexPath.row] as! NSDictionary
 //        ConfigureCell(cell, buttonTitle: "Delete", productDic: dic, delegate: self)
-        ConfigureCell(cell, buttonTitle: "", product: Product(productDic: dic), delegate: nil)
+        ConfigureCell(cell, canAddToCart:false, product: Product(productDic: dic), delegate: nil)
         
         return cell
     }

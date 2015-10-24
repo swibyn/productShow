@@ -8,6 +8,10 @@
 
 import Foundation
 
+
+let ProductFileTypeImage = 1
+let ProductFileTypeVideo = 2
+
 class ProductFile: NSObject{
     private var _proFileDic: NSDictionary?
     

@@ -15,9 +15,18 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     var productFiles: ProductFiles!// = ProductFiles()
     var initcellIndex = 0
     
+    //MARK: 初始化一个实例
+    static func newInstance()->UIImagesCollectionViewContrller2{
+        
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("UIImagesCollectionViewContrller2") as! UIImagesCollectionViewContrller2
+        return aInstance
+    }
+
+    //MARK: view life
+    
     override func viewWillAppear(animated: Bool) {
         
-        debugPrint("\(self) \(__FUNCTION__)")
+//        debugPrint("\(self) \(__FUNCTION__)")
 //        self.collectionView?.selectItemAtIndexPath(NSIndexPath(forRow: initcellIndex, inSection: 0), animated: true, scrollPosition: UICollectionViewScrollPosition.Top)
         let indexPath = NSIndexPath(forRow: initcellIndex, inSection: 0)
         self.collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
@@ -38,19 +47,25 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     override  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
         let imageView = cell.viewWithTag(100) as! UIImageView
-        imageView.image = UIImage(named: "ic_suoluetu_90_75")
-        WebApi.GetFile(productFiles.productFileAtIndex(indexPath.row)!.filePath) { (response, data, error) -> Void in
-            
-            if data?.length > 0{
-                imageView.image = UIImage(data: data!)
+   
+        imageView.image = UIImage(named: "商品默认图片96X96")
+        let productFile = productFiles.productFileAtIndex(indexPath.row)!
+        WebApi.GetFile(productFile.filePath) { (response, data, error) -> Void in
+            if productFile.fileType! == ProductFileTypeImage{
+                if data?.length > 0{
+                    imageView.image = UIImage(data: data!)
+                }
+            }else{
+                imageView.image = UIImage(named: "video")
             }
         }
+
         return cell
     }
     
     override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         self.navigationController?.popViewControllerAnimated(true)
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismissViewControllerAnimated(false, completion: nil)
         
     }
     
@@ -61,7 +76,15 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
-            return size!
+            
+            let productFile = productFiles.productFileAtIndex(indexPath.row)!
+            if productFile.fileType == ProductFileTypeImage{
+                return size!
+            }else{
+                return CGSize(width: 0, height: 0)
+            }
+            
+            
             
     }
     

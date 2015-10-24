@@ -38,12 +38,17 @@ class UIProductTableViewCell : UITableViewCell {
         self.remarkLabel.text = product.remark// dic.objectForKey(jfremark) as? String
         
 //        let imgUrl = dic.objectForKey(jfimgUrl) as? String
-        debugPrint("\(product.proName) \(product.imgUrl)")
-        self.proThumbImageView.image = UIImage(named: "LOGO76X76")
+//        debugPrint("\(product.proName) \(product.imgUrl)")
+        var imageloaded = false
         WebApi.GetFile(product.imgUrl) { (response, data, error) -> Void in
             if data?.length > 0{
                 self.proThumbImageView.image = UIImage(data: data!)
+                imageloaded = true
             }
+        }
+        if !imageloaded {
+            self.proThumbImageView.image = UIImage(named: "商品默认图片96X96")
+            
         }
     }
     
@@ -54,9 +59,9 @@ class UIProductTableViewCell : UITableViewCell {
     }
 }
 
-func ConfigureCell(cell: UIProductTableViewCell, buttonTitle:String, product: Product, delegate: UIProductTableViewCellDelegate?){
+func ConfigureCell(cell: UIProductTableViewCell, canAddToCart:Bool, product: Product, delegate: UIProductTableViewCellDelegate?){
     cell.product = product
-    cell.operationButton.setTitle(buttonTitle, forState: UIControlState.Normal)
+    cell.operationButton.hidden = !canAddToCart
     cell.delegate = delegate
     cell.refreshView()
 }

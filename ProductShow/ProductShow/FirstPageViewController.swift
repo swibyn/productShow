@@ -64,7 +64,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
     }
     
     deinit{
-        print("\(self) \(__FUNCTION__)")
+//        print("\(self) \(__FUNCTION__)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,7 +74,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
     
     
     // MARK: 初始化一个实例
-    static func shareInstance()->FirstPageViewController{
+    static func newInstance()->FirstPageViewController{
         
         let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("FirstPageViewController") as! FirstPageViewController
         return aInstance
@@ -83,7 +83,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
     // MARK: metheds
     
     func presentLoginVC(modalTransitionStyle: UIModalTransitionStyle,animated: Bool, completion:(()->Void)?){
-        let loginVC = LoginViewController.shareInstance()
+        let loginVC = LoginViewController.newInstance()
         loginVC.modalTransitionStyle = modalTransitionStyle
         loginVC.delegate = self
         self.presentViewController(loginVC, animated: animated, completion: completion)
@@ -126,6 +126,17 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
 //            tabVC.selectedIndex = 0
 //        }
     }
+    
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Landscape
+    }
+    
+//    - (NSUInteger) supportedInterfaceOrientations
+//    {
+//    //Because your app is only landscape, your view controller for the view in your
+//    // popover needs to support only landscape
+//    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
+//    }
     
 
 }

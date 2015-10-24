@@ -50,7 +50,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     
     //MARK: 弹出首页
     func presentFirstPageVC(modalTransitionStyle: UIModalTransitionStyle, animated: Bool, completion:(()->Void)?){
-        let firstPageVC = FirstPageViewController.shareInstance()
+        let firstPageVC = FirstPageViewController.newInstance()
         firstPageVC.delegate = self
         firstPageVC.modalTransitionStyle = modalTransitionStyle
         self.presentViewController(firstPageVC, animated: animated, completion: nil)
@@ -70,7 +70,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     // MARK: FirstPageViewControllerDelegate
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
         for vc in self.viewControllers! {
-            print("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
+//            print("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
             if vc.tabBarItem.title == button.titleForState(UIControlState.Normal){
                 self.selectedViewController = vc
                 break

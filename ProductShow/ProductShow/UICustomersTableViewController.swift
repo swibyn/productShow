@@ -22,7 +22,7 @@ class UICustomersTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
-        debugPrint("\(self) userinfo=\(UserInfo.defaultUserInfo().returnDic)")
+//        debugPrint("\(self) userinfo=\(UserInfo.defaultUserInfo().returnDic)")
         WebApi.GetCustomer([jfsaleId: uid!],  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
@@ -50,7 +50,17 @@ class UICustomersTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    // MARK: - Table view delegate
+//    var indexPathForAccessoryButtonTappedRow: NSIndexPath?
+    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+//        indexPathForAccessoryButtonTappedRow = indexPath
+        let detailVC = UICustomerTableViewController.newInstance()
+        let customer = customers.customerAtIndex(indexPath.row)
+        detailVC.customer = customer
+        self.navigationController?.pushViewController(detailVC, animated: true)
+//        self.presentViewController(detailVC, animated: true, completion: nil)
+    }
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -71,7 +81,7 @@ class UICustomersTableViewController: UITableViewController {
         let customer = customers.customerAtIndex(indexPath.row)
         let linkman = customer?.linkman ?? ""
         let custName = customer?.custName ?? ""
-        cell.textLabel?.text = "\(linkman) - \(custName)"
+        cell.textLabel?.text = "\(custName) - \(linkman)"
 
         return cell
     }
