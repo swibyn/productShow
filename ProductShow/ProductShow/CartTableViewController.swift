@@ -140,7 +140,9 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
                 
                 Orders.defaultOrders().addOrder(order)
                 cart.removeProducts()
+                
                 self.tableView.reloadData()
+                NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
                 
             }else{
                 return false
