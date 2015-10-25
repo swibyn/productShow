@@ -35,7 +35,20 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
         }
         
     }
+    //MARK: 获取视频的缩略图
     
+    func setThumb(fileName: String, imageView: UIImageView){
+        
+        let asset = AVURLAsset(URL: NSURL(fileURLWithPath: fileName))
+        let generateImg = AVAssetImageGenerator(asset: asset)
+        let time = CMTimeMake(1, 65)
+        let refImg = try? generateImg.copyCGImageAtTime(time, actualTime: nil)
+        if let img = refImg{
+            imageView.image = UIImage(CGImage: img)
+        }else{
+            imageView.image = nil
+        }
+    }
     //MARK: - UICollectionViewDataSource
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
         return 1
@@ -49,11 +62,14 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
    
     override  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+        let productFile = productFiles.productFileAtIndex(indexPath.row)!
+        let cellid = productFile.fileType == ProductFileTypeImage ? "cellImage" : "cellVideo"
+        
+        
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellid, forIndexPath: indexPath)
         cell.tag = indexPath.row
         let imageView = cell.viewWithTag(100) as! UIImageView
         imageView.image = UIImage(named: "商品默认图片96X96")
-        let productFile = productFiles.productFileAtIndex(indexPath.row)!
         WebApi.GetFile(productFile.filePath) { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 if productFile.fileType! == ProductFileTypeImage{
@@ -61,11 +77,12 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                         imageView.image = UIImage(data: data!)
                     }
                 }else{
-                    imageView.image = UIImage(named: "video")
+//                    imageView.image = UIImage(named: "video")
+                    self.setThumb(WebApi.localFileName(productFile.filePath)!, imageView: imageView)
                 }
                 
             }else{
-                let alertView = UIAlertView(title: "Hint", message: "File download failed\n\(productFile.filePath)", delegate: nil, cancelButtonTitle: "OK")
+                let alertView = UIAlertView(title: "Hint", message: "File download failed\n\(productFile.filePath!)", delegate: nil, cancelButtonTitle: "OK")
                 alertView.show()
             }
         }

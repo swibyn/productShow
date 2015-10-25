@@ -36,8 +36,54 @@ extension UIViewController{
 //            }
 //        }
 //    }
+    //MARK: Keyboard Notification
+    func addObserverKeyboardNotification(){
+        let center = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: Selector("handleKeyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
+        center.addObserver(self, selector: Selector("handleKeyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func removeObserverKeyboardNotification(){
+        let center = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        center.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func handleKeyboardWillShow(paramNotification: NSNotification){
+        //nothing to be override
+    }
+    
+    func handleKeyboardWillHide(paramNotification: NSNotification){
+        //nothing to be override
+    }
     
    
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

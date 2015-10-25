@@ -151,7 +151,7 @@ class WebApi: NSObject {
                 //                debugPrintln("本地读到数据：\(saveKey) = \(mLocalData)")
 
                 
-                let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
+//                let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
                
 //                debugPrint("本地读到数据：\(saveKey) =\(json!)")
                 

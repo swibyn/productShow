@@ -48,6 +48,7 @@ class LoginViewController: UIViewController {
                 if (UserInfo.defaultUserInfo().status == 1){
                     //登录成功
                     self.delegate?.loginViewController(self, userInfo: json)
+                    NSUserDefaults.standardUserDefaults().setValue(username, forKey: jfusername)
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
                     let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
@@ -69,7 +70,22 @@ class LoginViewController: UIViewController {
         // Do any additional setup after loading the view.
         self.title = "Sign In"
         
+        //显示登录名
+        let username = NSUserDefaults.standardUserDefaults().valueForKey(jfusername) as? String
+        self.usernameTextField.text = username ?? ""
+        
+        //loginbutton设置成圆角 //        self.loginButton.buttonType = UIButtonType.RoundedRect
+        self.loginButton.layer.masksToBounds = true
+        self.loginButton.layer.cornerRadius = 5
+        
+        
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        self.navigationController?.navigationBarHidden = true
+        self.addObserverKeyboardNotification()
+    }
+    
     
     override func viewDidAppear(animated: Bool) {
         //检查设备是否允许访问
@@ -94,20 +110,84 @@ class LoginViewController: UIViewController {
         })
 
     }
+    
+
+    override func viewWillDisappear(animated: Bool) {
+        self.removeObserverKeyboardNotification()
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
-    }
-    
     deinit{
 //        print("\(self) deinit")
     }
+    
+    //MARK: KeyboardNotification
+    override func handleKeyboardWillShow(paramNotification: NSNotification) {
+//        let userInfo = paramNotification.userInfo
+//        let keyboardEndRectObj = userInfo?[UIKeyboardFrameEndUserInfoKey]
+//        let animationDurationObj = userInfo?[UIKeyboardAnimationDurationUserInfoKey]
+        UIView.animateWithDuration(1) { () -> Void in
+            self.view.frame.origin.y = -250
+        }
+        
+        
+//        NSLog(@"%s",__FUNCTION__);
+//        NSDictionary *userInfo = paramNotification.userInfo;
+//        
+//        /* Get the duration of the animation of the keyboard for when it
+//        gets displayed on the screen. We will animate our contents using
+//        the same animation duration */
+//        NSValue *animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey];
+//        NSValue *keyboardEndRectObject = userInfo[UIKeyboardFrameEndUserInfoKey];
+//        double animationDuration = 0.0;
+//        CGRect keyboardEndRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
+//        [animationDurationObject getValue:&animationDuration];
+//        [keyboardEndRectObject getValue:&keyboardEndRect];
+//        UIWindow *window = [UIApplication sharedApplication].keyWindow;
+//        
+//        /* Convert the frame from window's coordinate system to
+//        our view's coordinate system */
+//        keyboardEndRect = [self.view convertRect:keyboardEndRect fromView:window];
+//        NSLog(@"keyboardEndRect=%@",NSStringFromCGRect(keyboardEndRect));
+//        //    [NSString stringwith]
+//        
+//        /* Find out how much of our view is being covered by the keyboard */
+//        CGRect intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect);
+//        NSLog(@"intersectionOfKeyboardRectAndWindowRect=%@",NSStringFromCGRect(intersectionOfKeyboardRectAndWindowRect));
+//        
+//        /* Scroll the scroll view up to show the full contents of our view */
+//        [UIView animateWithDuration:animationDuration animations:^{
+//            self.scrollView.contentInset =
+//            UIEdgeInsetsMake(0.0f,
+//            0.0f,
+//            intersectionOfKeyboardRectAndWindowRect.size.height,
+//            0.0f);
+//            NSLog(@"contentInset=%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
+//            [self.scrollView scrollRectToVisible:self.textField.frame animated:NO];
+//            }];
+    }
 
+    override func handleKeyboardWillHide(paramNotification: NSNotification) {
+        UIView.animateWithDuration(1) { () -> Void in
+            self.view.frame.origin.y = 0
+        }
+//        NSLog(@"%s",__FUNCTION__);
+//        
+//        NSDictionary *userInfo = [paramSender userInfo];
+//        NSValue *animationDurationObject =
+//            [userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey];
+//        double animationDuration = 0.0;
+//        [animationDurationObject getValue:&animationDuration];
+//        [UIView animateWithDuration:animationDuration animations:^{
+//            self.scrollView.contentInset = UIEdgeInsetsZero;
+//            }];
+    }
+    
     
     // MARK: - Navigation
 

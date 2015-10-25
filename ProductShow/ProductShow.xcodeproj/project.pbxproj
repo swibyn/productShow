@@ -103,8 +103,6 @@
 		4D81BFC81BD0D96A00B1AA34 /* OrderDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailTableViewController.swift; sourceTree = "<group>"; };
 		4D81BFCA1BD0E73200B1AA34 /* MyOrdersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyOrdersTableViewController.swift; sourceTree = "<group>"; };
 		4D8E1E7C1BDA0D1000F30612 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		4D8E1E821BDA124900F30612 /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
-		4D8E1E861BDA195500F30612 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		4D95CB301BCF85E600E10FD3 /* UIViewController+FirstVCExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+FirstVCExtension.swift"; sourceTree = "<group>"; };
 		4D95CB321BCF8ED800E10FD3 /* Cart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		4D95CB341BCF9A6700E10FD3 /* CartTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartTableViewController.swift; sourceTree = "<group>"; };
@@ -195,8 +193,6 @@
 				4D66BB1A1BCF4E4400AF5CDC /* LaunchScreen.xib */,
 				4D66BB0D1BCF4E4400AF5CDC /* Supporting Files */,
 				4D66BB5E1BCF515B00AF5CDC /* ProductShow-Bridging-Header.h */,
-				4D8E1E861BDA195500F30612 /* AVFoundation.framework */,
-				4D8E1E821BDA124900F30612 /* AVKit.framework */,
 				4D8E1E7C1BDA0D1000F30612 /* MediaPlayer.framework */,
 				4DBFC91C1BD1E15B0076123D /* userinfo.json */,
 			);
@@ -590,7 +586,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.gaozgao.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhiwx.ProductShow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProductShow/ProductShow-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -605,7 +601,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.gaozgao.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhiwx.ProductShow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProductShow/ProductShow-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 2;

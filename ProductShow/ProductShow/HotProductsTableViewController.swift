@@ -40,10 +40,6 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         }else{
             self.showFirstPage()
         }
-//        let backBarButton = UIBarButtonItem(title: "aaaaa", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("didReceiveMemoryWarning"))
-//        backBarButton.tintColor = UIColor.whiteColor()
-//        self.navigationItem.backBarButtonItem = backBarButton
-//        self.setBarButtonTint(UIColor.whiteColor())
     }
     
     override func viewDidAppear(animated: Bool) { //首页过来，没有触发，现在viewdidload中showfirstpage
