@@ -13,9 +13,10 @@ class TabNavigationController: UINavigationController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.  
+        // Do any additional setup after loading the view.
         self.navigationBar.tintColor = UIColor.whiteColor()
-        
+        resetTabBar()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -33,6 +34,19 @@ class TabNavigationController: UINavigationController {
 //        self.navigationController?.navigationBarHidden = false
     }
     
+    
+    func resetTabBar(){
+        let old = self.tabBarItem.imageInsets
+        self.tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
+        self.tabBarItem.image? = self.tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        
+        self.tabBarItem.selectedImage? = self.tabBarItem.selectedImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        self.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 20)
+//        print("\(self) \(__FUNCTION__)")
+        //        print("\(self)  tabBarItem.imageInsets=\(self.tabBarItem.imageInsets)")
+        
+    }
+
     
     /*
     // MARK: - Navigation

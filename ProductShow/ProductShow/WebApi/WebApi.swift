@@ -35,7 +35,7 @@ class WebApi: NSObject {
     
     class func URLRequestWith(var subUrlStr: String, httpMethod: String, jsonObj: NSDictionary?)->NSURLRequest{
         
-        let eqNo = UIDevice.currentDevice().identifierForVendor!.UUIDString
+        let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
         let paraDic = NSMutableDictionary()
         if let json = jsonObj{
             paraDic.setDictionary(json as [NSObject : AnyObject])
@@ -409,7 +409,7 @@ class WebApi: NSObject {
     //MARK: 15. 提交图片,模拟网页提交的格式
     class func UpFile1(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-        let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
+        let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
         let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(uid!)")
         UploadFile().uploadFileWithURL(NSURL(string: url)!, data: imageData) { (response, data, error) -> Void in

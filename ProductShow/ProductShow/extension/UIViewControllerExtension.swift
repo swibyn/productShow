@@ -57,7 +57,12 @@ extension UIViewController{
         //nothing to be override
     }
     
-   
+    
+    
+//    func supportedInterfaceOrientations() -> UIInterfaceOrientationMask{
+//        return UIInterfaceOrientationMask.Landscape
+//    }
+    
     
     
 }

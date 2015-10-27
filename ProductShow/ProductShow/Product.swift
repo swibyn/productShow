@@ -52,6 +52,10 @@ class Product: NSObject{
         return _productDic?.objectForKey(jfimgUrl) as? String
     }
     
+    var thumbUrl: String?{
+        return _productDic?.objectForKey(jfthumbUrl) as? String
+    }
+    
     var orderIndex: Int?{
         return _productDic?.objectForKey(jforderIndex) as? Int
     }

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D5ED56C1BDF9E8F00D2DD77 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */; };
+		4D5ED56E1BDF9F3900D2DD77 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		4D5ED5701BDFB10900D2DD77 /* Categories1CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		4D5ED5721BDFB15C00D2DD77 /* Categories2CollectionViewContrller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED5711BDFB15C00D2DD77 /* Categories2CollectionViewContrller.swift */; settings = {ASSET_TAGS = (); }; };
+		4D5ED5741BDFB3E000D2DD77 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED5731BDFB3E000D2DD77 /* Category.swift */; settings = {ASSET_TAGS = (); }; };
 		4D66BB101BCF4E4400AF5CDC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB0F1BCF4E4400AF5CDC /* AppDelegate.swift */; };
 		4D66BB171BCF4E4400AF5CDC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4D66BB151BCF4E4400AF5CDC /* Main.storyboard */; };
 		4D66BB191BCF4E4400AF5CDC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4D66BB181BCF4E4400AF5CDC /* Images.xcassets */; };
@@ -34,7 +39,7 @@
 		4D81BFC91BD0D96A00B1AA34 /* OrderDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D81BFC81BD0D96A00B1AA34 /* OrderDetailTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4D81BFCB1BD0E73200B1AA34 /* MyOrdersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D81BFCA1BD0E73200B1AA34 /* MyOrdersTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4D8E1E7D1BDA0D1000F30612 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D8E1E7C1BDA0D1000F30612 /* MediaPlayer.framework */; };
-		4D95CB311BCF85E600E10FD3 /* UIViewController+FirstVCExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95CB301BCF85E600E10FD3 /* UIViewController+FirstVCExtension.swift */; settings = {ASSET_TAGS = (); }; };
+		4D95CB311BCF85E600E10FD3 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95CB301BCF85E600E10FD3 /* UIViewControllerExtension.swift */; settings = {ASSET_TAGS = (); }; };
 		4D95CB331BCF8ED800E10FD3 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95CB321BCF8ED800E10FD3 /* Cart.swift */; settings = {ASSET_TAGS = (); }; };
 		4D95CB351BCF9A6700E10FD3 /* CartTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95CB341BCF9A6700E10FD3 /* CartTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4DBA71B61BD489DE0031945C /* UIImagesCollectionViewContrller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA71B51BD489DE0031945C /* UIImagesCollectionViewContrller.swift */; settings = {ASSET_TAGS = (); }; };
@@ -70,6 +75,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
+		4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Categories1CollectionViewController.swift; sourceTree = "<group>"; };
+		4D5ED5711BDFB15C00D2DD77 /* Categories2CollectionViewContrller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Categories2CollectionViewContrller.swift; sourceTree = "<group>"; };
+		4D5ED5731BDFB3E000D2DD77 /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		4D66BB0A1BCF4E4400AF5CDC /* ProductShow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProductShow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4D66BB0E1BCF4E4400AF5CDC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4D66BB0F1BCF4E4400AF5CDC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -103,7 +113,7 @@
 		4D81BFC81BD0D96A00B1AA34 /* OrderDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailTableViewController.swift; sourceTree = "<group>"; };
 		4D81BFCA1BD0E73200B1AA34 /* MyOrdersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyOrdersTableViewController.swift; sourceTree = "<group>"; };
 		4D8E1E7C1BDA0D1000F30612 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
-		4D95CB301BCF85E600E10FD3 /* UIViewController+FirstVCExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+FirstVCExtension.swift"; sourceTree = "<group>"; };
+		4D95CB301BCF85E600E10FD3 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		4D95CB321BCF8ED800E10FD3 /* Cart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		4D95CB341BCF9A6700E10FD3 /* CartTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartTableViewController.swift; sourceTree = "<group>"; };
 		4DBA71B51BD489DE0031945C /* UIImagesCollectionViewContrller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImagesCollectionViewContrller.swift; sourceTree = "<group>"; };
@@ -134,6 +144,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D5ED56C1BDF9E8F00D2DD77 /* AdSupport.framework in Frameworks */,
 				4D8E1E7D1BDA0D1000F30612 /* MediaPlayer.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -178,6 +189,8 @@
 				4DDB314B1BD8C5240030B3EE /* Product */,
 				4D66BB311BCF4F5F00AF5CDC /* CategoriesTableViewController.swift */,
 				4D66BB321BCF4F5F00AF5CDC /* CategoriesTableViewController2.swift */,
+				4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */,
+				4D5ED5711BDFB15C00D2DD77 /* Categories2CollectionViewContrller.swift */,
 				4D66BB331BCF4F5F00AF5CDC /* FirstPageViewController.swift */,
 				4D66BB351BCF4F5F00AF5CDC /* HomeTabBarViewController.swift */,
 				4D66BB361BCF4F5F00AF5CDC /* HotProductsTableViewController.swift */,
@@ -193,6 +206,7 @@
 				4D66BB1A1BCF4E4400AF5CDC /* LaunchScreen.xib */,
 				4D66BB0D1BCF4E4400AF5CDC /* Supporting Files */,
 				4D66BB5E1BCF515B00AF5CDC /* ProductShow-Bridging-Header.h */,
+				4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */,
 				4D8E1E7C1BDA0D1000F30612 /* MediaPlayer.framework */,
 				4DBFC91C1BD1E15B0076123D /* userinfo.json */,
 			);
@@ -237,8 +251,9 @@
 			isa = PBXGroup;
 			children = (
 				4D66BB4F1BCF4FB600AF5CDC /* StringExtension.swift */,
-				4D95CB301BCF85E600E10FD3 /* UIViewController+FirstVCExtension.swift */,
+				4D95CB301BCF85E600E10FD3 /* UIViewControllerExtension.swift */,
 				4DF116CF1BD9E62000020452 /* UIImagePickerController+Nonrotating.swift */,
+				4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -276,6 +291,7 @@
 				4DDB313E1BD87E5E0030B3EE /* Customer.swift */,
 				4DDB31421BD893D50030B3EE /* ReturnDic.swift */,
 				4DDB31461BD8BA3F0030B3EE /* Notice.swift */,
+				4D5ED5731BDFB3E000D2DD77 /* Category.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -354,10 +370,11 @@
 				LastSwiftMigration = 0700;
 				LastSwiftUpdateCheck = 0700;
 				LastUpgradeCheck = 0700;
-				ORGANIZATIONNAME = gaozgao;
+				ORGANIZATIONNAME = zhiwx;
 				TargetAttributes = {
 					4D66BB091BCF4E4400AF5CDC = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = SW4BFK5FLN;
 					};
 					4D66BB201BCF4E4400AF5CDC = {
 						CreatedOnToolsVersion = 6.4;
@@ -424,10 +441,13 @@
 				4DDB313F1BD87E5E0030B3EE /* Customer.swift in Sources */,
 				4DBA71B61BD489DE0031945C /* UIImagesCollectionViewContrller.swift in Sources */,
 				4D66BB4D1BCF4F7E00AF5CDC /* WebApi.swift in Sources */,
+				4D5ED5701BDFB10900D2DD77 /* Categories1CollectionViewController.swift in Sources */,
 				4DBA71BC1BD4C0BA0031945C /* Product.swift in Sources */,
 				4DBFC9201BD1EFA80076123D /* PhotoUtil.swift in Sources */,
 				4DDB31471BD8BA3F0030B3EE /* Notice.swift in Sources */,
+				4D5ED5741BDFB3E000D2DD77 /* Category.swift in Sources */,
 				4D66BB3E1BCF4F5F00AF5CDC /* CategoriesTableViewController2.swift in Sources */,
+				4D5ED56E1BDF9F3900D2DD77 /* UIDeviceExtension.swift in Sources */,
 				4DBFC9221BD24F300076123D /* UserInfo.swift in Sources */,
 				4DC9BC651BDB909600D399C0 /* UICustomerTableViewController.swift in Sources */,
 				4D95CB331BCF8ED800E10FD3 /* Cart.swift in Sources */,
@@ -438,12 +458,13 @@
 				4DDB31491BD8C0D70030B3EE /* UINoticeViewController.swift in Sources */,
 				4D66BB3D1BCF4F5F00AF5CDC /* CategoriesTableViewController.swift in Sources */,
 				4DF116D01BD9E62000020452 /* UIImagePickerController+Nonrotating.swift in Sources */,
-				4D95CB311BCF85E600E10FD3 /* UIViewController+FirstVCExtension.swift in Sources */,
+				4D95CB311BCF85E600E10FD3 /* UIViewControllerExtension.swift in Sources */,
 				4D66BB481BCF4F5F00AF5CDC /* UserCenterTableViewController.swift in Sources */,
 				4D66BB441BCF4F5F00AF5CDC /* ProductsTableViewController.swift in Sources */,
 				4D66BB471BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift in Sources */,
 				4D66BB651BCF519A00AF5CDC /* NSString+MessageDigest.m in Sources */,
 				4D7EF68B1BD33A8F00CBFEFC /* UIProductTableViewController.swift in Sources */,
+				4D5ED5721BDFB15C00D2DD77 /* Categories2CollectionViewContrller.swift in Sources */,
 				4D95CB351BCF9A6700E10FD3 /* CartTableViewController.swift in Sources */,
 				4DBD0E6A1BD612F00090DFAC /* UploadFile.m in Sources */,
 				4D66BB501BCF4FB600AF5CDC /* StringExtension.swift in Sources */,
@@ -584,6 +605,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhiwx.ProductShow;
@@ -599,6 +621,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = ProductShow/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhiwx.ProductShow;

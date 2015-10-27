@@ -49,10 +49,12 @@ class LoginViewController: UIViewController {
                     //登录成功
                     self.delegate?.loginViewController(self, userInfo: json)
                     NSUserDefaults.standardUserDefaults().setValue(username, forKey: jfusername)
+                    NSUserDefaults.standardUserDefaults().setValue(self.passwordTextField.text!, forKey: jfpwd)
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
                     let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
+                    self.SendEquipCode()
                 }
             }else{
                 let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
@@ -72,7 +74,9 @@ class LoginViewController: UIViewController {
         
         //显示登录名
         let username = NSUserDefaults.standardUserDefaults().valueForKey(jfusername) as? String
+        let pwd = NSUserDefaults.standardUserDefaults().valueForKey(jfpwd) as? String
         self.usernameTextField.text = username ?? ""
+        self.passwordTextField.text = pwd ?? ""
         
         //loginbutton设置成圆角 //        self.loginButton.buttonType = UIButtonType.RoundedRect
         self.loginButton.layer.masksToBounds = true
@@ -88,27 +92,7 @@ class LoginViewController: UIViewController {
     
     
     override func viewDidAppear(animated: Bool) {
-        //检查设备是否允许访问
-        let eqNo = UIDevice.currentDevice().identifierForVendor!.UUIDString
-        let eqName = UIDevice.currentDevice().name
-        WebApi.SendEquipCode([jfeqName:eqName],  completedHandler: { (response, data, error) -> Void in
-            if WebApi.isHttpSucceed(response, data: data, error: error){
-                
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-//                debugPrintln("\(__FILE__) \(__FUNCTION__) json=\(json)")
-                let statusobj: AnyObject? = json.objectForKey(jfstatus)
-                let statusString = statusobj as! Int
-                if (statusString == 0){
-                    let alertView = UIAlertView(title: "Hint", message: "Equipment forbidden，contact the admin\nNO：\(eqNo)\nName：\(eqName)", delegate: nil, cancelButtonTitle: "OK")
-                    alertView.show()
-//                    self.eqNoAllowHintLabel.hidden = false
-//                    self.eqNoAllowHintLabel.text = "Equipment forbidden，contact the admin\nNO：\(eqNo)\nName：\(eqName)"
-//                    self.loginButton.enabled = false
-                }
-                
-            }
-        })
-
+        
     }
     
 
@@ -122,70 +106,20 @@ class LoginViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-    deinit{
-//        print("\(self) deinit")
-    }
     
     //MARK: KeyboardNotification
     override func handleKeyboardWillShow(paramNotification: NSNotification) {
-//        let userInfo = paramNotification.userInfo
-//        let keyboardEndRectObj = userInfo?[UIKeyboardFrameEndUserInfoKey]
-//        let animationDurationObj = userInfo?[UIKeyboardAnimationDurationUserInfoKey]
+        
         UIView.animateWithDuration(1) { () -> Void in
             self.view.frame.origin.y = -250
         }
         
-        
-//        NSLog(@"%s",__FUNCTION__);
-//        NSDictionary *userInfo = paramNotification.userInfo;
-//        
-//        /* Get the duration of the animation of the keyboard for when it
-//        gets displayed on the screen. We will animate our contents using
-//        the same animation duration */
-//        NSValue *animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey];
-//        NSValue *keyboardEndRectObject = userInfo[UIKeyboardFrameEndUserInfoKey];
-//        double animationDuration = 0.0;
-//        CGRect keyboardEndRect = CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
-//        [animationDurationObject getValue:&animationDuration];
-//        [keyboardEndRectObject getValue:&keyboardEndRect];
-//        UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//        
-//        /* Convert the frame from window's coordinate system to
-//        our view's coordinate system */
-//        keyboardEndRect = [self.view convertRect:keyboardEndRect fromView:window];
-//        NSLog(@"keyboardEndRect=%@",NSStringFromCGRect(keyboardEndRect));
-//        //    [NSString stringwith]
-//        
-//        /* Find out how much of our view is being covered by the keyboard */
-//        CGRect intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect);
-//        NSLog(@"intersectionOfKeyboardRectAndWindowRect=%@",NSStringFromCGRect(intersectionOfKeyboardRectAndWindowRect));
-//        
-//        /* Scroll the scroll view up to show the full contents of our view */
-//        [UIView animateWithDuration:animationDuration animations:^{
-//            self.scrollView.contentInset =
-//            UIEdgeInsetsMake(0.0f,
-//            0.0f,
-//            intersectionOfKeyboardRectAndWindowRect.size.height,
-//            0.0f);
-//            NSLog(@"contentInset=%@",NSStringFromUIEdgeInsets(self.scrollView.contentInset));
-//            [self.scrollView scrollRectToVisible:self.textField.frame animated:NO];
-//            }];
     }
 
     override func handleKeyboardWillHide(paramNotification: NSNotification) {
-        UIView.animateWithDuration(1) { () -> Void in
+        UIView.animateWithDuration(1.0) { () -> Void in
             self.view.frame.origin.y = 0
         }
-//        NSLog(@"%s",__FUNCTION__);
-//        
-//        NSDictionary *userInfo = [paramSender userInfo];
-//        NSValue *animationDurationObject =
-//            [userInfo valueForKey:UIKeyboardAnimationDurationUserInfoKey];
-//        double animationDuration = 0.0;
-//        [animationDurationObject getValue:&animationDuration];
-//        [UIView animateWithDuration:animationDuration animations:^{
-//            self.scrollView.contentInset = UIEdgeInsetsZero;
-//            }];
     }
     
     
@@ -208,6 +142,29 @@ class LoginViewController: UIViewController {
         return UIInterfaceOrientationMask.Landscape
     }
     
+    //MARK: 发送设备编码
+    func SendEquipCode(){
+        
+        //检查设备是否允许访问
+        let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
+        let eqName = UIDevice.currentDevice().name
+        WebApi.SendEquipCode([jfeqName:eqName],  completedHandler: { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                let returnDic = ReturnDic(returnDic: json)
+                
+                let status = returnDic.status
+                if status == 0{
+                    let alertView = UIAlertView(title: "Hint", message: "Equipment forbidden，contact the admin\nNO：\(eqNo)\nName：\(eqName)", delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                    
+                }
+                
+            }
+        })
+
+    }
 
 
 }

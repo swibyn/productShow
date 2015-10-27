@@ -152,6 +152,7 @@ class UserInfo: ReturnDic {
     
     func signout(){
         _returnDic = nil
+        NSUserDefaults.standardUserDefaults().setValue(nil, forKey: jfpwd)
         NSNotificationCenter.defaultCenter().postNotificationName(kUserSignOutNotification, object: nil)
     }
     

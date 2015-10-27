@@ -16,6 +16,9 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         self.addUserSignOutNotificationObserver()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        changeTabBarIfNever()
+    }
     override func viewDidAppear(animated: Bool) {
         //如果还没登录，则弹出登录界面
         let bsignin = UserInfo.defaultUserInfo().status == 1
@@ -33,7 +36,16 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     deinit{
         self.removeUserSignOutNotificationObserver()
     }
-    
+    //MARK: 使tabbaritem进入使用状态
+    var bever = false
+    func changeTabBarIfNever(){
+        if !bever{
+            bever = true
+        for i in 0..<self.viewControllers!.count{
+            self.selectedIndex = i
+        }
+        }
+    }
     
     //MARK: 监听注销消息通知
     func addUserSignOutNotificationObserver(){
@@ -69,8 +81,23 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     
     // MARK: FirstPageViewControllerDelegate
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
+        
+//        let title = button.titleForState(.Normal)
+//        switch title!{
+//        case "Hot Products":
+//            self.selectedIndex = 0
+//        case "Product Categories":
+//            self.selectedIndex = 1
+//        case "Search":
+//            self.selectedIndex = 2
+//        case "User Center":
+//            self.selectedIndex = 3
+//        default:
+//            self.selectedIndex = 0
+//        }
+        
         for vc in self.viewControllers! {
-//            print("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
+            print("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
             if vc.tabBarItem.title == button.titleForState(UIControlState.Normal){
                 self.selectedViewController = vc
                 break

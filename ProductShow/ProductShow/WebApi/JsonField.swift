@@ -43,6 +43,7 @@ let jfproVer = "proVer" //产品版本号
 let jfdata = "data"
 let jfdt = "dt"
 let jfimgUrl = "imgUrl"
+let jfthumbUrl = "thumbUrl"
 
 //MARK:4. 获取一级产品分类
 let jfcatName = "catName" //产品分类名称

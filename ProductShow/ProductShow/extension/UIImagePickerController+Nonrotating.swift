@@ -9,12 +9,12 @@
 import Foundation
 import UIKit
 
-extension UIImagePickerController{
-    override public func shouldAutorotate() -> Bool {
-//        debugPrint("\(self) \(__FUNCTION__)")
-        return true
-    }
-}
+//extension UIImagePickerController{
+//    override public func shouldAutorotate() -> Bool {
+////        debugPrint("\(self) \(__FUNCTION__)")
+//        return true
+//    }
+//}
 
 //extension PUUIAlbumListViewController{
 //    

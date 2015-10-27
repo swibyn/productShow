@@ -106,7 +106,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     func sendShopData(){
         
         //设备编号
-        let eqNo = (UIDevice.currentDevice().identifierForVendor?.UUIDString)!
+        let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
         
         //用户信息
         let uname = UserInfo.defaultUserInfo().firstUser?.uname

@@ -91,11 +91,11 @@ class UIProductTableViewController: UITableViewController {
             
             WebApi.GetFile(product?.imgUrl, completedHandler: { (response, data, error) -> Void in
                 if data?.length > 0{
-                productImageView?.image = UIImage(data:data!)
+                    productImageView?.image = UIImage(data:data!)
                 }
             })
-            namelabel?.text = "Name: \((product?.proName)!)"
-            sizelabel?.text = "Size: \((product?.proSize)!)"
+            namelabel?.text = "\((product?.proName)!)"
+            sizelabel?.text = "\((product?.proSize)!)"
         
             remarkTextView?.text = product?.remark
             button?.addTarget(self, action: "addProductToCart:", forControlEvents: UIControlEvents.TouchUpInside)
