@@ -19,6 +19,13 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     
     var delegate: OrderDetailTableViewControllerDelegate?
     
+    //MARK: 初始化一个实例
+    static func newInstance()->OrderDetailTableViewController{
+        
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OrderDetailTableViewController") as! OrderDetailTableViewController
+        return aInstance
+    }
+    
     //MARK: IBAction
     @IBAction func addPictureButtonAction(sender: UIBarButtonItem) {
         

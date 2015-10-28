@@ -10,32 +10,39 @@ import UIKit
 
 class UINoticeTableViewController: UITableViewController {
     
-    var notices = Notices()
+    var notices: Notices?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Announcements"
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
         
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-//        let uid = UserInfo.defaultUserInfo().firstUser?.uid
-//        debugPrint("\(self) userinfo=\(UserInfo.defaultUserInfo().returnDic)")
+        let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
+        
+        GetNotice()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    //MARK: api
+    func GetNotice(){
+        
         WebApi.GetNotice(nil,  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                 
                 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                self.notices.returnDic = json
+                self.notices = Notices(returnDic: json)
                 
-                if (self.notices.status == 1){
+                if (self.notices!.status == 1){
                     self.tableView.reloadData()
                     
                 }else{
-                    let msgString = json.objectForKey(jfmessage) as! String
+                    let msgString = self.notices?.message
                     let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
@@ -45,12 +52,6 @@ class UINoticeTableViewController: UITableViewController {
             }
         })
     }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -60,21 +61,35 @@ class UINoticeTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return notices.noticesCount
+        return notices?.noticesCount ?? 0
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommonTableViewCell", forIndexPath: indexPath) as! UICommonTableViewCell
+        cell.initCell(nil, indexPath: nil, hideRightButtons: false)
+        cell.detailButton.hidden = true
+        
         
         // Configure the cell...
-        let notice = notices.noticeAtIndex(indexPath.row)
-        cell.textLabel?.text = notice?.title // "\(notice?.title) \(customer?.custName)"
-        cell.detailTextLabel?.text = notice?.releaseDate
+        let notice = notices?.noticeAtIndex(indexPath.row)
+        cell.leftLabel.text = notice?.title 
+        cell.rightLabel.text = notice?.releaseDate
         
         return cell
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(UICommonTableViewCell.rowHeight)
+    }
+    
+    //MARK: - Table view Delegate
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let notice = notices?.noticeAtIndex(indexPath.row)
+        let noticeViewController = UINoticeViewController.newInstance()
+        noticeViewController.notice = notice
+        self.navigationController?.pushViewController(noticeViewController, animated: true)
+    }
     
     /*
     // Override to support conditional editing of the table view.
@@ -119,7 +134,7 @@ class UINoticeTableViewController: UITableViewController {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let selectedIndexPath = self.tableView.indexPathForSelectedRow!
-        let notice = notices.noticeAtIndex(selectedIndexPath.row)
+        let notice = notices?.noticeAtIndex(selectedIndexPath.row)
         let destVc = segue.destinationViewController
         
         destVc.setValue(notice, forKey: "notice")

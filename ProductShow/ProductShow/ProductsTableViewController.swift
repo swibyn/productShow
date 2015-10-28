@@ -10,57 +10,25 @@ import UIKit
 
 class ProductsTableViewController: UITableViewController,UIProductTableViewCellDelegate {
     
-    var catId: Int = 0
-    var catName: String = "Products" //一级名称
+//    var catId: Int = 0
+//    var catName: String = "Products" //一级名称
 //    var dataArray: NSArray?
+    var category2 : Category?
     var products = Products()
 
     @IBOutlet var cartBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = catName
+        self.title = category2?.catName
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
-        self.addNotificationObserver()
+        self.addProductsInCartChangedNotificationObserver()
         self.cartBarButton.title = Cart.defaultCart().title
         
-        WebApi.GetProductsByCatId([jfcatId : catId], completedHandler: { (response, data, error) -> Void in
-            
-            if WebApi.isHttpSucceed(response, data: data, error: error){
-                
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                self.products.returnDic = json
-                
-//                let statusInt = json.objectForKey(jfstatus) as! Int
-                if (self.products.status == 1){
-                    //获取成功
-//                    let data = json.objectForKey(jfdata) as! NSDictionary
-//                    let dt = data.objectForKey(jfdt) as! NSArray
-                    
-//                    self.dataArray = dt
-                    self.tableView.reloadData()
-                }else{
-                    let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
-                    alertView.show()
-                }
-                
-                
-            }
-
-            
-        })
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
+        self.GetProducts()
         
     }
     
@@ -72,15 +40,40 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     }
     
     deinit{
-        self.removeNotificationObserver()
+        self.removeProductsInCartChangedNotificationObserver()
+    }
+    
+    //MARK: 获取数据
+    func GetProducts(){
+        
+        let catId = category2?.catId
+        WebApi.GetProductsByCatId([jfcatId : catId!], completedHandler: { (response, data, error) -> Void in
+            
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                self.products.returnDic = json
+                
+                if (self.products.status == 1){
+                    //获取成功
+                    self.tableView.reloadData()
+                }else{
+                    let msgString = self.products.message
+                    let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                }
+            }
+        })
+
     }
     
     //MARK: 消息通知
-    func addNotificationObserver(){
+    func addProductsInCartChangedNotificationObserver(){
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
     }
     
-    func removeNotificationObserver(){
+    func removeProductsInCartChangedNotificationObserver(){
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
     
@@ -94,7 +87,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
 //        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
-        let detailVc = selectCell?.productTableViewController()
+        let detailVc = selectCell?.productViewController()
         detailVc?.product = selectCell?.product // products.productAtIndex(indexPath.row)// selectCell?.productDic
         self.navigationController?.pushViewController(detailVc!, animated: true)
     }

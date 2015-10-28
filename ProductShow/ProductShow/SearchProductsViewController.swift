@@ -98,7 +98,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
-        let detailVc = selectCell?.productTableViewController()
+        let detailVc = selectCell?.productViewController()
         detailVc?.product = selectCell?.product
         self.navigationController?.pushViewController(detailVc!, animated: true)
     }

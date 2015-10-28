@@ -8,14 +8,14 @@
 
 import UIKit
 
-class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, OrderDetailTableViewControllerDelegate {
+class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, OrderDetailTableViewControllerDelegate,UICommonTableViewCellDelegate {
     
-//    var dataArray : NSMutableArray?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        dataArray = OrderManager.defaultManager().orders //保持这个引用，不要重新赋值
+        let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
         
         self.addNotificationObserver()
     }
@@ -40,7 +40,6 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     }
     
     func handleOrdersChanged(){
-//        dataArray = OrderManager.defaultManager().orders
         self.tableView.reloadData()
     }
 
@@ -52,9 +51,6 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
             let order = Orders.defaultOrders().orderAtIndex((indexPathForAccessoryButtonTappedRow?.row)!)
                 order?.orderName = alertView.textFieldAtIndex(0)?.text ?? ""
             
-//            dataArray?.objectAtIndex((indexPathForAccessoryButtonTappedRow?.row)!) as? NSMutableDictionary
-//            
-//            Order(dic: dic!).orderName = alertView.textFieldAtIndex(0)?.text ?? ""
             self.tableView.reloadData()
         }
     }
@@ -90,18 +86,29 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommonTableViewCell", forIndexPath: indexPath) as! UICommonTableViewCell
+        cell.initCell(self, indexPath: indexPath, hideRightButtons: false)
+     
         
         // Configure the cell...
         let order = Orders.defaultOrders().orderAtIndex(indexPath.row)
-//        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSMutableDictionary
-        cell.textLabel?.text = order?.orderName
-        cell.detailTextLabel?.text = order?.orderTime // dic.objectForKey(OrderSaveKey.orderTime) as? String
-        
+        cell.leftLabel.text = order?.orderName
+        cell.rightLabel.text = order?.orderTime
         
         return cell
+        
     }
 
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(UICommonTableViewCell.rowHeight)
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let detailVc = OrderDetailTableViewController.newInstance()
+        detailVc.order = Orders.defaultOrders().orderAtIndex(indexPath.row)
+        self.navigationController?.pushViewController(detailVc, animated: true)
+    }
     
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
@@ -162,5 +169,35 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
 //        self.navigationController?.popViewControllerAnimated(true)
         self.tableView.reloadData()
     }
+    
+    //MARK: UICommonTableViewCellDelegate
+    func commonTableViewCellDetailButtonAction(cell: UICommonTableViewCell) {
+        indexPathForAccessoryButtonTappedRow = cell.indexPath
+        let alert = UIAlertView(title: "Set order name to", message: nil, delegate: self, cancelButtonTitle: "Cancel")
+        alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        //        let dic = dataArray?.objectAtIndex(indexPath.row) as? NSMutableDictionary
+        
+        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(cell.indexPath!.row)?.orderName// Order(dic: dic!).orderName
+        alert.addButtonWithTitle("OK")
+        alert.show()
+
+        
+        
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

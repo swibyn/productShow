@@ -18,23 +18,29 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
     var player: MPMoviePlayerViewController?
     
     override func viewDidLoad() {
-       
-        WebApi.GetProFilesByID([jfproId: product.proId!]) { (response, data, error) -> Void in
-            
-            if WebApi.isHttpSucceed(response, data: data, error: error){
+        self.GetProFiles()
+    }
+    
+    //MARK: function
+    func GetProFiles(){
+        if (product != nil){
+            WebApi.GetProFilesByID([jfproId: product.proId!]) { (response, data, error) -> Void in
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                
-                self.productFiles.returnDic = json
-                self.collectionView?.reloadData()
-            }else{
-                
-                debugPrint("\(self) \(__FUNCTION__) error=\(error)")
+                if WebApi.isHttpSucceed(response, data: data, error: error){
+                    
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                    
+                    self.productFiles.returnDic = json
+                    self.collectionView?.reloadData()
+                }else{
+                    
+                    debugPrint("\(self) \(__FUNCTION__) error=\(error)")
+                }
             }
         }
-        
     }
+    
     //MARK: 获取视频的缩略图
     
     func setThumb(fileName: String, imageView: UIImageView){

@@ -16,6 +16,8 @@ class UITableViewCell0 : UITableViewCell {
 
 class UserCenterTableViewController: UITableViewController {
     
+    let cellArray = ["userinfo","Customer","Announcements","My Orders","Modify password"]
+    
     @IBAction func signoutBarButtonAction(sender: UIBarButtonItem) {
         UserInfo.defaultUserInfo().signout()
     
@@ -26,11 +28,9 @@ class UserCenterTableViewController: UITableViewController {
         self.title = "User Center"
 
         self.addFirstPageButton()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
         
     }
     
@@ -57,27 +57,45 @@ class UserCenterTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath) 
-
-        // Configure the cell...
+        
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath)
         if indexPath.row == 0{
             let cell0 = cell as! UITableViewCell0
-//            let data = Global.userInfo!.objectForKey(jfdata) as! NSDictionary
-//            let dt = data.objectForKey(jfdt) as! NSArray
-//            let userinfo = dt.objectAtIndex(0) as! NSDictionary
-            cell0.userNameLabel.text = UserInfo.defaultUserInfo().firstUser?.uname// infoForKey(jfusername) as? String // userinfo.objectForKey(jfuname) as? String
+            debugPrint("userinfo=\(UserInfo.defaultUserInfo().returnDic)")
+            let uname = UserInfo.defaultUserInfo().firstUser?.uname
+            cell0.userNameLabel.text = uname
         }
-
         return cell
+
+//        // Configure the cell...
+//        if indexPath.row == 0{
+//            let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath)
+//            let cell0 = cell as! UITableViewCell0
+//            debugPrint("userinfo=\(UserInfo.defaultUserInfo().returnDic)")
+//            let uname = UserInfo.defaultUserInfo().firstUser?.uname
+//            cell0.userNameLabel.text = uname
+//            return cell
+//        }else{
+//            let cell = tableView.dequeueReusableCellWithIdentifier("CommonTableViewCell", forIndexPath: indexPath) as! UICommonTableViewCell
+//            cell.initCell(nil, indexPath: indexPath, hideRightButtons: true)
+//            cell.accessButton.hidden = false
+//            cell.leftLabel.text = cellArray[indexPath.row]
+//            
+//            return cell
+//        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0{
-            return 206
+            return 259
             
         }else{
-            return tableView.rowHeight
+            return CGFloat(UICommonTableViewCell.rowHeight)
         }
+        
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
     }
 

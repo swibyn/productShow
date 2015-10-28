@@ -76,7 +76,7 @@ class Categories1CollectionViewController: UICollectionViewController {
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
 //            let width = self.collectionView?.bounds
-            return  CGSize(width: (size!.width - 60)/2 ,height: 80)
+            return  CGSize(width: (size!.width - 60)/2 ,height: 90)
             
     }
     // MARK: - Navigation

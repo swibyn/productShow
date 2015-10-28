@@ -15,7 +15,7 @@ class TabNavigationController: UINavigationController {
 
         // Do any additional setup after loading the view.
         self.navigationBar.tintColor = UIColor.whiteColor()
-        resetTabBar()
+//        resetTabBar()
 
     }
 

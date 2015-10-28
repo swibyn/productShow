@@ -118,7 +118,13 @@ let jfimgPaths = "imgPaths"
 let jfimgPath = "imgPath"
 let jfmsg = "msg"
 
-//MARK:
+//MARK:16. 获取拜访日志
+let jflogId = "logId"
+//let jflogContent = "logContent"
+let jflogDesc = "logDesc"
+let jflogWeek = "logWeek"
+//let jflogDate = "logDate"
+
 
 
 

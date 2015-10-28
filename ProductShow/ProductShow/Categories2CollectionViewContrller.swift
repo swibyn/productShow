@@ -66,10 +66,22 @@ class Categories2CollectionViewController: UICollectionViewController {
         
         // Configure the cell...
         let label = cell.viewWithTag(100) as? UILabel
-        label?.text =  "\(categories?.categoryAtIndex(indexPath.row)?.catName)"
+        let catname = categories?.categoryAtIndex(indexPath.row)?.catName
+        label?.text =  "\(catname!)"
         
         return cell
     }
+    
+    
+    func collectionView(collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
+            let size = self.collectionView?.bounds.size
+            //            let width = self.collectionView?.bounds
+            return  CGSize(width: (size!.width - 60)/2 ,height: 90)
+            
+    }
+
     
     // MARK: - Navigation
     

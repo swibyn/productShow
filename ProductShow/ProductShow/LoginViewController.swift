@@ -137,7 +137,7 @@ class LoginViewController: UIViewController {
         return true
     }
     
-    
+    //MARK: 支持设备方向
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Landscape
     }

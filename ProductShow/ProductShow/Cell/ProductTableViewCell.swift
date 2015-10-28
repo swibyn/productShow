@@ -52,11 +52,19 @@ class UIProductTableViewCell : UITableViewCell {
         }
     }
     
-    func productTableViewController()->UIProductTableViewController{
-        let detailVc = UIProductTableViewController.newInstance()
+//    func productTableViewController()->UIProductTableViewController{
+//        let detailVc = UIProductTableViewController.newInstance()
+//        detailVc.product = product
+//        return detailVc
+//    }
+    
+    func productViewController()->ProductViewController{
+        let detailVc = ProductViewController.newInstance()
         detailVc.product = product
         return detailVc
     }
+    
+    
 }
 
 func ConfigureCell(cell: UIProductTableViewCell, canAddToCart:Bool, product: Product, delegate: UIProductTableViewCellDelegate?){

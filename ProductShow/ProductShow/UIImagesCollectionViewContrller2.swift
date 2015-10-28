@@ -11,8 +11,8 @@ import UIKit
 class UIImagesCollectionViewContrller2: UICollectionViewController {
     
 //    var productDic: NSDictionary?
-//    var product: Product!
-    var productFiles: ProductFiles!// = ProductFiles()
+    var product: Product?
+    var productFiles: ProductFiles?// = ProductFiles()
     var initcellIndex = 0
     
     //MARK: 初始化一个实例
@@ -23,14 +23,38 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     }
 
     //MARK: view life
+    override func viewDidLoad() {
+            GetProFilesIfNeed()
+        
+    }
     
     override func viewWillAppear(animated: Bool) {
         
-//        debugPrint("\(self) \(__FUNCTION__)")
-//        self.collectionView?.selectItemAtIndexPath(NSIndexPath(forRow: initcellIndex, inSection: 0), animated: true, scrollPosition: UICollectionViewScrollPosition.Top)
         let indexPath = NSIndexPath(forRow: initcellIndex, inSection: 0)
         self.collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
     }
+    
+    //MARK: function
+    func GetProFilesIfNeed(){
+        if (productFiles == nil)&&(product != nil){
+            let proId = product?.proId
+            WebApi.GetProFilesByID([jfproId: proId!]) { (response, data, error) -> Void in
+                
+                if WebApi.isHttpSucceed(response, data: data, error: error){
+                    
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                    
+                    self.productFiles = ProductFiles(returnDic: json)
+                    self.collectionView?.reloadData()
+                }else{
+                    
+                    debugPrint("\(self) \(__FUNCTION__) error=\(error)")
+                }
+            }
+        }
+    }
+
     
     //MARK: - UICollectionViewDataSource
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
@@ -38,7 +62,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
-        return productFiles.filesCount
+        return productFiles?.filesCount ?? 0
         
     }
     
@@ -49,9 +73,9 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         let imageView = cell.viewWithTag(100) as! UIImageView
    
         imageView.image = UIImage(named: "商品默认图片96X96")
-        let productFile = productFiles.productFileAtIndex(indexPath.row)!
-        WebApi.GetFile(productFile.filePath) { (response, data, error) -> Void in
-            if productFile.fileType! == ProductFileTypeImage{
+        let productFile = productFiles?.productFileAtIndex(indexPath.row)!
+        WebApi.GetFile(productFile?.filePath) { (response, data, error) -> Void in
+            if productFile!.fileType! == ProductFileTypeImage{
                 if data?.length > 0{
                     imageView.image = UIImage(data: data!)
                 }
@@ -77,8 +101,8 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
             
-            let productFile = productFiles.productFileAtIndex(indexPath.row)!
-            if productFile.fileType == ProductFileTypeImage{
+            let productFile = productFiles?.productFileAtIndex(indexPath.row)!
+            if productFile!.fileType == ProductFileTypeImage{
                 return size!
             }else{
                 return CGSize(width: 0, height: 0)

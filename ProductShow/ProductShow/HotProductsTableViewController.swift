@@ -29,12 +29,13 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
 //        if Global.userInfo != nil{
-//            self.showFirstPage()
+            self.showFirstPage()
 //        }
         self.addNotificationObserver()
     }
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
         if products.productsCount > 0{
             
         }else{
@@ -104,7 +105,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
 //        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
-        let detailVc = selectCell?.productTableViewController()
+        let detailVc = selectCell?.productViewController()
 //        detailVc?.product = selectCell?.product
         let nav = self.navigationController
         nav?.pushViewController(detailVc!, animated: true)
@@ -148,7 +149,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 //
 //    }
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-//        debugPrint("\(__FUNCTION__) \(scrollView.contentOffset)")
+        debugPrint("\(__FUNCTION__) \(scrollView.contentOffset)")
         if scrollView.contentOffset.y < -200{
             self.showFirstPage()
         }

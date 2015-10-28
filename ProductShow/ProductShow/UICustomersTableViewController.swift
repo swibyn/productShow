@@ -16,19 +16,27 @@ class UICustomersTableViewController: UITableViewController {
         super.viewDidLoad()
 
         self.title = "Customers"
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        
+        let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
+        
+        
+        GetCustomer()
+    }
 
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: function
+    func GetCustomer(){
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
-//        debugPrint("\(self) userinfo=\(UserInfo.defaultUserInfo().returnDic)")
         WebApi.GetCustomer([jfsaleId: uid!],  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
                 
-                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.customers.returnDic = json
                 
                 if (self.customers.status == 1){
@@ -44,23 +52,20 @@ class UICustomersTableViewController: UITableViewController {
                 alertView.show()
             }
         })
-    }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        
     }
     
     // MARK: - Table view delegate
 //    var indexPathForAccessoryButtonTappedRow: NSIndexPath?
-    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-//        indexPathForAccessoryButtonTappedRow = indexPath
-        let detailVC = UICustomerTableViewController.newInstance()
-        let customer = customers.customerAtIndex(indexPath.row)
-        detailVC.customer = customer
-        self.navigationController?.pushViewController(detailVC, animated: true)
-//        self.presentViewController(detailVC, animated: true, completion: nil)
-    }
+//    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
+////        indexPathForAccessoryButtonTappedRow = indexPath
+//        let detailVC = UICustomerTableViewController.newInstance()
+//        let customer = customers.customerAtIndex(indexPath.row)
+//        detailVC.customer = customer
+//        self.navigationController?.pushViewController(detailVC, animated: true)
+////        self.presentViewController(detailVC, animated: true, completion: nil)
+//    }
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -75,17 +80,22 @@ class UICustomersTableViewController: UITableViewController {
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("CommonTableViewCell", forIndexPath: indexPath) as! UICommonTableViewCell
+        cell.initCell(nil, indexPath: nil, hideRightButtons: true)
+        cell.accessButton.hidden = false
+        
         // Configure the cell...
         let customer = customers.customerAtIndex(indexPath.row)
         let linkman = customer?.linkman ?? ""
         let custName = customer?.custName ?? ""
-        cell.textLabel?.text = "\(custName) - \(linkman)"
-
+        cell.leftLabel.text = "\(custName) - \(linkman)"
+        
         return cell
     }
     
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return CGFloat(UICommonTableViewCell.rowHeight)
+    }
 
     /*
     // Override to support conditional editing of the table view.

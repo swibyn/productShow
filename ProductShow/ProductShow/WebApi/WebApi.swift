@@ -115,9 +115,14 @@ class WebApi: NSObject {
         
         
         let urlRequest = self.URLRequestWith(subUrlStr, httpMethod: httpMethod, jsonObj: jsonObj)
+        debugPrint("发送：\(urlRequest)")
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, connectionError) -> Void in
+            if data != nil{
+                let json = try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
             
+                debugPrint("收到数据：\(json!)")
+            }
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     completedHandler?(response,data,connectionError)
                 })

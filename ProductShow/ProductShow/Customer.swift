@@ -138,6 +138,10 @@ class Customer: NSObject{
         return _customerDic?.objectForKey(jfsaleId) as? Int
     }
     
+    var dept: String?{
+        return _customerDic?.objectForKey(jfdept) as? String
+    }
+    
     var creditLine: Int?{
         return _customerDic?.objectForKey(jfcreditLine) as? Int
     }

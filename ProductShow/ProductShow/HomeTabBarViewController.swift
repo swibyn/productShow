@@ -17,7 +17,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     }
     
     override func viewWillAppear(animated: Bool) {
-        changeTabBarIfNever()
+        changeTabBarIfNever1()
     }
     override func viewDidAppear(animated: Bool) {
         //如果还没登录，则弹出登录界面
@@ -41,10 +41,31 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     func changeTabBarIfNever(){
         if !bever{
             bever = true
-        for i in 0..<self.viewControllers!.count{
-            self.selectedIndex = i
+            for i in 0..<self.viewControllers!.count{
+                self.selectedIndex = i
+            }
         }
+    }
+    
+    func changeTabBarIfNever1(){
+        if !bever{
+            bever = true
+            for i in 0..<self.tabBar.items!.count{
+                resetTabBar(self.tabBar.items![i])
+            }
         }
+    }
+    
+    func resetTabBar(tabBarItem: UITabBarItem){
+        let old = tabBarItem.imageInsets
+        tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
+        tabBarItem.image? = tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        
+        tabBarItem.selectedImage? = tabBarItem.selectedImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 20)
+        //        print("\(self) \(__FUNCTION__)")
+        //        print("\(self)  tabBarItem.imageInsets=\(self.tabBarItem.imageInsets)")
+        
     }
     
     //MARK: 监听注销消息通知
@@ -122,5 +143,9 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         // Pass the selected object to the new view controller.
     }
     */
+    //MARK: 支持设备方向
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.Landscape
+    }
 
 }

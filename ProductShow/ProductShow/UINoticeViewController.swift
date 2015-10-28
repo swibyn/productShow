@@ -13,6 +13,16 @@ class UINoticeViewController: UIViewController {
     
     @IBOutlet var webView: UIWebView!
     
+    
+    //MARK: 初始化一个实例
+    static func newInstance()->UINoticeViewController{
+        
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("UINoticeViewController") as! UINoticeViewController
+        return aInstance
+    }
+
+
+    //MARK: view life
     override func viewDidLoad() {
         self.title = notice?.title
         let contentsOpt = notice?.contents
