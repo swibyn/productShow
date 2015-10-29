@@ -9,8 +9,12 @@
 import UIKit
 
 //let dataArray : [[String]] = [[jfcustName,"Name"],[jfaddress,"Address"],[jfarea,"Area"],[jfcity, "City"],[jflinkman, "LinkMan"],[jftel,"TEL"],[jfmobile,"Mobile"],[jffax,"Fax"],[jfbankName,"BankName"],[jfdept,"Dept"],[jfsaler,"Saler"],[jfmemo,"Detail"]]
+//MARK: - CustomerInfoTableViewCell
 class CustomerInfoTableViewCell: UITableViewCell {
     
+    var customer: Customer!
+    
+    @IBOutlet var bgView: UIView!
     @IBOutlet var NameLabel: UILabel!
     @IBOutlet var addressLabel: UILabel!
     @IBOutlet var cityLabel: UILabel!
@@ -20,45 +24,153 @@ class CustomerInfoTableViewCell: UITableViewCell {
     @IBOutlet var mobileLabel: UILabel!
     @IBOutlet var deptLabel: UILabel!
     
-}
-
-class VisitLogTableViewContrller: UITableViewController {
-    var customer: Customer!
-
-    @IBOutlet var logWriteTextView: UITextView!
-
-    @IBAction func logBarButtonAction(sender: UIBarButtonItem) {
-        self.logWriteTextView.hidden = false
-        self.logWriteTextView.becomeFirstResponder()
+    func refreshView(){
+        NameLabel.text = "Name: \(customer.custName!)"
+        addressLabel.text = "Address: \(customer.address!)"
+        cityLabel.text = "City: \(customer.city!)"
+        areaLabel.text = "Area: \(customer.area!)"
+        linkmanLabel.text = "Link: \(customer.linkman!)"
+        telLabel.text = "Tel: \(customer.tel!)"
+        mobileLabel.text = "Mobile: \(customer.mobile!)"
+        deptLabel.text = "Dept: \(customer.dept!)"
+       
     }
     
+    func adjustPosition(){
+        let x = self.bgView.center.x
+        linkmanLabel.frame.origin.x = x
+        telLabel.frame.origin.x = x
+        mobileLabel.frame.origin.x = x
+        deptLabel.frame.origin.x = x
+    }
+}
+
+//MARK: ConfigureCell
+func ConfigureCell(cell: CustomerInfoTableViewCell, customer: Customer){
+    cell.customer = customer
+    cell.refreshView()
+    cell.adjustPosition()
+}
+
+//MARK: - VisitLogTableViewContrller
+class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAlertViewDelegate {
+   
+    var customer: Customer!
+    var logs: Logs?
+    
+    var logWriting = false
+    var logTextView: UITextView?
+
+    //MARK: 初始化一个实例
+    static func newInstance()->VisitLogTableViewContrller{
+        
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("VisitLogTableViewContrller") as! VisitLogTableViewContrller
+        return aInstance
+    }
+
+
+    //MARK: @IB
+    @IBOutlet var logBarButtonItem: UIBarButtonItem!
+    @IBAction func logBarButtonAction(sender: UIBarButtonItem) {
+
+        logWriting = !logWriting
+        if logWriting{
+            logBarButtonItem.title = "Submit"
+        }else{
+//            logTextView?.resignFirstResponder()
+            self.view.endEditing(true)
+            submitLog()
+            logBarButtonItem.title = "Log"
+        }
+        self.tableView.reloadData()
+        
+    }
+    
+    //MARK: view life
     override func viewDidLoad() {
-        self.logWriteTextView.hidden = true
+        
+        self.GetWorkLog()
     }
     
     //MARK: function
-    func setCustomerInfo(cell: CustomerInfoTableViewCell){
-        cell.NameLabel.text = "Name: \(customer.custName)"
-        cell.addressLabel.text = "Address: \(customer.address)"
-        cell.cityLabel.text = "City: \(customer.city)"
-        cell.areaLabel.text = "Name: \(customer.area)"
-        cell.linkmanLabel.text = "Name: \(customer.linkman)"
-        cell.telLabel.text = "Name: \(customer.tel)"
-        cell.mobileLabel.text = "Name: \(customer.mobile)"
-        cell.deptLabel.text = "Name: \(customer.dept)"
+    
+    func submitLog(){
+        
+        let log = self.logTextView?.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        if log!.characters.count > 0{
+            let uid = UserInfo.defaultUserInfo().firstUser?.uid
+            let uName = UserInfo.defaultUserInfo().firstUser?.uname
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let logDate = formatter.stringFromDate(NSDate())
+            let logContent = log!
+            let custId = customer?.custId
+            let custName = customer?.custName
+            
+            let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logContent, jfcustId: custId!, jfcustName: custName!]
+            
+            WebApi.WriteCustLog(dic, completedHandler: { (response, data, error) -> Void in
+                if WebApi.isHttpSucceed(response, data: data, error: error){
+                    
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    
+                    //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                    let returnDic = ReturnDic(returnDic: json)
+                    
+                    if (returnDic.status == 1){
+                        let alertView = UIAlertView(title: "Succeed", message: "Submit succeed", delegate: self, cancelButtonTitle: "OK")
+                        alertView.show()
+                        
+                    }else{
+                        let message = returnDic.message// json.objectForKey(jfmessage) as! String
+                        let alertView = UIAlertView(title: "Error", message: message, delegate: nil, cancelButtonTitle: "OK")
+                        alertView.show()
+                    }
+                }else{
+                    let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                    
+                }
+            })
+        }
     }
     
+    func GetWorkLog(){
+        let uid = UserInfo.defaultUserInfo().firstUser?.uid
+        WebApi.GetWorkLog([jfuid: uid!]) { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                
+                self.logs = Logs(returnDic: json)
+                
+                if (self.logs!.status == 1){
+                    self.tableView.reloadData()
+                    
+                }else{
+                    let msgString = self.logs?.message// json.objectForKey(jfmessage) as! String
+                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                }
+            }else{
+                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+                alertView.show()
+            }
+        }
+    }
     
     // MARK: - Table view delegate
-    //    var indexPathForAccessoryButtonTappedRow: NSIndexPath?
-    //    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-    ////        indexPathForAccessoryButtonTappedRow = indexPath
-    //        let detailVC = UICustomerTableViewController.newInstance()
-    //        let customer = customers.customerAtIndex(indexPath.row)
-    //        detailVC.customer = customer
-    //        self.navigationController?.pushViewController(detailVC, animated: true)
-    ////        self.presentViewController(detailVC, animated: true, completion: nil)
-    //    }
+    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        let logWritingHeight = [0,102,102] as [CGFloat]
+        let normalHeight = [167,0,102] as [CGFloat]
+        
+        if indexPath.row < 2{
+            return logWriting ? logWritingHeight[indexPath.row] : normalHeight[indexPath.row]
+        }
+        return 102
+//        return (indexPath.row == 0) ? 167 : 102
+    }
+    
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -68,21 +180,55 @@ class VisitLogTableViewContrller: UITableViewController {
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 0//customers.customersCount
+        let logsCount = self.logs?.logsCount ?? 0
+        return logsCount + 2//customers.customersCount
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
         
-        // Configure the cell...
-//        let customer = customers.customerAtIndex(indexPath.row)
-//        let linkman = customer?.linkman ?? ""
-//        let custName = customer?.custName ?? ""
-//        let textLabel = cell.viewWithTag(100) as? UILabel
-//        textLabel?.text = "\(custName) - \(linkman)"
-        
-        return cell
+        if indexPath.row == 0{
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
+            ConfigureCell(cell, customer: customer)
+            return cell
+        }else if (indexPath.row == 1){
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
+            if logWriting{
+                let textView = cell.viewWithTag(100) as! UITextView
+                self.logTextView = textView
+                textView.editable = true
+                textView.text = ""
+                textView.becomeFirstResponder()
+            }
+            return cell
+            
+        } else{
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell2", forIndexPath: indexPath)
+            let textView = cell.viewWithTag(100) as! UITextView
+            let log = logs?.logAtIndex(indexPath.row - 2)
+            textView.text = "\(log!.logDate!)  \(log!.logContent!)"
+            textView.font = UIFont.systemFontOfSize(20)
+            return cell
+        }
     }
-
+    
+    //MARK: UITextViewDelegate
+    func textViewDidEndEditing(textView: UITextView){
+        debugPrint("\(self) \(__FUNCTION__)")
+//        textView.resignFirstResponder()
+    }
+    
+    //MARK: UIAlertViewDelegate
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        let message = alertView.message
+        let buttonTitle = alertView.buttonTitleAtIndex(buttonIndex)
+        if (message == "Submit succeed") && (buttonTitle == "OK"){
+//            self.logTextView?.text = ""
+            self.GetWorkLog()
+        }
+    }
+    
+    func alertViewCancel(alertView: UIAlertView){
+        
+    }
 }

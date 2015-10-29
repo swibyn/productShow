@@ -9,6 +9,10 @@
 import Foundation
 import UIKit
 
+let kLoginSucceed = "kLoginSucceed"
+let kProductsInCartChanged = "kProductsInCartChanged"
+let kUserSignOutNotification = "kUserSignOutNotification"
+
 extension UIViewController{
     
     //MARK: 增加首页按钮
@@ -25,17 +29,6 @@ extension UIViewController{
         (self.tabBarController as! HomeTabBarViewController).presentFirstPageVC()
     }
     
-//    func setBarButtonTint(color: UIColor){
-//        if self.navigationItem.leftBarButtonItems?.count > 0{
-//            for barButton in self.navigationItem.leftBarButtonItems!{
-//                barButton.tintColor = color
-//            }}
-//        if self.navigationItem.rightBarButtonItems?.count > 0{
-//            for barButton in self.navigationItem.rightBarButtonItems!{
-//                barButton.tintColor = color
-//            }
-//        }
-//    }
     //MARK: Keyboard Notification
     func addObserverKeyboardNotification(){
         let center = NSNotificationCenter.defaultCenter()
@@ -57,12 +50,48 @@ extension UIViewController{
         //nothing to be override
     }
     
+    //MARK: Login Notification
+    func addObserverLoginNotification(){
+        let center = NSNotificationCenter.defaultCenter()
+        center.addObserver(self, selector: Selector("handleLoginSucceed:"), name: kLoginSucceed, object: nil)
+    }
     
+    func removeObserverLoginNotification(){
+        let center = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self, name: kLoginSucceed, object: nil)
+    }
     
-//    func supportedInterfaceOrientations() -> UIInterfaceOrientationMask{
-//        return UIInterfaceOrientationMask.Landscape
-//    }
+    func handleLoginSucceed(paramNotification: NSNotification){
+        //nothing         //to be override
+    }
+        
     
+    //MARK: 购物车消息通知
+    func addObserverProductsInCartChangedNotification(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged:"), name: kProductsInCartChanged, object: nil)
+    }
+    
+    func removeObserverProductsInCartChangedNotification(){
+        let center = NSNotificationCenter.defaultCenter()
+        center.removeObserver(self, name: kProductsInCartChanged, object: nil)
+    }
+    
+    func handleProductsInCartChanged(paramNotification: NSNotification){
+        //nothing         //to be override
+    }
+    
+    //MARK: 监听注销消息通知
+    func addUserSignOutNotificationObserver(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleUserSignOutNotification"), name: kUserSignOutNotification, object: nil)
+    }
+    
+    func removeUserSignOutNotificationObserver(){
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: kUserSignOutNotification, object: nil)
+    }
+    
+    func handleUserSignOutNotification(){
+        
+    }
     
     
 }

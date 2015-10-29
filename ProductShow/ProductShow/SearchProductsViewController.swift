@@ -30,6 +30,16 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         self.addNotificationObserver()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+    
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

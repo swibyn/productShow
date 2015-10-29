@@ -28,7 +28,6 @@ import Foundation
 
 
 
-let kProductsInCartChanged = "kProductsInCartChanged"
 
 class Cart: NSObject {
     

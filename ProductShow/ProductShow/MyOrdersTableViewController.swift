@@ -107,6 +107,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let detailVc = OrderDetailTableViewController.newInstance()
         detailVc.order = Orders.defaultOrders().orderAtIndex(indexPath.row)
+        detailVc.delegate = self
         self.navigationController?.pushViewController(detailVc, animated: true)
     }
     

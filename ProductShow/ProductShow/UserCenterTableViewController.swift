@@ -34,6 +34,16 @@ class UserCenterTableViewController: UITableViewController {
         
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+        
+    }
     
 
     override func didReceiveMemoryWarning() {
@@ -61,7 +71,7 @@ class UserCenterTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath)
         if indexPath.row == 0{
             let cell0 = cell as! UITableViewCell0
-            debugPrint("userinfo=\(UserInfo.defaultUserInfo().returnDic)")
+//            debugPrint("userinfo=\(UserInfo.defaultUserInfo().returnDic)")
             let uname = UserInfo.defaultUserInfo().firstUser?.uname
             cell0.userNameLabel.text = uname
         }

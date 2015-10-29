@@ -40,7 +40,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kZZ-3p-vZ9">
                                 <rect key="frame" x="473" y="19" width="22" height="22"/>
                                 <connections>
-                                    <action selector="operationButtonAction:" destination="2bi-vI-hsu" eventType="touchUpInside" id="t5G-w5-LVM"/>
+                                    <action selector="detailButtonAction:" destination="2bi-vI-hsu" eventType="touchUpInside" id="ygA-om-i25"/>
                                 </connections>
                             </button>
                         </subviews>

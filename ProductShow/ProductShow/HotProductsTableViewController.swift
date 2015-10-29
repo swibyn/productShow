@@ -13,8 +13,10 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 //    var dataArray: NSArray?
     var products = Products()
 
+    //@IB
     @IBOutlet var cartBarButton: UIBarButtonItem!
     
+    //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Hot Products"
@@ -23,35 +25,23 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-//        if Global.userInfo != nil{
-            self.showFirstPage()
-//        }
-        self.addNotificationObserver()
+        self.addObserverProductsInCartChangedNotification()
+        self.addObserverLoginNotification()
     }
+    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         debugPrint("\(self) \(__FUNCTION__)")
-        if products.productsCount > 0{
-            
-        }else{
-            self.showFirstPage()
-        }
     }
     
     override func viewDidAppear(animated: Bool) { //首页过来，没有触发，现在viewdidload中showfirstpage
         super.viewDidAppear(animated)
-//        debugPrint("\(self) \(__FUNCTION__)")
-
-        
+        debugPrint("\(self) \(__FUNCTION__)")
     }
     
     deinit{
-        self.removeNotificationObserver()
+        self.removeObserverProductsInCartChangedNotification()
+        self.removeObserverLoginNotification()
     }
     
     override func didReceiveMemoryWarning() {
@@ -60,21 +50,34 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     }
     
     //MARK: 消息通知
-    func addNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
+    override func handleLoginSucceed(paramNotification: NSNotification) {
+        if products.productsCount == 0{
+            showFirstPage()
+        }
     }
     
-    func removeNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+    override func handleProductsInCartChanged(paramNotification: NSNotification) {
+        cartBarButton.title = Cart.defaultCart().title
     }
     
-    func handleProductsInCartChanged(){
-        self.cartBarButton.title = Cart.defaultCart().title
-    }
+//    func addNotificationObserver(){
+//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
+//    }
+//    
+//    func removeNotificationObserver(){
+//        NSNotificationCenter.defaultCenter().removeObserver(self)
+//    }
+//    
+//    func handleProductsInCartChanged(){
+//        self.cartBarButton.title = Cart.defaultCart().title
+//    }
     
 
     //MARK:显示第一页
     func showFirstPage(){
+        if UserInfo.defaultUserInfo().status == 0{
+            return
+        }
         WebApi.GetHotPro(nil, completedHandler: { (response, data, error) -> Void in
             self.refreshControl?.endRefreshing()
 

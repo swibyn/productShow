@@ -115,13 +115,13 @@ class WebApi: NSObject {
         
         
         let urlRequest = self.URLRequestWith(subUrlStr, httpMethod: httpMethod, jsonObj: jsonObj)
-        debugPrint("发送：\(urlRequest)")
+//        debugPrint("发送：\(urlRequest)")
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, connectionError) -> Void in
             if data != nil{
-                let json = try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
+//                let json = try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
             
-                debugPrint("收到数据：\(json!)")
+//                debugPrint("收到数据：\(json!)")
             }
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
                     completedHandler?(response,data,connectionError)
@@ -230,9 +230,9 @@ class WebApi: NSObject {
         //如果文件存在，则直接导入
         if fileManager.fileExistsAtPath(fileSavedName){
             let data = NSData(contentsOfFile: fileSavedName)
-//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 completedHandler?(nil,data,nil)
-//            })
+            })
             return
         }
         
@@ -259,65 +259,6 @@ class WebApi: NSObject {
         }
     }
     
-    /*
-    //获取文件，保存到本地  已在本地则，handler 可能在当前线程跑，也可能在子线程跑
-    +(void)GetFile:(NSString*)urlString completionHandler:(CompletionHandlerBlock) handler
-    {
-    
-    if (urlString == nil) {
-    GGLog(@"文件路径为nil");
-    handler(nil,nil,nil);
-    return;
-    }
-    if (![urlString isKindOfClass:[NSString class]]){
-    GGLog(@"文件路径有错：urlString=%@",urlString);
-    handler(nil,nil,nil);
-    return;
-    }
-    NSURL * url = [NSURL URLWithString:urlString];
-    NSFileManager * fileManager = [[NSFileManager alloc] init];
-    //本地对应的文件名称
-    NSString *fileSavedName = [NSTemporaryDirectory() stringByAppendingPathComponent:[url path]];
-    //如果图片存在，则直接导入
-    if ([fileManager fileExistsAtPath:fileSavedName]) {
-    //        GGLog(@"%@ %@",@"从本地导入",fileSavedName);
-    NSData * data = [NSData dataWithContentsOfFile:fileSavedName];
-    
-    handler(nil,data,nil);
-    return;
-    }
-    
-    //不存在则创建目录
-    NSString *fileSavedPath = [fileSavedName stringByDeletingLastPathComponent];
-    NSError * error = nil;
-    BOOL bCreate = [fileManager createDirectoryAtPath:fileSavedPath withIntermediateDirectories:YES attributes:nil error:&error];
-    if (bCreate) {
-    
-    //下载文件
-    NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
-    NSOperationQueue * queue = [[NSOperationQueue alloc] init];
-    
-    GGLog(@"开始下载文件：%@",url);
-    [NSURLConnection sendAsynchronousRequest:urlRequest queue:queue completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-    if ([ServerAPIUtils isHttpSucceed:response Data:data Error:connectionError]){
-    GGLog(@"下载文件成功：length=%d, %@",data.length, url);
-    [data writeToFile:fileSavedName atomically:YES];
-    }
-    handler(response,data,connectionError);
-    
-    });
-    }];
-    
-    
-    }else{
-    GGLog(@"创建目录失败:%@",fileSavedPath);
-    handler(nil,nil,error);
-    }
-    
-    }
-
-    */
     
     //MARK: 1. 发送设备编码
     class func SendEquipCode(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
@@ -411,7 +352,7 @@ class WebApi: NSObject {
         self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
     }
 
-    //MARK: 15. 提交图片,模拟网页提交的格式
+    //MARK: 15. 上传文件接口
     class func UpFile1(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
@@ -423,6 +364,19 @@ class WebApi: NSObject {
             })
         }
     }
+    
+    //MARK: 16. 获取拜访日志
+    class func GetWorkLog(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmGetWorkLog", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
+    
+    //MARK: 17. 修改密码
+    class func ChangePwd(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmChangePwd", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+    }
+
     
 }
 

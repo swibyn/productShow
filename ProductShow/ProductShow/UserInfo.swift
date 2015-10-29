@@ -15,7 +15,6 @@ postDic={
 }
 */
 
-let kUserSignOutNotification = "kUserSignOutNotification"
 
 class Login: NSObject{
     private var _loginDic: NSDictionary?

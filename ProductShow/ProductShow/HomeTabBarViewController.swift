@@ -17,15 +17,19 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     }
     
     override func viewWillAppear(animated: Bool) {
-        changeTabBarIfNever1()
+        debugPrint("\(self) \(__FUNCTION__)")
+//        changeTabBarIfNever1()
     }
     override func viewDidAppear(animated: Bool) {
+        debugPrint("\(self) \(__FUNCTION__)")
         //如果还没登录，则弹出登录界面
         let bsignin = UserInfo.defaultUserInfo().status == 1
 
         if !bsignin{
             self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
         }
+        changeTabBarIfNever1()
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -38,14 +42,14 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     }
     //MARK: 使tabbaritem进入使用状态
     var bever = false
-    func changeTabBarIfNever(){
-        if !bever{
-            bever = true
-            for i in 0..<self.viewControllers!.count{
-                self.selectedIndex = i
-            }
-        }
-    }
+//    func changeTabBarIfNever(){
+//        if !bever{
+//            bever = true
+//            for i in 0..<self.viewControllers!.count{
+//                self.selectedIndex = i
+//            }
+//        }
+//    }
     
     func changeTabBarIfNever1(){
         if !bever{
@@ -57,6 +61,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     }
     
     func resetTabBar(tabBarItem: UITabBarItem){
+//        debugPrint("\(self) \(__FUNCTION__)")
         let old = tabBarItem.imageInsets
         tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
         tabBarItem.image? = tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
@@ -68,16 +73,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         
     }
     
-    //MARK: 监听注销消息通知
-    func addUserSignOutNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleUserSignOutNotification"), name: kUserSignOutNotification, object: nil)
-    }
-    
-    func removeUserSignOutNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: kUserSignOutNotification, object: nil)
-    }
-    
-    func handleUserSignOutNotification(){
+    override func handleUserSignOutNotification() {
         self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
     }
     
@@ -118,7 +114,7 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
 //        }
         
         for vc in self.viewControllers! {
-            print("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
+//            debugPrint("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
             if vc.tabBarItem.title == button.titleForState(UIControlState.Normal){
                 self.selectedViewController = vc
                 break

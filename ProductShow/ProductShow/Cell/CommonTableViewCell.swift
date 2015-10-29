@@ -22,7 +22,7 @@ class UICommonTableViewCell : UITableViewCell {
     @IBOutlet var accessButton: UIButton!
     
     
-    @IBAction func operationButtonAction(sender: UIButton) {
+    @IBAction func detailButtonAction(sender: UIButton) {
         delegate?.commonTableViewCellDetailButtonAction(self)
     }
     

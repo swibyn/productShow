@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 protocol LoginViewControllerDelegate : NSObjectProtocol{
     func loginViewController(loginViewController: LoginViewController, userInfo: AnyObject?)
 }
@@ -50,6 +51,7 @@ class LoginViewController: UIViewController {
                     self.delegate?.loginViewController(self, userInfo: json)
                     NSUserDefaults.standardUserDefaults().setValue(username, forKey: jfusername)
                     NSUserDefaults.standardUserDefaults().setValue(self.passwordTextField.text!, forKey: jfpwd)
+                    NSNotificationCenter.defaultCenter().postNotificationName(kLoginSucceed, object: self)
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
                     let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
@@ -78,7 +80,7 @@ class LoginViewController: UIViewController {
         self.usernameTextField.text = username ?? ""
         self.passwordTextField.text = pwd ?? ""
         
-        //loginbutton设置成圆角 //        self.loginButton.buttonType = UIButtonType.RoundedRect
+        //loginbutton设置成圆角
         self.loginButton.layer.masksToBounds = true
         self.loginButton.layer.cornerRadius = 5
         

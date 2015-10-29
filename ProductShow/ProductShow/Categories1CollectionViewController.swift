@@ -13,11 +13,34 @@ class Categories1CollectionViewController: UICollectionViewController {
 //    var dataArray: NSArray?
     var categories: Categories?
     
+    //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Product Categories"
-        //        self.tabBarItem.title = "产品类目"
+        
         self.addFirstPageButton()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+        GetProLeave1()
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    
+    //MARK: function
+    func GetProLeave1(){
         
         WebApi.GetProLeave1(nil, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
@@ -34,19 +57,12 @@ class Categories1CollectionViewController: UICollectionViewController {
                     let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
-                
-                
             }
         })
-        
     }
     
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
+    //MARK: UICollectionViewController Data source
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 1
     }

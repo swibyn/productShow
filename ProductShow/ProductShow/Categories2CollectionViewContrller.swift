@@ -13,9 +13,33 @@ class Categories2CollectionViewController: UICollectionViewController {
     var categories: Categories?
     
     
+    //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = category1?.catName
+        
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        debugPrint("\(self) \(__FUNCTION__)")
+        GetProLeave2()
+    }
+    
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    //MARK: function
+    func GetProLeave2(){
         
         let catId = category1?.catId
         WebApi.GetProLeave2([jfpId : catId!], completedHandler: { (response, data, error) -> Void in
@@ -37,16 +61,7 @@ class Categories2CollectionViewController: UICollectionViewController {
                 
             }
         })
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+
     }
     
     // MARK: - collection view data source

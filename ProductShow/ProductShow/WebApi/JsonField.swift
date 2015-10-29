@@ -125,6 +125,8 @@ let jflogDesc = "logDesc"
 let jflogWeek = "logWeek"
 //let jflogDate = "logDate"
 
+//MARK: 17. 修改密码
+let jfnewPwd = "newPwd"
 
 
 

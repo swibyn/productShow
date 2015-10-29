@@ -96,6 +96,12 @@ class UICustomersTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return CGFloat(UICommonTableViewCell.rowHeight)
     }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let visitLogTVC = VisitLogTableViewContrller.newInstance()
+        visitLogTVC.setValue(customers.customerAtIndex(indexPath.row), forKey: "customer")
+        self.navigationController?.pushViewController(visitLogTVC, animated: true)
+    }
 
     /*
     // Override to support conditional editing of the table view.

@@ -45,6 +45,14 @@ class Log: NSObject{
     }
     
     var logDesc: String?{
+        return _logDic?.objectForKey(jflogDesc) as? String
+    }
+    
+    var logWeek: Int?{
+        return _logDic?.objectForKey(jflogWeek) as? Int
+    }
+    
+    var logDate: String?{
         return _logDic?.objectForKey(jflogDate) as? String
     }
     

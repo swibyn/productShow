@@ -38,6 +38,7 @@ class ProductViewController: UIViewController {
         
         self.showProductInfo()
         self.imageViewAddTapGesture()
+        self.productRemarkTextView.font = UIFont.systemFontOfSize(20)
     }
     
     //MARK: function
