@@ -16,9 +16,13 @@ class Categories1CollectionViewController: UICollectionViewController {
     //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Product Categories"
+        debugPrint("\(self) \(__FUNCTION__)")
         
+        self.title = "Product Categories"
         self.addFirstPageButton()
+        
+        GetProLeave1()
+
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -28,9 +32,7 @@ class Categories1CollectionViewController: UICollectionViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
-        GetProLeave1()
-    }
+        debugPrint("\(self) \(__FUNCTION__)")    }
     
     
     override func didReceiveMemoryWarning() {

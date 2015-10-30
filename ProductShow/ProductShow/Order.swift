@@ -31,8 +31,6 @@ import UIKit
 */
 
 
-let kOrdersChanged = "kOrdersChanged"
-
 class OrderSaveKey {
     static let orderArray = "orderArray"
     static let orderId = "orderId"

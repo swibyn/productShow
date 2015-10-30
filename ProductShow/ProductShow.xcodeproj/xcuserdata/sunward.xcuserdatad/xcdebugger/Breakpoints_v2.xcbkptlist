@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "24"
+            endingLineNumber = "24"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -721,13 +721,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "210"
-            endingLineNumber = "210"
-            landmarkName = "HotProductsTableViewController"
-            landmarkType = "3">
+            startingLineNumber = "205"
+            endingLineNumber = "205">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -737,12 +735,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
-            landmarkName = "tableView(_:didSelectRowAtIndexPath:)"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -897,13 +895,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "HotProductsTableViewController"
-            landmarkType = "3">
+            startingLineNumber = "112"
+            endingLineNumber = "112"
+            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -961,12 +959,12 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "tableView(_:numberOfRowsInSection:)"
+            startingLineNumber = "120"
+            endingLineNumber = "120"
+            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
@@ -977,29 +975,29 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
+            landmarkName = "tableView(_:heightForRowAtIndexPath:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ProductShow/HotProductsTableViewController.swift"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "131"
             endingLineNumber = "131"
             landmarkName = "HotProductsTableViewController"
             landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "136"
-            endingLineNumber = "136"
-            landmarkName = "tableView(_:cellForRowAtIndexPath:)"
-            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1233,11 +1231,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "28"
-            endingLineNumber = "28"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
             landmarkName = "viewDidLoad()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1265,11 +1263,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
+            startingLineNumber = "34"
+            endingLineNumber = "34"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1501,11 +1499,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/LoginViewController.swift"
-            timestampString = "467801076.193956"
+            timestampString = "467866044.902727"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "153"
-            endingLineNumber = "153"
+            startingLineNumber = "149"
+            endingLineNumber = "149"
             landmarkName = "SendEquipCode()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1517,11 +1515,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/LoginViewController.swift"
-            timestampString = "467801076.193956"
+            timestampString = "467866044.902727"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "154"
-            endingLineNumber = "154"
+            startingLineNumber = "150"
+            endingLineNumber = "150"
             landmarkName = "SendEquipCode()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1533,11 +1531,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/LoginViewController.swift"
-            timestampString = "467801076.193956"
+            timestampString = "467866044.902727"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "160"
-            endingLineNumber = "160"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
             landmarkName = "SendEquipCode()"
             landmarkType = "5">
          </BreakpointContent>
@@ -1549,11 +1547,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HomeTabBarViewController.swift"
-            timestampString = "467802825.953471"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "21"
-            endingLineNumber = "21"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
             landmarkName = "viewWillAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1565,11 +1563,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HomeTabBarViewController.swift"
-            timestampString = "467802825.953471"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
             landmarkName = "viewDidAppear(_:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1581,11 +1579,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/Categories1CollectionViewController.swift"
-            timestampString = "467802825.953471"
+            timestampString = "467867827.268645"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "79"
+            endingLineNumber = "79"
             landmarkName = "collectionView(_:cellForItemAtIndexPath:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -1597,45 +1595,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "showFirstPage()"
-            landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductShow.HotProductsTableViewController.showFirstPage (ProductShow.HotProductsTableViewController)() -&gt; ()"
-                  moduleName = "ProductShow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sunward/productShow/ProductShow/ProductShow/HotProductsTableViewController.swift"
-                  timestampString = "467691174.582106"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "78"
-                  endingLineNumber = "78"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ProductShow.HotProductsTableViewController.(showFirstPage (ProductShow.HotProductsTableViewController) -&gt; () -&gt; ()).(closure #1)"
-                  moduleName = "ProductShow"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sunward/productShow/ProductShow/ProductShow/HotProductsTableViewController.swift"
-                  timestampString = "467691174.582333"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "79"
-                  endingLineNumber = "79"
-                  offsetFromSymbolStart = "48">
-               </Location>
-            </Locations>
+            startingLineNumber = "151"
+            endingLineNumber = "151"
+            landmarkName = "HotProductsTableViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -1645,29 +1611,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
+            timestampString = "467867248.006118"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "scrollViewDidEndDragging(_:willDecelerate:)"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ProductShow/HotProductsTableViewController.swift"
-            timestampString = "467798965.693546"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "157"
-            endingLineNumber = "157"
-            landmarkName = "scrollViewDidEndDragging(_:willDecelerate:)"
-            landmarkType = "5">
+            startingLineNumber = "152"
+            endingLineNumber = "152"
+            landmarkName = "HotProductsTableViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

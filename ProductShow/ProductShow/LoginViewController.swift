@@ -51,7 +51,8 @@ class LoginViewController: UIViewController {
                     self.delegate?.loginViewController(self, userInfo: json)
                     NSUserDefaults.standardUserDefaults().setValue(username, forKey: jfusername)
                     NSUserDefaults.standardUserDefaults().setValue(self.passwordTextField.text!, forKey: jfpwd)
-                    NSNotificationCenter.defaultCenter().postNotificationName(kLoginSucceed, object: self)
+                    self.postLoginSucceedNotification()
+                    
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
                     let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
@@ -79,21 +80,17 @@ class LoginViewController: UIViewController {
         let pwd = NSUserDefaults.standardUserDefaults().valueForKey(jfpwd) as? String
         self.usernameTextField.text = username ?? ""
         self.passwordTextField.text = pwd ?? ""
-        
-        //loginbutton设置成圆角
-        self.loginButton.layer.masksToBounds = true
-        self.loginButton.layer.cornerRadius = 5
-        
-        
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
         self.addObserverKeyboardNotification()
     }
     
     
     override func viewDidAppear(animated: Bool) {
+        //loginbutton设置成圆角
+        self.loginButton.layer.masksToBounds = true
+        self.loginButton.layer.cornerRadius = 5
         
     }
     

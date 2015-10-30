@@ -161,13 +161,18 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
     
     // MARK: - Table view delegate
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        let logWritingHeight = [0,102,102] as [CGFloat]
-        let normalHeight = [167,0,102] as [CGFloat]
-        
-        if indexPath.row < 2{
-            return logWriting ? logWritingHeight[indexPath.row] : normalHeight[indexPath.row]
+        if indexPath.row == 0{
+            return logWriting ? 102 : 167
         }
+        
         return 102
+//        let logWritingHeight = [0,102,102] as [CGFloat]
+//        let normalHeight = [167,0,102] as [CGFloat]
+//        
+//        if indexPath.row < 2{
+//            return logWriting ? logWritingHeight[indexPath.row] : normalHeight[indexPath.row]
+//        }
+//        return 102
 //        return (indexPath.row == 0) ? 167 : 102
     }
     
@@ -181,28 +186,30 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         let logsCount = self.logs?.logsCount ?? 0
-        return logsCount + 2//customers.customersCount
+        return logsCount + 1//customers.customersCount
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.row == 0{
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
-            ConfigureCell(cell, customer: customer)
-            return cell
-        }else if (indexPath.row == 1){
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
             if logWriting{
-                let textView = cell.viewWithTag(100) as! UITextView
-                self.logTextView = textView
-                textView.editable = true
-                textView.text = ""
-                textView.becomeFirstResponder()
+                let cell = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
+                if logWriting{
+                    let textView = cell.viewWithTag(100) as! UITextView
+                    self.logTextView = textView
+                    textView.editable = true
+                    textView.text = ""
+                    textView.font = UIFont.systemFontOfSize(20)
+                    textView.becomeFirstResponder()
+                }
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
+                ConfigureCell(cell, customer: customer)
+                return cell
             }
-            return cell
-            
-        } else{
+        }else{
             let cell = tableView.dequeueReusableCellWithIdentifier("cell2", forIndexPath: indexPath)
             let textView = cell.viewWithTag(100) as! UITextView
             let log = logs?.logAtIndex(indexPath.row - 2)

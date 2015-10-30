@@ -12,6 +12,7 @@ import UIKit
 let kLoginSucceed = "kLoginSucceed"
 let kProductsInCartChanged = "kProductsInCartChanged"
 let kUserSignOutNotification = "kUserSignOutNotification"
+let kOrdersChanged = "kOrdersChanged"
 
 extension UIViewController{
     
@@ -51,6 +52,10 @@ extension UIViewController{
     }
     
     //MARK: Login Notification
+    func postLoginSucceedNotification(){
+        NSNotificationCenter.defaultCenter().postNotificationName(kLoginSucceed, object: self)
+    }
+
     func addObserverLoginNotification(){
         let center = NSNotificationCenter.defaultCenter()
         center.addObserver(self, selector: Selector("handleLoginSucceed:"), name: kLoginSucceed, object: nil)
@@ -67,6 +72,10 @@ extension UIViewController{
         
     
     //MARK: 购物车消息通知
+    func postProductsInCartChangedNotification(){
+        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+    }
+    
     func addObserverProductsInCartChangedNotification(){
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged:"), name: kProductsInCartChanged, object: nil)
     }
@@ -81,6 +90,11 @@ extension UIViewController{
     }
     
     //MARK: 监听注销消息通知
+    
+    func postUserSignOutNotification(){
+        NSNotificationCenter.defaultCenter().postNotificationName(kUserSignOutNotification, object: self)
+    }
+
     func addUserSignOutNotificationObserver(){
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleUserSignOutNotification"), name: kUserSignOutNotification, object: nil)
     }
@@ -90,6 +104,24 @@ extension UIViewController{
     }
     
     func handleUserSignOutNotification(){
+        
+    }
+    
+    //MARK: 消息通知
+    
+    func postOrdersChangedNotification(){
+        NSNotificationCenter.defaultCenter().postNotificationName(kOrdersChanged, object: self)
+    }
+
+    func addOrdersChangedNotificationObserver(){
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleOrdersChanged"), name: kOrdersChanged, object: nil)
+    }
+    
+    func removeOrdersChangedNotificationObserver(){
+        NSNotificationCenter.defaultCenter().removeObserver(self,name:kOrdersChanged,object:nil)
+    }
+    
+    func handleOrdersChangedNotification(){
         
     }
     

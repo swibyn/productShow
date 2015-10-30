@@ -17,17 +17,16 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        debugPrint("\(self) \(__FUNCTION__)")
+        
         self.title = "Search"
         self.addFirstPageButton()
-        // Do any additional setup after loading the view, typically from a nib.
-        
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
         self.cartBarButton.title = Cart.defaultCart().title
-        
-        self.addNotificationObserver()
+        self.addObserverProductsInCartChangedNotification()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -47,19 +46,12 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     }
     
     deinit{
-        self.removeNotificationObserver()
+        self.removeObserverProductsInCartChangedNotification()
     }
     
     //MARK: 消息通知
-    func addNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
-    }
-    
-    func removeNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    func handleProductsInCartChanged(){
+
+    override func handleProductsInCartChanged(paramNotification: NSNotification) {
         self.cartBarButton.title = Cart.defaultCart().title
     }
 
@@ -75,14 +67,8 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.products.returnDic = json
                 
-//                let statusInt = json.objectForKey(jfstatus) as! Int
-//                if (statusInt == 1){
                 if self.products.status == 1{
                     //获取成功
-//                    let data = json.objectForKey(jfdata) as! NSDictionary
-//                    let dt = data.objectForKey(jfdt) as! NSArray
-//                    
-//                    self.dataArray = dt
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
@@ -134,7 +120,6 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
-//        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
         
         ConfigureCell(cell, canAddToCart:true, product: products.productAtIndex(indexPath.row)!, delegate: self)
         

@@ -22,13 +22,9 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
-        self.addNotificationObserver()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        self.addObserverProductsInCartChangedNotification()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -37,25 +33,14 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     }
     
     deinit{
-        self.removeNotificationObserver()
+        self.removeObserverProductsInCartChangedNotification()
     }
     
     
-    //MARK: 消息通知
-    func addNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
-    }
-    
-    func removeNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    
-    func handleProductsInCartChanged(){
-//        dataArray = Global.cart.products.objectsForKeys(Global.cart.products.allKeys, notFoundMarker: "a")
+    //MARK: 消息通知    
+    override func handleProductsInCartChanged(paramNotification: NSNotification) {
         self.tableView.reloadData()
     }
-    
     
 
     // MARK: - Table view data source
@@ -101,6 +86,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
             // Delete the row from the data source
             let key = cart.products.allKeys[indexPath.row]
             cart.products.removeObjectForKey(key)
+            self.postProductsInCartChangedNotification()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
@@ -142,7 +128,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
                 cart.removeProducts()
                 
                 self.tableView.reloadData()
-                NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+                postProductsInCartChangedNotification()
                 
             }else{
                 return false

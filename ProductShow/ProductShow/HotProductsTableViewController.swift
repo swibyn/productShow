@@ -10,7 +10,6 @@ import UIKit
 
 class HotProductsTableViewController: UITableViewController,UIProductTableViewCellDelegate {
     
-//    var dataArray: NSArray?
     var products = Products()
 
     //@IB
@@ -19,6 +18,8 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
+        debugPrint("\(self) \(__FUNCTION__)")
+        
         self.title = "Hot Products"
         self.addFirstPageButton()
         
@@ -60,18 +61,6 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         cartBarButton.title = Cart.defaultCart().title
     }
     
-//    func addNotificationObserver(){
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
-//    }
-//    
-//    func removeNotificationObserver(){
-//        NSNotificationCenter.defaultCenter().removeObserver(self)
-//    }
-//    
-//    func handleProductsInCartChanged(){
-//        self.cartBarButton.title = Cart.defaultCart().title
-//    }
-    
 
     //MARK:显示第一页
     func showFirstPage(){
@@ -86,14 +75,8 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.products.returnDic = json
                 
-//                let statusInt = json.objectForKey(jfstatus) as! Int
-//                if (statusInt == 1){
                 if self.products.status == 1{
                     //获取成功
-//                    let data = json.objectForKey(jfdata) as! NSDictionary
-//                    let dt = data.objectForKey(jfdt) as! NSArray
-//                    
-//                    self.dataArray = dt
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
@@ -205,7 +188,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     //MARK: UIProductTableViewCellDelegate
     func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
         Cart.defaultCart().addProduct(cell.product.productDic!)
-        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+        self.postProductsInCartChangedNotification()
     }
     
     /*

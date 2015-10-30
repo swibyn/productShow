@@ -25,8 +25,9 @@ class UserCenterTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        debugPrint("\(self) \(__FUNCTION__)")
+        
         self.title = "User Center"
-
         self.addFirstPageButton()
         
         let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)

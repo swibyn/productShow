@@ -8,10 +8,11 @@
 
 import UIKit
 
-class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelegate/*,LoginViewControllerDelegate*/ {
+class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegate,UITabBarControllerDelegate, FirstPageViewControllerDelegate/*,LoginViewControllerDelegate*/ {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        debugPrint("\(self) \(__FUNCTION__)")
 
         self.addUserSignOutNotificationObserver()
     }
@@ -26,10 +27,18 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         let bsignin = UserInfo.defaultUserInfo().status == 1
 
         if !bsignin{
-            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
+//            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
         }
         changeTabBarIfNever1()
-
+//        setViewControllersDelegateToSelf()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        debugPrint("\(self) \(__FUNCTION__)")
+    }
+    
+    override func viewDidDisappear(animated: Bool) {
+        debugPrint("\(self) \(__FUNCTION__)")
     }
 
     override func didReceiveMemoryWarning() {
@@ -73,6 +82,8 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         
     }
     
+    
+    //MARK: 消息通知
     override func handleUserSignOutNotification() {
         self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
     }
@@ -98,20 +109,6 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
     
     // MARK: FirstPageViewControllerDelegate
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
-        
-//        let title = button.titleForState(.Normal)
-//        switch title!{
-//        case "Hot Products":
-//            self.selectedIndex = 0
-//        case "Product Categories":
-//            self.selectedIndex = 1
-//        case "Search":
-//            self.selectedIndex = 2
-//        case "User Center":
-//            self.selectedIndex = 3
-//        default:
-//            self.selectedIndex = 0
-//        }
         
         for vc in self.viewControllers! {
 //            debugPrint("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
@@ -139,6 +136,53 @@ class HomeTabBarViewController: UITabBarController,FirstPageViewControllerDelega
         // Pass the selected object to the new view controller.
     }
     */
+    
+    //MARK: UINavigationControllerDelegate  
+    //处理NavigationController的stack里面的viewController收不到-(void)viewWillAppear:(BOOL)animated；等4个方法调用的问题
+    //但这样做却也导致了，这些方法可能被重复调用的问题
+    func setViewControllersDelegateToSelf(){
+        for vc in self.viewControllers!{
+//            (vc as! UINavigationController).delegate = self
+        }
+    }
+    
+    var lastWillAppearController: UIViewController? = nil
+    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool){
+        if (lastWillAppearController != nil){
+            if lastWillAppearController!.respondsToSelector("viewWillDisappear:"){
+                lastWillAppearController!.viewWillDisappear(animated)
+            }
+        }
+        
+        lastWillAppearController = viewController
+        viewController.viewWillAppear(animated)
+    }
+    
+    var lastDidAppearController: UIViewController? = nil
+    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool){
+        if (lastDidAppearController != nil){
+            if lastDidAppearController!.respondsToSelector("viewDidDisappear:"){
+                lastDidAppearController!.viewDidDisappear(animated)
+            }
+        }
+        
+        lastDidAppearController = viewController
+        viewController.viewDidDisappear(animated)
+        
+    }
+    
+    //MARK: UITabBarControllerDelegate
+    
+    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool{
+        return true
+    }
+    
+    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController){
+        
+    }
+    
+
+    
     //MARK: 支持设备方向
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Landscape

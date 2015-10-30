@@ -16,26 +16,23 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     @IBOutlet var submitButton: UIButton!
     
     @IBAction func submitButtonAction(sender: UIButton) {
-//        oldPasswordTextField.resignFirstResponder()
-//        newPasswordTextField1.resignFirstResponder()
-//        newPasswordTextField2.resignFirstResponder()
         self.view.endEditing(true)
         ChangePwd()
     }
     
     //MARK: view life
     override func viewDidLoad() {
-        submitButton.layer.masksToBounds = true
-        submitButton.layer.cornerRadius = 5
     }
     
     override func viewWillAppear(animated: Bool) {
-        self.navigationController?.navigationBarHidden = true
+        
         self.addObserverKeyboardNotification()
     }
     
     
     override func viewDidAppear(animated: Bool) {
+        submitButton.layer.masksToBounds = true
+        submitButton.layer.cornerRadius = 5
         
     }
     

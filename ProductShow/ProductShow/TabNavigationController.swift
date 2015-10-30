@@ -15,7 +15,6 @@ class TabNavigationController: UINavigationController {
 
         // Do any additional setup after loading the view.
         self.navigationBar.tintColor = UIColor.whiteColor()
-//        resetTabBar()
 
     }
 
@@ -25,28 +24,20 @@ class TabNavigationController: UINavigationController {
     }
     
     override func viewWillAppear(animated: Bool) {
-//        self.navigationController?.navigationBarHidden = true
-//        self.title = self.topViewController.title ?? "未命名"
-//        self.tabBarItem.title = self.viewControllers[0].title
-//        self.navigationItem.backBarButtonItem?.tintColor = UIColor.whiteColor()
+        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
     }
+    
+    override func viewDidAppear(animated: Bool) {
+        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
+    }
+    
     override func viewWillDisappear(animated: Bool) {
-//        self.navigationController?.navigationBarHidden = false
+        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
     }
     
-    
-//    func resetTabBar(){
-//        let old = self.tabBarItem.imageInsets
-//        self.tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
-//        self.tabBarItem.image? = self.tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-//        
-//        self.tabBarItem.selectedImage? = self.tabBarItem.selectedImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-//        self.tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 20)
-////        print("\(self) \(__FUNCTION__)")
-//        //        print("\(self)  tabBarItem.imageInsets=\(self.tabBarItem.imageInsets)")
-//        
-//    }
-
+    override func viewDidDisappear(animated: Bool) {
+        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
+    }
     
     /*
     // MARK: - Navigation
