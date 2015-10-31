@@ -39,6 +39,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     
     //MARK: 消息通知    
     override func handleProductsInCartChanged(paramNotification: NSNotification) {
+        super.handleProductsInCartChanged(paramNotification)
         self.tableView.reloadData()
     }
     

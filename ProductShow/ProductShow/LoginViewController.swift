@@ -83,11 +83,13 @@ class LoginViewController: UIViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         self.addObserverKeyboardNotification()
     }
     
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         //loginbutton设置成圆角
         self.loginButton.layer.masksToBounds = true
         self.loginButton.layer.cornerRadius = 5
@@ -96,6 +98,7 @@ class LoginViewController: UIViewController {
     
 
     override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         self.removeObserverKeyboardNotification()
         
     }
@@ -108,7 +111,7 @@ class LoginViewController: UIViewController {
     
     //MARK: KeyboardNotification
     override func handleKeyboardWillShow(paramNotification: NSNotification) {
-        
+        super.handleKeyboardWillShow(paramNotification)
         UIView.animateWithDuration(1) { () -> Void in
             self.view.frame.origin.y = -250
         }
@@ -116,6 +119,7 @@ class LoginViewController: UIViewController {
     }
 
     override func handleKeyboardWillHide(paramNotification: NSNotification) {
+        super.handleKeyboardWillHide(paramNotification)
         UIView.animateWithDuration(1.0) { () -> Void in
             self.view.frame.origin.y = 0
         }

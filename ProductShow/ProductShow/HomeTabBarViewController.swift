@@ -18,26 +18,35 @@ class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegat
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         debugPrint("\(self) \(__FUNCTION__)")
-//        changeTabBarIfNever1()
+        
     }
+    
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         debugPrint("\(self) \(__FUNCTION__)")
+        
+        adjustTabBarItems()
+        
+        
         //如果还没登录，则弹出登录界面
         let bsignin = UserInfo.defaultUserInfo().status == 1
 
         if !bsignin{
-//            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
+//            self.performSelectorOnMainThread(Selector("presentFirstPageVC"), withObject: nil, waitUntilDone: false)
+            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
         }
-        changeTabBarIfNever1()
-//        setViewControllersDelegateToSelf()
+
     }
     
     override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         debugPrint("\(self) \(__FUNCTION__)")
     }
     
     override func viewDidDisappear(animated: Bool) {
+        super.viewDidDisappear(animated)
         debugPrint("\(self) \(__FUNCTION__)")
     }
 
@@ -50,35 +59,41 @@ class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegat
         self.removeUserSignOutNotificationObserver()
     }
     //MARK: 使tabbaritem进入使用状态
-    var bever = false
-//    func changeTabBarIfNever(){
-//        if !bever{
-//            bever = true
+//    var bselected = false
+//    func selectedTabBarIfNever(){
+//        if !bselected{
+//            bselected = true
 //            for i in 0..<self.viewControllers!.count{
 //                self.selectedIndex = i
 //            }
 //        }
 //    }
     
-    func changeTabBarIfNever1(){
-        if !bever{
-            bever = true
+    var bchangeTabBar = false
+    func adjustTabBarItems(){
+        if !bchangeTabBar{
+            bchangeTabBar = true
+            self.tabBar.tintColor = UIColor.whiteColor()
             for i in 0..<self.tabBar.items!.count{
-                resetTabBar(self.tabBar.items![i])
+                adjustTabBarItem(self.tabBar.items![i])
             }
         }
     }
     
-    func resetTabBar(tabBarItem: UITabBarItem){
-//        debugPrint("\(self) \(__FUNCTION__)")
+    func adjustTabBarItem(tabBarItem: UITabBarItem){
+        debugPrint("\(self) \(__FUNCTION__)")
         let old = tabBarItem.imageInsets
-        tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
-        tabBarItem.image? = tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+//        tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
+        let offset: CGFloat = 5
         
-        tabBarItem.selectedImage? = tabBarItem.selectedImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        tabBarItem.imageInsets = UIEdgeInsets(top: old.top + offset, left: old.left, bottom: old.bottom - offset, right: old.right)
+
+//        tabBarItem.image? = tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        
+//        tabBarItem.selectedImage? = tabBarItem.selectedImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 20)
         //        print("\(self) \(__FUNCTION__)")
-        //        print("\(self)  tabBarItem.imageInsets=\(self.tabBarItem.imageInsets)")
+//        print("\(self)  tabBarItem.imageInsets=\(self.tabBarItem.imageInsets)")
         
     }
     
@@ -100,31 +115,22 @@ class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegat
         presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: true, completion: nil)
     }
     
-//    func presentLoginVC(modalTransitionStyle: UIModalTransitionStyle,animated: Bool, completion:(()->Void)?){
-//        let loginVC = LoginViewController.shareInstance()
-//        loginVC.modalTransitionStyle = modalTransitionStyle
-//        loginVC.delegate = self
-//        self.presentViewController(loginVC, animated: animated, completion: completion)
-//    }
     
     // MARK: FirstPageViewControllerDelegate
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
         
         for vc in self.viewControllers! {
-//            debugPrint("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
+            //            debugPrint("vc.title=\(vc.title) tabBarItem.title=\(vc.tabBarItem.title)  button.title=\(button.titleForState(UIControlState.Normal))")
             if vc.tabBarItem.title == button.titleForState(UIControlState.Normal){
                 self.selectedViewController = vc
+                
                 break
             }
         }
+
+        firstPageViewController.dismissViewControllerAnimated(true, completion: nil)
     }
     
-    
-    // MARK: LoginViewControllerDelegate
-//    func loginViewController(loginViewController: LoginViewController, userInfo: AnyObject?) {
-//        loginViewController.dismissViewControllerAnimated(true, completion: nil)
-//        
-//    }
 
 
     /*
@@ -140,45 +146,56 @@ class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegat
     //MARK: UINavigationControllerDelegate  
     //处理NavigationController的stack里面的viewController收不到-(void)viewWillAppear:(BOOL)animated；等4个方法调用的问题
     //但这样做却也导致了，这些方法可能被重复调用的问题
-    func setViewControllersDelegateToSelf(){
-        for vc in self.viewControllers!{
+//    func setViewControllersDelegateToSelf(){
+//        for vc in self.viewControllers!{
 //            (vc as! UINavigationController).delegate = self
-        }
-    }
-    
-    var lastWillAppearController: UIViewController? = nil
-    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool){
-        if (lastWillAppearController != nil){
-            if lastWillAppearController!.respondsToSelector("viewWillDisappear:"){
-                lastWillAppearController!.viewWillDisappear(animated)
-            }
-        }
-        
-        lastWillAppearController = viewController
-        viewController.viewWillAppear(animated)
-    }
-    
-    var lastDidAppearController: UIViewController? = nil
-    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool){
-        if (lastDidAppearController != nil){
-            if lastDidAppearController!.respondsToSelector("viewDidDisappear:"){
-                lastDidAppearController!.viewDidDisappear(animated)
-            }
-        }
-        
-        lastDidAppearController = viewController
-        viewController.viewDidDisappear(animated)
-        
-    }
+//        }
+//    }
+//    
+//    var lastWillAppearController: UIViewController? = nil
+//    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool){
+//        if (lastWillAppearController != nil){
+//            if lastWillAppearController!.respondsToSelector("viewWillDisappear:"){
+//                lastWillAppearController!.viewWillDisappear(animated)
+//            }
+//        }
+//        
+//        lastWillAppearController = viewController
+//        viewController.viewWillAppear(animated)
+//    }
+//    
+//    var lastDidAppearController: UIViewController? = nil
+//    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool){
+//        if (lastDidAppearController != nil){
+//            if lastDidAppearController!.respondsToSelector("viewDidDisappear:"){
+//                lastDidAppearController!.viewDidDisappear(animated)
+//            }
+//        }
+//        
+//        lastDidAppearController = viewController
+//        viewController.viewDidAppear(animated)
+//        
+//    }
     
     //MARK: UITabBarControllerDelegate
     
-    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool{
-        return true
-    }
+//    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool{
+//        return true
+//    }
     
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController){
         
+        
+//        let index = self.viewControllers?.indexOf(viewController)?.value
+//        for i in 0..<self.tabBar.items!.count{
+//            if (i != index!){
+//                self.tabBar.items![i].enabled = true
+//            }else{
+//                self.tabBar.items![i].enabled = false
+//            }
+//            
+//        }
+
     }
     
 

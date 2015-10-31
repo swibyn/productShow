@@ -25,38 +25,21 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
     
     @IBAction func buttonClick(sender: UIButton) {
         delegate?.firstPageViewController(self, didClickButton: sender)
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
-    
-    //Mark: 增加阴影
-    func addShadows(){
-        
-//        [[m_masterView layer] setShadowOffset:CGSizeMake(1, 1)];
-//        [[m_masterView layer] setShadowRadius:5];
-//        [[m_masterView layer] setShadowOpacity:1];
-//        [[m_masterView layer] setShadowColor:[UIColor blackColor].CGColor];
-        hotProducts.layer.shadowOffset = CGSize(width: 100, height: 100)
-//        hotProducts.layer.shadowColor 
+//        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     // MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = "Home"
-
-        // Do any additional setup after loading the view
-        addShadows()
         
     }
     
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         let bsignin = UserInfo.defaultUserInfo().status == 1
-//        var bsignin = false
-//        if let userinfo = Global.userInfo{
-//            let status = userinfo.objectForKey(jfstatus) as! Int
-//            bsignin = status == 1
-//        }
+
         if (!bsignin){
             presentLoginVC(UIModalTransitionStyle.CoverVertical, animated: true, completion: nil)
         }
@@ -102,41 +85,10 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UI
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
-        let tabVC = segue.destinationViewController as! UITabBarController
-        let btn = sender as! UIButton
-        for vc in tabVC.viewControllers! {
-            if vc.tabBarItem.title == btn.titleForState(UIControlState.Normal){
-                tabVC.selectedViewController = vc
-//                let window = UIApplication.sharedApplication().delegate?.window!
-//                window!.rootViewController = tabVC
-                break
-            }
-        }
-        
-//        switch segue.identifier!{
-//        case "hotProducts":
-//            tabVC.selectedIndex = 0
-//        case "productCategories":
-//            tabVC.selectedIndex = 1
-//        case "productSearch":
-//            tabVC.selectedIndex = 2
-//        case "userCenter":
-//            tabVC.selectedIndex = 3
-//        default:
-//            tabVC.selectedIndex = 0
-//        }
     }
     
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         return UIInterfaceOrientationMask.Landscape
     }
-    
-//    - (NSUInteger) supportedInterfaceOrientations
-//    {
-//    //Because your app is only landscape, your view controller for the view in your
-//    // popover needs to support only landscape
-//    return UIInterfaceOrientationMaskLandscapeLeft | UIInterfaceOrientationMaskLandscapeRight;
-//    }
-    
 
 }

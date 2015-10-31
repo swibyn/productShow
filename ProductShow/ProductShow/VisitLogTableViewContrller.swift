@@ -162,18 +162,10 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
     // MARK: - Table view delegate
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0{
-            return logWriting ? 102 : 167
+            return logWriting ? 130 : 167
         }
         
-        return 102
-//        let logWritingHeight = [0,102,102] as [CGFloat]
-//        let normalHeight = [167,0,102] as [CGFloat]
-//        
-//        if indexPath.row < 2{
-//            return logWriting ? logWritingHeight[indexPath.row] : normalHeight[indexPath.row]
-//        }
-//        return 102
-//        return (indexPath.row == 0) ? 167 : 102
+        return 130
     }
     
     // MARK: - Table view data source
@@ -212,8 +204,8 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
         }else{
             let cell = tableView.dequeueReusableCellWithIdentifier("cell2", forIndexPath: indexPath)
             let textView = cell.viewWithTag(100) as! UITextView
-            let log = logs?.logAtIndex(indexPath.row - 2)
-            textView.text = "\(log!.logDate!)  \(log!.logContent!)"
+            let log = logs?.logAtIndex(indexPath.row - 1)
+            textView.text = "\(log!.logDate!)\n\(log!.logContent!)"
             textView.font = UIFont.systemFontOfSize(20)
             return cell
         }

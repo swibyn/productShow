@@ -81,6 +81,7 @@ class Categories2CollectionViewController: UICollectionViewController {
         
         // Configure the cell...
         let label = cell.viewWithTag(100) as? UILabel
+        label?.backgroundColor = mycolor[indexPath.row % mycolor.count]
         let catname = categories?.categoryAtIndex(indexPath.row)?.catName
         label?.text =  "\(catname!)"
         

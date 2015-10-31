@@ -16,7 +16,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+//        adjustTabBarInTabBarController()
         return true
+    }
+    
+    func adjustTabBarInTabBarController(){
+        let tabbarController = self.window?.rootViewController as! UITabBarController
+        let tabBar = tabbarController.tabBar
+        
+        for item in tabBar.items!{
+            resetTabBar(item)
+        }
+    }
+    func resetTabBar(tabBarItem: UITabBarItem){
+        debugPrint("\(self) \(__FUNCTION__)")
+        let old = tabBarItem.imageInsets
+        //        tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
+        tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 8, left: old.left - 8, bottom: old.bottom - 8, right: old.right - 8)
+        
+        tabBarItem.image? = tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        
+        tabBarItem.selectedImage? = tabBarItem.selectedImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
+        tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 20)
+        //        print("\(self) \(__FUNCTION__)")
+//        print("\(self)  tabBarItem.imageInsets=\(self.tabBarItem.imageInsets)")
+        
     }
 
     func applicationWillResignActive(application: UIApplication) {

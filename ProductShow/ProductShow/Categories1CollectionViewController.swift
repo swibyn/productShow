@@ -7,6 +7,7 @@
 //
 
 import UIKit
+let mycolor = [UIColor.greenColor(),UIColor.blueColor(),UIColor.redColor(),UIColor.orangeColor(),UIColor.yellowColor(),UIColor.cyanColor(),UIColor.magentaColor(),UIColor.purpleColor(),UIColor.brownColor()]
 
 class Categories1CollectionViewController: UICollectionViewController {
     
@@ -32,7 +33,8 @@ class Categories1CollectionViewController: UICollectionViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")    }
+        debugPrint("\(self) \(__FUNCTION__)")
+    }
     
     
     override func didReceiveMemoryWarning() {
@@ -79,11 +81,20 @@ class Categories1CollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
         
         // Configure the cell...
+//        let color = [UIColor.redColor(),UIColor.yellowColor(),UIColor.greenColor(),UIColor.blueColor(),UIColor.cyanColor(),UIColor.magentaColor(),UIColor.orangeColor(),UIColor.purpleColor(),UIColor.brownColor()]
+        
+        
         let label = cell.viewWithTag(100) as? UILabel
+        label?.backgroundColor = mycolor[indexPath.row % mycolor.count]
+        
         let catname = categories?.categoryAtIndex(indexPath.row)?.catName
         label?.text =  "\(catname!)"
         
         return cell
+    }
+    
+    func color(old: Int, row: Int, step: Int)->CGFloat{
+        return CGFloat(((old + row * step) % 255 + 255) % 255)
     }
     
     //MARK: - UICollectionViewDelegateFlowLayout
