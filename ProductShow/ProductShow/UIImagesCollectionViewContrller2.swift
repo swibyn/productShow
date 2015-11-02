@@ -10,9 +10,9 @@ import UIKit
 
 class UIImagesCollectionViewContrller2: UICollectionViewController {
     
-//    var productDic: NSDictionary?
+    
     var product: Product?
-    var productFiles: ProductFiles?// = ProductFiles()
+    var productFiles: ProductFiles?
     var initcellIndex = 0
     
     //MARK: 初始化一个实例
@@ -107,15 +107,17 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
             }else{
                 return CGSize(width: 0, height: 0)
             }
-            
-            
-            
     }
-    
-    
-    
-    
-
-    
-
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -23,21 +23,6 @@ class TabNavigationController: UINavigationController {
         // Dispose of any resources that can be recreated.
     }
     
-    override func viewWillAppear(animated: Bool) {
-        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
-    }
-    
-    override func viewWillDisappear(animated: Bool) {
-        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
-    }
-    
-    override func viewDidDisappear(animated: Bool) {
-        debugPrint("\(self.tabBarItem.title) \(__FUNCTION__)")
-    }
     
     /*
     // MARK: - Navigation

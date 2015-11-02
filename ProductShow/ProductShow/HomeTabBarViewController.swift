@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegate,UITabBarControllerDelegate, FirstPageViewControllerDelegate/*,LoginViewControllerDelegate*/ {
+class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -80,6 +80,7 @@ class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegat
         }
     }
     
+    //往下面挪一点
     func adjustTabBarItem(tabBarItem: UITabBarItem){
         debugPrint("\(self) \(__FUNCTION__)")
         let old = tabBarItem.imageInsets
@@ -143,62 +144,6 @@ class HomeTabBarViewController: UITabBarController,UINavigationControllerDelegat
     }
     */
     
-    //MARK: UINavigationControllerDelegate  
-    //处理NavigationController的stack里面的viewController收不到-(void)viewWillAppear:(BOOL)animated；等4个方法调用的问题
-    //但这样做却也导致了，这些方法可能被重复调用的问题
-//    func setViewControllersDelegateToSelf(){
-//        for vc in self.viewControllers!{
-//            (vc as! UINavigationController).delegate = self
-//        }
-//    }
-//    
-//    var lastWillAppearController: UIViewController? = nil
-//    func navigationController(navigationController: UINavigationController, willShowViewController viewController: UIViewController, animated: Bool){
-//        if (lastWillAppearController != nil){
-//            if lastWillAppearController!.respondsToSelector("viewWillDisappear:"){
-//                lastWillAppearController!.viewWillDisappear(animated)
-//            }
-//        }
-//        
-//        lastWillAppearController = viewController
-//        viewController.viewWillAppear(animated)
-//    }
-//    
-//    var lastDidAppearController: UIViewController? = nil
-//    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool){
-//        if (lastDidAppearController != nil){
-//            if lastDidAppearController!.respondsToSelector("viewDidDisappear:"){
-//                lastDidAppearController!.viewDidDisappear(animated)
-//            }
-//        }
-//        
-//        lastDidAppearController = viewController
-//        viewController.viewDidAppear(animated)
-//        
-//    }
-    
-    //MARK: UITabBarControllerDelegate
-    
-//    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool{
-//        return true
-//    }
-    
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController){
-        
-        
-//        let index = self.viewControllers?.indexOf(viewController)?.value
-//        for i in 0..<self.tabBar.items!.count{
-//            if (i != index!){
-//                self.tabBar.items![i].enabled = true
-//            }else{
-//                self.tabBar.items![i].enabled = false
-//            }
-//            
-//        }
-
-    }
-    
-
     
     //MARK: 支持设备方向
     override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {

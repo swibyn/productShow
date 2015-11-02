@@ -17,7 +17,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
         
-        self.addNotificationObserver()
+        self.addOrdersChangedNotificationObserver()
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,19 +27,11 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     
     
     deinit{
-        removeNotificationObserver()
+        self.removeOrdersChangedNotificationObserver()
     }
     
     //MARK: 消息通知
-    func addNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleOrdersChanged"), name: kOrdersChanged, object: nil)
-    }
-    
-    func removeNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    func handleOrdersChanged(){
+    override func handleOrdersChangedNotification() {
         self.tableView.reloadData()
     }
 
@@ -65,9 +57,8 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         indexPathForAccessoryButtonTappedRow = indexPath
         let alert = UIAlertView(title: "Set order name to", message: nil, delegate: self, cancelButtonTitle: "Cancel")
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
-//        let dic = dataArray?.objectAtIndex(indexPath.row) as? NSMutableDictionary
         
-        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(indexPath.row)?.orderName// Order(dic: dic!).orderName
+        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(indexPath.row)?.orderName
         alert.addButtonWithTitle("OK")
         alert.show()
     }
@@ -123,8 +114,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-//            dataArray?.removeObjectAtIndex(indexPath.row)
-//            OrderManager.defaultManager().removeObjectAtIndex(indexPath.row)
+            
             Orders.defaultOrders().removeObjectAtIndex(indexPath.row)
 
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
@@ -159,15 +149,13 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         let selectedIndexPath = self.tableView.indexPathForSelectedRow!
         let destVC: AnyObject = segue.destinationViewController
         (destVC as? OrderDetailTableViewController)?.delegate = self
-//        let dic = self.dataArray?[selectedIndexPath.row] as! NSMutableDictionary
         
-        destVC.setValue(Orders.defaultOrders().orderAtIndex(selectedIndexPath.row), forKey: "order")
+        let order = Orders.defaultOrders().orderAtIndex(selectedIndexPath.row)
+        destVC.setValue(order, forKey: "order")
     }
     
     //MARK: OrderDetailTableViewControllerDelegate
     func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController) {
-//        self.navigationController?.popToViewController(self, animated: true)
-//        self.navigationController?.popViewControllerAnimated(true)
         self.tableView.reloadData()
     }
     
@@ -176,14 +164,10 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         indexPathForAccessoryButtonTappedRow = cell.indexPath
         let alert = UIAlertView(title: "Set order name to", message: nil, delegate: self, cancelButtonTitle: "Cancel")
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
-        //        let dic = dataArray?.objectAtIndex(indexPath.row) as? NSMutableDictionary
         
-        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(cell.indexPath!.row)?.orderName// Order(dic: dic!).orderName
+        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(cell.indexPath!.row)?.orderName
         alert.addButtonWithTitle("OK")
         alert.show()
-
-        
-        
     }
 
 }

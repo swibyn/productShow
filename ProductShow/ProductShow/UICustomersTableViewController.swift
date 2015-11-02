@@ -57,15 +57,7 @@ class UICustomersTableViewController: UITableViewController {
     }
     
     // MARK: - Table view delegate
-//    var indexPathForAccessoryButtonTappedRow: NSIndexPath?
-//    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-////        indexPathForAccessoryButtonTappedRow = indexPath
-//        let detailVC = UICustomerTableViewController.newInstance()
-//        let customer = customers.customerAtIndex(indexPath.row)
-//        detailVC.customer = customer
-//        self.navigationController?.pushViewController(detailVC, animated: true)
-////        self.presentViewController(detailVC, animated: true, completion: nil)
-//    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

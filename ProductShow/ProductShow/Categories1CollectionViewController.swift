@@ -57,7 +57,7 @@ class Categories1CollectionViewController: UICollectionViewController {
                     self.collectionView?.reloadData()
                 }else{
                     
-                    let msgString = self.categories?.message// json.objectForKey(jfmessage) as! String
+                    let msgString = self.categories?.message
                     let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
@@ -81,9 +81,6 @@ class Categories1CollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
         
         // Configure the cell...
-//        let color = [UIColor.redColor(),UIColor.yellowColor(),UIColor.greenColor(),UIColor.blueColor(),UIColor.cyanColor(),UIColor.magentaColor(),UIColor.orangeColor(),UIColor.purpleColor(),UIColor.brownColor()]
-        
-        
         let label = cell.viewWithTag(100) as? UILabel
         label?.backgroundColor = mycolor[indexPath.row % mycolor.count]
         

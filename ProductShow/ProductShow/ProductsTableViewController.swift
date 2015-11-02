@@ -10,9 +10,6 @@ import UIKit
 
 class ProductsTableViewController: UITableViewController,UIProductTableViewCellDelegate {
     
-//    var catId: Int = 0
-//    var catName: String = "Products" //一级名称
-//    var dataArray: NSArray?
     var category2 : Category?
     var products = Products()
 

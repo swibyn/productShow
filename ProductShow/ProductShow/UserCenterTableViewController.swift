@@ -16,7 +16,7 @@ class UITableViewCell0 : UITableViewCell {
 
 class UserCenterTableViewController: UITableViewController {
     
-    let cellArray = ["userinfo","Customer","Announcements","My Orders","Modify password"]
+//    let cellArray = ["userinfo","Customer","Announcements","My Orders","Modify password"]
     
     @IBAction func signoutBarButtonAction(sender: UIBarButtonItem) {
         UserInfo.defaultUserInfo().signout()
@@ -77,23 +77,6 @@ class UserCenterTableViewController: UITableViewController {
             cell0.userNameLabel.text = uname
         }
         return cell
-
-//        // Configure the cell...
-//        if indexPath.row == 0{
-//            let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath)
-//            let cell0 = cell as! UITableViewCell0
-//            debugPrint("userinfo=\(UserInfo.defaultUserInfo().returnDic)")
-//            let uname = UserInfo.defaultUserInfo().firstUser?.uname
-//            cell0.userNameLabel.text = uname
-//            return cell
-//        }else{
-//            let cell = tableView.dequeueReusableCellWithIdentifier("CommonTableViewCell", forIndexPath: indexPath) as! UICommonTableViewCell
-//            cell.initCell(nil, indexPath: indexPath, hideRightButtons: true)
-//            cell.accessButton.hidden = false
-//            cell.leftLabel.text = cellArray[indexPath.row]
-//            
-//            return cell
-//        }
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {

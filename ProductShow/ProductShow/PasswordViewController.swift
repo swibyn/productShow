@@ -21,16 +21,15 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     }
     
     //MARK: view life
-    override func viewDidLoad() {
-    }
     
     override func viewWillAppear(animated: Bool) {
-        
+        super.viewWillAppear(animated)
         self.addKeyboardNotificationObserver()
     }
     
     
     override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         submitButton.layer.masksToBounds = true
         submitButton.layer.cornerRadius = 5
         
@@ -38,6 +37,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     
     
     override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
         self.removeKeyboardNotificationObserver()
         
     }

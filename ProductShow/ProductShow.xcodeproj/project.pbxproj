@@ -25,7 +25,6 @@
 		4D66BB441BCF4F5F00AF5CDC /* ProductsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB381BCF4F5F00AF5CDC /* ProductsTableViewController.swift */; };
 		4D66BB451BCF4F5F00AF5CDC /* SearchProductsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB391BCF4F5F00AF5CDC /* SearchProductsViewController.swift */; };
 		4D66BB461BCF4F5F00AF5CDC /* TabNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB3A1BCF4F5F00AF5CDC /* TabNavigationController.swift */; };
-		4D66BB471BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB3B1BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift */; };
 		4D66BB481BCF4F5F00AF5CDC /* UserCenterTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB3C1BCF4F5F00AF5CDC /* UserCenterTableViewController.swift */; };
 		4D66BB4C1BCF4F7E00AF5CDC /* JsonField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB4A1BCF4F7E00AF5CDC /* JsonField.swift */; };
 		4D66BB4D1BCF4F7E00AF5CDC /* WebApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB4B1BCF4F7E00AF5CDC /* WebApi.swift */; };
@@ -96,7 +95,6 @@
 		4D66BB381BCF4F5F00AF5CDC /* ProductsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductsTableViewController.swift; sourceTree = "<group>"; };
 		4D66BB391BCF4F5F00AF5CDC /* SearchProductsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchProductsViewController.swift; sourceTree = "<group>"; };
 		4D66BB3A1BCF4F5F00AF5CDC /* TabNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabNavigationController.swift; sourceTree = "<group>"; };
-		4D66BB3B1BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabTableViewControllerBase.swift; sourceTree = "<group>"; };
 		4D66BB3C1BCF4F5F00AF5CDC /* UserCenterTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCenterTableViewController.swift; sourceTree = "<group>"; };
 		4D66BB4A1BCF4F7E00AF5CDC /* JsonField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JsonField.swift; sourceTree = "<group>"; };
 		4D66BB4B1BCF4F7E00AF5CDC /* WebApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WebApi.swift; sourceTree = "<group>"; };
@@ -193,7 +191,6 @@
 				4D66BB371BCF4F5F00AF5CDC /* LoginViewController.swift */,
 				4D66BB391BCF4F5F00AF5CDC /* SearchProductsViewController.swift */,
 				4D66BB3A1BCF4F5F00AF5CDC /* TabNavigationController.swift */,
-				4D66BB3B1BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift */,
 				4D95CB341BCF9A6700E10FD3 /* CartTableViewController.swift */,
 				4D66BB0F1BCF4E4400AF5CDC /* AppDelegate.swift */,
 				4D66BB151BCF4E4400AF5CDC /* Main.storyboard */,
@@ -459,7 +456,6 @@
 				4D95CB311BCF85E600E10FD3 /* UIViewControllerExtension.swift in Sources */,
 				4D66BB481BCF4F5F00AF5CDC /* UserCenterTableViewController.swift in Sources */,
 				4D66BB441BCF4F5F00AF5CDC /* ProductsTableViewController.swift in Sources */,
-				4D66BB471BCF4F5F00AF5CDC /* TabTableViewControllerBase.swift in Sources */,
 				4D66BB651BCF519A00AF5CDC /* NSString+MessageDigest.m in Sources */,
 				4D5ED5721BDFB15C00D2DD77 /* Categories2CollectionViewContrller.swift in Sources */,
 				4D95CB351BCF9A6700E10FD3 /* CartTableViewController.swift in Sources */,

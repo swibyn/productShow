@@ -110,7 +110,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return products.productsCount// dataArray?.count ?? 0
+        return products.productsCount
     }
 
     
@@ -118,8 +118,6 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
-//        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
-        
         ConfigureCell(cell, canAddToCart:true, product: products.productAtIndex(indexPath.row)!, delegate: self)
 
         return cell
@@ -131,11 +129,6 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     
 
     //MARK: UIScrollViewDalegate
-//    override func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
-//        
-//        debugPrintln("\(__FUNCTION__) \(scrollView.contentOffset)")
-//
-//    }
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         debugPrint("\(__FUNCTION__) \(scrollView.contentOffset)")
         if scrollView.contentOffset.y < -200{
@@ -143,14 +136,6 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         }
     }
     
-//    override func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
-//        debugPrintln("\(__FUNCTION__)")
-//    }
-//    override func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView!, atScale scale: CGFloat) {
-//        
-//        debugPrintln("\(__FUNCTION__)")
-//
-//    }
 
     /*
     // Override to support conditional editing of the table view.

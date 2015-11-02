@@ -55,11 +55,6 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
 
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -244,10 +239,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if indexPath.row < products.count{ //显示产品
             let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
             
-//            let dic = products.objectAtIndex(indexPath.row) as! NSDictionary
-            
             ConfigureCell(cell, canAddToCart:false, product: order.productAtIndex(indexPath.row)!, delegate: nil)
-            //ConfigureCell(cell, buttonTitle: "Delete", productDic: dic, delegate: self)
             
             return cell
             
@@ -266,8 +258,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
 
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         
-        let products = order.products // orderDic?.objectForKey(OrderSaveKey.products) as! NSArray
-//        let imgPahts = order.imagePaths // orderDic?.objectForKey(OrderSaveKey.imagePaths) as! NSArray
+        let products = order.products 
         if indexPath.row < products.count{
             return CGFloat(UIProductTableViewCell.rowHeight)
         }else{

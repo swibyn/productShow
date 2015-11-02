@@ -8,7 +8,7 @@
 
 import UIKit
 
-//let dataArray : [[String]] = [[jfcustName,"Name"],[jfaddress,"Address"],[jfarea,"Area"],[jfcity, "City"],[jflinkman, "LinkMan"],[jftel,"TEL"],[jfmobile,"Mobile"],[jffax,"Fax"],[jfbankName,"BankName"],[jfdept,"Dept"],[jfsaler,"Saler"],[jfmemo,"Detail"]]
+
 //MARK: - CustomerInfoTableViewCell
 class CustomerInfoTableViewCell: UITableViewCell {
     

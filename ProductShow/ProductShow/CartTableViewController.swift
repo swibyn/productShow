@@ -12,9 +12,9 @@ import MobileCoreServices
 class CartTableViewController: UITableViewController/*,UIProductTableViewCellDelegate */{
     
     
-    let cart = Cart.defaultCart()// Global.cart.products.objectsForKeys(Global.cart.products.allKeys, notFoundMarker: "a")
+    let cart = Cart.defaultCart()
     
-    //MARK: life Cycle
+    //MARK: view life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -62,7 +62,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         
         // Configure the cell...
         let dic = cart.products.allValues[indexPath.row] as! NSDictionary
-//        ConfigureCell(cell, buttonTitle: "Delete", productDic: dic, delegate: self)
+        
         ConfigureCell(cell, canAddToCart:false, product: Product(productDic: dic), delegate: nil)
         
         return cell
@@ -109,15 +109,8 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         return true
     }
     */
-
-    //MARK: UIProductTableViewCellDelegate
-//    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
-//        Global.cart.removeProduct(cell.productDic)
-//        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
-//    }
     
     // MARK: - Navigation
-    
     override  func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool{
         if identifier == "CartToMyOrders"{
             if cart.products.count > 0{
@@ -128,8 +121,8 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
                 Orders.defaultOrders().addOrder(order)
                 cart.removeProducts()
                 
-                self.tableView.reloadData()
                 postProductsInCartChangedNotification()
+                self.tableView.reloadData()
                 
             }else{
                 return false

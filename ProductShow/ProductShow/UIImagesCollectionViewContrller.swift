@@ -11,7 +11,6 @@ import MediaPlayer
 
 class UIImagesCollectionViewContrller: UICollectionViewController {
     
-//    var productDic: NSDictionary?
     var product: Product!
     
     var productFiles = ProductFiles()
@@ -55,6 +54,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
             imageView.image = nil
         }
     }
+    
     //MARK: - UICollectionViewDataSource
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
         return 1
@@ -132,41 +132,6 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
             return  CGSize(width: 200,height: 200)
             
     }
-    // MARK: 视频播放
-//    func playVideo(fileName: String){
-//        let player = MPMoviePlayerViewController(contentURL: NSURL(string: fileName))
-//        self.presentMoviePlayerViewControllerAnimated(player)
-//        
-//    }
-
-    // MARK: - Navigation
-//    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
-//        return false
-//        let rowSelected = (sender as! UIView).tag
-//        let productFile = productFiles.productFileAtIndex(rowSelected)
-//        
-//        let fileType = productFile?.fileType
-//        if fileType == 1{
-//            return true
-//        }else{
-//            self.playVideo((productFile?.filePath)!)
-//            
-////            let fileName = "http://sm.domob.cn/ugc/151397.mp4"
-////            self.playVideo(fileName)
-//            return false
-//        }
-//    }
-    
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-//        // Get the new view controller using segue.destinationViewController.
-//        // Pass the selected object to the new view controller.
-//        let rowSelected = (sender as! UIView).tag
-//        let destVc = segue.destinationViewController
-//        destVc.setValue(productFiles, forKey: "productFiles")
-//        destVc.setValue(rowSelected, forKey: "initcellIndex")
-//        
-//    }
 
 }
 

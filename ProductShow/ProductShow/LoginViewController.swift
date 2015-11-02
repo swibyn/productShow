@@ -34,16 +34,20 @@ class LoginViewController: UIViewController {
     
     //MARK: @IBAction
     @IBAction func loginButtonAction(sender: UIButton) {
+        Login()
+    }
+    
+    //MARK: funtion
+    func Login(){
         //如果登录成功，则交给代理处理
         let username = usernameTextField.text!
-        let password = passwordTextField.text!.md5 // (passwordTextField.text as NSString).md5()
-        
+        let password = passwordTextField.text!.md5
         
         WebApi.Login([jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 UserInfo.defaultUserInfo().returnDic = json
                 if (UserInfo.defaultUserInfo().status == 1){
@@ -64,11 +68,12 @@ class LoginViewController: UIViewController {
                 alertView.show()
             }
         })
+        
     }
     
 
     
-    //MARK: Lifecycle
+    //MARK: view Life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
 

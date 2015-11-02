@@ -12,7 +12,7 @@ protocol FirstPageViewControllerDelegate : NSObjectProtocol{
     func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton)
 }
 
-class FirstPageViewController: UIViewController,LoginViewControllerDelegate/*,UITabBarControllerDelegate*/ {
+class FirstPageViewController: UIViewController,LoginViewControllerDelegate {
 
     //MARK: Property
     var delegate: FirstPageViewControllerDelegate?

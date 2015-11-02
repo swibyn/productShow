@@ -10,7 +10,6 @@ import UIKit
 
 class SearchProductsViewController: UITableViewController, UISearchBarDelegate, UIProductTableViewCellDelegate{
     
-//    var dataArray: NSArray?
     var products = Products()
 
     @IBOutlet var cartBarButton: UIBarButtonItem!
@@ -110,7 +109,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-//        return dataArray?.count ?? 0
+        
         return products.productsCount
     }
     
