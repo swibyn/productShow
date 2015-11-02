@@ -618,7 +618,7 @@
             <objects>
                 <tabBarController id="49e-Tb-3d3" customClass="HomeTabBarViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" selectionIndicatorImage="tab_selectbg" itemPositioning="centered" id="W28-zg-YXA">
+                    <tabBar key="tabBar" contentMode="scaleToFill" selectionIndicatorImage="底部按钮70X48" itemPositioning="centered" id="W28-zg-YXA">
                         <rect key="frame" x="0.0" y="975" width="768" height="49"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <color key="barTintColor" red="0.22449570105820105" green="0.22449570105820105" blue="0.22449570105820105" alpha="1" colorSpace="calibratedRGB"/>
@@ -1881,13 +1881,13 @@
     <resources>
         <image name="LOGO250X250" width="250" height="250"/>
         <image name="arrow" width="36" height="36"/>
-        <image name="tab_selectbg" width="70" height="48"/>
         <image name="video" width="256" height="256"/>
         <image name="商品默认图片96X96" width="96" height="96"/>
         <image name="底部按钮-搜索48" width="44" height="44"/>
         <image name="底部按钮-热门产品48" width="44" height="44"/>
         <image name="底部按钮-用户中心48" width="44" height="44"/>
         <image name="底部按钮-类目48" width="44" height="44"/>
+        <image name="底部按钮70X48" width="70" height="48"/>
         <image name="首页-产品搜索273X203" width="273" height="203"/>
         <image name="首页-产品类目262X440" width="262" height="440"/>
         <image name="首页-热门产品262X440" width="262" height="440"/>
