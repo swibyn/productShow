@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface UploadFile : NSObject
-- (void)uploadFileWithURL:(NSURL *)url data:(NSData *)data
-        completionHandler:(void (^)(NSURLResponse* __nullable response, NSData* __nullable data, NSError* __nullable connectionError)) handler;
+- (void)uploadFileWithURL:(NSURL * _Nonnull)url data:(NSData * _Nonnull)data
+        completionHandler:(void (^ __nullable)(NSURLResponse* __nullable response, NSData* __nullable data, NSError* __nullable connectionError)) handler;
 @end

@@ -26,7 +26,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         
-        self.addObserverKeyboardNotification()
+        self.addKeyboardNotificationObserver()
     }
     
     
@@ -38,7 +38,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     
     
     override func viewWillDisappear(animated: Bool) {
-        self.removeObserverKeyboardNotification()
+        self.removeKeyboardNotificationObserver()
         
     }
     
@@ -50,6 +50,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     
     //MARK: KeyboardNotification
     override func handleKeyboardWillShow(paramNotification: NSNotification) {
+        super.handleKeyboardWillShow(paramNotification)
         
         UIView.animateWithDuration(1) { () -> Void in
             self.view.frame.origin.y = -200
@@ -58,6 +59,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     }
     
     override func handleKeyboardWillHide(paramNotification: NSNotification) {
+        super.handleKeyboardWillHide(paramNotification)
         UIView.animateWithDuration(1.0) { () -> Void in
             self.view.frame.origin.y = 0
         }

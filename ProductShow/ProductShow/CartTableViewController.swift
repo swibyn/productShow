@@ -23,7 +23,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
-        self.addObserverProductsInCartChangedNotification()
+        self.addProductsInCartChangedNotificationObserver()
         
     }
 
@@ -33,7 +33,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     }
     
     deinit{
-        self.removeObserverProductsInCartChangedNotification()
+        self.removeProductsInCartChangedNotificationObserver()
     }
     
     

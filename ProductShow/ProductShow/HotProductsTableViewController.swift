@@ -26,8 +26,8 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
-        self.addObserverProductsInCartChangedNotification()
-        self.addObserverLoginNotification()
+        self.addProductsInCartChangedNotificationObserver()
+        self.addLoginNotificationObserver()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -41,8 +41,8 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     }
     
     deinit{
-        self.removeObserverProductsInCartChangedNotification()
-        self.removeObserverLoginNotification()
+        self.removeProductsInCartChangedNotificationObserver()
+        self.removeLoginNotificationObserver()
     }
     
     override func didReceiveMemoryWarning() {
@@ -52,12 +52,14 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     
     //MARK: 消息通知
     override func handleLoginSucceed(paramNotification: NSNotification) {
+        super.handleLoginSucceed(paramNotification)
         if products.productsCount == 0{
             showFirstPage()
         }
     }
     
     override func handleProductsInCartChanged(paramNotification: NSNotification) {
+        super.handleProductsInCartChanged(paramNotification)
         cartBarButton.title = Cart.defaultCart().title
     }
     

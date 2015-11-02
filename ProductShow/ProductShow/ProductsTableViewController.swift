@@ -69,15 +69,8 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     }
     
     //MARK: 消息通知
-    func addProductsInCartChangedNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged"), name: kProductsInCartChanged, object: nil)
-    }
     
-    func removeProductsInCartChangedNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    func handleProductsInCartChanged(){
+    override func handleProductsInCartChanged(paramNotification: NSNotification) {
         self.cartBarButton.title = Cart.defaultCart().title
     }
     
@@ -110,7 +103,6 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
         let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
-//        let dic = dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
         
         ConfigureCell(cell, canAddToCart:true, product: products.productAtIndex(indexPath.row)!, delegate: self)
         

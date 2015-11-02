@@ -84,7 +84,7 @@ class LoginViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.addObserverKeyboardNotification()
+        self.addKeyboardNotificationObserver()
     }
     
     
@@ -99,7 +99,7 @@ class LoginViewController: UIViewController {
 
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
-        self.removeObserverKeyboardNotification()
+        self.removeKeyboardNotificationObserver()
         
     }
 

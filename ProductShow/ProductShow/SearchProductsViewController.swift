@@ -26,7 +26,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
         self.cartBarButton.title = Cart.defaultCart().title
-        self.addObserverProductsInCartChangedNotification()
+        self.addProductsInCartChangedNotificationObserver()
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -46,7 +46,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     }
     
     deinit{
-        self.removeObserverProductsInCartChangedNotification()
+        self.removeProductsInCartChangedNotificationObserver()
     }
     
     //MARK: 消息通知

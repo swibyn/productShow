@@ -192,8 +192,12 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
                     self.logTextView = textView
                     textView.editable = true
                     textView.text = ""
+//                    textView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
+//                    textView.contentInset = UIEdgeInsetsMake(20, 20, 20, 20)
+//                    textView.scrollIndicatorInsets  =  UIEdgeInsetsMake(20, 20, 20, 20)
                     textView.font = UIFont.systemFontOfSize(20)
                     textView.becomeFirstResponder()
+                    
                 }
                 return cell
             }else{
@@ -207,6 +211,8 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
             let log = logs?.logAtIndex(indexPath.row - 1)
             textView.text = "\(log!.logDate!)\n\(log!.logContent!)"
             textView.font = UIFont.systemFontOfSize(20)
+//            textView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
+            
             return cell
         }
     }
