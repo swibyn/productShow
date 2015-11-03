@@ -81,7 +81,9 @@ class Categories2CollectionViewController: UICollectionViewController {
         
         // Configure the cell...
         let label = cell.viewWithTag(100) as? UILabel
-        label?.backgroundColor = mycolor[indexPath.row % mycolor.count]
+        
+        label?.backgroundColor = categoryColor(indexPath.row)
+//        label?.backgroundColor = mycolor[indexPath.row % mycolor.count]
         let catname = categories?.categoryAtIndex(indexPath.row)?.catName
         label?.text =  "\(catname!)"
         
@@ -94,7 +96,7 @@ class Categories2CollectionViewController: UICollectionViewController {
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
             //            let width = self.collectionView?.bounds
-            return  CGSize(width: (size!.width - 60)/2 ,height: 90)
+            return  CGSize(width: (size!.width - 60)/2 ,height: 97)
             
     }
 

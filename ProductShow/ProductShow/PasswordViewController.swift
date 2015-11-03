@@ -10,6 +10,7 @@ import UIKit
 
 class PasswordViewController: UIViewController, UIAlertViewDelegate {
 
+    @IBOutlet var centerView: UIView!
     @IBOutlet var oldPasswordTextField: UITextField!
     @IBOutlet var newPasswordTextField1: UITextField!
     @IBOutlet var newPasswordTextField2: UITextField!
@@ -32,6 +33,8 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
         super.viewDidAppear(animated)
         submitButton.layer.masksToBounds = true
         submitButton.layer.cornerRadius = 5
+        centerView.layer.masksToBounds = true
+        centerView.layer.cornerRadius = 5
         
     }
     
@@ -53,7 +56,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
         super.handleKeyboardWillShow(paramNotification)
         
         UIView.animateWithDuration(1) { () -> Void in
-            self.view.frame.origin.y = -200
+            self.view.frame.origin.y = -150
         }
         
     }

@@ -1,4 +1,4 @@
-//
+                        //
 //  FirstPageViewController.swift
 //  ProductShow
 //
@@ -38,7 +38,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        let bsignin = UserInfo.defaultUserInfo().status == 1
+        let bsignin = UserInfo.defaultUserInfo().state == 1
 
         if (!bsignin){
             presentLoginVC(UIModalTransitionStyle.CoverVertical, animated: true, completion: nil)

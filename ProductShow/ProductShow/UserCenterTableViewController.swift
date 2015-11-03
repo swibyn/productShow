@@ -20,6 +20,7 @@ class UserCenterTableViewController: UITableViewController {
     
     @IBAction func signoutBarButtonAction(sender: UIBarButtonItem) {
         UserInfo.defaultUserInfo().signout()
+        self.postUserSignOutNotification()
     
     }
     
@@ -90,6 +91,10 @@ class UserCenterTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if indexPath.row == 5{ //数据同步
+            
+            
+        }
         
     }
 

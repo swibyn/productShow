@@ -52,9 +52,11 @@ class LoginViewController: UIViewController {
                 UserInfo.defaultUserInfo().returnDic = json
                 if (UserInfo.defaultUserInfo().status == 1){
                     //登录成功
+                    let loginInfo = LoginInfo(username: username, pwd: self.passwordTextField.text!)
+                    UserInfo.defaultUserInfo().loginInfo = loginInfo
+                    
                     self.delegate?.loginViewController(self, userInfo: json)
-                    NSUserDefaults.standardUserDefaults().setValue(username, forKey: jfusername)
-                    NSUserDefaults.standardUserDefaults().setValue(self.passwordTextField.text!, forKey: jfpwd)
+                    
                     self.postLoginSucceedNotification()
                     
                 }else{
@@ -64,14 +66,22 @@ class LoginViewController: UIViewController {
                     self.SendEquipCode()
                 }
             }else{
-                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-                alertView.show()
+                //网络不通或服务器问题则根据本地的来判断
+                let localLoginInfo = UserInfo.defaultUserInfo().loginInfo
+                let localusername = localLoginInfo?.username
+                let localpwd = localLoginInfo?.pwd
+                if (username == localusername) && (self.passwordTextField.text! == localpwd){
+                    UserInfo.defaultUserInfo().readLocalReturnData()
+                    self.delegate?.loginViewController(self, userInfo: nil)
+                    self.postLoginSucceedNotification()
+                }
+                
+                
+//                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+//                alertView.show()
             }
         })
-        
     }
-    
-
     
     //MARK: view Life cycle
     override func viewDidLoad() {
@@ -81,10 +91,12 @@ class LoginViewController: UIViewController {
         self.title = "Sign In"
         
         //显示登录名
-        let username = NSUserDefaults.standardUserDefaults().valueForKey(jfusername) as? String
-        let pwd = NSUserDefaults.standardUserDefaults().valueForKey(jfpwd) as? String
+//        let username = NSUserDefaults.standardUserDefaults().valueForKey(jfusername) as? String
+//        let pwd = NSUserDefaults.standardUserDefaults().valueForKey(jfpwd) as? String
+        let username = UserInfo.defaultUserInfo().loginInfo?.username
+//        let pwd = UserInfo.defaultUserInfo().loginInfo?.pwd
         self.usernameTextField.text = username ?? ""
-        self.passwordTextField.text = pwd ?? ""
+//        self.passwordTextField.text = ""//pwd ?? ""
     }
     
     override func viewWillAppear(animated: Bool) {

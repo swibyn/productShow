@@ -12,15 +12,24 @@ import Foundation
 postDic={
     username:""
     pwd:""
+    UserState:1(LoginState)
 }
 */
 
+//enum LoginState: Int{
+//    case SignIn = 1
+//    case SignOut = 2
+//}
 
-class Login: NSObject{
+class LoginInfo: NSObject{
     private var _loginDic: NSDictionary?
     
     init(loginDic: NSDictionary) {
         _loginDic = loginDic
+    }
+    
+    init(username: String, pwd: String) {
+        _loginDic = [jfusername: username, jfpwd: pwd]
     }
     
     override init(){
@@ -37,12 +46,33 @@ class Login: NSObject{
     }
     
     var username: String?{
-        return _loginDic?.objectForKey(jfusername) as? String
+        get{
+            return _loginDic?.objectForKey(jfusername) as? String
+        }
+//        set{
+//            _loginDic?.setValue(newValue, forKey: jfusername)
+//        }
     }
     
     var pwd: String?{
-        return _loginDic?.objectForKey(jfpwd) as? String
+        get{
+            return _loginDic?.objectForKey(jfpwd) as? String
+        }
+//        set{
+//            _loginDic?.setValue(newValue, forKey: jfpwd)
+//        }
     }
+    
+//    var state: Int{
+//        get{
+//            let _state = _loginDic?.objectForKey("UserState") as? Int
+//            return _state ?? LoginState.SignIn.rawValue
+//        }
+//        set{
+//            _loginDic?.setValue(1, forKey: "UserState")
+//        }
+//    }
+    
 }
 
 class User: NSObject{
@@ -131,36 +161,97 @@ class User: NSObject{
     
 }
 
+class UserInfoSaveKey{
+//    static var state = "UserInfoSaveKey.state"
+    static var loginDic = "UserInfoSaveKey.loginDic"
+    static var returnDic = "UserInfoSaveKey.returnDic"
+}
+
+//class UserState{
+//    static var Key = "UserState.Key"
+//    static var SignedIn = "UserState.SignedIn"
+//    static var SignedOut = "UserState.SignedOut"
+//}
+
 class UserInfo: ReturnDic {
-    
-    private static var _userInfo = UserInfo()
+    //单例
+    private static var _userInfo: UserInfo?
     class func defaultUserInfo()->UserInfo {
-        return _userInfo
+        if _userInfo == nil{
+            _userInfo = UserInfo()
+            
+            _userInfo?.readLocalLoginData()
+        }
+        return _userInfo!
     }
     
-    private var _postDic: NSDictionary?
+    //提交的信息
+    private var _loginDic: NSDictionary?
     
-    var PostDic: NSDictionary?{
+    
+    //状态 初始状态为“” 登录状态 注销状态
+//    private var _state = ""
+    //返回 0:未登录 1:已登录
+    var state: Int{
         get{
-            return _postDic
+            if _returnDic != nil{
+                return 1
+            }
+            return 0
+        }
+    }
+    //MARK: 发送的数据
+    var loginInfo: LoginInfo?{
+        get{
+            if _loginDic != nil{
+                return LoginInfo(loginDic: _loginDic!)
+            }
+            return nil
         }
         set{
-            _postDic = newValue
+            _loginDic = newValue?.loginDic
+            save()
+        }
+        
+    }
+    //注销
+    func signout(){
+        _returnDic = nil
+    }
+    
+    func readLocalLoginData(){
+        
+        let loginDicData = NSUserDefaults.standardUserDefaults().valueForKey(UserInfoSaveKey.loginDic) as? NSData
+        if loginDicData != nil{
+            let loginDic = try! NSJSONSerialization.JSONObjectWithData(loginDicData!, options: NSJSONReadingOptions.AllowFragments)
+            _loginDic = loginDic as? NSDictionary
+        }
+        
+    }
+    
+    func readLocalReturnData(){
+        
+        let returnDicData = NSUserDefaults.standardUserDefaults().valueForKey(UserInfoSaveKey.returnDic) as? NSData
+        if returnDicData != nil{
+            let returnDic = try! NSJSONSerialization.JSONObjectWithData(returnDicData!, options: NSJSONReadingOptions.AllowFragments)
+            _returnDic = returnDic as? NSDictionary
         }
     }
     
-    func signout(){
-        _returnDic = nil
-        NSUserDefaults.standardUserDefaults().setValue(nil, forKey: jfpwd)
-        NSNotificationCenter.defaultCenter().postNotificationName(kUserSignOutNotification, object: nil)
+    func save(){
+
+        if _loginDic != nil{
+        
+            let data = try! NSJSONSerialization.dataWithJSONObject(_loginDic!, options: NSJSONWritingOptions())
+            NSUserDefaults.standardUserDefaults().setValue(data, forKey: UserInfoSaveKey.loginDic)
+        }
+        if _returnDic != nil{
+            
+            let data = try! NSJSONSerialization.dataWithJSONObject(_returnDic!, options: NSJSONWritingOptions())
+            NSUserDefaults.standardUserDefaults().setValue(data, forKey: UserInfoSaveKey.returnDic)
+        }
     }
     
-    //MARK: 发送的数据
-    var login: Login?{
-        let _login = Login()
-        _login.loginDic = _postDic
-        return _login
-    }
     
     var firstUser: User?{
         //用户信息

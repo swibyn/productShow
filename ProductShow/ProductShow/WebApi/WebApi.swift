@@ -78,42 +78,6 @@ class WebApi: NSObject {
     
     class func AsynchronousRequest(subUrlStr: String, httpMethod:String, jsonObj: NSDictionary?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-//        //prepare parameters
-//        var para: NSMutableString
-//        let mutableJsonObj = NSMutableDictionary()
-//        if let mJsonObj = jsonObj{
-//            mutableJsonObj.setDictionary(mJsonObj as [NSObject : AnyObject])
-//        }
-//        let eqNo = UIDevice.currentDevice().identifierForVendor!.UUIDString
-//        mutableJsonObj.setValue(eqNo, forKey: "eqNo")
-////        if let mJsonObj: AnyObject = jsonObj{
-//            if httpMethod == httpGet{
-//                para = NSMutableString(string: "")
-//                mutableJsonObj.enumerateKeysAndObjectsUsingBlock({ (key, obj, stop) -> Void in
-//                    if para.length == 0{
-//                        para.appendString("\(key)=\(obj)")
-//                    }else{
-//                        para.appendString("&\(key)=\(obj)")
-//                    }
-//                })
-//                subUrlStr = "\(subUrlStr)?\(para)"
-//            }
-//        
-//        var url = fullUrlStr(subUrlStr)
-//        
-//        url = url.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-//        
-//        let urlRequest = NSMutableURLRequest(URL: NSURL(string: url)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
-//        urlRequest.HTTPMethod = httpMethod
-//        if httpMethod == httpPost{
-//            if let mJson = jsonObj{
-//                let jsonData: NSData?
-//                jsonData = try? NSJSONSerialization.dataWithJSONObject(mJson, options: NSJSONWritingOptions())
-//                urlRequest.HTTPBody = jsonData
-//            }
-//        }
-        
-        
         let urlRequest = self.URLRequestWith(subUrlStr, httpMethod: httpMethod, jsonObj: jsonObj)
 //        debugPrint("发送：\(urlRequest)")
         let queue = NSOperationQueue()
@@ -258,7 +222,10 @@ class WebApi: NSObject {
 
         }
     }
-    
+    //MARK: 同步数据
+    class func GetAllUrl(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmGetAllUrl", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
     
     //MARK: 1. 发送设备编码
     class func SendEquipCode(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){

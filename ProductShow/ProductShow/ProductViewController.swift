@@ -43,7 +43,7 @@ class ProductViewController: UIViewController {
     
     //MARK: function
     func showProductInfo(){
-        self.productNameLabel.text = product?.proName
+        self.productNameLabel.text = "  \(product!.proName!)"
         self.productSizeLabel.text = product?.proSize
         self.productRemarkTextView.text = product?.remark
         let imagefile = self.product?.imgUrl

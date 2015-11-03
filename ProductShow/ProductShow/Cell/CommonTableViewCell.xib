@@ -25,11 +25,15 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ICR-hO-FPl">
-                                <rect key="frame" x="490" y="12" width="36" height="36"/>
+                                <rect key="frame" x="503" y="19" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="1zg-6G-PNQ"/>
+                                    <constraint firstAttribute="width" constant="20" id="Pnn-uo-D85"/>
+                                </constraints>
                                 <state key="normal" image="arrow"/>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ROD-G6-kgO">
-                                <rect key="frame" x="286" y="19" width="182" height="21"/>
+                                <rect key="frame" x="279" y="19" width="182" height="21"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="182" id="rHc-j1-aYB"/>
                                 </constraints>
@@ -49,9 +53,9 @@
                             <constraint firstItem="ICR-hO-FPl" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="6yZ-tt-O7f"/>
                             <constraint firstItem="kZZ-3p-vZ9" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="KDE-do-O9D"/>
                             <constraint firstItem="ROD-G6-kgO" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="UGc-1B-m9x"/>
-                            <constraint firstAttribute="trailing" secondItem="ICR-hO-FPl" secondAttribute="trailing" constant="7" id="c0d-9a-O3X"/>
-                            <constraint firstItem="ICR-hO-FPl" firstAttribute="leading" secondItem="kZZ-3p-vZ9" secondAttribute="trailing" constant="-5" id="d17-Ic-m59"/>
-                            <constraint firstItem="ICR-hO-FPl" firstAttribute="leading" secondItem="ROD-G6-kgO" secondAttribute="trailing" constant="22" id="y4Z-uU-HWv"/>
+                            <constraint firstAttribute="trailing" secondItem="ICR-hO-FPl" secondAttribute="trailing" constant="10" id="c0d-9a-O3X"/>
+                            <constraint firstItem="ICR-hO-FPl" firstAttribute="leading" secondItem="kZZ-3p-vZ9" secondAttribute="trailing" constant="8" id="d17-Ic-m59"/>
+                            <constraint firstItem="ICR-hO-FPl" firstAttribute="leading" secondItem="ROD-G6-kgO" secondAttribute="trailing" constant="42" id="y4Z-uU-HWv"/>
                         </constraints>
                     </view>
                 </subviews>

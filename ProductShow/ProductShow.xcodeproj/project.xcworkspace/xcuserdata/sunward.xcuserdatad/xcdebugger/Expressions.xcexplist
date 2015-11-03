@@ -3,6 +3,14 @@
    version = "1.0">
    <ContextStates>
       <ContextState
+         contextName = "UserInfo.save() -&gt; () [inlined]:UserInfo.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "_loginDic">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
          contextName = "UIProductTableViewController.tableView(UITableView, cellForRowAtIndexPath : NSIndexPath) -&gt; UITableViewCell:UIProductTableViewController.swift">
          <PersistentStrings>
             <PersistentString

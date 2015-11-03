@@ -37,6 +37,7 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
 //            self.performSelectorOnMainThread(Selector("presentFirstPageVC"), withObject: nil, waitUntilDone: false)
             self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
         }
+//        debugPrint("tabar.itemWidth=\(self.tabBar.itemWidth)  itemSpacing=\(self.tabBar.itemSpacing)")
 
     }
     
@@ -58,16 +59,8 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
     deinit{
         self.removeUserSignOutNotificationObserver()
     }
-    //MARK: 使tabbaritem进入使用状态
-//    var bselected = false
-//    func selectedTabBarIfNever(){
-//        if !bselected{
-//            bselected = true
-//            for i in 0..<self.viewControllers!.count{
-//                self.selectedIndex = i
-//            }
-//        }
-//    }
+    
+    //MARK:
     
     var bchangeTabBar = false
     func adjustTabBarItems(){
@@ -82,20 +75,14 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
     
     //往下面挪一点
     func adjustTabBarItem(tabBarItem: UITabBarItem){
-        debugPrint("\(self) \(__FUNCTION__)")
+//        debugPrint("\(self) \(__FUNCTION__)")
         let old = tabBarItem.imageInsets
-//        tabBarItem.imageInsets = UIEdgeInsets(top: old.top + 5, left: old.left - 7, bottom: old.bottom - 10, right: old.right - 8)
         let offset: CGFloat = 5
         
         tabBarItem.imageInsets = UIEdgeInsets(top: old.top + offset, left: old.left, bottom: old.bottom - offset, right: old.right)
 
-//        tabBarItem.image? = tabBarItem.image!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
-        
-//        tabBarItem.selectedImage? = tabBarItem.selectedImage!.imageWithRenderingMode(UIImageRenderingMode.AlwaysOriginal)
         tabBarItem.titlePositionAdjustment = UIOffset(horizontal: 0, vertical: 20)
-        //        print("\(self) \(__FUNCTION__)")
-//        print("\(self)  tabBarItem.imageInsets=\(self.tabBarItem.imageInsets)")
-        
+
     }
     
     

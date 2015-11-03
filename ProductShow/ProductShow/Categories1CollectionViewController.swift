@@ -7,7 +7,15 @@
 //
 
 import UIKit
-let mycolor = [UIColor.greenColor(),UIColor.blueColor(),UIColor.redColor(),UIColor.orangeColor(),UIColor.yellowColor(),UIColor.cyanColor(),UIColor.magentaColor(),UIColor.purpleColor(),UIColor.brownColor()]
+
+let categoryColors:[[CGFloat]] = [[6,181,122],[90,190,40],[252,169,13],[110,128,240],[39,197,244],[251,121,46],[62,132,254]]
+
+func categoryColor(row: Int)->UIColor{
+    let _color = categoryColors[row % categoryColors.count]
+    let color = UIColor(red: _color[0]/255, green: _color[1]/255, blue: _color[2]/255, alpha: 1)
+    return color
+}
+//let mycolor = [UIColor.greenColor(),UIColor.blueColor(),UIColor.redColor(),UIColor.orangeColor(),UIColor.yellowColor(),UIColor.cyanColor(),UIColor.magentaColor(),UIColor.purpleColor(),UIColor.brownColor()]
 
 class Categories1CollectionViewController: UICollectionViewController {
     
@@ -82,7 +90,8 @@ class Categories1CollectionViewController: UICollectionViewController {
         
         // Configure the cell...
         let label = cell.viewWithTag(100) as? UILabel
-        label?.backgroundColor = mycolor[indexPath.row % mycolor.count]
+    
+        label?.backgroundColor = categoryColor(indexPath.row)
         
         let catname = categories?.categoryAtIndex(indexPath.row)?.catName
         label?.text =  "\(catname!)"
@@ -102,7 +111,7 @@ class Categories1CollectionViewController: UICollectionViewController {
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
 //            let width = self.collectionView?.bounds
-            return  CGSize(width: (size!.width - 60)/2 ,height: 90)
+            return  CGSize(width: (size!.width - 60)/2 ,height: 97)
             
     }
     // MARK: - Navigation
