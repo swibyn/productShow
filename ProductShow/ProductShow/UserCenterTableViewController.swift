@@ -179,7 +179,7 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
             let url = crmUrl?.url
             WebApi.RequestAURL(url!, completedHandler: { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
-                    NSUserDefaults.standardUserDefaults().setValue(data, forKey: url!)
+//                    NSUserDefaults.standardUserDefaults().setValue(data, forKey: url!)//底层就保存了
                     self.currentSynIndex++
                     self.performSelector(Selector("SynCrmUrl"))
                 }else{

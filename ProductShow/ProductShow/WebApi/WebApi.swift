@@ -280,15 +280,16 @@ class WebApi: NSObject {
         return paraStr as String
     }
     
-    class func readAndRequest(fullUrl:String,completedHandle:((NSURLResponse?,NSData?,NSError?)->Void)?) {
-        let data = localData(fullUrl)
+    class func readAndRequest(fullUrlStr:String,completedHandle:((NSURLResponse?,NSData?,NSError?)->Void)?) {
+        let fullUrlStrURLAllowed = fullUrlStr.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+        let data = localData(fullUrlStrURLAllowed)
         var bHandled = false
         if data != nil{
             bHandled = true
             completedHandle?(nil,data!,nil)
         }
         
-        RequestAURL(fullUrl) { (response, data, error) -> Void in
+        RequestAURL(fullUrlStrURLAllowed) { (response, data, error) -> Void in
             if !bHandled{
                 completedHandle?(response, data, error)
             }

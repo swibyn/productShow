@@ -38,9 +38,9 @@ class CustomerInfoTableViewCell: UITableViewCell {
     }
     
     func adjustPosition(){
-        debugPrint("\(self.bounds)")
-        let centerx = self.center.x
-        let width = self.bounds.size.width
+        debugPrint("\(self.contentView.bounds)")
+        let centerx =  self.contentView.center.x
+        let width = self.contentView.bounds.size.width
 //        linkmanLabel.frame.origin.x = x
         NameLabel.frame.size.width = width
         addressLabel.frame.size.width = width
@@ -103,8 +103,12 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         self.GetWorkLog()
-        
+
     }
     
     //MARK: function
