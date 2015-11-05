@@ -126,8 +126,9 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
     func collectionView(collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
-//            let size = self.collectionView?.bounds.size
-            return  CGSize(width: 200,height: 200)
+            let width = ((self.collectionView?.bounds.size.width)! - 120)/4
+            
+            return  CGSize(width: width,height: width)
             
     }
 

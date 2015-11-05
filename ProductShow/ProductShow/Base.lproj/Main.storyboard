@@ -1667,7 +1667,7 @@
                                     <rect key="frame" x="0.0" y="0.0" width="190" height="176"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="商品默认图片96X96" translatesAutoresizingMaskIntoConstraints="NO" id="7uI-KU-ABp">
+                                        <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="430X430产品详细默认图" translatesAutoresizingMaskIntoConstraints="NO" id="7uI-KU-ABp">
                                             <rect key="frame" x="0.0" y="0.0" width="190" height="176"/>
                                         </imageView>
                                     </subviews>

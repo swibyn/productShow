@@ -69,7 +69,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
         let imageView = cell.viewWithTag(100) as! UIImageView
    
-        imageView.image = UIImage(named: "商品默认图片96X96")
+        imageView.image = UIImage(named: "430X430产品详细默认图")
         let productFile = productFiles?.productFileAtIndex(indexPath.row)!
         WebApi.GetFile(productFile?.filePath) { (response, data, error) -> Void in
             if productFile!.fileType! == ProductFileTypeImage{
