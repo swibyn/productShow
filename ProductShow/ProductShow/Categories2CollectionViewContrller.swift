@@ -54,7 +54,7 @@ class Categories2CollectionViewController: UICollectionViewController {
                 }else{
                     
                     let msgString = self.categories?.message
-                    let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
                 

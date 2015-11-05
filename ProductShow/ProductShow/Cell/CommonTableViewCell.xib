@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <objects>
@@ -18,8 +18,11 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sYc-1E-kmM">
                         <rect key="frame" x="18" y="8" width="533" height="59"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaT-F0-EBN">
-                                <rect key="frame" x="11" y="19" width="317" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label Label Label Label Label Label " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SaT-F0-EBN">
+                                <rect key="frame" x="11" y="19" width="514" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="exh-Of-jLY"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <color key="textColor" red="0.1647058824" green="0.64313725489999995" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -50,21 +53,24 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="ICR-hO-FPl" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="6yZ-tt-O7f"/>
-                            <constraint firstItem="kZZ-3p-vZ9" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="KDE-do-O9D"/>
-                            <constraint firstItem="ROD-G6-kgO" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="UGc-1B-m9x"/>
-                            <constraint firstAttribute="trailing" secondItem="ICR-hO-FPl" secondAttribute="trailing" constant="10" id="c0d-9a-O3X"/>
-                            <constraint firstItem="ICR-hO-FPl" firstAttribute="leading" secondItem="kZZ-3p-vZ9" secondAttribute="trailing" constant="8" id="d17-Ic-m59"/>
-                            <constraint firstItem="ICR-hO-FPl" firstAttribute="leading" secondItem="ROD-G6-kgO" secondAttribute="trailing" constant="42" id="y4Z-uU-HWv"/>
+                            <constraint firstItem="ICR-hO-FPl" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="5X3-K1-qkW"/>
+                            <constraint firstItem="SaT-F0-EBN" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="796-yz-tVg"/>
+                            <constraint firstItem="ROD-G6-kgO" firstAttribute="centerY" secondItem="sYc-1E-kmM" secondAttribute="centerY" id="7m6-SR-wcH"/>
+                            <constraint firstItem="SaT-F0-EBN" firstAttribute="leading" secondItem="sYc-1E-kmM" secondAttribute="leading" constant="11" id="HG8-Do-eiG"/>
+                            <constraint firstItem="kZZ-3p-vZ9" firstAttribute="top" secondItem="ICR-hO-FPl" secondAttribute="top" id="HvR-wk-d4s"/>
+                            <constraint firstItem="ICR-hO-FPl" firstAttribute="leading" secondItem="kZZ-3p-vZ9" secondAttribute="trailing" constant="8" symbolic="YES" id="QQ8-me-hJP"/>
+                            <constraint firstItem="kZZ-3p-vZ9" firstAttribute="leading" secondItem="ROD-G6-kgO" secondAttribute="trailing" constant="12" id="YFU-R9-5LG"/>
+                            <constraint firstAttribute="trailing" secondItem="ICR-hO-FPl" secondAttribute="trailing" constant="10" id="c4V-C6-0Tr"/>
+                            <constraint firstAttribute="trailing" secondItem="SaT-F0-EBN" secondAttribute="trailing" constant="8" id="zVj-uD-jRs"/>
                         </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                 <constraints>
-                    <constraint firstItem="sYc-1E-kmM" firstAttribute="leading" secondItem="hm9-jy-7V6" secondAttribute="leadingMargin" constant="10" id="3tO-S1-V2H"/>
                     <constraint firstItem="sYc-1E-kmM" firstAttribute="top" secondItem="hm9-jy-7V6" secondAttribute="topMargin" id="Hx8-13-EaN"/>
                     <constraint firstItem="sYc-1E-kmM" firstAttribute="trailing" secondItem="hm9-jy-7V6" secondAttribute="trailingMargin" constant="-3" id="I9w-Fu-3i9"/>
-                    <constraint firstItem="sYc-1E-kmM" firstAttribute="bottom" secondItem="hm9-jy-7V6" secondAttribute="bottomMargin" id="khN-P0-4jR"/>
+                    <constraint firstItem="sYc-1E-kmM" firstAttribute="leading" secondItem="hm9-jy-7V6" secondAttribute="leadingMargin" constant="10" id="pgk-aD-seE"/>
+                    <constraint firstItem="sYc-1E-kmM" firstAttribute="bottom" secondItem="hm9-jy-7V6" secondAttribute="bottomMargin" id="sHp-yE-B4E"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

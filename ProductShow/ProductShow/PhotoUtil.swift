@@ -12,9 +12,8 @@ class PhotoUtil: NSObject {
     
     class func savePhoto(image: UIImage, var forName name: String?)->String?{
         if name == nil{
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyyMMdd_HHmmss"
-            name = "IMG_\(formatter.stringFromDate(NSDate())).png"
+            let time = NSDate().toString("yyyyMMdd_HHmmss")
+            name = "IMG_\(time).png"
         }
         
         let imgData = UIImageJPEGRepresentation(image,1)

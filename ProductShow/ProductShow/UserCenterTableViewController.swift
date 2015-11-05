@@ -14,9 +14,12 @@ class UITableViewCell0 : UITableViewCell {
     @IBOutlet var userNameLabel: UILabel!
 }
 
-class UserCenterTableViewController: UITableViewController {
+
+class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
     
 //    let cellArray = ["userinfo","Customer","Announcements","My Orders","Modify password"]
+    var progressView: UIProgressView?
+    var dataSynLabel: UILabel?
     
     @IBAction func signoutBarButtonAction(sender: UIBarButtonItem) {
         UserInfo.defaultUserInfo().signout()
@@ -64,7 +67,7 @@ class UserCenterTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 5
+        return 6
     }
 
     
@@ -76,6 +79,15 @@ class UserCenterTableViewController: UITableViewController {
 //            debugPrint("userinfo=\(UserInfo.defaultUserInfo().returnDic)")
             let uname = UserInfo.defaultUserInfo().firstUser?.uname
             cell0.userNameLabel.text = uname
+        }else if indexPath.row == 5{
+            dataSynLabel = cell.viewWithTag(100) as? UILabel
+            progressView = cell.viewWithTag(101) as? UIProgressView
+            progressView?.hidden = true
+            progressView?.transform = CGAffineTransformMakeScale(1.0,3.0);
+            let lastSynTime = NSUserDefaults.standardUserDefaults().valueForKey(kLastSynTime) as? String
+            if lastSynTime != nil{
+                dataSynLabel?.text = "Data Synchronization(\(lastSynTime!))"
+            }
         }
         return cell
     }
@@ -92,11 +104,115 @@ class UserCenterTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 5{ //数据同步
-            
+            if (synstate == 0)||(synstate == 2){
+                let alertView = UIAlertView(title: nil, message: "Start Synchronization", delegate: self, cancelButtonTitle: "YES")
+                alertView.addButtonWithTitle("NO")
+                alertView.show()
+            }else{
+                
+                let alertView = UIAlertView(title: nil, message: "Cancel Synchronization", delegate: self, cancelButtonTitle: "YES")
+                alertView.addButtonWithTitle("NO")
+                alertView.show()
+            }
             
         }
-        
     }
+    //MARK: UIAlertViewDelegate 
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
+        let message = alertView.message
+        let buttonTitle = alertView.buttonTitleAtIndex(buttonIndex)
+        if (message == "Start Synchronization") && (buttonTitle == "YES"){
+            GetAllUrlAndProfiles()
+        }else if(message == "Cancel Synchronization") && (buttonTitle == "YES"){
+            synstate = 2
+            self.progressView?.hidden = true
+        }
+    }
+    
+    //MARK: 数据同步
+    let allUrl = AllCRMUrl()
+    let allProFiles = ProductFiles()
+    var currentSynIndex = 0
+    var failCount = 0
+    var synstate = 0 //0: 未开始 1:同步中 2:取消
+    func GetAllUrlAndProfiles(){
+        WebApi.GetAllUrl { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSArray
+                self.allUrl.urlArray = json
+                
+                WebApi.GetAllProFiles({ (response, data, error) -> Void in
+                    if WebApi.isHttpSucceed(response, data: data, error: error){
+                        let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                        self.allProFiles.returnDic = json
+                        self.currentSynIndex = 0
+                        self.failCount = 0
+                        self.synstate = 1
+                        self.SynCrmUrl()
+                    }else{
+                        let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
+                        alertView.show()
+                    }
+                    
+                })
+            }else{
+                let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
+                alertView.show()
+            }
+        }
+    }
+
+    //获取该同步的url并同步数据
+    func SynCrmUrl(){
+        if synstate == 2{
+            progressView?.hidden = true
+//            let lastSyntime = NSDate().toString("yyyy-MM-dd HH:mm:ss")
+            dataSynLabel?.text = "Data Synchronization canceled"
+            return
+        }
+        progressView?.hidden = false
+        progressView?.progress = Float(currentSynIndex) / Float(allUrl.urlCount + allProFiles.filesCount)
+        if currentSynIndex < allUrl.urlCount{
+            self.dataSynLabel?.text = "Synchronize product data"
+            let crmUrl = allUrl.urlAtIndex(currentSynIndex)
+            let url = crmUrl?.url
+            WebApi.RequestAURL(url!, completedHandler: { (response, data, error) -> Void in
+                if WebApi.isHttpSucceed(response, data: data, error: error){
+                    NSUserDefaults.standardUserDefaults().setValue(data, forKey: url!)
+                    self.currentSynIndex++
+                    self.performSelector(Selector("SynCrmUrl"))
+                }else{
+                    self.currentSynIndex++
+                    self.failCount++
+                    self.performSelector(Selector("SynCrmUrl"))
+                }
+            })
+            
+        }else if currentSynIndex - allUrl.urlCount < allProFiles.filesCount{
+            let index = currentSynIndex - allUrl.urlCount
+            let filepath = allProFiles.productFileAtIndex(index)?.filePath
+            self.dataSynLabel?.text = "File downloading \(filepath!)"
+            
+                WebApi.GetFile(filepath!, completedHandler: { (response, data, error) -> Void in
+                    if WebApi.isHttpSucceed(response, data: data, error: error){
+                        self.currentSynIndex++
+                        self.performSelector(Selector("SynCrmUrl"))
+                    }else{
+                        self.currentSynIndex++
+                        self.failCount++
+                        self.performSelector(Selector("SynCrmUrl"))
+                    }
+                })
+         
+        }else{
+            progressView?.hidden = true
+            let lastSyntime = NSDate().toString("yyyy-MM-dd HH:mm:ss")
+            NSUserDefaults.standardUserDefaults().setValue(lastSyntime, forKey: kLastSynTime)
+            dataSynLabel?.text = "Data Synchronization(\(lastSyntime))"
+        }
+    }
+    
 
     /*
     // Override to support conditional editing of the table view.

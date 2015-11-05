@@ -88,16 +88,16 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
                         
                     }else{
                         let msgString = returnDic.message
-                        let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                        let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                     }
                 }else{
-                    let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             }
         }else{
-            let alertview = UIAlertView(title: nil, message: "The two new password is not same", delegate: nil, cancelButtonTitle: "OK")
+            let alertview = UIAlertView(title: nil, message: "The two passwords are not the same", delegate: nil, cancelButtonTitle: "OK")
             alertview.show()
         }
     }

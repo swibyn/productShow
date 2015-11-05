@@ -52,9 +52,7 @@ class Order: NSObject {
     }
     
     override init(){
-        let formatter = NSDateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
-        let time = formatter.stringFromDate(NSDate())
+        let time = NSDate().toString("yyyy-MM-dd HH:mm:ss")
         self.orderDic = NSMutableDictionary(dictionary:
             [OrderSaveKey.orderId: time,
             OrderSaveKey.orderTime: time,

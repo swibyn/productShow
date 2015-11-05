@@ -9,7 +9,9 @@
 import Foundation
 import UIKit
 
+let Pleasecheckthenetworkconnection = "Please check the network connection"
 
+let kLastSynTime = "kLastSynTime"
 
 class Global: NSObject {
     

@@ -94,7 +94,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                         
                     }
                 }else{
-                    let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             })
@@ -139,11 +139,11 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                         alertView.show()
                     }else{
                         let msgString = json.objectForKey(jfmessage) as! String
-                        let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                        let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                     }
                 }else{
-                    let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "Fail", message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
         })

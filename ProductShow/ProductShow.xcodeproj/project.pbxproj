@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D55D6C91BE9FF74006D85AF /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */; settings = {ASSET_TAGS = (); }; };
 		4D5ED56C1BDF9E8F00D2DD77 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */; };
 		4D5ED56E1BDF9F3900D2DD77 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */; settings = {ASSET_TAGS = (); }; };
 		4D5ED5701BDFB10900D2DD77 /* Categories1CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -32,6 +33,7 @@
 		4D66BB541BCF4FDA00AF5CDC /* ProductTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB521BCF4FDA00AF5CDC /* ProductTableViewCell.swift */; };
 		4D66BB551BCF4FDA00AF5CDC /* ProductTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D66BB531BCF4FDA00AF5CDC /* ProductTableViewCell.xib */; };
 		4D66BB651BCF519A00AF5CDC /* NSString+MessageDigest.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D66BB641BCF519A00AF5CDC /* NSString+MessageDigest.m */; };
+		4D6CFD1A1BE8F93F00DEB5E6 /* AllUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D6CFD191BE8F93F00DEB5E6 /* AllUrl.swift */; settings = {ASSET_TAGS = (); }; };
 		4D784C841BE06C71006EE10B /* ProductViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D784C831BE06C71006EE10B /* ProductViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4D81BFC91BD0D96A00B1AA34 /* OrderDetailTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D81BFC81BD0D96A00B1AA34 /* OrderDetailTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		4D81BFCB1BD0E73200B1AA34 /* MyOrdersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D81BFCA1BD0E73200B1AA34 /* MyOrdersTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
@@ -73,6 +75,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
 		4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Categories1CollectionViewController.swift; sourceTree = "<group>"; };
@@ -104,6 +107,7 @@
 		4D66BB5E1BCF515B00AF5CDC /* ProductShow-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProductShow-Bridging-Header.h"; sourceTree = "<group>"; };
 		4D66BB631BCF519A00AF5CDC /* NSString+MessageDigest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+MessageDigest.h"; sourceTree = "<group>"; };
 		4D66BB641BCF519A00AF5CDC /* NSString+MessageDigest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+MessageDigest.m"; sourceTree = "<group>"; };
+		4D6CFD191BE8F93F00DEB5E6 /* AllUrl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AllUrl.swift; sourceTree = "<group>"; };
 		4D784C831BE06C71006EE10B /* ProductViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductViewController.swift; sourceTree = "<group>"; };
 		4D81BFC81BD0D96A00B1AA34 /* OrderDetailTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderDetailTableViewController.swift; sourceTree = "<group>"; };
 		4D81BFCA1BD0E73200B1AA34 /* MyOrdersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyOrdersTableViewController.swift; sourceTree = "<group>"; };
@@ -245,6 +249,7 @@
 				4D66BB4F1BCF4FB600AF5CDC /* StringExtension.swift */,
 				4D95CB301BCF85E600E10FD3 /* UIViewControllerExtension.swift */,
 				4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */,
+				4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -286,6 +291,7 @@
 				4DDB31461BD8BA3F0030B3EE /* Notice.swift */,
 				4D5ED5731BDFB3E000D2DD77 /* Category.swift */,
 				4DD82F9D1BE0CBA000283945 /* Log.swift */,
+				4D6CFD191BE8F93F00DEB5E6 /* AllUrl.swift */,
 			);
 			name = Util;
 			sourceTree = "<group>";
@@ -427,6 +433,7 @@
 				4D66BB421BCF4F5F00AF5CDC /* HotProductsTableViewController.swift in Sources */,
 				4DBC65551BE1094100FF4C6A /* CommonTableViewCell.swift in Sources */,
 				4D66BB541BCF4FDA00AF5CDC /* ProductTableViewCell.swift in Sources */,
+				4D55D6C91BE9FF74006D85AF /* NSDateExtension.swift in Sources */,
 				4DDB31451BD8BA190030B3EE /* UINoticeTableViewController.swift in Sources */,
 				4DBA71BE1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift in Sources */,
 				4DF5FCA01BD36AA800EBC238 /* UIProductDetailViewController.swift in Sources */,
@@ -464,6 +471,7 @@
 				4D66BB431BCF4F5F00AF5CDC /* LoginViewController.swift in Sources */,
 				4DBA71BA1BD49EB50031945C /* ProductFile.swift in Sources */,
 				4D66BB451BCF4F5F00AF5CDC /* SearchProductsViewController.swift in Sources */,
+				4D6CFD1A1BE8F93F00DEB5E6 /* AllUrl.swift in Sources */,
 				4D81BFC91BD0D96A00B1AA34 /* OrderDetailTableViewController.swift in Sources */,
 				4D81BFCB1BD0E73200B1AA34 /* MyOrdersTableViewController.swift in Sources */,
 				4D66BB401BCF4F5F00AF5CDC /* Global.swift in Sources */,

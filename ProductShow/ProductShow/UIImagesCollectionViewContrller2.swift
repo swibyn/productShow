@@ -43,13 +43,10 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+//                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     
                     self.productFiles = ProductFiles(returnDic: json)
                     self.collectionView?.reloadData()
-                }else{
-                    
-                    debugPrint("\(self) \(__FUNCTION__) error=\(error)")
                 }
             }
         }

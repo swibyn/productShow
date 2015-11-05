@@ -48,6 +48,10 @@ class ProductFile: NSObject{
         return _proFileDic?.objectForKey(jffilePath) as? String
     }
     
+    var thumbPath: String?{
+        return _proFileDic?.objectForKey(jfthumbPath) as? String
+    }
+    
 }
 
 class ProductFiles: ReturnDic {

@@ -44,13 +44,14 @@ class UICustomersTableViewController: UITableViewController {
                     
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
-            }else{
-                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-                alertView.show()
             }
+//            else{
+//                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+//                alertView.show()
+//            }
         })
 
         

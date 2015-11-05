@@ -32,9 +32,6 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                     
                     self.productFiles.returnDic = json
                     self.collectionView?.reloadData()
-                }else{
-                    
-                    debugPrint("\(self) \(__FUNCTION__) error=\(error)")
                 }
             }
         }
@@ -87,10 +84,11 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                     self.setThumb(WebApi.localFileName(productFile.filePath)!, imageView: imageView)
                 }
                 
-            }else{
-                let alertView = UIAlertView(title: "Hint", message: "File download failed\n\(productFile.filePath!)", delegate: nil, cancelButtonTitle: "OK")
-                alertView.show()
             }
+//            else{
+//                let alertView = UIAlertView(title: "Hint", message: "File download failed\n\(productFile.filePath!)", delegate: nil, cancelButtonTitle: "OK")
+//                alertView.show()
+//            }
         }
         return cell
     }

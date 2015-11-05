@@ -14,4 +14,6 @@ extension String {
     var md5: String{
         return (self as NSString).md5()
     }
+    
 }
+

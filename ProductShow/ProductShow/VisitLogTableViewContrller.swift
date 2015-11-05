@@ -23,25 +23,38 @@ class CustomerInfoTableViewCell: UITableViewCell {
     @IBOutlet var telLabel: UILabel!
     @IBOutlet var mobileLabel: UILabel!
     @IBOutlet var deptLabel: UILabel!
+    @IBOutlet var mailLabel: UILabel!
     
     func refreshView(){
         NameLabel.text = "Name: \(customer.custName!)"
         addressLabel.text = "Address: \(customer.address!)"
         cityLabel.text = "City: \(customer.city!)"
         areaLabel.text = "Area: \(customer.area!)"
-        linkmanLabel.text = "Link: \(customer.linkman!)"
+        linkmanLabel.text = "Linkman: \(customer.linkman!)"
         telLabel.text = "Tel: \(customer.tel!)"
         mobileLabel.text = "Mobile: \(customer.mobile!)"
         deptLabel.text = "Dept: \(customer.dept!)"
-       
+        mailLabel.text = "Mail: \(customer.mail!)"
     }
     
     func adjustPosition(){
-        let x = self.bgView.center.x
-        linkmanLabel.frame.origin.x = x
-        telLabel.frame.origin.x = x
-        mobileLabel.frame.origin.x = x
-        deptLabel.frame.origin.x = x
+        debugPrint("\(self.bounds)")
+        let centerx = self.center.x
+        let width = self.bounds.size.width
+//        linkmanLabel.frame.origin.x = x
+        NameLabel.frame.size.width = width
+        addressLabel.frame.size.width = width
+        linkmanLabel.frame.size.width = width
+        cityLabel.frame.size.width = width/2
+        areaLabel.frame.size.width = width/2
+        mailLabel.frame.size.width = width/2
+        
+        telLabel.frame.origin.x = centerx
+        telLabel.frame.size.width = width/2
+        mobileLabel.frame.origin.x = centerx
+        mobileLabel.frame.size.width = width/2
+        deptLabel.frame.origin.x = centerx
+        deptLabel.frame.size.width = width/2
     }
 }
 
@@ -87,9 +100,11 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
     }
     
     //MARK: view life
-    override func viewDidLoad() {
-        
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         self.GetWorkLog()
+        
     }
     
     //MARK: function
@@ -100,9 +115,7 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
         if log!.characters.count > 0{
             let uid = UserInfo.defaultUserInfo().firstUser?.uid
             let uName = UserInfo.defaultUserInfo().firstUser?.uname
-            let formatter = NSDateFormatter()
-            formatter.dateFormat = "yyyy-MM-dd"
-            let logDate = formatter.stringFromDate(NSDate())
+            let logDate = NSDate().toString("yyyy-MM-dd")
             let logContent = log!
             let custId = customer?.custId
             let custName = customer?.custName
@@ -123,11 +136,11 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
                         
                     }else{
                         let message = returnDic.message// json.objectForKey(jfmessage) as! String
-                        let alertView = UIAlertView(title: "Error", message: message, delegate: nil, cancelButtonTitle: "OK")
+                        let alertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                     }
                 }else{
-                    let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "", message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                     
                 }
@@ -152,17 +165,18 @@ class VisitLogTableViewContrller: UITableViewController,UITextViewDelegate,UIAle
                     let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
-            }else{
-                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-                alertView.show()
             }
+//            else{
+//                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+//                alertView.show()
+//            }
         }
     }
     
     // MARK: - Table view delegate
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.row == 0{
-            return logWriting ? 130 : 167
+            return logWriting ? 130 : 214
         }
         
         return 130

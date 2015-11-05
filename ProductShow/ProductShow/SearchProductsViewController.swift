@@ -71,11 +71,11 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
                     self.tableView.reloadData()
                 }else{
                     let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "Fail", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: "", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             }else{
-                let alertView = UIAlertView(title: "Fail", message: "Check the internet connetion", delegate: nil, cancelButtonTitle: "OK")
+                let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
                 alertView.show()
             }
         })

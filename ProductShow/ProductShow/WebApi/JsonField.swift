@@ -128,7 +128,9 @@ let jflogWeek = "logWeek"
 //MARK: 17. 修改密码
 let jfnewPwd = "newPwd"
 
-
+//MARK: 18. 获取所有需同步url
+let jfurl = "url"
+let jfthumbPath = "thumbPath"
 
 
 

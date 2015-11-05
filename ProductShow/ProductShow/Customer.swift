@@ -142,6 +142,10 @@ class Customer: NSObject{
         return _customerDic?.objectForKey(jfdept) as? String
     }
     
+    var mail: String?{
+        return _customerDic?.objectForKey(jfmail) as? String
+    }
+    
     var creditLine: Int?{
         return _customerDic?.objectForKey(jfcreditLine) as? Int
     }

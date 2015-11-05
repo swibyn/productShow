@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
         WebApi.Login([jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? NSDictionary
                 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 UserInfo.defaultUserInfo().returnDic = json
@@ -60,8 +60,8 @@ class LoginViewController: UIViewController {
                     self.postLoginSucceedNotification()
                     
                 }else{
-                    let msgString = json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let msgString = json?.objectForKey(jfmessage) as? String
+                    let alertView = UIAlertView(title: "Error", message: msgString ?? "", delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                     self.SendEquipCode()
                 }
@@ -74,11 +74,11 @@ class LoginViewController: UIViewController {
                     UserInfo.defaultUserInfo().readLocalReturnData()
                     self.delegate?.loginViewController(self, userInfo: nil)
                     self.postLoginSucceedNotification()
+                }else{
+                    let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                
                 }
-                
-                
-//                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-//                alertView.show()
             }
         })
     }
@@ -168,7 +168,7 @@ class LoginViewController: UIViewController {
         //检查设备是否允许访问
         let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
         let eqName = UIDevice.currentDevice().name
-        WebApi.SendEquipCode([jfeqName:eqName],  completedHandler: { (response, data, error) -> Void in
+        WebApi.SendEquipCode(nil,  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
