@@ -13,6 +13,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     var products = Products()
 
     @IBOutlet var cartBarButton: UIBarButtonItem!
+    @IBOutlet var searchBar: UISearchBar!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         debugPrint("\(self) \(__FUNCTION__)")
+//        self.searchBar.transform = CGAffineTransformMakeScale(1, 1.5)
     
     }
 
@@ -59,7 +61,8 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     {
         searchBar.resignFirstResponder()
         let searchText = searchBar.text!
-        WebApi.SelectPro([jfproName : searchText], completedHandler: { (response, data, error) -> Void in
+//        WebApi.SelectPro([jfproName : searchText], completedHandler: { (response, data, error) -> Void in
+            WebApi.SelectProByValue([jfquery : searchText], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary

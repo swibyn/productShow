@@ -80,15 +80,17 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                 alertView.dismissWithClickedButtonIndex(-1, animated: true)
                 if WebApi.isHttpSucceed(response, data: data, error: error)
                 {
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? NSDictionary
 //                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                    let status = json.objectForKey(jfstatus) as! Int
-                    if status == 1{
-                        let remoteUrl = json.objectForKey(jfimgPath) as! String
-                        Order.setRemotePath(remoteUrl, toDic: imagePathDic)
+                    let returnDic = ReturnDic(returnDic: json)
+//                    let status = json.objectForKey(jfstatus) as! Int
+                    if returnDic.status == 1{
+//                    if status == 1{
+                        let remoteUrl = json?.objectForKey(jfimgPath) as? String
+                        Order.setRemotePath(remoteUrl!, toDic: imagePathDic)
                         self.performSelector(Selector("placeOrder"), withObject: nil, afterDelay: 1)
                     }else{
-                        let msg = json.objectForKey(jfmsg) as! String
+                        let msg = json?.objectForKey(jfmsg) as? String
                         let alertView = UIAlertView(title: "Fail", message: msg, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                         
@@ -157,8 +159,15 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if picker.sourceType == UIImagePickerControllerSourceType.Camera{
             UIImageWriteToSavedPhotosAlbum(image!, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
         }
+//        let imagedata = UIImageJPEGRepresentation(image, 1)
+//        let nMB = (imagedata?.length)!/(1024*1024)
+//        let saveImage = UIImageJPEGRepresentation(<#T##image: UIImage##UIImage#>, <#T##compressionQuality: CGFloat##CGFloat#>)
+        var saveImage: UIImage = image
+        if PhotoUtil.getMB(image)>2{
+            saveImage = PhotoUtil.ImageJPEGRepresentation(image, lessThenN: 2)
+        }
         
-        let filename = PhotoUtil.savePhoto(image, forName: nil)
+        let filename = PhotoUtil.savePhoto(saveImage, forName: nil)
         order.addImagePath(filename!)
         self.tableView.reloadData()
         
@@ -170,12 +179,12 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     
     func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
         
-        if error != nil {
-            UIAlertView(title: "Hint", message: "Photo save to library fail", delegate: nil, cancelButtonTitle: "OK").show()
-        }else{
-            
-            UIAlertView(title: "Hint", message: "Photo save to library succeed", delegate: nil, cancelButtonTitle: "OK").show()
-        }
+//        if error != nil {
+//            UIAlertView(title: "Hint", message: "Photo save to library fail", delegate: nil, cancelButtonTitle: "OK").show()
+//        }else{
+//            
+//            UIAlertView(title: "Hint", message: "Photo save to library succeed", delegate: nil, cancelButtonTitle: "OK").show()
+//        }
     }
     //MARK: UIAlertViewDelegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){

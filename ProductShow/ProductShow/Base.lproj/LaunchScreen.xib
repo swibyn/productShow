@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="8191" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="8154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <objects>
@@ -24,8 +24,11 @@
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="欢迎页面" translatesAutoresizingMaskIntoConstraints="NO" id="tHD-YA-ORt">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="首页背景768X1024" translatesAutoresizingMaskIntoConstraints="NO" id="tHD-YA-ORt">
                     <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="LOGO250X250" translatesAutoresizingMaskIntoConstraints="NO" id="6SR-2x-LDb">
+                    <rect key="frame" x="115" y="115" width="250" height="250"/>
                 </imageView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -39,7 +42,9 @@
                 <constraint firstItem="tHD-YA-ORt" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="bR7-9c-Bba"/>
                 <constraint firstAttribute="trailing" secondItem="tHD-YA-ORt" secondAttribute="trailing" id="eTe-ue-0AL"/>
                 <constraint firstItem="kId-c2-rCX" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" symbolic="YES" id="fvb-Df-36g"/>
+                <constraint firstItem="6SR-2x-LDb" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="la2-M4-3Iv"/>
                 <constraint firstAttribute="bottom" secondItem="tHD-YA-ORt" secondAttribute="bottom" id="r6d-Wr-heG"/>
+                <constraint firstItem="6SR-2x-LDb" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="tJO-R2-N4T"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -47,6 +52,7 @@
         </view>
     </objects>
     <resources>
-        <image name="欢迎页面" width="1024" height="768"/>
+        <image name="LOGO250X250" width="250" height="250"/>
+        <image name="首页背景768X1024" width="1024" height="768"/>
     </resources>
 </document>

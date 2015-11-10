@@ -16,7 +16,8 @@ class PhotoUtil: NSObject {
             name = "IMG_\(time).png"
         }
         
-        let imgData = UIImageJPEGRepresentation(image,1)
+//        let size = image
+        let imgData = UIImageJPEGRepresentation(image,1/4)
         let bsave = imgData?.writeToFile(NSTemporaryDirectory().stringByAppendingString(name!), atomically: true)
         return (bsave ?? false) ? name : nil
     }
@@ -43,6 +44,19 @@ class PhotoUtil: NSObject {
             deletePhoto(localPath!)
             
         })
+    }
+    
+    class func getMB(image: UIImage)->CGFloat{
+        let data = UIImageJPEGRepresentation(image, 1)
+        let nMB = CGFloat(data!.length)/(1024*1024)
+        return nMB
+    }
+    
+    class func ImageJPEGRepresentation(image: UIImage, lessThenN: CGFloat)-> UIImage {
+        let nMB = self.getMB(image)
+        let newData = UIImageJPEGRepresentation(image, lessThenN/nMB)
+        let newImage = UIImage(data: newData!)
+        return newImage!
     }
 
 }

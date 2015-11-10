@@ -24,12 +24,14 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
 
     //MARK: view life
     override func viewDidLoad() {
-            GetProFilesIfNeed()
+        super.viewDidLoad()
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
+        GetProFilesIfNeed()
         let indexPath = NSIndexPath(forRow: initcellIndex, inSection: 0)
         self.collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
     }
@@ -51,6 +53,10 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
             }
         }
     }
+    func ImageViewTapActive(sender: AnyObject) {
+        debugPrint("\(__FUNCTION__)")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
 
     
     //MARK: - UICollectionViewDataSource
@@ -70,15 +76,18 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         let imageView = cell.viewWithTag(100) as! UIImageView
    
         imageView.image = UIImage(named: "430X430产品详细默认图")
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("ImageViewTapActive:")))
         let productFile = productFiles?.productFileAtIndex(indexPath.row)!
         WebApi.GetFile(productFile?.filePath) { (response, data, error) -> Void in
             if productFile!.fileType! == ProductFileTypeImage{
                 if data?.length > 0{
                     imageView.image = UIImage(data: data!)
+                    
                 }
             }else{
                 imageView.image = UIImage(named: "video")
             }
+            debugPrint("frame=\(imageView.frame) bounds=\(imageView.bounds)")
         }
 
         return cell
@@ -97,13 +106,21 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
-            
+            debugPrint("size=\(size)")
             let productFile = productFiles?.productFileAtIndex(indexPath.row)!
             if productFile!.fileType == ProductFileTypeImage{
                 return size!
             }else{
                 return CGSize(width: 0, height: 0)
             }
+    }
+    
+    
+    override func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+        //        let cell = self.collectionView?.visibleCells()[0]
+        //        let imageview = cell?.viewWithTag(100) as! UIImageView
+        let imageview = scrollView.viewWithTag(100) as! UIImageView
+        return imageview
     }
 }
 

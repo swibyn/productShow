@@ -54,6 +54,7 @@ let jfcatNo = "catNo" //产品分类编号
 let jfpId = "pId" //一级产品分类ID
 
 //MARK:6. 产品查询
+let jfquery = "query"
 //MARK:7. 根据产品ID获取产品数据
 
 //MARK:8. 根据产品ID获取产品的图片地址和视频地址
@@ -109,6 +110,8 @@ let jfisUse = "isUse"
 let jflogDate = "logDate"
 let jflogContent = "logContent"
 let jfuName = "uName"
+let jflogId = "logId"
+let jfcaozuo = "caozuo"
 
 //MARK:14. 提交购物车及照片
 let jfproIds = "proIds"
@@ -119,7 +122,7 @@ let jfimgPath = "imgPath"
 let jfmsg = "msg"
 
 //MARK:16. 获取拜访日志
-let jflogId = "logId"
+//let jflogId = "logId"
 //let jflogContent = "logContent"
 let jflogDesc = "logDesc"
 let jflogWeek = "logWeek"

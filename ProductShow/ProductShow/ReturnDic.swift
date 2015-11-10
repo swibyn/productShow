@@ -12,7 +12,7 @@ class ReturnDic: NSObject{
     
     var _returnDic: NSDictionary?
     
-    init(returnDic: NSDictionary) {
+    init(returnDic: NSDictionary?) {
         _returnDic = returnDic
     }
     

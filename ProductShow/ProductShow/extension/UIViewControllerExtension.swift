@@ -48,11 +48,23 @@ extension UIViewController{
     }
     
     func handleKeyboardWillShow(paramNotification: NSNotification){
-        //nothing to be override
+        //nothing -to be override
     }
     
     func handleKeyboardWillHide(paramNotification: NSNotification){
-        //nothing to be override
+        //nothing -to be override
+    }
+    
+    func keyboardAnimationDurationAndEndRect(paramNotification: NSNotification) -> (animationDuration: Double,keyboardEndRect: CGRect){
+        let userInfo = paramNotification.userInfo!
+        let animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey]
+        let keyboardEndRectObject = userInfo[UIKeyboardFrameEndUserInfoKey]
+        var animationDuration = 0.0
+        var keyboardEndRect = CGRectMake(0, 0, 0, 0)
+        animationDurationObject?.getValue(&animationDuration)
+        keyboardEndRectObject?.getValue(&keyboardEndRect)
+        return (animationDuration,keyboardEndRect)
+        
     }
     
     //MARK: Login Notification

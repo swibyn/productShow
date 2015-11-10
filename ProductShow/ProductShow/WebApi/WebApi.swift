@@ -388,6 +388,14 @@ class WebApi: NSObject {
 //        self.readAndRequest(RequestType.ReadAndRequest, saveKey: "GetProductsByCatId-\(catId)", subURL: "CrmSelectPro", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
     
+    
+    ////http://btl.zhiwx.com/crmapi/CrmSelectProByValue?eqNo=S0001&query=xqm
+    class func SelectProByValue(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        let paraStr = self.stringFromParaDic(dic)
+        self.readAndRequest(baseUrlStr.stringByAppendingString("CrmSelectProByValue?eqNo=\(eqNo())&\(paraStr)"), completedHandle: completedHandler)
+    }
+
+    
     //MARK: 8. 根据产品ID获取产品的图片地址和视频地址
     
     class func GetProFilesByID(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
@@ -437,13 +445,15 @@ class WebApi: NSObject {
     //MARK: 13. 写拜访日志
     class func WriteCustLog(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmWriteCustLog", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+//        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmWriteCustLog", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+        self.AsynchronousRequest("CrmWriteCustLog", httpMethod: httpPost, jsonObj: dic, completedHandler: completedHandler)
     }
     
     //MARK: 14. 提交购物车及照片
     class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
-        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+//        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+        self.AsynchronousRequest("CrmSendShopData", httpMethod: httpPost, jsonObj: dic, completedHandler: completedHandler)
     }
 
     //MARK: 15. 上传文件接口
@@ -483,6 +493,7 @@ class WebApi: NSObject {
         let fullUrlStr = baseUrlStr.stringByAppendingString("CrmGetAllUrl?eqNo=\(eqNo())&uid=\(uid())")
         self.RequestAURL(fullUrlStr, completedHandler: completedHandler)
     }
+    
     
 }
 
