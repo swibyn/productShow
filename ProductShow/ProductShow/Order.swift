@@ -196,8 +196,8 @@ class Orders: NSObject {
     }
     
     func addOrder(order: Order){
-        
-        _orders.addObject(order.orderDic)
+        let orderDic = NSMutableDictionary(dictionary: order.orderDic)
+        _orders.addObject(orderDic)
         flush()
        
     }

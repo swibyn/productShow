@@ -29,7 +29,7 @@ class Log: NSObject{
     }
     
     var logId: Int?{
-        return _logDic?.objectForKey(jfcatId) as? Int
+        return _logDic?.objectForKey(jflogId) as? Int
     }
     
     var uid: Int?{
@@ -68,9 +68,9 @@ class Log: NSObject{
 
 class Logs: ReturnDic {
     
-    private var logs: NSArray?{
+    private var logs: NSMutableArray?{
         
-        return data_dt
+        return data_dt as? NSMutableArray
     }
     
     var logsCount: Int{
@@ -86,6 +86,9 @@ class Logs: ReturnDic {
         }
     }
     
+    func removeLogAtIndex(index: Int){
+        logs?.removeObjectAtIndex(index)
+    }
 
 }
 

@@ -9,17 +9,17 @@
 import Foundation
 
 class Product: NSObject{
-    private var _productDic: NSDictionary?
+    private var _productDic: NSMutableDictionary?
     
     init(productDic: NSDictionary) {
-        _productDic = productDic
+        _productDic = NSMutableDictionary(dictionary:  productDic)
     }
     
     override init(){
         
     }
     
-    var productDic: NSDictionary?{
+    var productDic: NSMutableDictionary?{
         get{
             return _productDic
         }
@@ -70,6 +70,17 @@ class Product: NSObject{
     
     var proVer: String?{
         return _productDic?.objectForKey(jfproVer) as? String
+    }
+    
+    var additionInfo: String?{
+        get{
+            return _productDic?.objectForKey("additionInfo") as? String
+        }
+        set{
+            _productDic?.setValue(newValue, forKey: "additionInfo")
+            
+        }
+        
     }
 }
 

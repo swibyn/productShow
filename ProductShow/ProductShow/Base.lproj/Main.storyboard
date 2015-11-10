@@ -1390,7 +1390,7 @@
         <scene sceneID="bI7-b4-AiP">
             <objects>
                 <tableViewController storyboardIdentifier="OrderDetailTableViewController" id="k3q-dG-6F2" customClass="OrderDetailTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="500" sectionHeaderHeight="28" sectionFooterHeight="28" id="pyq-zS-Bgd">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="500" sectionHeaderHeight="28" sectionFooterHeight="28" id="pyq-zS-Bgd">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
@@ -1682,6 +1682,68 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WfB-xv-xfE" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1356" y="1219"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="szq-i0-1Jp">
+            <objects>
+                <navigationController id="1D6-Rg-XgH" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="qcU-Qb-dMo">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Prx-zi-kFV" kind="relationship" relationship="rootViewController" id="a31-Sx-v9a"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8bR-8U-mF6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-3570" y="1933"/>
+        </scene>
+        <!--Text View Controller-->
+        <scene sceneID="GMF-w3-0LW">
+            <objects>
+                <viewController storyboardIdentifier="UITextViewController" automaticallyAdjustsScrollViewInsets="NO" id="Prx-zi-kFV" customClass="UITextViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="ucj-Yo-GBC"/>
+                        <viewControllerLayoutGuide type="bottom" id="Wot-P1-qG9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="4iY-Q5-GSi">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="iUp-iB-zWU">
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="iUp-iB-zWU" firstAttribute="leading" secondItem="4iY-Q5-GSi" secondAttribute="leadingMargin" constant="-20" id="5mv-3e-RRV"/>
+                            <constraint firstItem="iUp-iB-zWU" firstAttribute="top" secondItem="ucj-Yo-GBC" secondAttribute="bottom" id="6Ll-Cm-QBW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="iUp-iB-zWU" secondAttribute="trailing" constant="-20" id="HV4-AI-Gdq"/>
+                            <constraint firstItem="Wot-P1-qG9" firstAttribute="top" secondItem="iUp-iB-zWU" secondAttribute="bottom" id="zr8-uU-hdF"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" id="hx0-gf-B6K">
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="Z7H-oH-5lE">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            <connections>
+                                <action selector="doneBarButtonAction:" destination="Prx-zi-kFV" id="0yr-3e-tTy"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="textView" destination="iUp-iB-zWU" id="sJ3-V7-6LH"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7Qh-V9-caj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2868" y="1933"/>
         </scene>
     </scenes>
     <resources>

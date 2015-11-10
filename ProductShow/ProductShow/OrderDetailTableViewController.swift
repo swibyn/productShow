@@ -12,7 +12,7 @@ protocol OrderDetailTableViewControllerDelegate{
     func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController)
 }
 
-class OrderDetailTableViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIProductTableViewCellDelegate,UIAlertViewDelegate {
+class OrderDetailTableViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIProductTableViewCellDelegate,UIAlertViewDelegate,UITextViewControllerDelegate {
     
     var order: Order! //可修改内容，不要重新赋值，不然保存不了订单,由调用者传过来
     private var bGoOnPlace = false
@@ -52,8 +52,8 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         super.viewDidLoad()
         self.title = "Order-\(order.orderName)"
         
-        let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+        let nib = UINib(nibName: "ProductAndRemarkTableViewCell", bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: "ProductAndRemarkTableViewCell")
 
     }
 
@@ -226,6 +226,12 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
 
+    //MARK: UITextViewControllerDelegate
+    func textViewControllerDone(textViewVC: UITextViewController) {
+        debugPrint("\(__FUNCTION__)")
+        textViewVC.dismissViewControllerAnimated(true, completion: nil)
+        
+    }
 
     // MARK: - Table view data source
 
@@ -246,7 +252,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let imgPahts = order.imagePaths // orderDic?.objectForKey(OrderSaveKey.imagePaths) as! NSArray
         
         if indexPath.row < products.count{ //显示产品
-            let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+            let cell = tableView.dequeueReusableCellWithIdentifier("ProductAndRemarkTableViewCell", forIndexPath: indexPath) as! UIProductAndRemarkTableViewCell
             
             ConfigureCell(cell, canAddToCart:false, product: order.productAtIndex(indexPath.row)!, delegate: nil)
             
@@ -273,6 +279,21 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         }else{
             return self.view.bounds.size.height  // self.tableView.rowHeight
         }
+    }
+    
+    var selectRowIndexPath: NSIndexPath?
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        selectRowIndexPath = indexPath
+        
+        let products = order.products
+        if indexPath.row < products.count{
+            let product = order.productAtIndex(indexPath.row)
+            let textViewVC = UITextViewController.newInstance()
+            textViewVC.delegate = self
+//            textViewVC.textView.text = product?.additionInfo
+//            self.presentViewController(textViewVC, animated: true, completion: nil)
+        }
+        
     }
     /*
     // Override to support conditional editing of the table view.

@@ -475,6 +475,13 @@ class WebApi: NSObject {
         
 //        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmGetWorkLog", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
+    class func GetWorkLogRequest(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+//        self.readAndRequest(baseUrlStr.stringByAppendingString("CrmGetWorkLog?eqNo=\(eqNo())&uid=\(uid())"), completedHandle: completedHandler)
+        self.RequestAURL(baseUrlStr.stringByAppendingString("CrmGetWorkLog?eqNo=\(eqNo())&uid=\(uid())"), completedHandler: completedHandler)
+        
+        //        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmGetWorkLog", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
+    }
+
     
     //MARK: 17. 修改密码
     class func ChangePwd(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){

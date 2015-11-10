@@ -10,6 +10,7 @@
 		4D1A68321BF1DBD3003C8162 /* ProductAndRemarkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D1A68311BF1DBD3003C8162 /* ProductAndRemarkTableViewCell.xib */; };
 		4D1A68341BF1DBFA003C8162 /* ProductAndRemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1A68331BF1DBFA003C8162 /* ProductAndRemarkTableViewCell.swift */; };
 		4D55D6C91BE9FF74006D85AF /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */; };
+		4D595A421BF2097600F14213 /* UITextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D595A411BF2097600F14213 /* UITextViewController.swift */; };
 		4D5ED56C1BDF9E8F00D2DD77 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */; };
 		4D5ED56E1BDF9F3900D2DD77 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */; };
 		4D5ED5701BDFB10900D2DD77 /* Categories1CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */; };
@@ -83,6 +84,7 @@
 		4D1A68311BF1DBD3003C8162 /* ProductAndRemarkTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductAndRemarkTableViewCell.xib; sourceTree = "<group>"; };
 		4D1A68331BF1DBFA003C8162 /* ProductAndRemarkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductAndRemarkTableViewCell.swift; sourceTree = "<group>"; };
 		4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
+		4D595A411BF2097600F14213 /* UITextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextViewController.swift; sourceTree = "<group>"; };
 		4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Categories1CollectionViewController.swift; sourceTree = "<group>"; };
@@ -322,6 +324,7 @@
 				4DDB31441BD8BA190030B3EE /* UINoticeTableViewController.swift */,
 				4DDB31481BD8C0D70030B3EE /* UINoticeViewController.swift */,
 				4DD82F991BE0B73500283945 /* PasswordViewController.swift */,
+				4D595A411BF2097600F14213 /* UITextViewController.swift */,
 			);
 			name = UserCenter;
 			sourceTree = "<group>";
@@ -453,6 +456,7 @@
 				4D66BB541BCF4FDA00AF5CDC /* ProductTableViewCell.swift in Sources */,
 				4D55D6C91BE9FF74006D85AF /* NSDateExtension.swift in Sources */,
 				4DDB31451BD8BA190030B3EE /* UINoticeTableViewController.swift in Sources */,
+				4D595A421BF2097600F14213 /* UITextViewController.swift in Sources */,
 				4DE672151BF18A63001CB97E /* BasicTableViewCell.swift in Sources */,
 				4DBA71BE1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift in Sources */,
 				4DF5FCA01BD36AA800EBC238 /* UIProductDetailViewController.swift in Sources */,

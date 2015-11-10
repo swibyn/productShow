@@ -164,7 +164,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         WebApi.GetWorkLog([jfuid: uid!]) { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSMutableDictionary
                 
                 self.logs = Logs(returnDic: json)
                 
@@ -181,6 +181,31 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
 //                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
 //                alertView.show()
 //            }
+        }
+    }
+    
+    func GetWorkLogRequest(){
+        let uid = UserInfo.defaultUserInfo().firstUser?.uid
+        WebApi.GetWorkLogRequest([jfuid: uid!]) { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSMutableDictionary
+                
+                self.logs = Logs(returnDic: json)
+                
+                if (self.logs!.status == 1){
+                    self.tableView.reloadData()
+                    
+                }else{
+                    let msgString = self.logs?.message// json.objectForKey(jfmessage) as! String
+                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    alertView.show()
+                }
+            }
+            //            else{
+            //                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
+            //                alertView.show()
+            //            }
         }
     }
     
@@ -213,7 +238,9 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
                         //                        let alertView = UIAlertView(title: "Succeed", message: "Submit succeed", delegate: self, cancelButtonTitle: "OK")
                         //                        alertView.show()
 //                        self.delegate?.LogEditorViewControllerSubmitSecceed(self)
-                        self.GetWorkLog()
+//                        self.GetWorkLog()
+//                        self.performSelector(Selector("GetWorkLog"))
+                        self.performSelector(Selector("GetWorkLogRequest"), withObject: nil, afterDelay: 0.2)
                         
                     }else{
                         let message = returnDic.message// json.objectForKey(jfmessage) as! String
@@ -256,8 +283,11 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            self.DeleteLogAtIndexPath(indexPath)
+//            logs?.removeLogAtIndex(indexPath.row - 1)
 //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//            self.DeleteLogAtIndexPath(indexPath)
+           
+            self.performSelectorInBackground(Selector("DeleteLogAtIndexPath:"), withObject: indexPath)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }

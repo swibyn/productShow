@@ -114,7 +114,7 @@ class LogEditorViewController: UIViewController {
             let custName = customer?.custName
             let logId = log?.logId
             let logIdStr = (logId == nil) ? "" : "\(logId!)"
-            let caozuo = (log == nil) ? "modify" : "add"
+            let caozuo = (log == nil) ? "add" : "modify"
             
             let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logContent, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo]
             

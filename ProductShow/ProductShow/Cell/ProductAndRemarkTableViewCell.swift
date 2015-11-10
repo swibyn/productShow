@@ -17,6 +17,7 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
     var delegate: UIProductAndRemarkTableViewCellDelegate?
     
     static let rowHeight = 151
+    static let editRowHeight = 257
     
     
     
