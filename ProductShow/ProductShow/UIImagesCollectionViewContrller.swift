@@ -27,7 +27,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                 
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                     debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     
                     self.productFiles.returnDic = json

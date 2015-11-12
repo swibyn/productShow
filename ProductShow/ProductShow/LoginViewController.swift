@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
         WebApi.Login([jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? NSDictionary
+                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
                 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 UserInfo.defaultUserInfo().returnDic = json
@@ -171,7 +171,7 @@ class LoginViewController: UIViewController {
         WebApi.SendEquipCode(nil,  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                 let returnDic = ReturnDic(returnDic: json)
                 
                 let status = returnDic.status

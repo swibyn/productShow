@@ -12,7 +12,7 @@ protocol OrderDetailTableViewControllerDelegate{
     func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController)
 }
 
-class OrderDetailTableViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIProductTableViewCellDelegate,UIAlertViewDelegate,UITextViewControllerDelegate {
+class OrderDetailTableViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIProductAndRemarkTableViewCellDelegate,UIAlertViewDelegate,UITextViewControllerDelegate {
     
     var order: Order! //可修改内容，不要重新赋值，不然保存不了订单,由调用者传过来
     private var bGoOnPlace = false
@@ -80,7 +80,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                 alertView.dismissWithClickedButtonIndex(-1, animated: true)
                 if WebApi.isHttpSucceed(response, data: data, error: error)
                 {
-                    let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? NSDictionary
+                    let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
 //                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     let returnDic = ReturnDic(returnDic: json)
 //                    let status = json.objectForKey(jfstatus) as! Int
@@ -117,18 +117,19 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
         
         //图片
-        let imgPaths = order.remotePathsDivideBy("|")
+        let imgPaths = order.imgPathsForSubmit // order.remotePathsDivideBy("|")
         
 //        let alertView = UIAlertView(title: "订单提交中...", message: nil, delegate: nil, cancelButtonTitle: "Cancel")
 //        alertView.show()
 
-        WebApi.SendShopData([jfeqNo : eqNo, jfuid : uid!,  jfuName : uname!, jfproIds : order.proIds, jfimgPaths : imgPaths],
+        let products = order.productsForSubmit // order.proIdAndAdditions
+        WebApi.SendShopData([jfeqNo : eqNo, jfuid : uid!,  jfuName : uname!, jfproducts : products, jfimgPaths : imgPaths],
             completedHandler: { (response, data, error) -> Void in
                 
 //                alertView.dismissWithClickedButtonIndex(-1, animated: false)//隐藏弹出的提示
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
 //                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     
                     let statusInt = json.objectForKey(jfstatus) as! Int
@@ -228,8 +229,14 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
 
     //MARK: UITextViewControllerDelegate
     func textViewControllerDone(textViewVC: UITextViewController) {
-        debugPrint("\(__FUNCTION__)")
-        textViewVC.dismissViewControllerAnimated(true, completion: nil)
+//        debugPrint("\(__FUNCTION__) textViewVC.textview.text=\(textViewVC.textView.text)")
+        let row = remarkCellIndexPath?.row
+        let product = order.productAtIndex(row!)
+        product?.additionInfo = textViewVC.textView.text
+        Orders.defaultOrders().flush()
+//        textViewVC.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popViewControllerAnimated(true)
+        self.tableView.reloadData()
         
     }
 
@@ -254,7 +261,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if indexPath.row < products.count{ //显示产品
             let cell = tableView.dequeueReusableCellWithIdentifier("ProductAndRemarkTableViewCell", forIndexPath: indexPath) as! UIProductAndRemarkTableViewCell
             
-            ConfigureCell(cell, canAddToCart:false, product: order.productAtIndex(indexPath.row)!, delegate: nil)
+            ConfigureCell(cell, showRightButton:true, product: order.productAtIndex(indexPath.row)!, delegate: self)
             
             return cell
             
@@ -275,25 +282,28 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         
         let products = order.products 
         if indexPath.row < products.count{
-            return CGFloat(UIProductTableViewCell.rowHeight)
+//            return CGFloat(UIProductTableViewCell.rowHeight)
+            let product = order.productAtIndex(indexPath.row)
+            let height = UIProductAndRemarkTableViewCell.heightForProduct(tableView, product: product!)
+//            debugPrint("height=\(height) product.addition=\(product?.additionInfo)")
+            return height
+            
         }else{
             return self.view.bounds.size.height  // self.tableView.rowHeight
         }
     }
     
-    var selectRowIndexPath: NSIndexPath?
+//    var selectRowIndexPath: NSIndexPath?
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        selectRowIndexPath = indexPath
+//        selectRowIndexPath = indexPath
         
         let products = order.products
-        if indexPath.row < products.count{
+        if indexPath.row < products.count{ //点击查看产品详情
             let product = order.productAtIndex(indexPath.row)
-            let textViewVC = UITextViewController.newInstance()
-            textViewVC.delegate = self
-//            textViewVC.textView.text = product?.additionInfo
-//            self.presentViewController(textViewVC, animated: true, completion: nil)
+            let detailVc = ProductViewController.newInstance()
+            detailVc.product = product
+            self.navigationController?.pushViewController(detailVc, animated: true)
         }
-        
     }
     /*
     // Override to support conditional editing of the table view.
@@ -330,12 +340,22 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     }
     */
     
-    //MARK: UIProductTableViewCellDelegate
-    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
-//        Order(orderdictionary: self.orderDic).
-//        Global.cart.removeProduct(cell.productDic)
-//        NSNotificationCenter.defaultCenter().postNotificationName(kOrdersChanged, object: self)
+    //MARK: UIProductAndRemarkTableViewCellDelegate
+    var remarkCellIndexPath: NSIndexPath?
+    func productAndRemarkTableViewCellButtonDidClick(cell: UIProductAndRemarkTableViewCell) {
+        remarkCellIndexPath = self.tableView.indexPathForCell(cell)
+        //添加备注
+        let product = cell.product
+        let textViewVC = UITextViewController.newInstance()
+        textViewVC.delegate = self
+        let additionInfo = product?.additionInfo
+        let text = additionInfo ?? ""
+        textViewVC.initTextViewText = text
+        textViewVC.title = (product?.proName)!
+        //            self.presentViewController(textViewVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(textViewVC, animated: true)
     }
+    
 
     /*
     // MARK: - Navigation

@@ -114,62 +114,26 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.GetWorkLog()
+        self.GetWorkLog(true)
 
     }
     
     //MARK: function
     
-//    func submitLog(){
-//        
-//        let log = self.logTextView?.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-//        if log!.characters.count > 0{
-//            let uid = UserInfo.defaultUserInfo().firstUser?.uid
-//            let uName = UserInfo.defaultUserInfo().firstUser?.uname
-//            let logDate = NSDate().toString("yyyy-MM-dd")
-//            let logContent = log!
-//            let custId = customer?.custId
-//            let custName = customer?.custName
-//            
-//            let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logContent, jfcustId: custId!, jfcustName: custName!]
-//            
-//            WebApi.WriteCustLog(dic, completedHandler: { (response, data, error) -> Void in
-//                if WebApi.isHttpSucceed(response, data: data, error: error){
-//                    
-//                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
-//                    
-//                    //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-//                    let returnDic = ReturnDic(returnDic: json)
-//                    
-//                    if (returnDic.status == 1){
-//                        let alertView = UIAlertView(title: "Succeed", message: "Submit succeed", delegate: self, cancelButtonTitle: "OK")
-//                        alertView.show()
-//                        
-//                    }else{
-//                        let message = returnDic.message// json.objectForKey(jfmessage) as! String
-//                        let alertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "OK")
-//                        alertView.show()
-//                    }
-//                }else{
-//                    let alertView = UIAlertView(title: "", message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
-//                    alertView.show()
-//                    
-//                }
-//            })
-//        }
-//    }
     
-    func GetWorkLog(){
+    func GetWorkLog(canReadLocal: Bool){
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
-        WebApi.GetWorkLog([jfuid: uid!]) { (response, data, error) -> Void in
+        let custId = customer.custId
+        WebApi.GetWorkLog(canReadLocal, dic: [jfuid: uid!,jfcustId: custId!]) { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSMutableDictionary
                 
                 self.logs = Logs(returnDic: json)
+                self.tableView.reloadData()
                 
                 if (self.logs!.status == 1){
-                    self.tableView.reloadData()
+//                    self.tableView.reloadData()
                     
                 }else{
                     let msgString = self.logs?.message// json.objectForKey(jfmessage) as! String
@@ -177,83 +141,50 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
                     alertView.show()
                 }
             }
-//            else{
-//                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-//                alertView.show()
-//            }
         }
     }
     
-    func GetWorkLogRequest(){
+    func DeleteLogAtIndexPath(indexPath: NSIndexPath,  completion: ((Bool) -> Void)?){
+        
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
-        WebApi.GetWorkLogRequest([jfuid: uid!]) { (response, data, error) -> Void in
-            if WebApi.isHttpSucceed(response, data: data, error: error){
-                
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSMutableDictionary
-                
-                self.logs = Logs(returnDic: json)
-                
-                if (self.logs!.status == 1){
-                    self.tableView.reloadData()
-                    
-                }else{
-                    let msgString = self.logs?.message// json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
-                    alertView.show()
-                }
-            }
-            //            else{
-            //                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-            //                alertView.show()
-            //            }
-        }
-    }
-    
-    func DeleteLogAtIndexPath(indexPath: NSIndexPath){
-//        let logText = self.logTextView?.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
-//        if logText!.characters.count > 0{
-            let uid = UserInfo.defaultUserInfo().firstUser?.uid
-            let uName = UserInfo.defaultUserInfo().firstUser?.uname
-            let logDate = ""// NSDate().toString("yyyy-MM-dd")
-            let logContent = ""//logText!
-            let custId = customer?.custId
-            let custName = customer?.custName
+        let uName = UserInfo.defaultUserInfo().firstUser?.uname
+        let logDate = ""// NSDate().toString("yyyy-MM-dd")
+        let logDesc = ""//logText!
+        let custId = customer?.custId
+        let custName = customer?.custName
         
         let log = logs?.logAtIndex(indexPath.row - 1)
-            let logId = log?.logId
-            let logIdStr = (logId == nil) ? "" : "\(logId!)"
-            let caozuo = "del"
-            
-            let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logContent, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo]
-            
-            WebApi.WriteCustLog(dic, completedHandler: { (response, data, error) -> Void in
-                if WebApi.isHttpSucceed(response, data: data, error: error){
+        let logId = log?.logId
+        let logIdStr = (logId == nil) ? "" : "\(logId!)"
+        let caozuo = "del"
+        
+        let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogDesc: logDesc, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo]
+        
+        WebApi.WriteCustLog(dic, completedHandler: { (response, data, error) -> Void in
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                
+                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                let returnDic = ReturnDic(returnDic: json)
+                
+                if (returnDic.status == 1){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    completion?(true)
                     
-                    //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-                    let returnDic = ReturnDic(returnDic: json)
-                    
-                    if (returnDic.status == 1){
-                        //                        let alertView = UIAlertView(title: "Succeed", message: "Submit succeed", delegate: self, cancelButtonTitle: "OK")
-                        //                        alertView.show()
-//                        self.delegate?.LogEditorViewControllerSubmitSecceed(self)
-//                        self.GetWorkLog()
-//                        self.performSelector(Selector("GetWorkLog"))
-                        self.performSelector(Selector("GetWorkLogRequest"), withObject: nil, afterDelay: 0.2)
-                        
-                    }else{
-                        let message = returnDic.message// json.objectForKey(jfmessage) as! String
-                        let alertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "OK")
-                        alertView.show()
-                    }
                 }else{
-                    let alertView = UIAlertView(title: "", message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
+                    let message = returnDic.message// json.objectForKey(jfmessage) as! String
+                    let alertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
-                    
+                    completion?(false)
                 }
-            })
-//        }
+            }else{
+                let alertView = UIAlertView(title: "", message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
+                alertView.show()
+                completion?(false)
+            }
+        })
+        
         
     }
     
@@ -282,12 +213,22 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     // Override to support editing the table view.
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
+            
             // Delete the row from the data source
 //            logs?.removeLogAtIndex(indexPath.row - 1)
 //            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
 //            self.DeleteLogAtIndexPath(indexPath)
            
-            self.performSelectorInBackground(Selector("DeleteLogAtIndexPath:"), withObject: indexPath)
+//            self.performSelectorInBackground(Selector("DeleteLogAtIndexPath:"), withObject: indexPath)
+            DeleteLogAtIndexPath(indexPath, completion: { (bDelete) -> Void in
+                if bDelete{
+                    self.logs?.removeLogAtIndex(indexPath.row - 1)
+                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                    self.GetWorkLog(false)
+                }else{
+                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                }
+            })
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
@@ -348,7 +289,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         }else{
             let log = logs?.logAtIndex(indexPath.row - 1)
             let cell = tableView.dequeueReusableCellWithIdentifier("BasicTableViewCell", forIndexPath: indexPath) as! BasicTableViewCell
-            let content = log?.logContent?.stringByReplacingOccurrencesOfString("\n", withString: " ")
+            let content = log?.logDesc?.stringByReplacingOccurrencesOfString("\n", withString: " ")
             cell.leftLabel.text = content//log?.logContent
             cell.rightLabel.text = log?.logDate
             return cell
@@ -390,7 +331,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     
     //MARK:LogEditorViewControllerDelegate
     func LogEditorViewControllerSubmitSecceed(logEditorVC: LogEditorViewController) {
-        self.GetWorkLog()
+        self.GetWorkLog(false)
         self.navigationController?.popViewControllerAnimated(true)
     }
     

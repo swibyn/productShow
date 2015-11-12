@@ -65,7 +65,7 @@ class ProductViewController: UIViewController {
             
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                 let productFiles = ProductFiles(returnDic: json)
                 if productFiles.filesCount > 0{
                     

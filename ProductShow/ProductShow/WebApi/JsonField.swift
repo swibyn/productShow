@@ -115,6 +115,8 @@ let jfcaozuo = "caozuo"
 
 //MARK:14. 提交购物车及照片
 let jfproIds = "proIds"
+let jfproducts = "products"
+
 let jfimgPaths = "imgPaths"
 
 //MARK:15. 提交图片

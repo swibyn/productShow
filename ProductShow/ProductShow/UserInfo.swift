@@ -223,7 +223,7 @@ class UserInfo: ReturnDic {
         
         let loginDicData = NSUserDefaults.standardUserDefaults().valueForKey(UserInfoSaveKey.loginDic) as? NSData
         if loginDicData != nil{
-            let loginDic = try! NSJSONSerialization.JSONObjectWithData(loginDicData!, options: NSJSONReadingOptions.AllowFragments)
+            let loginDic = try! NSJSONSerialization.JSONObjectWithData(loginDicData!, options: NSJSONReadingOptions.MutableContainers)
             _loginDic = loginDic as? NSDictionary
         }
         
@@ -233,7 +233,7 @@ class UserInfo: ReturnDic {
         
         let returnDicData = NSUserDefaults.standardUserDefaults().valueForKey(UserInfoSaveKey.returnDic) as? NSData
         if returnDicData != nil{
-            let returnDic = try! NSJSONSerialization.JSONObjectWithData(returnDicData!, options: NSJSONReadingOptions.AllowFragments)
+            let returnDic = try! NSJSONSerialization.JSONObjectWithData(returnDicData!, options: NSJSONReadingOptions.MutableContainers)
             _returnDic = returnDic as? NSDictionary
         }
     }

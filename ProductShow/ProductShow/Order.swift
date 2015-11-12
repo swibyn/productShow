@@ -74,6 +74,17 @@ class Order: NSObject {
         return orderDic.objectForKey(OrderSaveKey.imagePaths) as? NSArray
     }
     
+    var imgPathsForSubmit: NSArray{
+        let _imgPaths = NSMutableArray()
+        imagePaths?.enumerateObjectsUsingBlock({ (imagePathObj, Index, stop) -> Void in
+            let imagePathDic = imagePathObj as? NSDictionary
+            let imgPath = imagePathDic?.objectForKey(OrderSaveKey.remotepath)
+            _imgPaths.addObject([jfimgPath: imgPath!])
+        })
+        return _imgPaths
+        
+    }
+    
     /*
     没有远程路径的就是需要提交的，所以提交完要给返回的对象设置远程路径值
     */
@@ -90,20 +101,21 @@ class Order: NSObject {
     //设置remotePath
     class func setRemotePath(remoteUrl: String, toDic dic: NSMutableDictionary){
         dic.setObject(remoteUrl, forKey: OrderSaveKey.remotepath)
+        Orders.defaultOrders().flush()
     }
     
     //远程路径集
-    func remotePathsDivideBy(divide: String)->String{
-        let remotePaths = NSMutableString()
-        imagePaths?.enumerateObjectsUsingBlock { (imagePathDic, index, stop) -> Void in
-            if remotePaths.length > 0{
-                remotePaths.appendString("|")
-            }
-            let remotepath = (imagePathDic as? NSDictionary)?.objectForKey(OrderSaveKey.remotepath) as! String
-            remotePaths.appendString(remotepath)
-        }
-        return remotePaths as String
-    }
+//    func remotePathsDivideBy(divide: String)->String{
+//        let remotePaths = NSMutableString()
+//        imagePaths?.enumerateObjectsUsingBlock { (imagePathDic, index, stop) -> Void in
+//            if remotePaths.length > 0{
+//                remotePaths.appendString("|")
+//            }
+//            let remotepath = (imagePathDic as? NSDictionary)?.objectForKey(OrderSaveKey.remotepath) as! String
+//            remotePaths.appendString(remotepath)
+//        }
+//        return remotePaths as String
+//    }
     
     var products: NSArray{
         get{
@@ -115,24 +127,53 @@ class Order: NSObject {
         }
     }
     
+    var productsForSubmit: NSArray{
+        let _productsForSubmit = NSMutableArray()
+        products.enumerateObjectsUsingBlock { (productObj, index, stop) -> Void in
+            let productDic = productObj as? NSMutableDictionary
+            let product = Product(productDic: productDic!)
+            let proId = product.proId
+            let remark = product.additionInfo ?? ""
+            let dic = [jfproId: proId!, jfremark: remark]
+            _productsForSubmit.addObject(dic)
+        }
+        return _productsForSubmit
+    }
+    
     func productAtIndex(index: Int) -> Product?{
-        let productDicOpt = products.objectAtIndex(index) as? NSDictionary
+        let productDicOpt = products.objectAtIndex(index) as? NSMutableDictionary
         if let productDic = productDicOpt{
             return Product(productDic: productDic)
         }
         return nil
     }
     
-    var proIds: String{
-        let _proIds =  NSMutableString()
-        self.products.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
-            if _proIds.length > 0{
-                _proIds.appendString("|")
-            }
-            _proIds.appendString("\(productDic.objectForKey(jfproId) as! Int)")
-        }
-        return _proIds as String
-    }
+//    var proIds: String{
+//        let _proIds =  NSMutableString()
+//        self.products.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
+//            if _proIds.length > 0{
+//                _proIds.appendString("|")
+//            }
+//            _proIds.appendString("\(productDic.objectForKey(jfproId) as! Int)")
+//        }
+//        return _proIds as String
+//    }
+//    var proIdAndAdditions: String{
+//        let _proIdAndAdditions =  NSMutableString()
+//        self.products.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
+//            if _proIdAndAdditions.length > 0{
+//                _proIdAndAdditions.appendString("|")
+//            }
+//            let product = Product(productDic: productDic as! NSMutableDictionary)
+//            let proId = product.proId
+//            let additionInfo = product.additionInfo ?? ""
+//            let additionInfoEncode = additionInfo.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+//            _proIdAndAdditions.appendString("\(proId!)#\(additionInfoEncode!)")
+//        }
+//        return _proIdAndAdditions as String
+//    }
+    
+    
     
     var orderId: String?{
         return orderDic.objectForKey(OrderSaveKey.orderId) as? String
@@ -190,7 +231,7 @@ class Orders: NSObject {
         return _defaultOrders
     }
     
-    internal func flush(){
+    func flush(){
         let newOrdersData = try! NSJSONSerialization.dataWithJSONObject(_orders, options: NSJSONWritingOptions())
         NSUserDefaults.standardUserDefaults().setObject(newOrdersData, forKey: OrderSaveKey.orderArray)
     }

@@ -60,7 +60,7 @@
                                     <constraint firstAttribute="width" constant="50" id="Lhg-fE-dZS"/>
                                     <constraint firstAttribute="width" constant="126" id="Vjt-6F-pag"/>
                                 </constraints>
-                                <state key="normal" image="加入购物车126X96"/>
+                                <state key="normal" image="备注126X96"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="Lhg-fE-dZS"/>
@@ -70,14 +70,14 @@
                                     <action selector="operationButtonAction:" destination="awu-hO-opW" eventType="touchUpInside" id="eqH-Ul-df3"/>
                                 </connections>
                             </button>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="MXL-Nn-mi1">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MXL-Nn-mi1">
                                 <rect key="frame" x="15" y="114" width="545" height="113"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="1" id="tF5-LS-rF1"/>
                                 </constraints>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, </string>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
                         </subviews>
@@ -117,12 +117,13 @@
                 <outlet property="proSizeLabel" destination="nCk-wQ-JGh" id="PGW-w1-eZE"/>
                 <outlet property="proThumbImageView" destination="qLN-M9-3m8" id="fDU-AZ-kCW"/>
                 <outlet property="remarkLabel" destination="CfK-FF-jzb" id="SR0-RI-cCM"/>
+                <outlet property="textView" destination="MXL-Nn-mi1" id="X7M-HT-UDv"/>
             </connections>
             <point key="canvasLocation" x="299" y="237.5"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="加入购物车126X96" width="126" height="96"/>
         <image name="商品默认图片96X96" width="96" height="96"/>
+        <image name="备注126X96" width="126" height="96"/>
     </resources>
 </document>

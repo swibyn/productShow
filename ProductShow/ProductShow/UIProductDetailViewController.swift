@@ -13,6 +13,7 @@ class UIProductDetailViewController: UIViewController {
     var product: Product?
     
     @IBOutlet var webView: UIWebView!
+   
     
     override func viewDidLoad() {
         let url = NSURL(string: WebApi.baseUrlStr)

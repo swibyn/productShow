@@ -11,8 +11,9 @@ import Foundation
 class Product: NSObject{
     private var _productDic: NSMutableDictionary?
     
-    init(productDic: NSDictionary) {
-        _productDic = NSMutableDictionary(dictionary:  productDic)
+    init(productDic: NSMutableDictionary) {
+//        _productDic = NSMutableDictionary(dictionary:  productDic)
+        _productDic = productDic
     }
     
     override init(){
@@ -96,7 +97,7 @@ class Products: ReturnDic {
     }
     
     func productAtIndex(index: Int)->Product?{
-        let productDicOpt = products?.objectAtIndex(index) as? NSDictionary
+        let productDicOpt = products?.objectAtIndex(index) as? NSMutableDictionary
         if let productDic = productDicOpt{
             return Product(productDic: productDic)
         }else{

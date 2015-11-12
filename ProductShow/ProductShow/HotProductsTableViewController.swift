@@ -73,13 +73,14 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
             self.refreshControl?.endRefreshing()
 
             if WebApi.isHttpSucceed(response, data: data, error: error){
-                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as? NSDictionary
+                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.products.returnDic = json
+                self.tableView.reloadData()
                 
                 if self.products.status == 1{
                     //获取成功
-                    self.tableView.reloadData()
+//                    self.tableView.reloadData()
                 }else{
                     let msgString = json?.objectForKey(jfmessage) as? String
                     let alertView = UIAlertView(title: nil, message: msgString ?? Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")

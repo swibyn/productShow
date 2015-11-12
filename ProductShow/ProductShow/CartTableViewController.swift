@@ -40,7 +40,12 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     //MARK: 消息通知    
     override func handleProductsInCartChanged(paramNotification: NSNotification) {
         super.handleProductsInCartChanged(paramNotification)
-        self.tableView.reloadData()
+        let postObj = paramNotification.object
+        if postObj != nil{
+            if !(postObj!.isEqual(self)){
+                self.tableView.reloadData()
+            }
+        }
     }
     
 
@@ -61,7 +66,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
-        let dic = cart.products.allValues[indexPath.row] as! NSDictionary
+        let dic = cart.products.allValues[indexPath.row] as! NSMutableDictionary
         
         ConfigureCell(cell, canAddToCart:false, product: Product(productDic: dic), delegate: nil)
         
@@ -87,13 +92,19 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
             // Delete the row from the data source
             let key = cart.products.allKeys[indexPath.row]
             cart.products.removeObjectForKey(key)
-            self.postProductsInCartChangedNotification()
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+//            self.postProductsInCartChangedNotification()
+            self.performSelector(Selector("postProductsInCartChangedNotification"), withObject: nil, afterDelay: 0.5)
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
     
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
+        let detailVC = cell?.productViewController()
+        self.navigationController?.pushViewController(detailVC!, animated: true)
+    }
 
     /*
     // Override to support rearranging the table view.

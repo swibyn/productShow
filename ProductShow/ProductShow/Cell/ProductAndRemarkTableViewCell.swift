@@ -17,7 +17,7 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
     var delegate: UIProductAndRemarkTableViewCellDelegate?
     
     static let rowHeight = 151
-    static let editRowHeight = 257
+//    static let editRowHeight = 257
     
     
     
@@ -25,8 +25,8 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
     @IBOutlet var proNameLabel: UILabel!
     @IBOutlet var proSizeLabel: UILabel!
     @IBOutlet var remarkLabel: UILabel!
-    
     @IBOutlet var operationButton: UIButton!
+    @IBOutlet var textView: UITextView!
     
     @IBAction func operationButtonAction(sender: UIButton) {
         delegate?.productAndRemarkTableViewCellButtonDidClick(self)
@@ -37,7 +37,8 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
         self.proNameLabel.text = product.proName// dic.objectForKey(jfproName) as? String
         self.proSizeLabel.text = product.proSize// dic.objectForKey(jfproSize) as? String
         self.remarkLabel.text = product.remark// dic.objectForKey(jfremark) as? String
-        
+        self.textView.text = product.additionInfo
+        self.textView.font = UIFont.systemFontOfSize(16)
         //        let imgUrl = dic.objectForKey(jfimgUrl) as? String
         //        debugPrint("\(product.proName) \(product.imgUrl)")
         var imageloaded = false
@@ -65,12 +66,29 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
         return detailVc
     }
     
+    static func heightForProduct(tableView: UITableView, product: Product)->CGFloat{
+        let additionInfo = product.additionInfo
+        if additionInfo != nil{
+            //55
+            let tmptextView = UITextView(frame: CGRectMake(0, 0, tableView.bounds.size.width-55, CGFloat.max))
+            tmptextView.font = UIFont.systemFontOfSize(16)
+            tmptextView.text = additionInfo!
+            let textFrame = tmptextView.layoutManager.usedRectForTextContainer(tmptextView.textContainer)
+            let height = textFrame.size.height
+            return CGFloat(height + CGFloat(rowHeight) + 10)
+            
+        }else{
+            return CGFloat(rowHeight)
+        }
+        
+    }
+    
     
 }
 
-func ConfigureCell(cell: UIProductAndRemarkTableViewCell, canAddToCart:Bool, product: Product, delegate: UIProductAndRemarkTableViewCellDelegate?){
+func ConfigureCell(cell: UIProductAndRemarkTableViewCell, showRightButton:Bool, product: Product, delegate: UIProductAndRemarkTableViewCellDelegate?){
     cell.product = product
-    cell.operationButton.hidden = !canAddToCart
+    cell.operationButton.hidden = !showRightButton
     cell.delegate = delegate
     cell.refreshView()
 }

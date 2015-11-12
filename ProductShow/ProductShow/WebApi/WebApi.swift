@@ -83,7 +83,7 @@ class WebApi: NSObject {
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, connectionError) -> Void in
             if data != nil{
-//                let json = try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)
+//                let json = try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)
             
 //                debugPrint("收到数据：\(json!)")
             }
@@ -121,7 +121,7 @@ class WebApi: NSObject {
                 //                debugPrintln("本地读到数据：\(saveKey) = \(mLocalData)")
 
                 
-//                let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.AllowFragments)
+//                let json = try? NSJSONSerialization.JSONObjectWithData(mLocalData, options: NSJSONReadingOptions.MutableContainers)
                
 //                debugPrint("本地读到数据：\(saveKey) =\(json!)")
                 
@@ -453,6 +453,7 @@ class WebApi: NSObject {
     class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
 //        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmSendShopData", httpMethod: self.httpPost, jsonObj: dic, completedHandle: completedHandler)
+        debugPrint("sendshopdata.postdic=\(dic)")
         self.AsynchronousRequest("CrmSendShopData", httpMethod: httpPost, jsonObj: dic, completedHandler: completedHandler)
     }
 
@@ -470,18 +471,17 @@ class WebApi: NSObject {
     }
     
     //MARK: 16. 获取拜访日志
-    class func GetWorkLog(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readAndRequest(baseUrlStr.stringByAppendingString("CrmGetWorkLog?eqNo=\(eqNo())&uid=\(uid())"), completedHandle: completedHandler)
+    class func GetWorkLog(canReadLocal: Bool, dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        let fullUrlStr = baseUrlStr.stringByAppendingString("CrmGetWorkLog?eqNo=\(eqNo())&\(self.stringFromParaDic(dic))")
+        if canReadLocal{
+            self.readAndRequest(fullUrlStr, completedHandle: completedHandler)
+        }else{
+            self.RequestAURL(fullUrlStr, completedHandler: completedHandler)
+            
+        }
         
 //        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmGetWorkLog", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
     }
-    class func GetWorkLogRequest(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-//        self.readAndRequest(baseUrlStr.stringByAppendingString("CrmGetWorkLog?eqNo=\(eqNo())&uid=\(uid())"), completedHandle: completedHandler)
-        self.RequestAURL(baseUrlStr.stringByAppendingString("CrmGetWorkLog?eqNo=\(eqNo())&uid=\(uid())"), completedHandler: completedHandler)
-        
-        //        self.readAndRequest(RequestType.Request, saveKey: "", subURL: "CrmGetWorkLog", httpMethod: self.httpGet, jsonObj: dic, completedHandle: completedHandler)
-    }
-
     
     //MARK: 17. 修改密码
     class func ChangePwd(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){

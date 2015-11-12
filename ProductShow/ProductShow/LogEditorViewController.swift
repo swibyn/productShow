@@ -41,7 +41,7 @@ class LogEditorViewController: UIViewController {
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        logTextView.text = log?.logContent
+        logTextView.text = log?.logDesc
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -109,19 +109,19 @@ class LogEditorViewController: UIViewController {
             let uid = UserInfo.defaultUserInfo().firstUser?.uid
             let uName = UserInfo.defaultUserInfo().firstUser?.uname
             let logDate = NSDate().toString("yyyy-MM-dd")
-            let logContent = logText!
+            let logDesc = logText!
             let custId = customer?.custId
             let custName = customer?.custName
             let logId = log?.logId
             let logIdStr = (logId == nil) ? "" : "\(logId!)"
             let caozuo = (log == nil) ? "add" : "modify"
             
-            let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logContent, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo]
+            let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logDesc, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo]
             
             WebApi.WriteCustLog(dic, completedHandler: { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                     
                     //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     let returnDic = ReturnDic(returnDic: json)

@@ -67,7 +67,7 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 6
+        return 7
     }
 
     
@@ -139,12 +139,12 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
         WebApi.GetAllUrl { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSArray
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSArray
                 self.allUrl.urlArray = json
                 
                 WebApi.GetAllProFiles({ (response, data, error) -> Void in
                     if WebApi.isHttpSucceed(response, data: data, error: error){
-                        let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                        let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                         self.allProFiles.returnDic = json
                         self.currentSynIndex = 0
                         self.failCount = 0

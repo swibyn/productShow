@@ -48,13 +48,14 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
             
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.products.returnDic = json
+                self.tableView.reloadData()
                 
                 if (self.products.status == 1){
                     //获取成功
-                    self.tableView.reloadData()
+//                    self.tableView.reloadData()
                 }else{
                     let msgString = self.products.message
                     let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")

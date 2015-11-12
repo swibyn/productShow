@@ -24,7 +24,7 @@ class UITextViewController: UIViewController {
 //    var customer: Customer!
 //    var log: Log?
     var delegate: UITextViewControllerDelegate?
-    
+    var initTextViewText: String?
     //MARK: @IB
     @IBOutlet var textView: UITextView!
     @IBAction func doneBarButtonAction(sender: UIBarButtonItem) {
@@ -41,10 +41,11 @@ class UITextViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        textView.text = initTextViewText
+
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        //        logTextView.text = log?.logContent
         self.addKeyboardNotificationObserver()
     }
     override func viewDidDisappear(animated: Bool) {

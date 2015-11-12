@@ -77,7 +77,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
             WebApi.ChangePwd([jfuid: uid!, jfpwd: pwd!, jfnewPwd: newPwd!]) { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.AllowFragments)) as! NSDictionary
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                     
                     let returnDic = ReturnDic(returnDic: json)
                     
