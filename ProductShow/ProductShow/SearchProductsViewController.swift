@@ -18,7 +18,6 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        debugPrint("\(self) \(__FUNCTION__)")
         
         self.title = "Search"
         self.addFirstPageButton()
@@ -32,16 +31,12 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
         searchTextField.layer.masksToBounds = true
         searchTextField.layer.cornerRadius = 5
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
-//        self.searchBar.transform = CGAffineTransformMakeScale(1, 1.5)
-    
     }
 
     override func didReceiveMemoryWarning() {
@@ -54,8 +49,8 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     }
     
     //MARK: 消息通知
-
-    override func handleProductsInCartChanged(paramNotification: NSNotification) {
+    override func handleProductsInCartChangedNotification(paramNotification: NSNotification) {
+        super.handleProductsInCartChangedNotification(paramNotification)
         self.cartBarButton.title = Cart.defaultCart().title
     }
     
@@ -85,44 +80,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
             }
         })
     }
-
-    //MARK: - UISearchBarDelegate
-//    func searchBarSearchButtonClicked(searchBar: UISearchBar) // called when keyboard search button pressed
-//    {
-//        searchBar.resignFirstResponder()
-//        let searchText = searchBar.text!
-////        WebApi.SelectPro([jfproName : searchText], completedHandler: { (response, data, error) -> Void in
-//            WebApi.SelectProByValue([jfquery : searchText], completedHandler: { (response, data, error) -> Void in
-//            if WebApi.isHttpSucceed(response, data: data, error: error){
-//                
-//                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-////                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
-//                self.products.returnDic = json
-//                
-//                if self.products.status == 1{
-//                    //获取成功
-//                    self.tableView.reloadData()
-//                }else{
-//                    let msgString = json.objectForKey(jfmessage) as! String
-//                    let alertView = UIAlertView(title: "", message: msgString, delegate: nil, cancelButtonTitle: "OK")
-//                    alertView.show()
-//                }
-//            }else{
-//                let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
-//                alertView.show()
-//            }
-//        })
-//        
-//    }
-//    
-////    optional func searchBarBookmarkButtonClicked(searchBar: UISearchBar) // called when bookmark button pressed
-//    func searchBarCancelButtonClicked(searchBar: UISearchBar) // called when cancel button pressed
-//    {
-//        searchBar.resignFirstResponder()
-//        
-//    }
-    
-    
+ 
     //MARK: - UITextFieldDelegate
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()

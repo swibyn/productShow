@@ -9,7 +9,7 @@
 import UIKit
 
 class UIProductDetailViewController: UIViewController {
-//    var productDic: NSDictionary?
+
     var product: Product?
     
     @IBOutlet var webView: UIWebView!

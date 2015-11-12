@@ -49,7 +49,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                
                 self.products.returnDic = json
                 self.tableView.reloadData()
                 
@@ -67,19 +67,17 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     }
     
     //MARK: 消息通知
-    
-    override func handleProductsInCartChanged(paramNotification: NSNotification) {
+    override func handleProductsInCartChangedNotification(paramNotification: NSNotification) {
+        super.handleProductsInCartChangedNotification(paramNotification)
         self.cartBarButton.title = Cart.defaultCart().title
     }
     
     
     //MARK: - Table view delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
-        
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productViewController()
-        detailVc?.product = selectCell?.product // products.productAtIndex(indexPath.row)// selectCell?.productDic
+       // detailVc?.product = selectCell?.product
         self.navigationController?.pushViewController(detailVc!, animated: true)
     }
     

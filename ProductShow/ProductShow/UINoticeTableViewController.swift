@@ -27,6 +27,7 @@ class UINoticeTableViewController: UITableViewController {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     //MARK: api
     func GetNotice(){
         
@@ -35,27 +36,20 @@ class UINoticeTableViewController: UITableViewController {
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                 
-                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 self.notices = Notices(returnDic: json)
                 self.tableView.reloadData()
                 
                 if (self.notices!.status == 1){
-//                    self.tableView.reloadData()
-                    
                 }else{
                     let msgString = self.notices?.message
                     let alertView = UIAlertView(title: "", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             }
-//            else{
-//                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-//                alertView.show()
-//            }
         })
     }
+
     // MARK: - Table view data source
-    
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1

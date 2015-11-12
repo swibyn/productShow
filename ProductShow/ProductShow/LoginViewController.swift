@@ -91,12 +91,8 @@ class LoginViewController: UIViewController {
         self.title = "Sign In"
         
         //显示登录名
-//        let username = NSUserDefaults.standardUserDefaults().valueForKey(jfusername) as? String
-//        let pwd = NSUserDefaults.standardUserDefaults().valueForKey(jfpwd) as? String
         let username = UserInfo.defaultUserInfo().loginInfo?.username
-//        let pwd = UserInfo.defaultUserInfo().loginInfo?.pwd
         self.usernameTextField.text = username ?? ""
-//        self.passwordTextField.text = ""//pwd ?? ""
     }
     
     override func viewWillAppear(animated: Bool) {

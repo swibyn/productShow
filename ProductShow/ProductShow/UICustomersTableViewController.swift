@@ -20,7 +20,6 @@ class UICustomersTableViewController: UITableViewController {
         let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
         
-        
         GetCustomer()
     }
 
@@ -49,13 +48,7 @@ class UICustomersTableViewController: UITableViewController {
                     alertView.show()
                 }
             }
-//            else{
-//                let alertView = UIAlertView(title: "Fail", message: "Check the internet connection", delegate: nil, cancelButtonTitle: "OK")
-//                alertView.show()
-//            }
         })
-
-        
     }
     
     // MARK: - Table view delegate

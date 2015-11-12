@@ -17,18 +17,16 @@ class Categories2CollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.title = category1?.catName
-        
-        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
+        
         GetProLeave2()
     }
     
@@ -83,7 +81,7 @@ class Categories2CollectionViewController: UICollectionViewController {
         let label = cell.viewWithTag(100) as? UILabel
         
         label?.backgroundColor = categoryColor(indexPath.row)
-//        label?.backgroundColor = mycolor[indexPath.row % mycolor.count]
+        
         let catname = categories?.categoryAtIndex(indexPath.row)?.catName
         label?.text =  "\(catname!)"
         

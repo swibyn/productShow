@@ -16,7 +16,7 @@ let kOrdersChanged = "kOrdersChanged"
 
 extension UIViewController{
     
-    //MARK: 增加首页按钮
+    //MARK: Home Button
     func addFirstPageButton(){
         let firstPageButtonItem = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("firstPageButtonAction:"))
         firstPageButtonItem.tintColor = UIColor.whiteColor()
@@ -25,11 +25,13 @@ extension UIViewController{
         
     }
     
-    //增加返回首页按钮
+    //Home Button event
     func firstPageButtonAction(sender: UIBarButtonItem){
         (self.tabBarController as! HomeTabBarViewController).presentFirstPageVC()
     }
-    //MARK: - 各种消息通知的处理
+    
+    //MARK: - Notifications
+    //MARK: removeSelfObserver
     func removeSelfObserver() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
@@ -74,7 +76,7 @@ extension UIViewController{
 
     func addLoginNotificationObserver(){
         let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("handleLoginSucceed:"), name: kLoginSucceed, object: nil)
+        center.addObserver(self, selector: Selector("handleLoginSucceedNotification:"), name: kLoginSucceed, object: nil)
     }
     
     func removeLoginNotificationObserver(){
@@ -82,18 +84,18 @@ extension UIViewController{
         center.removeObserver(self, name: kLoginSucceed, object: nil)
     }
     
-    func handleLoginSucceed(paramNotification: NSNotification){
+    func handleLoginSucceedNotification(paramNotification: NSNotification){
         //nothing         //to be override
     }
         
     
-    //MARK: 购物车消息通知
+    //MARK: ProductsInCartChangedNotification
     func postProductsInCartChangedNotification(){
         NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
     }
     
     func addProductsInCartChangedNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChanged:"), name: kProductsInCartChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChangedNotification:"), name: kProductsInCartChanged, object: nil)
     }
     
     func removeProductsInCartChangedNotificationObserver(){
@@ -101,43 +103,41 @@ extension UIViewController{
         center.removeObserver(self, name: kProductsInCartChanged, object: nil)
     }
     
-    func handleProductsInCartChanged(paramNotification: NSNotification){
+    func handleProductsInCartChangedNotification(paramNotification: NSNotification){
         //nothing         //to be override
     }
     
-    //MARK: 监听注销消息通知
-    
+    //MARK: UserSignOutNotification
     func postUserSignOutNotification(){
         NSNotificationCenter.defaultCenter().postNotificationName(kUserSignOutNotification, object: self)
     }
 
     func addUserSignOutNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleUserSignOutNotification"), name: kUserSignOutNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleUserSignOutNotification:"), name: kUserSignOutNotification, object: nil)
     }
     
     func removeUserSignOutNotificationObserver(){
         NSNotificationCenter.defaultCenter().removeObserver(self, name: kUserSignOutNotification, object: nil)
     }
     
-    func handleUserSignOutNotification(){
+    func handleUserSignOutNotification(paramNotification: NSNotification){
         
     }
     
-    //MARK: 订单有变
-    
+    //MARK: OrdersChangedNotification
     func postOrdersChangedNotification(){
         NSNotificationCenter.defaultCenter().postNotificationName(kOrdersChanged, object: self)
     }
 
     func addOrdersChangedNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleOrdersChanged"), name: kOrdersChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleOrdersChangedNotification:"), name: kOrdersChanged, object: nil)
     }
     
     func removeOrdersChangedNotificationObserver(){
         NSNotificationCenter.defaultCenter().removeObserver(self,name:kOrdersChanged,object:nil)
     }
     
-    func handleOrdersChangedNotification(){
+    func handleOrdersChangedNotification(paramNotification: NSNotification){
         
     }
     

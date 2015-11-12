@@ -16,10 +16,6 @@ postDic={
 }
 */
 
-//enum LoginState: Int{
-//    case SignIn = 1
-//    case SignOut = 2
-//}
 
 class LoginInfo: NSObject{
     private var _loginDic: NSDictionary?
@@ -245,6 +241,7 @@ class UserInfo: ReturnDic {
             let data = try! NSJSONSerialization.dataWithJSONObject(_loginDic!, options: NSJSONWritingOptions())
             NSUserDefaults.standardUserDefaults().setValue(data, forKey: UserInfoSaveKey.loginDic)
         }
+        
         if _returnDic != nil{
             
             let data = try! NSJSONSerialization.dataWithJSONObject(_returnDic!, options: NSJSONWritingOptions())

@@ -31,38 +31,37 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     }
     
     //MARK: 消息通知
-    override func handleOrdersChangedNotification() {
-        self.tableView.reloadData()
+    override func handleOrdersChangedNotification(paramNotification: NSNotification) {
+        super.handleOrdersChangedNotification(paramNotification)
+        if !self.isEqual(paramNotification.object){
+            self.tableView.reloadData()
+        }
     }
 
     //MARK: - UIAlertViewDelegate
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-//        debugPrint("\(self) \(__FUNCTION__)")
         let title = alertView.buttonTitleAtIndex(buttonIndex)
         if title == "OK"{
-            let order = Orders.defaultOrders().orderAtIndex((indexPathForAccessoryButtonTappedRow?.row)!)
+            let order = Orders.defaultOrders().orderAtIndex((indexPathForAccessoryButtonTapped?.row)!)
                 order?.orderName = alertView.textFieldAtIndex(0)?.text ?? ""
             
             self.tableView.reloadData()
         }
     }
     
-    func alertViewCancel(alertView: UIAlertView) {
-//        debugPrint("\(self) \(__FUNCTION__)")
-    }
-
-    // MARK: - Table View Delegate
-    var indexPathForAccessoryButtonTappedRow: NSIndexPath?
-    override func tableView(tableView: UITableView, accessoryButtonTappedForRowWithIndexPath indexPath: NSIndexPath) {
-        indexPathForAccessoryButtonTappedRow = indexPath
+    //MARK: UICommonTableViewCellDelegate
+    var indexPathForAccessoryButtonTapped: NSIndexPath?
+    func commonTableViewCellDetailButtonAction(cell: UICommonTableViewCell) {
+        indexPathForAccessoryButtonTapped = cell.indexPath
         let alert = UIAlertView(title: "Set order name to", message: nil, delegate: self, cancelButtonTitle: "Cancel")
         alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
         
-        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(indexPath.row)?.orderName
+        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(cell.indexPath!.row)?.orderName
         alert.addButtonWithTitle("OK")
         alert.show()
     }
     
+    // MARK: - Table View Delegate
     // MARK: - Table view data source
     
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -116,8 +115,8 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
             // Delete the row from the data source
             
             Orders.defaultOrders().removeObjectAtIndex(indexPath.row)
-
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            postOrdersChangedNotification()
         } else if editingStyle == .Insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
@@ -156,19 +155,10 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     
     //MARK: OrderDetailTableViewControllerDelegate
     func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController) {
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
+        self.navigationController?.popViewControllerAnimated(true)
     }
     
-    //MARK: UICommonTableViewCellDelegate
-    func commonTableViewCellDetailButtonAction(cell: UICommonTableViewCell) {
-        indexPathForAccessoryButtonTappedRow = cell.indexPath
-        let alert = UIAlertView(title: "Set order name to", message: nil, delegate: self, cancelButtonTitle: "Cancel")
-        alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
-        
-        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(cell.indexPath!.row)?.orderName
-        alert.addButtonWithTitle("OK")
-        alert.show()
-    }
 
 }
 

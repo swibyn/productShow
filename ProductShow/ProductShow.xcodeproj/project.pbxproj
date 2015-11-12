@@ -44,6 +44,7 @@
 		4D95CB311BCF85E600E10FD3 /* UIViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95CB301BCF85E600E10FD3 /* UIViewControllerExtension.swift */; };
 		4D95CB331BCF8ED800E10FD3 /* Cart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95CB321BCF8ED800E10FD3 /* Cart.swift */; };
 		4D95CB351BCF9A6700E10FD3 /* CartTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D95CB341BCF9A6700E10FD3 /* CartTableViewController.swift */; };
+		4D97B5FC1BF437B600C99EE7 /* NSDictionaryExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D97B5FB1BF437B600C99EE7 /* NSDictionaryExtension.swift */; };
 		4DB6C0F81BF3523600E06074 /* UnlockViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DB6C0F71BF3523600E06074 /* UnlockViewController.swift */; };
 		4DBA71B61BD489DE0031945C /* UIImagesCollectionViewContrller.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA71B51BD489DE0031945C /* UIImagesCollectionViewContrller.swift */; };
 		4DBA71BA1BD49EB50031945C /* ProductFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA71B91BD49EB50031945C /* ProductFile.swift */; };
@@ -125,6 +126,7 @@
 		4D95CB301BCF85E600E10FD3 /* UIViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtension.swift; sourceTree = "<group>"; };
 		4D95CB321BCF8ED800E10FD3 /* Cart.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cart.swift; sourceTree = "<group>"; };
 		4D95CB341BCF9A6700E10FD3 /* CartTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartTableViewController.swift; sourceTree = "<group>"; };
+		4D97B5FB1BF437B600C99EE7 /* NSDictionaryExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDictionaryExtension.swift; sourceTree = "<group>"; };
 		4DB6C0F71BF3523600E06074 /* UnlockViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnlockViewController.swift; sourceTree = "<group>"; };
 		4DBA71B51BD489DE0031945C /* UIImagesCollectionViewContrller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImagesCollectionViewContrller.swift; sourceTree = "<group>"; };
 		4DBA71B91BD49EB50031945C /* ProductFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductFile.swift; sourceTree = "<group>"; };
@@ -264,6 +266,7 @@
 				4D95CB301BCF85E600E10FD3 /* UIViewControllerExtension.swift */,
 				4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */,
 				4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */,
+				4D97B5FB1BF437B600C99EE7 /* NSDictionaryExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 				4D81BFC91BD0D96A00B1AA34 /* OrderDetailTableViewController.swift in Sources */,
 				4DB6C0F81BF3523600E06074 /* UnlockViewController.swift in Sources */,
 				4D81BFCB1BD0E73200B1AA34 /* MyOrdersTableViewController.swift in Sources */,
+				4D97B5FC1BF437B600C99EE7 /* NSDictionaryExtension.swift in Sources */,
 				4D66BB401BCF4F5F00AF5CDC /* Global.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

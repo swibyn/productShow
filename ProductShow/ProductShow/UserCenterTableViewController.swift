@@ -17,7 +17,6 @@ class UITableViewCell0 : UITableViewCell {
 
 class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
     
-//    let cellArray = ["userinfo","Customer","Announcements","My Orders","Modify password"]
     var progressView: UIProgressView?
     var dataSynLabel: UILabel?
     
@@ -29,7 +28,6 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        debugPrint("\(self) \(__FUNCTION__)")
         
         self.title = "User Center"
         self.addFirstPageButton()
@@ -38,18 +36,6 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
         tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
         
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
-        
-    }
-    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -76,7 +62,7 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell\(indexPath.row)", forIndexPath: indexPath)
         if indexPath.row == 0{
             let cell0 = cell as! UITableViewCell0
-//            debugPrint("userinfo=\(UserInfo.defaultUserInfo().returnDic)")
+            
             let uname = UserInfo.defaultUserInfo().firstUser?.uname
             cell0.userNameLabel.text = uname
         }else if indexPath.row == 5{
@@ -167,7 +153,6 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
     func SynCrmUrl(){
         if synstate == 2{
             progressView?.hidden = true
-//            let lastSyntime = NSDate().toString("yyyy-MM-dd HH:mm:ss")
             dataSynLabel?.text = "Data Synchronization canceled"
             return
         }
@@ -177,7 +162,7 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
             self.dataSynLabel?.text = "Synchronize product data"
             let crmUrl = allUrl.urlAtIndex(currentSynIndex)
             let url = crmUrl?.url
-            WebApi.RequestAURL(url!, completedHandler: { (response, data, error) -> Void in
+            WebApi.GetUrl(url!, completedHandler: { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
 //                    NSUserDefaults.standardUserDefaults().setValue(data, forKey: url!)//底层就保存了
                     self.currentSynIndex++

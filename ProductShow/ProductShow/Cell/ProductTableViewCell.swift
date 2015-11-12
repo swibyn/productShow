@@ -11,7 +11,6 @@ import UIKit
 
 class UIProductTableViewCell : UITableViewCell {
     
-//    var productDic: NSDictionary!
     var product: Product!
     
     var delegate: UIProductTableViewCellDelegate?
@@ -32,13 +31,10 @@ class UIProductTableViewCell : UITableViewCell {
     }
     
     func refreshView(){
-//        let dic = productDic
-        self.proNameLabel.text = product.proName// dic.objectForKey(jfproName) as? String
-        self.proSizeLabel.text = product.proSize// dic.objectForKey(jfproSize) as? String
-        self.remarkLabel.text = product.remark// dic.objectForKey(jfremark) as? String
+        self.proNameLabel.text = product.proName
+        self.proSizeLabel.text = product.proSize
+        self.remarkLabel.text = product.remark
         
-//        let imgUrl = dic.objectForKey(jfimgUrl) as? String
-//        debugPrint("\(product.proName) \(product.imgUrl)")
         var imageloaded = false
         WebApi.GetFile(product.thumbUrl) { (response, data, error) -> Void in
             if data?.length > 0{
@@ -52,19 +48,11 @@ class UIProductTableViewCell : UITableViewCell {
         }
     }
     
-//    func productTableViewController()->UIProductTableViewController{
-//        let detailVc = UIProductTableViewController.newInstance()
-//        detailVc.product = product
-//        return detailVc
-//    }
-    
     func productViewController()->ProductViewController{
         let detailVc = ProductViewController.newInstance()
         detailVc.product = product
         return detailVc
     }
-    
-    
 }
 
 func ConfigureCell(cell: UIProductTableViewCell, canAddToCart:Bool, product: Product, delegate: UIProductTableViewCellDelegate?){

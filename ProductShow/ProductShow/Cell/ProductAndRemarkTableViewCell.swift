@@ -11,15 +11,11 @@ import UIKit
 
 class UIProductAndRemarkTableViewCell : UITableViewCell {
     
-    //    var productDic: NSDictionary!
     var product: Product!
     
     var delegate: UIProductAndRemarkTableViewCellDelegate?
     
     static let rowHeight = 151
-//    static let editRowHeight = 257
-    
-    
     
     @IBOutlet var proThumbImageView: UIImageView!
     @IBOutlet var proNameLabel: UILabel!
@@ -33,14 +29,11 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
     }
     
     func refreshView(){
-        //        let dic = productDic
-        self.proNameLabel.text = product.proName// dic.objectForKey(jfproName) as? String
-        self.proSizeLabel.text = product.proSize// dic.objectForKey(jfproSize) as? String
-        self.remarkLabel.text = product.remark// dic.objectForKey(jfremark) as? String
+        self.proNameLabel.text = product.proName
+        self.proSizeLabel.text = product.proSize
+        self.remarkLabel.text = product.remark
         self.textView.text = product.additionInfo
         self.textView.font = UIFont.systemFontOfSize(16)
-        //        let imgUrl = dic.objectForKey(jfimgUrl) as? String
-        //        debugPrint("\(product.proName) \(product.imgUrl)")
         var imageloaded = false
         WebApi.GetFile(product.thumbUrl) { (response, data, error) -> Void in
             if data?.length > 0{
@@ -50,15 +43,8 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
         }
         if !imageloaded {
             self.proThumbImageView.image = UIImage(named: "商品默认图片96X96")
-            
         }
     }
-    
-    //    func productTableViewController()->UIProductTableViewController{
-    //        let detailVc = UIProductTableViewController.newInstance()
-    //        detailVc.product = product
-    //        return detailVc
-    //    }
     
     func productViewController()->ProductViewController{
         let detailVc = ProductViewController.newInstance()
@@ -70,7 +56,7 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
         let additionInfo = product.additionInfo
         if additionInfo != nil{
             //55
-            let tmptextView = UITextView(frame: CGRectMake(0, 0, tableView.bounds.size.width-55, CGFloat.max))
+            let tmptextView = UITextView(frame: CGRectMake(0, 0, tableView.bounds.size.width - 55, CGFloat.max))
             tmptextView.font = UIFont.systemFontOfSize(16)
             tmptextView.text = additionInfo!
             let textFrame = tmptextView.layoutManager.usedRectForTextContainer(tmptextView.textContainer)

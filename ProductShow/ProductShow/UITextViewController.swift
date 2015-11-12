@@ -20,17 +20,14 @@ class UITextViewController: UIViewController {
         return aInstance
     }
     
-    
-//    var customer: Customer!
-//    var log: Log?
     var delegate: UITextViewControllerDelegate?
     var initTextViewText: String?
+    
     //MARK: @IB
     @IBOutlet var textView: UITextView!
     @IBAction func doneBarButtonAction(sender: UIBarButtonItem) {
         delegate?.textViewControllerDone(self)
-   
-    }
+   }
    
     //MARK: view life
     override func viewDidLoad() {
@@ -61,38 +58,22 @@ class UITextViewController: UIViewController {
     //MARK: Observer
     override func handleKeyboardWillShow(paramNotification: NSNotification) {
         super.handleKeyboardWillShow(paramNotification)
-        //        let userInfo = paramNotification.userInfo!// as! NSDictionary
-        //        let animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey]
-        //        let keyboardEndRectObject = userInfo[UIKeyboardFrameEndUserInfoKey]
-        //        var animationDuration = 0.0
-        //        var keyboardEndRect = CGRectMake(0, 0, 0, 0)
-        //        animationDurationObject?.getValue(&animationDuration)
-        //        keyboardEndRectObject?.getValue(&keyboardEndRect)
         
         var (animationDuration,keyboardEndRect) = keyboardAnimationDurationAndEndRect(paramNotification)
         
         let window = UIApplication.sharedApplication().keyWindow
         
         keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: window)
-        //        debugPrint("keyboardEndRect=\(keyboardEndRect)")
         let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
-        //        debugPrint("intersectionOfKeyboardRectAndWindowRect=\(intersectionOfKeyboardRectAndWindowRect)")
         
         UIView.animateWithDuration(animationDuration) { () -> Void in
             self.textView.contentInset = UIEdgeInsetsMake(0, 0, intersectionOfKeyboardRectAndWindowRect.size.height, 0)
-            
-            //            debugPrint("contentInset=\(self.logTextView.contentInset)")
         }
-        
-        
     }
     
     override func handleKeyboardWillHide(paramNotification: NSNotification) {
         super.handleKeyboardWillHide(paramNotification)
-        //        let userInfo = paramNotification.userInfo!
-        //        let animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey]
-        //        var animationDuration = 0.0
-        //        animationDurationObject?.getValue(&animationDuration)
+        
         let (animationDuration,_) = keyboardAnimationDurationAndEndRect(paramNotification)
         
         UIView.animateWithDuration(animationDuration) { () -> Void in
@@ -101,9 +82,7 @@ class UITextViewController: UIViewController {
         
     }
     
-    //MARK: function
-    
-    
+       
     /*
     // MARK: - Navigation
     

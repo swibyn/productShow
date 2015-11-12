@@ -56,10 +56,27 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         tableView.registerNib(nib, forCellReuseIdentifier: "ProductAndRemarkTableViewCell")
 
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        self.addOrdersChangedNotificationObserver()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.removeOrdersChangedNotificationObserver()
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    //处理消息通知
+    override func handleOrdersChangedNotification(paramNotification: NSNotification) {
+        if !self.isEqual(paramNotification.object){
+            self.tableView.reloadData()
+        }
     }
     
     //MARK: 提交订单
@@ -81,11 +98,9 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                 if WebApi.isHttpSucceed(response, data: data, error: error)
                 {
                     let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
-//                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     let returnDic = ReturnDic(returnDic: json)
-//                    let status = json.objectForKey(jfstatus) as! Int
+                    
                     if returnDic.status == 1{
-//                    if status == 1{
                         let remoteUrl = json?.objectForKey(jfimgPath) as? String
                         Order.setRemotePath(remoteUrl!, toDic: imagePathDic)
                         self.performSelector(Selector("placeOrder"), withObject: nil, afterDelay: 1)
@@ -130,13 +145,13 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-//                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     
                     let statusInt = json.objectForKey(jfstatus) as! Int
                     if (statusInt == 1){
                         //提交成功
 //                        OrderManager.defaultManager().removeOrder(self.order)
                         Orders.defaultOrders().removeOrder(self.order)
+                        self.postOrdersChangedNotification()
                         let alertView = UIAlertView(title: "Succeed", message: "Order placed", delegate: nil, cancelButtonTitle: "OK")
                         alertView.delegate = self
                         alertView.show()
@@ -160,9 +175,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if picker.sourceType == UIImagePickerControllerSourceType.Camera{
             UIImageWriteToSavedPhotosAlbum(image!, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
         }
-//        let imagedata = UIImageJPEGRepresentation(image, 1)
-//        let nMB = (imagedata?.length)!/(1024*1024)
-//        let saveImage = UIImageJPEGRepresentation(<#T##image: UIImage##UIImage#>, <#T##compressionQuality: CGFloat##CGFloat#>)
+
         var saveImage: UIImage = image
         if PhotoUtil.getMB(image)>2{
             saveImage = PhotoUtil.ImageJPEGRepresentation(image, lessThenN: 2)
@@ -170,6 +183,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         
         let filename = PhotoUtil.savePhoto(saveImage, forName: nil)
         order.addImagePath(filename!)
+        postOrdersChangedNotification()
         self.tableView.reloadData()
         
     }
@@ -195,7 +209,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
             
         }else if ((alertView.message == "Order placed") && (buttontitle == "OK")){
             self.delegate?.OrderDetailTableViewDidPlaceOrder(self)
-            self.navigationController?.popViewControllerAnimated(true)
+//            self.navigationController?.popViewControllerAnimated(true)
         }
         
     }
@@ -209,10 +223,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     
     //MARK: UIActionSheetDelegate
     func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
-        
-//        debugPrint("actionSheet buttonindex=\(buttonIndex)")
-        
-        
+
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
 //        imagePicker.allowsEditing = true
@@ -229,12 +240,10 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
 
     //MARK: UITextViewControllerDelegate
     func textViewControllerDone(textViewVC: UITextViewController) {
-//        debugPrint("\(__FUNCTION__) textViewVC.textview.text=\(textViewVC.textView.text)")
         let row = remarkCellIndexPath?.row
         let product = order.productAtIndex(row!)
         product?.additionInfo = textViewVC.textView.text
         Orders.defaultOrders().flush()
-//        textViewVC.dismissViewControllerAnimated(true, completion: nil)
         self.navigationController?.popViewControllerAnimated(true)
         self.tableView.reloadData()
         
@@ -255,8 +264,8 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Configure the cell...
-        let products = order.products // orderDic?.objectForKey(OrderSaveKey.products) as! NSArray
-        let imgPahts = order.imagePaths // orderDic?.objectForKey(OrderSaveKey.imagePaths) as! NSArray
+        let products = order.products
+        let imgPahts = order.imagePaths
         
         if indexPath.row < products.count{ //显示产品
             let cell = tableView.dequeueReusableCellWithIdentifier("ProductAndRemarkTableViewCell", forIndexPath: indexPath) as! UIProductAndRemarkTableViewCell
@@ -282,20 +291,16 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         
         let products = order.products 
         if indexPath.row < products.count{
-//            return CGFloat(UIProductTableViewCell.rowHeight)
             let product = order.productAtIndex(indexPath.row)
             let height = UIProductAndRemarkTableViewCell.heightForProduct(tableView, product: product!)
-//            debugPrint("height=\(height) product.addition=\(product?.additionInfo)")
             return height
             
         }else{
-            return self.view.bounds.size.height  // self.tableView.rowHeight
+            return self.view.bounds.size.height
         }
     }
     
-//    var selectRowIndexPath: NSIndexPath?
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        selectRowIndexPath = indexPath
         
         let products = order.products
         if indexPath.row < products.count{ //点击查看产品详情
@@ -352,7 +357,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let text = additionInfo ?? ""
         textViewVC.initTextViewText = text
         textViewVC.title = (product?.proName)!
-        //            self.presentViewController(textViewVC, animated: true, completion: nil)
+  
         self.navigationController?.pushViewController(textViewVC, animated: true)
     }
     
@@ -367,12 +372,12 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     }
     */
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.All
-    }
-    
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
+//    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
+//        return UIInterfaceOrientationMask.All
+//    }
+//    
+//    override func shouldAutorotate() -> Bool {
+//        return true
+//    }
 
 }

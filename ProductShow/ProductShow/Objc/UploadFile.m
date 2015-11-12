@@ -18,7 +18,7 @@ static NSString *uploadID;              // 上传(php)脚本中，接收文件�
 {
     self = [super init];
     if (self) {
-        randomIDStr = @"----------thinkyouitcast";
+        randomIDStr = @"----------thinkyouitcast---------";
         uploadID = @"uploadFile";
     }
     return self;
@@ -33,7 +33,7 @@ static NSString *uploadID;              // 上传(php)脚本中，接收文件�
     [strM appendFormat:@"Content-Disposition: form-data; name=\"%@\"; filename=\"%@\"\n", uploadID, uploadFile];
     [strM appendFormat:@"Content-Type: %@\n\n", mimeType];
     
-    NSLog(@"%@", strM);
+//    NSLog(@"%@", strM);
     return [strM copy];
 }
 
@@ -46,7 +46,7 @@ static NSString *uploadID;              // 上传(php)脚本中，接收文件�
     [strM appendString:@"Submit\n"];
     [strM appendFormat:@"%@%@--\n", boundaryStr, randomIDStr];
     
-    NSLog(@"%@", strM);
+//    NSLog(@"%@", strM);
     return [strM copy];
 }
 
@@ -83,7 +83,7 @@ static NSString *uploadID;              // 上传(php)脚本中，接收文件�
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
         NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", result);
+//        NSLog(@"%@", result);
         handler(response,data,connectionError);
     }];
 }

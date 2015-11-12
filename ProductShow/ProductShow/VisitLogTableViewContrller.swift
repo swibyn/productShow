@@ -38,10 +38,10 @@ class CustomerInfoTableViewCell: UITableViewCell {
     }
     
     func adjustPosition(){
-        debugPrint("\(self.contentView.bounds)")
+        
         let centerx =  self.contentView.center.x
         let width = self.contentView.bounds.size.width
-//        linkmanLabel.frame.origin.x = x
+
         NameLabel.frame.size.width = width
         addressLabel.frame.size.width = width
         linkmanLabel.frame.size.width = width
@@ -66,7 +66,7 @@ func ConfigureCell(cell: CustomerInfoTableViewCell, customer: Customer){
 }
 
 //MARK: - VisitLogTableViewContrller
-class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerDelegate/*,UITextViewDelegate,UIAlertViewDelegate*/ {
+class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerDelegate{
    
     //MARK: 初始化一个实例
     static func newInstance()->VisitLogTableViewContrller{
@@ -79,25 +79,9 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     var customer: Customer!
     var logs: Logs?
     
-    var logWriting = false
-    var logTextView: UITextView?
 
     //MARK: @IB
-//    @IBOutlet var logBarButtonItem: UIBarButtonItem!
-//    @IBAction func logBarButtonAction(sender: UIBarButtonItem) {
-//
-//        logWriting = !logWriting
-//        if logWriting{
-//            logBarButtonItem.title = "Submit"
-//        }else{
-////            logTextView?.resignFirstResponder()
-//            self.view.endEditing(true)
-//            submitLog()
-//            logBarButtonItem.title = "Log"
-//        }
-//        self.tableView.reloadData()
-//        
-//    }
+
     
     //MARK: view life
     override func viewDidLoad() {
@@ -108,18 +92,19 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        self.GetWorkLog(true)
-
+        GetWorkLogOnce()
     }
     
     //MARK: function
-    
+    var bFirstIn = true
+    func GetWorkLogOnce(){
+        if bFirstIn{
+            bFirstIn = false
+            GetWorkLog(true)
+        }
+    }
     
     func GetWorkLog(canReadLocal: Bool){
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
@@ -137,7 +122,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
                     
                 }else{
                     let msgString = self.logs?.message// json.objectForKey(jfmessage) as! String
-                    let alertView = UIAlertView(title: "Error", message: msgString, delegate: nil, cancelButtonTitle: "OK")
+                    let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
             }
@@ -164,8 +149,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-                
-                //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+
                 let returnDic = ReturnDic(returnDic: json)
                 
                 if (returnDic.status == 1){
@@ -184,8 +168,6 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
                 completion?(false)
             }
         })
-        
-        
     }
     
     // MARK: - Table view delegate
@@ -214,12 +196,6 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             
-            // Delete the row from the data source
-//            logs?.removeLogAtIndex(indexPath.row - 1)
-//            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-//            self.DeleteLogAtIndexPath(indexPath)
-           
-//            self.performSelectorInBackground(Selector("DeleteLogAtIndexPath:"), withObject: indexPath)
             DeleteLogAtIndexPath(indexPath, completion: { (bDelete) -> Void in
                 if bDelete{
                     self.logs?.removeLogAtIndex(indexPath.row - 1)
@@ -249,8 +225,8 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     return true
     }
     */
-    // MARK: - Table view data source
     
+    // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -266,26 +242,10 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         if indexPath.row == 0{
-//            if logWriting{
-//                let cell = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
-//                if logWriting{
-//                    let textView = cell.viewWithTag(100) as! UITextView
-//                    self.logTextView = textView
-//                    textView.editable = true
-//                    textView.text = ""
-////                    textView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
-////                    textView.contentInset = UIEdgeInsetsMake(20, 20, 20, 20)
-////                    textView.scrollIndicatorInsets  =  UIEdgeInsetsMake(20, 20, 20, 20)
-//                    textView.font = UIFont.systemFontOfSize(20)
-//                    textView.becomeFirstResponder()
-//                    
-//                }
-//                return cell
-//            }else{
-                let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
-                ConfigureCell(cell, customer: customer)
-                return cell
-//            }
+            let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
+            ConfigureCell(cell, customer: customer)
+            return cell
+            
         }else{
             let log = logs?.logAtIndex(indexPath.row - 1)
             let cell = tableView.dequeueReusableCellWithIdentifier("BasicTableViewCell", forIndexPath: indexPath) as! BasicTableViewCell
@@ -294,14 +254,6 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
             cell.rightLabel.text = log?.logDate
             return cell
             
-//            let cell = tableView.dequeueReusableCellWithIdentifier("cell2", forIndexPath: indexPath)
-//            let textView = cell.viewWithTag(100) as! UITextView
-//            let log = logs?.logAtIndex(indexPath.row - 1)
-//            textView.text = "\(log!.logDate!)\n\(log!.logContent!)"
-//            textView.font = UIFont.systemFontOfSize(20)
-////            textView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10)
-//            
-//            return cell
         }
     }
     
@@ -335,23 +287,10 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         self.navigationController?.popViewControllerAnimated(true)
     }
     
-    //MARK: UITextViewDelegate
-//    func textViewDidEndEditing(textView: UITextView){
-//        debugPrint("\(self) \(__FUNCTION__)")
-////        textView.resignFirstResponder()
-//    }
-    
-    //MARK: UIAlertViewDelegate
-//    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-//        let message = alertView.message
-//        let buttonTitle = alertView.buttonTitleAtIndex(buttonIndex)
-//        if (message == "Submit succeed") && (buttonTitle == "OK"){
-////            self.logTextView?.text = ""
-//            self.GetWorkLog()
-//        }
-//    }
-//    
-//    func alertViewCancel(alertView: UIAlertView){
-//        
-//    }
+
 }
+
+
+
+
+

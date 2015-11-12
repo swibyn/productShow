@@ -24,11 +24,9 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
     func GetProFiles(){
         if (product != nil){
             WebApi.GetProFilesByID([jfproId: product.proId!]) { (response, data, error) -> Void in
-                
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     
                     self.productFiles.returnDic = json
                     self.collectionView?.reloadData()
@@ -83,12 +81,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
 //                    imageView.image = UIImage(named: "video")
                     self.setThumb(WebApi.localFileName(productFile.filePath)!, imageView: imageView)
                 }
-                
             }
-//            else{
-//                let alertView = UIAlertView(title: "Hint", message: "File download failed\n\(productFile.filePath!)", delegate: nil, cancelButtonTitle: "OK")
-//                alertView.show()
-//            }
         }
         return cell
     }
@@ -101,7 +94,6 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
             imageCollectionVC2.modalPresentationStyle = UIModalPresentationStyle.FullScreen
             imageCollectionVC2.productFiles = productFiles
             imageCollectionVC2.initcellIndex = indexPath.row
-//            self.navigationController?.pushViewController(imageCollectionVC2, animated: false)
             self.presentViewController(imageCollectionVC2, animated: false, completion: nil)
         }else{
             //先下载后播放

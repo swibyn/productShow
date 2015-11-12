@@ -45,7 +45,6 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-//                    debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     
                     self.productFiles = ProductFiles(returnDic: json)
                     self.collectionView?.reloadData()
@@ -87,7 +86,6 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
             }else{
                 imageView.image = UIImage(named: "video")
             }
-            debugPrint("frame=\(imageView.frame) bounds=\(imageView.bounds)")
         }
 
         return cell
@@ -106,7 +104,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
-            debugPrint("size=\(size)")
+//            debugPrint("size=\(size)")
             let productFile = productFiles?.productFileAtIndex(indexPath.row)!
             if productFile!.fileType == ProductFileTypeImage{
                 return size!
@@ -117,8 +115,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     
     
     override func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
-        //        let cell = self.collectionView?.visibleCells()[0]
-        //        let imageview = cell?.viewWithTag(100) as! UIImageView
+        
         let imageview = scrollView.viewWithTag(100) as! UIImageView
         return imageview
     }

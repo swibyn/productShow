@@ -18,7 +18,6 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
-        debugPrint("\(self) \(__FUNCTION__)")
         
         self.title = "Hot Products"
         self.addFirstPageButton()
@@ -27,22 +26,18 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
         self.addProductsInCartChangedNotificationObserver()
-        self.addLoginNotificationObserver()
+//        self.addLoginNotificationObserver()
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
-    }
-    
-    override func viewDidAppear(animated: Bool) { //首页过来，没有触发，现在viewdidload中showfirstpage
-        super.viewDidAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
+    override func viewDidAppear(animated: Bool) {
+        if (UserInfo.defaultUserInfo().status == 1) && (products.productsCount == 0){
+            showFirstPage()
+        }
     }
     
     deinit{
         self.removeProductsInCartChangedNotificationObserver()
-        self.removeLoginNotificationObserver()
+//        self.removeLoginNotificationObserver()
     }
     
     override func didReceiveMemoryWarning() {
@@ -51,30 +46,28 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     }
     
     //MARK: 消息通知
-    override func handleLoginSucceed(paramNotification: NSNotification) {
-        super.handleLoginSucceed(paramNotification)
-        if products.productsCount == 0{
-            showFirstPage()
-        }
-    }
+//    override func handleLoginSucceed(paramNotification: NSNotification) {
+//        super.handleLoginSucceed(paramNotification)
+//        if products.productsCount == 0{
+//            showFirstPage()
+//        }
+//    }
     
-    override func handleProductsInCartChanged(paramNotification: NSNotification) {
-        super.handleProductsInCartChanged(paramNotification)
+    override func handleProductsInCartChangedNotification(paramNotification: NSNotification) {
+        super.handleProductsInCartChangedNotification(paramNotification)
         cartBarButton.title = Cart.defaultCart().title
     }
     
 
     //MARK:显示第一页
     func showFirstPage(){
-        if UserInfo.defaultUserInfo().status == 0{
-            return
-        }
+//        self.refreshControl?.beginRefreshing()
         WebApi.GetHotPro(nil, completedHandler: { (response, data, error) -> Void in
-            self.refreshControl?.endRefreshing()
+//            self.refreshControl?.endRefreshing()
 
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
-//                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
+                
                 self.products.returnDic = json
                 self.tableView.reloadData()
                 
@@ -92,10 +85,10 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     
     //MARK: Table view delegate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
+
         let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productViewController()
-//        detailVc?.product = selectCell?.product
+
         let nav = self.navigationController
         nav?.pushViewController(detailVc!, animated: true)
     }
@@ -131,7 +124,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 
     //MARK: UIScrollViewDalegate
     override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        debugPrint("\(__FUNCTION__) \(scrollView.contentOffset)")
+
         if scrollView.contentOffset.y < -200{
             self.showFirstPage()
         }

@@ -15,17 +15,14 @@ func categoryColor(row: Int)->UIColor{
     let color = UIColor(red: _color[0]/255, green: _color[1]/255, blue: _color[2]/255, alpha: 1)
     return color
 }
-//let mycolor = [UIColor.greenColor(),UIColor.blueColor(),UIColor.redColor(),UIColor.orangeColor(),UIColor.yellowColor(),UIColor.cyanColor(),UIColor.magentaColor(),UIColor.purpleColor(),UIColor.brownColor()]
 
 class Categories1CollectionViewController: UICollectionViewController {
     
-//    var dataArray: NSArray?
     var categories: Categories?
     
     //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
-        debugPrint("\(self) \(__FUNCTION__)")
         
         self.title = "Product Categories"
         self.addFirstPageButton()
@@ -33,17 +30,6 @@ class Categories1CollectionViewController: UICollectionViewController {
         GetProLeave1()
 
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        debugPrint("\(self) \(__FUNCTION__)")
-    }
-    
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
@@ -59,10 +45,10 @@ class Categories1CollectionViewController: UICollectionViewController {
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                 self.categories = Categories(returnDic: json)
+                self.collectionView?.reloadData()
                 
                 if (self.categories!.status! == 1){
                     
-                    self.collectionView?.reloadData()
                 }else{
                     
                     let msgString = self.categories?.message

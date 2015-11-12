@@ -15,8 +15,6 @@ class UnlockViewController: UIViewController {
     @IBOutlet var unlockButton: UIButton!
     
     @IBAction func unlockButtonAction(sender: UIButton) {
-//        self.view.endEditing(true)
-//        self.passwordTextField.resignFirstResponder()
         let passswordEnter = passwordTextField.text
         let pwd = UserInfo.defaultUserInfo().loginInfo?.pwd
         if passswordEnter == pwd{
@@ -26,17 +24,14 @@ class UnlockViewController: UIViewController {
             alertView.show()
             passwordTextField.text = ""
         }
-        
     }
     
     //MARK: view life
-    
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.addKeyboardNotificationObserver()
         self.navigationItem.hidesBackButton = true
     }
-    
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
@@ -44,14 +39,11 @@ class UnlockViewController: UIViewController {
         unlockButton.layer.cornerRadius = 5
         centerView.layer.masksToBounds = true
         centerView.layer.cornerRadius = 5
-        
     }
-    
     
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeKeyboardNotificationObserver()
-        
     }
     
     override func didReceiveMemoryWarning() {
@@ -67,7 +59,6 @@ class UnlockViewController: UIViewController {
         UIView.animateWithDuration(1) { () -> Void in
             self.view.frame.origin.y = -150
         }
-        
     }
     
     override func handleKeyboardWillHide(paramNotification: NSNotification) {

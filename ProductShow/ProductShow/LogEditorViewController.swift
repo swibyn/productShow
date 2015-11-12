@@ -45,7 +45,6 @@ class LogEditorViewController: UIViewController {
     }
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-//        logTextView.text = log?.logContent
         self.addKeyboardNotificationObserver()
     }
     override func viewDidDisappear(animated: Bool) {
@@ -60,44 +59,27 @@ class LogEditorViewController: UIViewController {
     //MARK: Observer
     override func handleKeyboardWillShow(paramNotification: NSNotification) {
         super.handleKeyboardWillShow(paramNotification)
-//        let userInfo = paramNotification.userInfo!// as! NSDictionary
-//        let animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey]
-//        let keyboardEndRectObject = userInfo[UIKeyboardFrameEndUserInfoKey]
-//        var animationDuration = 0.0
-//        var keyboardEndRect = CGRectMake(0, 0, 0, 0)
-//        animationDurationObject?.getValue(&animationDuration)
-//        keyboardEndRectObject?.getValue(&keyboardEndRect)
 
         var (animationDuration,keyboardEndRect) = keyboardAnimationDurationAndEndRect(paramNotification)
         
         let window = UIApplication.sharedApplication().keyWindow
         
         keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: window)
-//        debugPrint("keyboardEndRect=\(keyboardEndRect)")
         let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
-//        debugPrint("intersectionOfKeyboardRectAndWindowRect=\(intersectionOfKeyboardRectAndWindowRect)")
         
         UIView.animateWithDuration(animationDuration) { () -> Void in
             self.logTextView.contentInset = UIEdgeInsetsMake(0, 0, intersectionOfKeyboardRectAndWindowRect.size.height, 0)
-        
-//            debugPrint("contentInset=\(self.logTextView.contentInset)")
         }
-        
-        
     }
     
     override func handleKeyboardWillHide(paramNotification: NSNotification) {
         super.handleKeyboardWillHide(paramNotification)
-//        let userInfo = paramNotification.userInfo!
-//        let animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey]
-//        var animationDuration = 0.0
-//        animationDurationObject?.getValue(&animationDuration)
+
         let (animationDuration,_) = keyboardAnimationDurationAndEndRect(paramNotification)
         
         UIView.animateWithDuration(animationDuration) { () -> Void in
             self.logTextView.contentInset = UIEdgeInsetsZero
         }
-        
     }
     
     //MARK: function
@@ -123,16 +105,13 @@ class LogEditorViewController: UIViewController {
                     
                     let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                     
-                    //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                     let returnDic = ReturnDic(returnDic: json)
                     
                     if (returnDic.status == 1){
-//                        let alertView = UIAlertView(title: "Succeed", message: "Submit succeed", delegate: self, cancelButtonTitle: "OK")
-//                        alertView.show()
                         self.delegate?.LogEditorViewControllerSubmitSecceed(self)
                         
                     }else{
-                        let message = returnDic.message// json.objectForKey(jfmessage) as! String
+                        let message = returnDic.message
                         let alertView = UIAlertView(title: "", message: message, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                     }
