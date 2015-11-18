@@ -15,5 +15,9 @@ extension String {
         return (self as NSString).md5()
     }
     
+    var URLQueryAllowedString: String{
+        return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
+    }
+    
 }
 

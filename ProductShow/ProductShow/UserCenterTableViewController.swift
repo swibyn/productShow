@@ -161,7 +161,10 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
         if currentSynIndex < allUrl.urlCount{
             self.dataSynLabel?.text = "Synchronize product data"
             let crmUrl = allUrl.urlAtIndex(currentSynIndex)
-            let url = crmUrl?.url
+            var url = crmUrl?.url
+            if url != nil && url!.containsString(" "){
+                url = url?.URLQueryAllowedString
+            }
             WebApi.GetUrl(url!, completedHandler: { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
 //                    NSUserDefaults.standardUserDefaults().setValue(data, forKey: url!)//底层就保存了
@@ -176,7 +179,11 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
             
         }else if currentSynIndex - allUrl.urlCount < allProFiles.filesCount{
             let index = currentSynIndex - allUrl.urlCount
-            let filepath = allProFiles.productFileAtIndex(index)?.filePath
+            var filepath = allProFiles.productFileAtIndex(index)?.filePath
+            if filepath != nil && filepath!.containsString(" ")
+            {
+                filepath = filepath?.URLQueryAllowedString
+            }
             self.dataSynLabel?.text = "File downloading \(filepath!)"
             
                 WebApi.GetFile(filepath!, completedHandler: { (response, data, error) -> Void in

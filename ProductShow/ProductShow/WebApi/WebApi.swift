@@ -8,6 +8,10 @@
 
 import UIKit
 
+/*
+
+*/
+
 class WebApi: NSObject {
     static let baseUrlStr = "http://btl.zhiwx.com/crmapi/"
     static let httpPost = "POST"
@@ -19,9 +23,8 @@ class WebApi: NSObject {
         return bOK
     }
     
-    class func localFileName(var fileURL: String?)->String? {
+    class func localFileName(fileURL: String?)->String? {
         if fileURL?.characters.count > 0{
-            fileURL = fileURL!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
             
             let url = NSURL(string: fileURL!)!
             
@@ -32,7 +35,7 @@ class WebApi: NSObject {
         return nil
     }
     
-    class func GetFile(var fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func GetFile(fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
 
         if fileURL == nil{
             debugPrint("----文件URL为nil----")
@@ -44,8 +47,6 @@ class WebApi: NSObject {
             completedHandler?(nil,nil,nil)
             return
         }
- 
-        fileURL = fileURL!.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
         
         let url = NSURL(string: fileURL!)!
         let fileManager = NSFileManager()
@@ -88,15 +89,14 @@ class WebApi: NSObject {
     
     //MARK: 同步数据
     class func readOrGetUrl(fullUrlStr:String,completedHandle:((NSURLResponse?,NSData?,NSError?)->Void)?) {
-        let fullUrlStrURLAllowed = fullUrlStr.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-        let data = localData(fullUrlStrURLAllowed)
+        let data = localData(fullUrlStr)
         var bHandled = false
         if data != nil{
             bHandled = true
             completedHandle?(nil,data!,nil)
         }
         
-        GetUrl(fullUrlStrURLAllowed) { (response, data, error) -> Void in
+        GetUrl(fullUrlStr) { (response, data, error) -> Void in
             if !bHandled{
                 completedHandle?(response, data, error)
             }
@@ -107,17 +107,16 @@ class WebApi: NSObject {
        return  NSUserDefaults.standardUserDefaults().valueForKey(fullUrlStr) as? NSData
     }
     
-    class func GetUrl(fullUrlStr: String, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        debugPrint("GET: \(fullUrlStr)")
+    class func GetUrl(fullUrlStrURLQueryAllowed: String, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        debugPrint("GET: \(fullUrlStrURLQueryAllowed)")
         
-        let fullUrlStrURLAllowed = fullUrlStr.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
-        let urlRequest = NSMutableURLRequest(URL: NSURL(string: fullUrlStrURLAllowed)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
+        let urlRequest = NSMutableURLRequest(URL: NSURL(string: fullUrlStrURLQueryAllowed)!, cachePolicy: NSURLRequestCachePolicy.ReloadIgnoringLocalCacheData, timeoutInterval: 5.0)
         urlRequest.HTTPMethod = httpGet
         
         let queue = NSOperationQueue()
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
             if self.isHttpSucceed(response, data: data, error: error){
-                NSUserDefaults.standardUserDefaults().setValue(data, forKey: fullUrlStr)
+                NSUserDefaults.standardUserDefaults().setValue(data, forKey: fullUrlStrURLQueryAllowed)
             }
 
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -167,75 +166,75 @@ class WebApi: NSObject {
     //MARK: 1. 发送设备编码
     class func SendEquipCode(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let eqName = UIDevice.currentDevice().name
-        readOrGetUrl(baseUrlStr.stringByAppendingString("CrmSendEquipCode?eqNo=\(eqNo())&eqName=\(eqName)"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmSendEquipCode?eqNo=\(eqNo())&eqName=\(eqName)".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 2. 登录校验
     class func Login(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let paraStr = dic.toString("=", elementSeparator: "&")
-        GetUrl(baseUrlStr.stringByAppendingString("CrmLogin?eqNo=\(eqNo())&\(paraStr)"), completedHandler: completedHandler)
+        GetUrl("\(baseUrlStr)CrmLogin?eqNo=\(eqNo())&\(paraStr)".URLQueryAllowedString, completedHandler: completedHandler)
     }
     
     //MARK: 3. 获取热门产品：
     class func GetHotPro(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetHotPro?eqNo=\(eqNo())"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetHotPro?eqNo=\(eqNo())".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 4. 获取一级产品分类
     class func GetProLeave1(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetProLeave1?eqNo=\(eqNo())"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetProLeave1?eqNo=\(eqNo())".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 5. 获取二级产品分类
     class func GetProLeave2(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let paraStr = dic.toString("=", elementSeparator: "&")
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetProLeave2?eqNo=\(eqNo())&\(paraStr)"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetProLeave2?eqNo=\(eqNo())&\(paraStr)".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 6. 产品查询
     class func SelectPro(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let paraStr = dic?.toString("=", elementSeparator: "&")
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmSelectPro?eqNo=\(eqNo())&\(paraStr!)"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmSelectPro?eqNo=\(eqNo())&\(paraStr!)".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     class func GetProductsByCatId(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let paraStr = dic.toString("=", elementSeparator: "&")
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmSelectPro?eqNo=\(eqNo())&\(paraStr)"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmSelectPro?eqNo=\(eqNo())&\(paraStr)".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //http://btl.zhiwx.com/crmapi/CrmSelectProByValue?eqNo=S0001&query=xqm
     class func SelectProByValue(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let paraStr =  dic?.toString("=", elementSeparator: "&")
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmSelectProByValue?eqNo=\(eqNo())&\(paraStr!)"), completedHandle: completedHandler)
+        GetUrl("\(baseUrlStr)CrmSelectProByValue?eqNo=\(eqNo())&\(paraStr!)".URLQueryAllowedString, completedHandler: completedHandler)
     }
 
     
     //MARK: 8. 根据产品ID获取产品的图片地址和视频地址
     class func GetProFilesByID(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let paraStr =  dic?.toString("=", elementSeparator: "&")
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetProFilesByID?eqNo=\(eqNo())&\(paraStr!)"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetProFilesByID?eqNo=\(eqNo())&\(paraStr!)".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 9. 获取客户数据
     class func GetCustomer(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetCustomer?eqNo=\(eqNo())&saleId=\(uid())"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetCustomer?eqNo=\(eqNo())&saleId=\(uid())".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 10. 获取客户关注产品
     class func GetCustomerCare(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let paraStr =  dic.toString("=", elementSeparator: "&")
 
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetCustomerCare?eqNo=\(eqNo())&\(paraStr)"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetCustomerCare?eqNo=\(eqNo())&\(paraStr)".URLQueryAllowedString, completedHandle: completedHandler)
     }
 
     //MARK: 11. 获取用户数据
     class func GetUserInfo(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetUserInfo?eqNo=\(eqNo())&uid=\(uid())"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetUserInfo?eqNo=\(eqNo())&uid=\(uid())".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 12. 获取系统公告
     class func GetNotice(dic: NSDictionary?,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        self.readOrGetUrl(baseUrlStr.stringByAppendingString("CrmGetNotice?eqNo=\(eqNo())"), completedHandle: completedHandler)
+        readOrGetUrl("\(baseUrlStr)CrmGetNotice?eqNo=\(eqNo())".URLQueryAllowedString, completedHandle: completedHandler)
     }
     
     //MARK: 13. 写拜访日志
@@ -244,7 +243,8 @@ class WebApi: NSObject {
     }
     
     //MARK: 14. 提交购物车及照片
-    class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){        PostToUrl("\(baseUrlStr)CrmSendShopData", jsonObj: dic, completedHandler: completedHandler)
+    class func SendShopData(dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        PostToUrl("\(baseUrlStr)CrmSendShopData", jsonObj: dic, completedHandler: completedHandler)
     }
 
     //MARK: 15. 上传文件接口
@@ -263,12 +263,11 @@ class WebApi: NSObject {
     //MARK: 16. 获取拜访日志
     class func GetWorkLog(canReadLocal: Bool, dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         let dicStr = dic.toString("=", elementSeparator: "&")
-        let fullUrlStr = baseUrlStr.stringByAppendingString("CrmGetWorkLog?eqNo=\(eqNo())&\(dicStr)")
+        let fullUrlStr = "\(baseUrlStr)CrmGetWorkLog?eqNo=\(eqNo())&\(dicStr)".URLQueryAllowedString
         if canReadLocal{
-            self.readOrGetUrl(fullUrlStr, completedHandle: completedHandler)
+            readOrGetUrl(fullUrlStr, completedHandle: completedHandler)
         }else{
-            self.GetUrl(fullUrlStr, completedHandler: completedHandler)
-            
+            GetUrl(fullUrlStr, completedHandler: completedHandler)
         }
     }
     
@@ -279,14 +278,13 @@ class WebApi: NSObject {
     
     //MARK: 获取所有图片和视频
     class func GetAllProFiles(completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        let fullUrlStr = baseUrlStr.stringByAppendingString("GetAllProFiles?eqNo=\(eqNo())")
-        self.GetUrl(fullUrlStr, completedHandler: completedHandler)
+        GetUrl("\(baseUrlStr)GetAllProFiles?eqNo=\(eqNo())".URLQueryAllowedString, completedHandler: completedHandler)
     }
 
     //MARK: 获取所有api
     class func GetAllUrl(completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
-        let fullUrlStr = baseUrlStr.stringByAppendingString("CrmGetAllUrl?eqNo=\(eqNo())&uid=\(uid())")
-        self.GetUrl(fullUrlStr, completedHandler: completedHandler)
+        let fullUrlStr = "\(baseUrlStr)CrmGetAllUrl?eqNo=\(eqNo())&uid=\(uid())".URLQueryAllowedString
+        GetUrl(fullUrlStr, completedHandler: completedHandler)
     }
     
     

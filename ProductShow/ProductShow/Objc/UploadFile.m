@@ -82,7 +82,7 @@ static NSString *uploadID;              // 上传(php)脚本中，接收文件�
     // 3> 连接服务器发送请求
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
         
-        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+//        NSString *result = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 //        NSLog(@"%@", result);
         handler(response,data,connectionError);
     }];

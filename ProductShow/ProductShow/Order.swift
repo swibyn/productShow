@@ -148,33 +148,6 @@ class Order: NSObject {
         return nil
     }
     
-//    var proIds: String{
-//        let _proIds =  NSMutableString()
-//        self.products.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
-//            if _proIds.length > 0{
-//                _proIds.appendString("|")
-//            }
-//            _proIds.appendString("\(productDic.objectForKey(jfproId) as! Int)")
-//        }
-//        return _proIds as String
-//    }
-//    var proIdAndAdditions: String{
-//        let _proIdAndAdditions =  NSMutableString()
-//        self.products.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
-//            if _proIdAndAdditions.length > 0{
-//                _proIdAndAdditions.appendString("|")
-//            }
-//            let product = Product(productDic: productDic as! NSMutableDictionary)
-//            let proId = product.proId
-//            let additionInfo = product.additionInfo ?? ""
-//            let additionInfoEncode = additionInfo.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
-//            _proIdAndAdditions.appendString("\(proId!)#\(additionInfoEncode!)")
-//        }
-//        return _proIdAndAdditions as String
-//    }
-    
-    
-    
     var orderId: String?{
         return orderDic.objectForKey(OrderSaveKey.orderId) as? String
     }
