@@ -79,7 +79,10 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                     }
                 }else{
 //                    imageView.image = UIImage(named: "video")
-                    self.setThumb(WebApi.localFileName(productFile.filePath)!, imageView: imageView)
+                    let localfile = WebApi.localFileName(productFile.filePath)
+                    if localfile != nil{
+                        self.setThumb(localfile!, imageView: imageView)
+                    }
                 }
             }
         }

@@ -37,9 +37,12 @@ class UIProductTableViewCell : UITableViewCell {
         
         var imageloaded = false
         WebApi.GetFile(product.thumbUrl) { (response, data, error) -> Void in
+            
             if data?.length > 0{
                 self.proThumbImageView.image = UIImage(data: data!)
                 imageloaded = true
+            }else{
+                debugPrint("error=\(error)")
             }
         }
         if !imageloaded {

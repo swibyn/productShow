@@ -16,6 +16,7 @@ extension String {
     }
     
     var URLQueryAllowedString: String{
+        
         return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
     }
     

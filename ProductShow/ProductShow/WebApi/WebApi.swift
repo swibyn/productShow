@@ -24,13 +24,15 @@ class WebApi: NSObject {
     }
     
     class func localFileName(fileURL: String?)->String? {
+        
         if fileURL?.characters.count > 0{
             
-            let url = NSURL(string: fileURL!)!
-            
-            //本地对应的文件名称
-            let fileSavedName = NSTemporaryDirectory().stringByAppendingString(url.path!)
-            return fileSavedName
+            let url = NSURL(string: fileURL!)
+            if (url != nil) && (url!.path != nil){
+                //本地对应的文件名称
+                let fileSavedName = NSTemporaryDirectory().stringByAppendingString(url!.path!)
+                return fileSavedName
+            }
         }
         return nil
     }
@@ -39,16 +41,35 @@ class WebApi: NSObject {
 
         if fileURL == nil{
             debugPrint("----文件URL为nil----")
-            completedHandler?(nil,nil,nil)
+            let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: [NSLocalizedDescriptionKey:"URL is nil"])
+            completedHandler?(nil,nil,error)
             return
         }
         if fileURL!.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet()) == ""{
             debugPrint("----文件URL为空----")
-            completedHandler?(nil,nil,nil)
+            let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: [NSLocalizedDescriptionKey:"URL is NULL"])
+            completedHandler?(nil,nil,error)
             return
         }
         
-        let url = NSURL(string: fileURL!)!
+        //如需转义，则应由服务端转义，服务端应该返回一个直接可用的路径
+        //这里只做简单判断
+        var fileURLQueryAllowedString = fileURL!
+        if fileURL!.containsString(" "){
+            fileURLQueryAllowedString = fileURL!.URLQueryAllowedString
+        }
+        
+        let urlOpt = NSURL(string: fileURLQueryAllowedString)
+        
+        if (urlOpt == nil)||(urlOpt!.path == nil){
+            debugPrint("----文件URL不正确----\(fileURLQueryAllowedString)")
+            let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: [NSLocalizedDescriptionKey:"unsupported URL"])
+            completedHandler?(nil,nil,error)
+            return
+        }
+        
+        let url = urlOpt!
+        
         let fileManager = NSFileManager()
         
         //本地对应的文件名称
@@ -72,12 +93,12 @@ class WebApi: NSObject {
         }
         let urlRequest = NSURLRequest(URL: url)
         let queue = NSOperationQueue()
-        debugPrint("开始下载文件:\(fileURL)")
+        debugPrint("开始下载文件:\(fileURLQueryAllowedString)")
         NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
-                    debugPrint("文件下载成功:\(fileURL)")
+                    debugPrint("文件下载成功:\(fileURLQueryAllowedString)")
                     data!.writeToFile(fileSavedName, atomically: true)
                 }
                 completedHandler?(response,data,error)
@@ -87,7 +108,7 @@ class WebApi: NSObject {
     }
     
     
-    //MARK: 同步数据
+    //MARK: 读取并请求
     class func readOrGetUrl(fullUrlStr:String,completedHandle:((NSURLResponse?,NSData?,NSError?)->Void)?) {
         let data = localData(fullUrlStr)
         var bHandled = false
