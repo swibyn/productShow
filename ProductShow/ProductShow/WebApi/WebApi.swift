@@ -142,6 +142,8 @@ class WebApi: NSObject {
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     debugPrint("文件下载成功:\(remotefileURL!.absoluteString)")
                     data!.writeToFile(localfile, atomically: true)
+                }else{
+                    debugPrint("文件下载失败:\(remotefileURL!.absoluteString)")
                 }
                 completedHandler?(response,data,error)
             })

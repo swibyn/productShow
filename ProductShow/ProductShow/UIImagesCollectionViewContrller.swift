@@ -78,9 +78,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                         imageView.image = UIImage(data: data!)
                     }
                 }else{
-                    
-//                    imageView.image = UIImage(named: "video")
-                    let localfile = productFile.filePath?.URL?.localFile //WebApi.localFileName(productFile.filePath)
+                    let localfile = productFile.filePath?.URL?.localFile
                     if localfile != nil{
                         self.setThumb(localfile!, imageView: imageView)
                     }
@@ -112,7 +110,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                 self.presentMoviePlayerViewControllerAnimated(player)
                 
             }else{
-                let alertView = UIAlertView(title: "", message: "File downloading, please wait for a moment", delegate: nil, cancelButtonTitle: "OK")
+                let alertView = UIAlertView(title: "File downloading", message: productFile?.filePath, delegate: nil, cancelButtonTitle: "OK")
                 alertView.show()
             }
             //直接远程播放

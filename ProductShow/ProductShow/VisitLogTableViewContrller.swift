@@ -156,7 +156,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         let custId = customer?.custId
         let custName = customer?.custName
         
-        let log = logs?.logAtIndex(indexPath.row - 1)
+        let log = logs?.logAtIndex(indexPath.row)
         let logId = log?.logId
         let logIdStr = (logId == nil) ? "" : "\(logId!)"
         let caozuo = "del"
@@ -205,11 +205,11 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        if indexPath.row > 1{
+        if indexPath.section == 0{
+            return false
+        }else{
             return true
         }
-        
-        return false
     }
     
     
@@ -220,7 +220,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
             
             DeleteLogAtIndexPath(indexPath, completion: { (bDelete) -> Void in
                 if bDelete{
-                    self.logs?.removeLogAtIndex(indexPath.row - 1)
+                    self.logs?.removeLogAtIndex(indexPath.row)
                     tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
                     self.GetWorkLog(false)
                 }else{
