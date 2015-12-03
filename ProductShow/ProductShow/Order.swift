@@ -13,6 +13,8 @@ import UIKit
 [  //orders
     {  //order
         orderId: "2015-10-16 15:14:00"
+        placed: true
+
         orderTime:"2015-10-16 15:14:00",
         orderName:"用户输入一个辅助记忆的名称",
         imagePaths:[
@@ -34,6 +36,7 @@ import UIKit
 class OrderSaveKey {
     static let orderArray = "orderArray"
     static let orderId = "orderId"
+    static let placed = "placed"
     static let orderTime = "orderTime"
     static let orderName = "orderName"
     static let imagePaths = "imagePaths"
@@ -152,6 +155,17 @@ class Order: NSObject {
         return orderDic.objectForKey(OrderSaveKey.orderId) as? String
     }
     
+    var placed: Bool{
+        get{
+            let _placed = orderDic.objectForKey(OrderSaveKey.placed) as? Bool
+            return _placed ?? false
+        }
+        set{
+            orderDic.setValue(newValue, forKey: OrderSaveKey.placed)
+            Orders.defaultOrders().flush()
+        }
+    }
+    
     var orderTime: String?{
         return orderDic.objectForKey(OrderSaveKey.orderTime) as? String
     }
@@ -170,6 +184,14 @@ class Order: NSObject {
         set{
             orderDic.setObject(newValue, forKey: OrderSaveKey.orderName)
             Orders.defaultOrders().flush()
+        }
+    }
+    
+    var displayName: String{
+        if placed{
+            return orderName + "(Already placed)"
+        }else{
+            return orderName
         }
     }
     

@@ -53,19 +53,20 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
     }
     
     static func heightForProduct(tableView: UITableView, product: Product)->CGFloat{
-        let additionInfo = product.additionInfo
-        if additionInfo != nil{
-            //55
-            let tmptextView = UITextView(frame: CGRectMake(0, 0, tableView.bounds.size.width - 55, CGFloat.max))
-            tmptextView.font = UIFont.systemFontOfSize(16)
-            tmptextView.text = additionInfo!
-            let textFrame = tmptextView.layoutManager.usedRectForTextContainer(tmptextView.textContainer)
-            let height = textFrame.size.height
-            return CGFloat(height + CGFloat(rowHeight) + 10)
-            
-        }else{
-            return CGFloat(rowHeight)
-        }
+        return CGFloat(rowHeight)
+//        let additionInfo = product.additionInfo
+//        if additionInfo != nil{
+//            //55
+//            let tmptextView = UITextView(frame: CGRectMake(0, 0, tableView.bounds.size.width - 55, CGFloat.max))
+//            tmptextView.font = UIFont.systemFontOfSize(16)
+//            tmptextView.text = additionInfo!
+//            let textFrame = tmptextView.layoutManager.usedRectForTextContainer(tmptextView.textContainer)
+//            let height = textFrame.size.height
+//            return CGFloat(height + CGFloat(rowHeight) + 10)
+//            
+//        }else{
+//            return CGFloat(rowHeight)
+//        }
         
     }
     

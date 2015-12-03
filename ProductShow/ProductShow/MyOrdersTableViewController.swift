@@ -83,7 +83,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         
         // Configure the cell...
         let order = Orders.defaultOrders().orderAtIndex(indexPath.row)
-        cell.leftLabel.text = order?.orderName
+        cell.leftLabel.text = order?.displayName
         cell.rightLabel.text = order?.orderTime
         
         return cell
@@ -146,7 +146,8 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let selectedIndexPath = self.tableView.indexPathForSelectedRow!
-        let destVC: AnyObject = segue.destinationViewController
+        let destVC: UIViewController = segue.destinationViewController
+      
         (destVC as? OrderDetailTableViewController)?.delegate = self
         
         let order = Orders.defaultOrders().orderAtIndex(selectedIndexPath.row)

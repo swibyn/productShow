@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4D1A68321BF1DBD3003C8162 /* ProductAndRemarkTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D1A68311BF1DBD3003C8162 /* ProductAndRemarkTableViewCell.xib */; };
 		4D1A68341BF1DBFA003C8162 /* ProductAndRemarkTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1A68331BF1DBFA003C8162 /* ProductAndRemarkTableViewCell.swift */; };
+		4D5493F91C0E9232006BD1E9 /* NSURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5493F81C0E9232006BD1E9 /* NSURLExtension.swift */; };
 		4D55D6C91BE9FF74006D85AF /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */; };
 		4D595A421BF2097600F14213 /* UITextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D595A411BF2097600F14213 /* UITextViewController.swift */; };
 		4D5ED56C1BDF9E8F00D2DD77 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */; };
@@ -85,6 +86,7 @@
 /* Begin PBXFileReference section */
 		4D1A68311BF1DBD3003C8162 /* ProductAndRemarkTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProductAndRemarkTableViewCell.xib; sourceTree = "<group>"; };
 		4D1A68331BF1DBFA003C8162 /* ProductAndRemarkTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProductAndRemarkTableViewCell.swift; sourceTree = "<group>"; };
+		4D5493F81C0E9232006BD1E9 /* NSURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLExtension.swift; sourceTree = "<group>"; };
 		4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
 		4D595A411BF2097600F14213 /* UITextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextViewController.swift; sourceTree = "<group>"; };
 		4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
@@ -267,6 +269,7 @@
 				4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */,
 				4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */,
 				4D97B5FB1BF437B600C99EE7 /* NSDictionaryExtension.swift */,
+				4D5493F81C0E9232006BD1E9 /* NSURLExtension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -474,6 +477,7 @@
 				4DDB31431BD893D50030B3EE /* ReturnDic.swift in Sources */,
 				4DDB313F1BD87E5E0030B3EE /* Customer.swift in Sources */,
 				4DBA71B61BD489DE0031945C /* UIImagesCollectionViewContrller.swift in Sources */,
+				4D5493F91C0E9232006BD1E9 /* NSURLExtension.swift in Sources */,
 				4D66BB4D1BCF4F7E00AF5CDC /* WebApi.swift in Sources */,
 				4D5ED5701BDFB10900D2DD77 /* Categories1CollectionViewController.swift in Sources */,
 				4DBA71BC1BD4C0BA0031945C /* Product.swift in Sources */,

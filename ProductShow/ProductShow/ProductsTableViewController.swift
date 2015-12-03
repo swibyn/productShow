@@ -8,27 +8,47 @@
 
 import UIKit
 
+
 class ProductsTableViewController: UITableViewController,UIProductTableViewCellDelegate {
     
-    var category2 : Category?
-    var products = Products()
+    //MARK: 初始化一个实例
+    static func newInstance()->ProductsTableViewController{
+        
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProductsTableViewController") as! ProductsTableViewController
+        return aInstance
+    }
+
+    
+//    var category2 : Category?//通过类目信息获取列表
+//    var customer: Customer? //通过客户信息获取列表
+    
+    var products: Products?//()
 
     @IBOutlet var cartBarButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = category2?.catName
+        
+        if self.title == nil{
+            self.title = "Products"
+        }
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
         self.addProductsInCartChangedNotificationObserver()
         self.cartBarButton.title = Cart.defaultCart().title
-        
-        self.GetProducts()
-        
+    
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if products?.status != 1{
+            let msgString = self.products?.message
+            let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
+            alertView.show()
+        }
+    }
 
 
     override func didReceiveMemoryWarning() {
@@ -38,32 +58,6 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     
     deinit{
         self.removeProductsInCartChangedNotificationObserver()
-    }
-    
-    //MARK: 获取数据
-    func GetProducts(){
-        
-        let catId = category2?.catId
-        WebApi.GetProductsByCatId([jfcatId : catId!], completedHandler: { (response, data, error) -> Void in
-            
-            if WebApi.isHttpSucceed(response, data: data, error: error){
-                
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-                
-                self.products.returnDic = json
-                self.tableView.reloadData()
-                
-                if (self.products.status == 1){
-                    //获取成功
-//                    self.tableView.reloadData()
-                }else{
-                    let msgString = self.products.message
-                    let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
-                    alertView.show()
-                }
-            }
-        })
-
     }
     
     //MARK: 消息通知
@@ -92,15 +86,17 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return products.productsCount// dataArray?.count ?? 0
+        return products?.productsCount ?? 0
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
-        
-        ConfigureCell(cell, canAddToCart:true, product: products.productAtIndex(indexPath.row)!, delegate: self)
+        let product = products?.productAtIndex(indexPath.row)
+        if product != nil{
+            ConfigureCell(cell, canAddToCart:true, product: product!, delegate: self)
+        }
         
         return cell
     }

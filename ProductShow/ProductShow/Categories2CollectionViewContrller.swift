@@ -106,9 +106,26 @@ class Categories2CollectionViewController: UICollectionViewController {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
         let selectedIndexPath = self.collectionView?.indexPathForCell(sender as! UICollectionViewCell)
-        let destVC: AnyObject = segue.destinationViewController
+        let destVC = segue.destinationViewController
         let index = selectedIndexPath?.row
-        destVC.setValue(self.categories?.categoryAtIndex(index!), forKey: "category2")
+        let category = categories?.categoryAtIndex(index!)
+        if (segue.identifier == "category2ToProducts"){
+
+            let productsVc = destVC as! ProductsTableViewController
+            productsVc.title = category?.catName
+        
+            let catId = category?.catId
+            WebApi.GetProductsByCatId([jfcatId : catId!], completedHandler: { (response, data, error) -> Void in
+                
+                if WebApi.isHttpSucceed(response, data: data, error: error){
+                    
+                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                    let products = Products(returnDic: json)
+                    
+                    productsVc.products = products
+                }
+            })
+        }
     }
     
     

@@ -29,7 +29,7 @@ class PhotoUtil: NSObject {
     
     class func deletePhoto(fileName: String){
         let filePath = NSTemporaryDirectory().stringByAppendingString(fileName)
-        try? NSFileManager.defaultManager().removeItemAtPath(filePath)
+        try! NSFileManager.defaultManager().removeItemAtPath(filePath)
     }
     
     class func deletePhotosInOrder(order: Order){

@@ -20,5 +20,15 @@ extension String {
         return self.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())!
     }
     
+    var URL: NSURL?{
+        let url = NSURL(string: self)
+        if url != nil{
+            return url
+        }else{
+            let url = NSURL(string: self.URLQueryAllowedString)
+            return url
+        }
+    }
+
 }
 

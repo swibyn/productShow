@@ -65,7 +65,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5M5-H6-3wl" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1422" y="-1114"/>
+            <point key="canvasLocation" x="1422" y="-1122"/>
         </scene>
         <!--My Orders-->
         <scene sceneID="rIt-al-Ieg">
@@ -222,7 +222,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ejz-cw-E6x" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746" y="1036"/>
+            <point key="canvasLocation" x="-656" y="1016"/>
         </scene>
         <!--Password View Controller-->
         <scene sceneID="s3Q-Eh-HtF">
@@ -309,12 +309,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vr0-OG-LIK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746" y="1775"/>
+            <point key="canvasLocation" x="38" y="317"/>
         </scene>
         <!--Products Table View Controller-->
         <scene sceneID="caF-J3-dcB">
             <objects>
-                <tableViewController id="jM1-vl-RUn" customClass="ProductsTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ProductsTableViewController" id="jM1-vl-RUn" customClass="ProductsTableViewController" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="0S6-iW-lLE">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -748,7 +748,7 @@
                                     <constraint firstAttribute="bottomMargin" secondItem="jRR-RS-WBq" secondAttribute="bottom" constant="-8" id="xIz-vI-vq4"/>
                                 </constraints>
                                 <connections>
-                                    <segue destination="jM1-vl-RUn" kind="show" id="tGl-eg-xcy"/>
+                                    <segue destination="jM1-vl-RUn" kind="show" identifier="category2ToProducts" id="tGl-eg-xcy"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -1501,6 +1501,10 @@
                             </barButtonItem>
                         </rightBarButtonItems>
                     </navigationItem>
+                    <connections>
+                        <outlet property="addPictureButton" destination="5St-l0-4hL" id="gTq-32-viF"/>
+                        <outlet property="submitButton" destination="pHB-dE-eia" id="nA3-a9-Gtc"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jy0-ge-whP" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1510,16 +1514,16 @@
         <scene sceneID="pXY-9Q-i0A">
             <objects>
                 <tableViewController storyboardIdentifier="VisitLogTableViewContrller" id="ic3-PE-PZY" customClass="VisitLogTableViewContrller" customModule="ProductShow" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="215" sectionHeaderHeight="28" sectionFooterHeight="28" id="wWM-nK-AZ9">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="255" sectionHeaderHeight="28" sectionFooterHeight="28" id="wWM-nK-AZ9">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell0" rowHeight="215" id="HBH-Nj-XJv" customClass="CustomerInfoTableViewCell" customModule="ProductShow" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="600" height="215"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell0" rowHeight="214" id="HBH-Nj-XJv" customClass="CustomerInfoTableViewCell" customModule="ProductShow" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="214"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HBH-Nj-XJv" id="HaK-dp-HTS">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="215"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="214"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7t-VC-rtV">
@@ -1588,7 +1592,7 @@
                                         <constraint firstItem="I7t-VC-rtV" firstAttribute="top" secondItem="HaK-dp-HTS" secondAttribute="topMargin" constant="2" id="Z1r-yx-MDC"/>
                                         <constraint firstAttribute="trailingMargin" secondItem="I7t-VC-rtV" secondAttribute="trailing" constant="6" id="aa5-Y3-iYU"/>
                                         <constraint firstItem="I7t-VC-rtV" firstAttribute="leading" secondItem="HaK-dp-HTS" secondAttribute="leadingMargin" constant="10" id="rmq-Mc-lKM"/>
-                                        <constraint firstItem="I7t-VC-rtV" firstAttribute="bottom" secondItem="HaK-dp-HTS" secondAttribute="bottomMargin" constant="-1" id="xSc-uq-aw1"/>
+                                        <constraint firstItem="I7t-VC-rtV" firstAttribute="bottom" secondItem="HaK-dp-HTS" secondAttribute="bottomMargin" id="xSc-uq-aw1"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -1604,6 +1608,49 @@
                                     <outlet property="telLabel" destination="Aqd-b1-fCE" id="APv-Vn-Irk"/>
                                 </connections>
                             </tableViewCell>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell1" rowHeight="80" id="bCi-1t-4jm" customClass="CustomerInfoTableViewCell" customModule="ProductShow" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="306" width="600" height="80"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="bCi-1t-4jm" id="9oL-yf-Efh">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="80"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ybo-sq-b2s">
+                                            <rect key="frame" x="18" y="10" width="568" height="60"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UX2-xV-aFc">
+                                                    <rect key="frame" x="8" y="8" width="552" height="44"/>
+                                                    <color key="backgroundColor" red="0.26274509800000001" green="0.65490196079999996" blue="0.51764705879999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="19"/>
+                                                    <state key="normal" title="Care products">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="CareProductsButtonAction:" destination="ic3-PE-PZY" eventType="touchUpInside" id="rym-kG-aNo"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <constraints>
+                                                <constraint firstItem="UX2-xV-aFc" firstAttribute="leading" secondItem="Ybo-sq-b2s" secondAttribute="leading" constant="8" id="03p-iV-rt1"/>
+                                                <constraint firstAttribute="trailing" secondItem="UX2-xV-aFc" secondAttribute="trailing" constant="8" id="nHs-dW-pzq"/>
+                                                <constraint firstItem="UX2-xV-aFc" firstAttribute="top" secondItem="Ybo-sq-b2s" secondAttribute="top" constant="8" id="nhZ-jd-QYZ"/>
+                                                <constraint firstAttribute="bottom" secondItem="UX2-xV-aFc" secondAttribute="bottom" constant="8" id="qBZ-tS-R2q"/>
+                                            </constraints>
+                                        </view>
+                                    </subviews>
+                                    <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                                    <constraints>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Ybo-sq-b2s" secondAttribute="trailing" constant="6" id="7eJ-h2-EqY"/>
+                                        <constraint firstItem="Ybo-sq-b2s" firstAttribute="top" secondItem="9oL-yf-Efh" secondAttribute="topMargin" constant="2" id="GpC-gI-to8"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Ybo-sq-b2s" secondAttribute="bottom" constant="2" id="YkX-Oh-re4"/>
+                                        <constraint firstItem="Ybo-sq-b2s" firstAttribute="leading" secondItem="9oL-yf-Efh" secondAttribute="leadingMargin" constant="10" id="ZXi-KY-BF8"/>
+                                    </constraints>
+                                </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="bgView" destination="Ybo-sq-b2s" id="WHl-0c-CTC"/>
+                                </connections>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="ic3-PE-PZY" id="0I0-Lb-7By"/>
@@ -1614,7 +1661,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Log" id="sdQ-cb-CAr">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
-                                <segue destination="ckJ-bN-Wf1" kind="show" id="PgF-xY-iug"/>
+                                <segue destination="ckJ-bN-Wf1" kind="show" identifier="logToEditor" id="PgF-xY-iug"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1684,7 +1731,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ooI-Fm-eQU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1452" y="1036"/>
+            <point key="canvasLocation" x="38" y="1016"/>
         </scene>
         <!--Images Collection View Contrller2-->
         <scene sceneID="0NT-9a-7eE">
@@ -1870,7 +1917,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KZt-YT-kjj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="746" y="2471"/>
+            <point key="canvasLocation" x="-656" y="317"/>
         </scene>
     </scenes>
     <resources>
@@ -1891,7 +1938,7 @@
         <image name="首页背景768X1024" width="1024" height="768"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="5Tg-2D-M5k"/>
-        <segue reference="VQ7-uo-Zju"/>
+        <segue reference="o83-my-XFQ"/>
+        <segue reference="XSj-5m-Git"/>
     </inferredMetricsTieBreakers>
 </document>

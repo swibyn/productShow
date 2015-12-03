@@ -78,8 +78,9 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                         imageView.image = UIImage(data: data!)
                     }
                 }else{
+                    
 //                    imageView.image = UIImage(named: "video")
-                    let localfile = WebApi.localFileName(productFile.filePath)
+                    let localfile = productFile.filePath?.URL?.localFile //WebApi.localFileName(productFile.filePath)
                     if localfile != nil{
                         self.setThumb(localfile!, imageView: imageView)
                     }
@@ -100,13 +101,18 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
             self.presentViewController(imageCollectionVC2, animated: false, completion: nil)
         }else{
             //先下载后播放
-            let filePath = WebApi.localFileName(productFile?.filePath)
+            let filePath =  productFile?.filePath?.URL?.localFile // WebApi.localFileName(productFile?.filePath)
+            if filePath == nil{
+                let alertView = UIAlertView(title: nil, message: "Error URL:\(productFile!.filePath!)", delegate: nil, cancelButtonTitle: "OK")
+                alertView.show()
+                return
+            }
             if NSFileManager.defaultManager().fileExistsAtPath(filePath!){
                 let player = MPMoviePlayerViewController(contentURL: NSURL(fileURLWithPath: filePath!))
                 self.presentMoviePlayerViewControllerAnimated(player)
                 
             }else{
-                let alertView = UIAlertView(title: "Hint", message: "File downloading, please wait for a moment", delegate: nil, cancelButtonTitle: "OK")
+                let alertView = UIAlertView(title: "", message: "File downloading, please wait for a moment", delegate: nil, cancelButtonTitle: "OK")
                 alertView.show()
             }
             //直接远程播放

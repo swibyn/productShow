@@ -26,7 +26,11 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         return aInstance
     }
     
-    //MARK: IBAction
+    //MARK: IB
+    @IBOutlet var addPictureButton: UIBarButtonItem!
+    @IBOutlet var submitButton: UIBarButtonItem!
+    
+    
     @IBAction func addPictureButtonAction(sender: UIBarButtonItem) {
         
         let isAvailable = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
@@ -50,7 +54,10 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     //MARK: view lift cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Order-\(order.orderName)"
+        self.title = order.displayName
+        if order.placed {
+            submitButton.title = "SubmitAgain"
+        }
         
         let nib = UINib(nibName: "ProductAndRemarkTableViewCell", bundle: nil)
         tableView.registerNib(nib, forCellReuseIdentifier: "ProductAndRemarkTableViewCell")
@@ -149,8 +156,8 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                     let statusInt = json.objectForKey(jfstatus) as! Int
                     if (statusInt == 1){
                         //提交成功
-//                        OrderManager.defaultManager().removeOrder(self.order)
-                        Orders.defaultOrders().removeOrder(self.order)
+                        //Orders.defaultOrders().removeOrder(self.order)
+                        self.order.placed = true
                         self.postOrdersChangedNotification()
                         let alertView = UIAlertView(title: "Succeed", message: "Order placed", delegate: nil, cancelButtonTitle: "OK")
                         alertView.delegate = self

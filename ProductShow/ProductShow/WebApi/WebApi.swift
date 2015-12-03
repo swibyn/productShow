@@ -23,21 +23,21 @@ class WebApi: NSObject {
         return bOK
     }
     
-    class func localFileName(fileURL: String?)->String? {
-        
-        if fileURL?.characters.count > 0{
-            
-            let url = NSURL(string: fileURL!)
-            if (url != nil) && (url!.path != nil){
-                //本地对应的文件名称
-                let fileSavedName = NSTemporaryDirectory().stringByAppendingString(url!.path!)
-                return fileSavedName
-            }
-        }
-        return nil
-    }
+//    class func localFileName(fileURL: String?)->String? {
+//        
+//        if fileURL?.characters.count > 0{
+//            
+//            let url = NSURL(string: fileURL!)
+//            if (url != nil) && (url!.path != nil){
+//                //本地对应的文件名称
+//                let fileSavedName = NSTemporaryDirectory().stringByAppendingString(url!.path!)
+//                return fileSavedName
+//            }
+//        }
+//        return nil
+//    }
     
-    class func GetFile(fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func GetFile_old(fileURL: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
 
         if fileURL == nil{
             debugPrint("----文件URL为nil----")
@@ -104,6 +104,48 @@ class WebApi: NSObject {
                 completedHandler?(response,data,error)
             })
 
+        }
+    }
+    class func GetFile(remotefile: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+        
+        let remotefileURL = remotefile?.URL
+        
+        if remotefileURL == nil{
+            let error = NSError(domain: NSURLErrorDomain, code: NSURLErrorBadURL, userInfo: [NSLocalizedDescriptionKey:"unsupported URL"])
+            completedHandler?(nil,nil,error)
+            return
+        }
+        
+        let localfile = remotefileURL!.localFile
+        let fileManager = NSFileManager()
+        
+        //如果文件存在，则直接导入
+        if fileManager.fileExistsAtPath(localfile){
+            let data = NSData(contentsOfFile: localfile)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                completedHandler?(nil,data,nil)
+            })
+            return
+        }
+        
+        //不存在则创建目录
+        let fileSavedPath = NSString(string: localfile).stringByDeletingLastPathComponent
+        
+        try! fileManager.createDirectoryAtPath(fileSavedPath, withIntermediateDirectories: true, attributes: nil)
+       
+        let urlRequest = NSURLRequest(URL: remotefileURL!)
+        let queue = NSOperationQueue()
+        debugPrint("开始下载文件:\(remotefileURL!.absoluteString)")
+        NSURLConnection.sendAsynchronousRequest(urlRequest, queue: queue) { (response, data, error) -> Void in
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if WebApi.isHttpSucceed(response, data: data, error: error){
+                    debugPrint("文件下载成功:\(remotefileURL!.absoluteString)")
+                    data!.writeToFile(localfile, atomically: true)
+                }
+                completedHandler?(response,data,error)
+            })
+            
         }
     }
     
@@ -297,7 +339,7 @@ class WebApi: NSObject {
         PostToUrl("\(baseUrlStr)CrmChangePwd", jsonObj: dic, completedHandler: completedHandler)
     }
     
-    //MARK: 获取所有图片和视频
+    //MARK: 18.获取所有图片和视频
     class func GetAllProFiles(completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         GetUrl("\(baseUrlStr)GetAllProFiles?eqNo=\(eqNo())".URLQueryAllowedString, completedHandler: completedHandler)
     }
@@ -307,8 +349,7 @@ class WebApi: NSObject {
         let fullUrlStr = "\(baseUrlStr)CrmGetAllUrl?eqNo=\(eqNo())&uid=\(uid())".URLQueryAllowedString
         GetUrl(fullUrlStr, completedHandler: completedHandler)
     }
-    
-    
+      
 }
 
 

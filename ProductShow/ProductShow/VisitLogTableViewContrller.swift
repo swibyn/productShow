@@ -81,11 +81,29 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     
 
     //MARK: @IB
-
+    
+    @IBAction func CareProductsButtonAction(sender: UIButton) {
+        let destVc = ProductsTableViewController.newInstance()
+        destVc.title = sender.titleLabel?.text
+        
+        let custId = customer?.custId
+        if custId == nil { return }
+        WebApi.GetCustomerCare([jfcustId: custId!], completedHandler: { (response, data, error) -> Void in
+            
+            if WebApi.isHttpSucceed(response, data: data, error: error){
+                
+                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let products = Products(returnDic: json)
+                destVc.products = products
+                self.navigationController?.pushViewController(destVc, animated: true)
+            }
+        })
+    }
     
     //MARK: view life
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = "Customer"
         
         let nib = UINib(nibName: "BasicTableViewCell", bundle: nil)
         self.tableView.registerNib(nib, forCellReuseIdentifier: "BasicTableViewCell")
@@ -172,8 +190,12 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     
     // MARK: - Table view delegate
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if indexPath.row == 0{
-            return 214
+        if indexPath.section == 0{
+            if indexPath.row == 0{
+                return 214
+            }else if indexPath.row == 1{
+                return 80
+            }
         }
         
         return CGFloat(BasicTableViewCell.rowHeight)
@@ -183,7 +205,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     // Override to support conditional editing of the table view.
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
-        if indexPath.row > 0{
+        if indexPath.row > 1{
             return true
         }
         
@@ -229,25 +251,29 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     // MARK: - Table view data source
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
-        return 1
+        return 2
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        let logsCount = self.logs?.logsCount ?? 0
-        return logsCount + 1//customers.customersCount
+        return section == 0 ? 2 : self.logs?.logsCount ?? 0
+//        let logsCount = self.logs?.logsCount ?? 0
+//        return logsCount + 2//customers.customersCount
     }
     
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-        if indexPath.row == 0{
-            let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
-            ConfigureCell(cell, customer: customer)
-            return cell
-            
+        if indexPath.section == 0{
+            if indexPath.row == 0{
+                let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
+                ConfigureCell(cell, customer: customer)
+                return cell
+            }else{
+                let cell = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
+                return cell
+            }
         }else{
-            let log = logs?.logAtIndex(indexPath.row - 1)
+            let log = logs?.logAtIndex(indexPath.row)
             let cell = tableView.dequeueReusableCellWithIdentifier("BasicTableViewCell", forIndexPath: indexPath) as! BasicTableViewCell
             let content = log?.logDesc?.stringByReplacingOccurrencesOfString("\n", withString: " ")
             cell.leftLabel.text = content//log?.logContent
@@ -258,13 +284,15 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        if indexPath.row > 0{
-            let log = logs?.logAtIndex(indexPath.row - 1)
-            let destVC = LogEditorViewController.newInstance()
-            destVC.log = log
-            destVC.customer = customer
-            destVC.delegate = self
-            self.navigationController?.pushViewController(destVC, animated: true)
+        if indexPath.section > 0{
+//            if indexPath.row > 0{
+                let log = logs?.logAtIndex(indexPath.row)
+                let destVC = LogEditorViewController.newInstance()
+                destVC.log = log
+                destVC.customer = customer
+                destVC.delegate = self
+                self.navigationController?.pushViewController(destVC, animated: true)
+//            }
         }
     }
     
@@ -275,9 +303,11 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
-        let destVc = segue.destinationViewController as! LogEditorViewController
-        destVc.customer = customer
-        destVc.delegate = self
+        if segue.identifier == "logToEditor"{
+            let editorVc = segue.destinationViewController as! LogEditorViewController
+            editorVc.customer = customer
+            editorVc.delegate = self
+        }
     }
     
     
