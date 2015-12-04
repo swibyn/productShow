@@ -20,6 +20,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         super.viewDidLoad()
         
         self.title = "Hot Products"
+        cartBarButton.title = Cart.defaultCart().title
         self.addFirstPageButton()
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
@@ -168,7 +169,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     
     //MARK: UIProductTableViewCellDelegate
     func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
-        Cart.defaultCart().addProduct(cell.product.productDic!)
+        Cart.defaultCart().addProduct(cell.product)
         self.postProductsInCartChangedNotification()
     }
     

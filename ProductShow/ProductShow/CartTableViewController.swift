@@ -9,8 +9,9 @@
 import UIKit
 import MobileCoreServices 
 
-class CartTableViewController: UITableViewController/*,UIProductTableViewCellDelegate */{
+class CartTableViewController: UITableViewController,UIProductAndRemarkTableViewCellDelegate,UITextViewControllerDelegate{
     
+    let tvCell = UIProductAndRemarkTableViewCell.self
     
     let cart = Cart.defaultCart()
     
@@ -20,8 +21,11 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         
         self.title = "Cart"
         
-        let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+//        let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
+//        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+        
+        let nib = UINib(nibName: tvCell.nibName, bundle: nil)
+        tableView.registerNib(nib, forCellReuseIdentifier: tvCell.cellid)
         
         self.addProductsInCartChangedNotificationObserver()
         
@@ -56,17 +60,21 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return cart.products.count
+        return cart.productsCount
     }
 
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(tvCell.cellid, forIndexPath: indexPath) as! UIProductAndRemarkTableViewCell
         
         // Configure the cell...
-        let dic = cart.products.allValues[indexPath.row] as! NSMutableDictionary
+//        let dic = cart.products.allValues[indexPath.row] as! NSMutableDictionary
+        let product = cart.productAtIndex(indexPath.row)
         
-        ConfigureCell(cell, canAddToCart:false, product: Product(productDic: dic), delegate: nil)
+//        ConfigureCell(cell, canAddToCart:false, product: Product(productDic: dic), delegate: nil)
+        if product != nil{
+            ConfigureCell(cell, showRightButton: true, product: product!, delegate: self)
+        }
         
         return cell
     }
@@ -88,8 +96,9 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if editingStyle == .Delete {
             // Delete the row from the data source
-            let key = cart.products.allKeys[indexPath.row]
-            cart.products.removeObjectForKey(key)
+//            let key = cart.products.allKeys[indexPath.row]
+//            cart.products.removeObjectForKey(key)
+            cart.removeProductByIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             self.postProductsInCartChangedNotification()
 //            self.performSelector(Selector("postProductsInCartChangedNotification"), withObject: nil, afterDelay: 0.5)
@@ -99,7 +108,7 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
+        let cell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductAndRemarkTableViewCell
         let detailVC = cell?.productViewController()
         self.navigationController?.pushViewController(detailVC!, animated: true)
     }
@@ -122,10 +131,9 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
     // MARK: - Navigation
     override  func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool{
         if identifier == "CartToMyOrders"{
-            if cart.products.count > 0{
+            if cart.productsCount > 0{
                 //订单信息
-                let order = Order()
-                order.products = cart.products.allValues
+                let order = cart.generateOrder()
                 
                 Orders.defaultOrders().addOrder(order)
                 cart.removeProducts()
@@ -149,6 +157,32 @@ class CartTableViewController: UITableViewController/*,UIProductTableViewCellDel
         // Pass the selected object to the new view controller.
     }
     
+    //MARK: UIProductAndRemarkTableViewCellDelegate
+    var remarkCell: UIProductAndRemarkTableViewCell?
+    func productAndRemarkTableViewCellButtonDidClick(cell: UIProductAndRemarkTableViewCell) {
+        remarkCell = cell// self.tableView.indexPathForCell(cell)
+        //添加备注
+        let product = cell.product
+        let textViewVC = UITextViewController.newInstance()
+        textViewVC.delegate = self
+        let additionInfo = product?.additionInfo
+        let text = additionInfo ?? ""
+        textViewVC.initTextViewText = text
+        textViewVC.title = (product?.proName)!
+        
+        self.navigationController?.pushViewController(textViewVC, animated: true)
+    }
+    //MARK: UITextViewControllerDelegate
+    func textViewControllerDone(textViewVC: UITextViewController) {
+//        let row = remarkCellIndexPath?.row
+        let product = remarkCell?.product// order.productAtIndex(row!)
+        product?.additionInfo = textViewVC.textView.text
+//        Orders.defaultOrders().flush()
+        cart.flush()
+        self.navigationController?.popViewControllerAnimated(true)
+//        self.tableView.reloadData()
+        
+    }
 }
 
 

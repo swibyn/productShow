@@ -83,7 +83,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         
         // Configure the cell...
         let order = Orders.defaultOrders().orderAtIndex(indexPath.row)
-        cell.leftLabel.text = order?.displayName
+        cell.leftLabel.text = order?.nameWithPlacedState
         cell.rightLabel.text = order?.orderTime
         
         return cell

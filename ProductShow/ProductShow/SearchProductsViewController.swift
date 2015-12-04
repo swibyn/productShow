@@ -133,7 +133,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     //MARK: - UIProductTableViewCellDelegate
     func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
-        Cart.defaultCart().addProduct(cell.product.productDic!)
+        Cart.defaultCart().addProduct(cell.product)
         NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
     }
     //MARK: 

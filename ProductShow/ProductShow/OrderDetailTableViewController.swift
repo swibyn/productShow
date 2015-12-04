@@ -54,7 +54,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     //MARK: view lift cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = order.displayName
+        self.title = order.nameWithPlacedState
         if order.placed {
             submitButton.title = "SubmitAgain"
         }

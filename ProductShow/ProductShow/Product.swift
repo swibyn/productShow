@@ -83,6 +83,21 @@ class Product: NSObject{
         }
         
     }
+    
+    //加入购物车时，多次加入则增加这个值
+    var amount: Int{
+        get{
+            var _amount = _productDic?.objectForKey("amount") as? Int
+            if _amount == nil{
+                _amount = 1
+            }
+            return _amount!
+            
+        }
+        set{
+            _productDic?.setObject(newValue, forKey: "amount")
+        }
+    }
 }
 
 class Products: ReturnDic {

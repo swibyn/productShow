@@ -47,22 +47,29 @@ class OrderSaveKey {
 
 class Order: NSObject {
     
-    let orderDic : NSMutableDictionary
-    
-    init(dic: NSMutableDictionary) {
-        self.orderDic = dic
-        super.init()
-    }
+    var orderDic: NSMutableDictionary!
     
     override init(){
+        super.init()
+
         let time = NSDate().toString("yyyy-MM-dd HH:mm:ss")
         self.orderDic = NSMutableDictionary(dictionary:
             [OrderSaveKey.orderId: time,
             OrderSaveKey.orderTime: time,
             OrderSaveKey.orderName: "",
             OrderSaveKey.imagePaths: NSMutableArray(),
-            OrderSaveKey.products: NSMutableArray()])
+            OrderSaveKey.products: NSMutableArray()]
+        )
+    }
+    
+    init(orderDic: NSMutableDictionary) {
         super.init()
+        self.orderDic = orderDic
+    }
+    
+    convenience init(products: NSArray) {
+        self.init()
+        self.products = products
     }
     
     func addImagePath(localPath: String)->NSMutableDictionary{
@@ -130,6 +137,7 @@ class Order: NSObject {
         }
     }
     
+    //提交时的json对象
     var productsForSubmit: NSArray{
         let _productsForSubmit = NSMutableArray()
         products.enumerateObjectsUsingBlock { (productObj, index, stop) -> Void in
@@ -187,7 +195,7 @@ class Order: NSObject {
         }
     }
     
-    var displayName: String{
+    var nameWithPlacedState: String{
         if placed{
             return orderName + "(Already placed)"
         }else{
@@ -254,7 +262,7 @@ class Orders: NSObject {
     func orderAtIndex(index:Int)->Order?{
         let dicOpt = _orders.objectAtIndex(index) as? NSMutableDictionary
         if let dic = dicOpt{
-            return Order(dic: dic)
+            return Order(orderDic: dic)
         }
         return nil
     }

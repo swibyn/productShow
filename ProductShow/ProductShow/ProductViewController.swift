@@ -25,7 +25,7 @@ class ProductViewController: UIViewController {
     @IBOutlet var productRemarkTextView: UITextView!
     
     @IBAction func addToCartButtonAction(sender: AnyObject) {
-        Cart.defaultCart().addProduct(product!.productDic!)
+        Cart.defaultCart().addProduct(product)
         NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
         let alertView = UIAlertView(title: "", message: "Add to cart successfully", delegate: nil, cancelButtonTitle: "OK")
         alertView.show()

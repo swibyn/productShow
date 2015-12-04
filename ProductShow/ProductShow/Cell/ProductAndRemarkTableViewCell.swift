@@ -10,6 +10,8 @@ import Foundation
 import UIKit
 
 class UIProductAndRemarkTableViewCell : UITableViewCell {
+    static let cellid = "ProductAndRemarkTableViewCell"
+    static let nibName = "ProductAndRemarkTableViewCell"
     
     var product: Product!
     
