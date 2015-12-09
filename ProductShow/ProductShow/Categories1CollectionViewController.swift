@@ -27,8 +27,15 @@ class Categories1CollectionViewController: UICollectionViewController {
         self.title = "Product Categories"
         self.addFirstPageButton()
         
-        GetProLeave1()
+//        GetProLeave1()
 
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        if categories?.status != 1{
+            GetProLeave1()
+        }
     }
     
     override func didReceiveMemoryWarning() {

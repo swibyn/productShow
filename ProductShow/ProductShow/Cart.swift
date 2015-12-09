@@ -79,7 +79,7 @@ class Cart: NSObject {
         if proId == nil{return}
         let _product = productByProId(proId!)
         if _product != nil{
-            _product?.amount++
+            _product?.number++
         }else{
             products.addObject(NSMutableDictionary(dictionary: product!.productDic!))
         }

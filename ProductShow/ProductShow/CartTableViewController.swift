@@ -159,7 +159,7 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
     
     //MARK: UIProductAndRemarkTableViewCellDelegate
     var remarkCell: UIProductAndRemarkTableViewCell?
-    func productAndRemarkTableViewCellButtonDidClick(cell: UIProductAndRemarkTableViewCell) {
+    func productAndRemarkTableViewCellMemoButtonAction(cell: UIProductAndRemarkTableViewCell) {
         remarkCell = cell// self.tableView.indexPathForCell(cell)
         //添加备注
         let product = cell.product
@@ -172,6 +172,12 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
         
         self.navigationController?.pushViewController(textViewVC, animated: true)
     }
+    
+    func productAndRemarkTableViewCellQuantityDidChanged(cell: UIProductAndRemarkTableViewCell) {
+        
+    }
+    
+    
     //MARK: UITextViewControllerDelegate
     func textViewControllerDone(textViewVC: UITextViewController) {
 //        let row = remarkCellIndexPath?.row

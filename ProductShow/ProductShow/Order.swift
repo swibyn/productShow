@@ -45,6 +45,38 @@ class OrderSaveKey {
     static let products = "products"
 }
 
+class ImagePath: NSObject{
+    var pathDic: NSMutableDictionary!
+    
+    init(var pathDic: NSMutableDictionary?){
+        super.init()
+
+        if pathDic == nil{
+            pathDic = NSMutableDictionary()
+        }
+        self.pathDic = pathDic
+    }
+    
+    var localpath: String?{
+        get{
+            return pathDic.objectForKey(OrderSaveKey.localpath) as? String
+        }
+        set{
+            pathDic.setObject(newValue ?? "", forKey: OrderSaveKey.localpath)
+        }
+    }
+    
+    var remotepath: String?{
+        get{
+            return pathDic.objectForKey(OrderSaveKey.remotepath) as? String
+        }
+        set{
+            pathDic.setObject(newValue ?? "", forKey: OrderSaveKey.remotepath)
+        }
+    }
+    
+}
+
 class Order: NSObject {
     
     var orderDic: NSMutableDictionary!
@@ -72,20 +104,29 @@ class Order: NSObject {
         self.products = products
     }
     
-    func addImagePath(localPath: String)->NSMutableDictionary{
-        let imagePaths = orderDic.objectForKey(OrderSaveKey.imagePaths) as! NSMutableArray
-        let result = NSMutableDictionary(dictionary: [OrderSaveKey.localpath : localPath])
-        imagePaths.addObject(result)
+    //MARK:Image 相关
+    func addImageByPath(localPath: String)->ImagePath{
+        let newImagePath = ImagePath(pathDic: nil)
+        newImagePath.localpath = localPath
+        imagePaths?.addObject(newImagePath.pathDic)
         Orders.defaultOrders().flush()
-        return result
+        return newImagePath
     }
     
-    var imagePaths: NSArray?{
-        return orderDic.objectForKey(OrderSaveKey.imagePaths) as? NSArray
+    
+    var imagePaths: NSMutableArray?{
+        return orderDic.objectForKey(OrderSaveKey.imagePaths) as? NSMutableArray
+    }
+    
+    func imagePathAtIndex(index: Int)->ImagePath?{
+        let imagePathDic = imagePaths?.objectAtIndex(index) as? NSMutableDictionary
+        let imagePath = ImagePath(pathDic: imagePathDic)
+        return imagePath
     }
     
     var imgPathsForSubmit: NSArray{
         let _imgPaths = NSMutableArray()
+        
         imagePaths?.enumerateObjectsUsingBlock({ (imagePathObj, Index, stop) -> Void in
             let imagePathDic = imagePathObj as? NSDictionary
             let imgPath = imagePathDic?.objectForKey(OrderSaveKey.remotepath)
@@ -114,19 +155,7 @@ class Order: NSObject {
         Orders.defaultOrders().flush()
     }
     
-    //远程路径集
-//    func remotePathsDivideBy(divide: String)->String{
-//        let remotePaths = NSMutableString()
-//        imagePaths?.enumerateObjectsUsingBlock { (imagePathDic, index, stop) -> Void in
-//            if remotePaths.length > 0{
-//                remotePaths.appendString("|")
-//            }
-//            let remotepath = (imagePathDic as? NSDictionary)?.objectForKey(OrderSaveKey.remotepath) as! String
-//            remotePaths.appendString(remotepath)
-//        }
-//        return remotePaths as String
-//    }
-    
+    //MARK:product相关
     var products: NSArray{
         get{
             return orderDic.objectForKey(OrderSaveKey.products) as! NSArray
@@ -140,12 +169,16 @@ class Order: NSObject {
     //提交时的json对象
     var productsForSubmit: NSArray{
         let _productsForSubmit = NSMutableArray()
-        products.enumerateObjectsUsingBlock { (productObj, index, stop) -> Void in
+        
+        for (_, productObj) in products.enumerate(){
+        
+//        products.enumerateObjectsUsingBlock { (productObj, index, stop) -> Void in
             let productDic = productObj as? NSMutableDictionary
             let product = Product(productDic: productDic!)
             let proId = product.proId
             let remark = product.additionInfo ?? ""
-            let dic = [jfproId: proId!, jfremark: remark]
+            let number = "\(product.number)"
+            let dic = [jfproId: proId!, jfremark: remark, jfnumber: number]
             _productsForSubmit.addObject(dic)
         }
         return _productsForSubmit
@@ -159,6 +192,7 @@ class Order: NSObject {
         return nil
     }
     
+    //MARK:属性
     var orderId: String?{
         return orderDic.objectForKey(OrderSaveKey.orderId) as? String
     }
@@ -203,12 +237,6 @@ class Order: NSObject {
         }
     }
     
-    func addImage(imgfile:String){
-        let imagePaths = orderDic.objectForKey(jfimgPaths) as! NSMutableArray
-        imagePaths.addObject([OrderSaveKey.localpath : imgfile])
-        imagePaths.addObject([OrderSaveKey.remotepath: imgfile])
-    }
-    
     
 }
 
@@ -246,17 +274,26 @@ class Orders: NSObject {
        
     }
     
+    //删除订单
     func removeOrder(order: Order){
         
-        let orderId = order.orderDic.objectForKey(OrderSaveKey.orderId) as? String
-        _orders.enumerateObjectsUsingBlock { (productDic, index, stop) -> Void in
-            let orderId2 = (productDic as? NSDictionary)?.objectForKey(OrderSaveKey.orderId) as? String
-            if orderId == orderId2{
-//                stop = YES //TODO: stop 如何置true
-                self._orders.removeObjectAtIndex(index)
+        for (_, orderDic) in _orders.enumerate(){
+            let tmpOrder = Order(orderDic: orderDic as! NSMutableDictionary)
+            if tmpOrder.orderId == order.orderId{
+                _orders.removeObject(orderDic)
+                break
             }
         }
+        
+        PhotoUtil.removeImagesInOrder(order)
         flush()
+    }
+    
+    func removeOrderAtIndex(index:Int){
+        let order = orderAtIndex(index)
+        if order != nil{
+            removeOrder(order!)
+        }
     }
     
     func orderAtIndex(index:Int)->Order?{
@@ -267,10 +304,6 @@ class Orders: NSObject {
         return nil
     }
     
-    func removeObjectAtIndex(index:Int){
-        _orders.removeObjectAtIndex(index)
-        flush()
-    }
 
     var orderCount: Int{
         return _orders.count

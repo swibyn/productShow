@@ -114,7 +114,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         if editingStyle == .Delete {
             // Delete the row from the data source
             
-            Orders.defaultOrders().removeObjectAtIndex(indexPath.row)
+            Orders.defaultOrders().removeOrderAtIndex(indexPath.row)
             tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
             postOrdersChangedNotification()
         } else if editingStyle == .Insert {

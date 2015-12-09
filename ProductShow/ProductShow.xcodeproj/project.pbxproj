@@ -12,6 +12,7 @@
 		4D5493F91C0E9232006BD1E9 /* NSURLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5493F81C0E9232006BD1E9 /* NSURLExtension.swift */; };
 		4D55D6C91BE9FF74006D85AF /* NSDateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */; };
 		4D595A421BF2097600F14213 /* UITextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D595A411BF2097600F14213 /* UITextViewController.swift */; };
+		4D5BB5C31C17C00200B8D76D /* UploadFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5BB5C21C17C00200B8D76D /* UploadFile.swift */; };
 		4D5ED56C1BDF9E8F00D2DD77 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */; };
 		4D5ED56E1BDF9F3900D2DD77 /* UIDeviceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */; };
 		4D5ED5701BDFB10900D2DD77 /* Categories1CollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */; };
@@ -53,7 +54,6 @@
 		4DBA71BE1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBA71BD1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift */; };
 		4DBC65531BE1068800FF4C6A /* CommonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DBC65521BE1068800FF4C6A /* CommonTableViewCell.xib */; };
 		4DBC65551BE1094100FF4C6A /* CommonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBC65541BE1094100FF4C6A /* CommonTableViewCell.swift */; };
-		4DBD0E6A1BD612F00090DFAC /* UploadFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBD0E691BD612F00090DFAC /* UploadFile.m */; };
 		4DBFC91D1BD1E15B0076123D /* userinfo.json in Resources */ = {isa = PBXBuildFile; fileRef = 4DBFC91C1BD1E15B0076123D /* userinfo.json */; };
 		4DBFC9201BD1EFA80076123D /* PhotoUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFC91F1BD1EFA80076123D /* PhotoUtil.swift */; };
 		4DBFC9221BD24F300076123D /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4DBFC9211BD24F300076123D /* UserInfo.swift */; };
@@ -89,6 +89,7 @@
 		4D5493F81C0E9232006BD1E9 /* NSURLExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSURLExtension.swift; sourceTree = "<group>"; };
 		4D55D6C81BE9FF74006D85AF /* NSDateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDateExtension.swift; sourceTree = "<group>"; };
 		4D595A411BF2097600F14213 /* UITextViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextViewController.swift; sourceTree = "<group>"; };
+		4D5BB5C21C17C00200B8D76D /* UploadFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadFile.swift; sourceTree = "<group>"; };
 		4D5ED56B1BDF9E8F00D2DD77 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		4D5ED56D1BDF9F3900D2DD77 /* UIDeviceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIDeviceExtension.swift; sourceTree = "<group>"; };
 		4D5ED56F1BDFB10900D2DD77 /* Categories1CollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Categories1CollectionViewController.swift; sourceTree = "<group>"; };
@@ -136,8 +137,6 @@
 		4DBA71BD1BD4E7010031945C /* UIImagesCollectionViewContrller2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImagesCollectionViewContrller2.swift; sourceTree = "<group>"; };
 		4DBC65521BE1068800FF4C6A /* CommonTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommonTableViewCell.xib; sourceTree = "<group>"; };
 		4DBC65541BE1094100FF4C6A /* CommonTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CommonTableViewCell.swift; sourceTree = "<group>"; };
-		4DBD0E681BD612F00090DFAC /* UploadFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UploadFile.h; sourceTree = "<group>"; };
-		4DBD0E691BD612F00090DFAC /* UploadFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UploadFile.m; sourceTree = "<group>"; };
 		4DBFC91C1BD1E15B0076123D /* userinfo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = userinfo.json; sourceTree = "<group>"; };
 		4DBFC91F1BD1EFA80076123D /* PhotoUtil.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoUtil.swift; sourceTree = "<group>"; };
 		4DBFC9211BD24F300076123D /* UserInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
@@ -257,6 +256,7 @@
 			children = (
 				4D66BB4A1BCF4F7E00AF5CDC /* JsonField.swift */,
 				4D66BB4B1BCF4F7E00AF5CDC /* WebApi.swift */,
+				4D5BB5C21C17C00200B8D76D /* UploadFile.swift */,
 			);
 			path = WebApi;
 			sourceTree = "<group>";
@@ -294,8 +294,6 @@
 			children = (
 				4D66BB631BCF519A00AF5CDC /* NSString+MessageDigest.h */,
 				4D66BB641BCF519A00AF5CDC /* NSString+MessageDigest.m */,
-				4DBD0E681BD612F00090DFAC /* UploadFile.h */,
-				4DBD0E691BD612F00090DFAC /* UploadFile.m */,
 			);
 			path = Objc;
 			sourceTree = "<group>";
@@ -488,6 +486,7 @@
 				4D1A68341BF1DBFA003C8162 /* ProductAndRemarkTableViewCell.swift in Sources */,
 				4D5ED56E1BDF9F3900D2DD77 /* UIDeviceExtension.swift in Sources */,
 				4DBFC9221BD24F300076123D /* UserInfo.swift in Sources */,
+				4D5BB5C31C17C00200B8D76D /* UploadFile.swift in Sources */,
 				4D95CB331BCF8ED800E10FD3 /* Cart.swift in Sources */,
 				4DD472561BD1453900626143 /* Order.swift in Sources */,
 				4D66BB411BCF4F5F00AF5CDC /* HomeTabBarViewController.swift in Sources */,
@@ -500,7 +499,6 @@
 				4D66BB651BCF519A00AF5CDC /* NSString+MessageDigest.m in Sources */,
 				4D5ED5721BDFB15C00D2DD77 /* Categories2CollectionViewContrller.swift in Sources */,
 				4D95CB351BCF9A6700E10FD3 /* CartTableViewController.swift in Sources */,
-				4DBD0E6A1BD612F00090DFAC /* UploadFile.m in Sources */,
 				4D66BB501BCF4FB600AF5CDC /* StringExtension.swift in Sources */,
 				4D66BB431BCF4F5F00AF5CDC /* LoginViewController.swift in Sources */,
 				4DBA71BA1BD49EB50031945C /* ProductFile.swift in Sources */,

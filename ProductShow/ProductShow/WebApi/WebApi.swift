@@ -313,17 +313,41 @@ class WebApi: NSObject {
     }
 
     //MARK: 15. 上传文件接口
-    class func UpFile1(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+    class func UpFile(localPath: String?, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
         
         let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
         let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(uid!)")
-        UploadFile().uploadFileWithURL(NSURL(string: url)!, data: imageData) { (response, data, error) -> Void in
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                completedHandler?(response,data,error)
-            })
+        let imageData = PhotoUtil.getPhotoData(localPath)// NSData(contentsOfFile: localPath)
+        if imageData?.length > 0{
+            debugPrint("开始上传文件:\(localPath)")
+            UploadFile().uploadFileWithURL(NSURL(string: url)!, data: imageData!) { (response, data, error) -> Void in
+                let urlresponse = response as? NSHTTPURLResponse
+                if urlresponse?.statusCode == 200{
+                    debugPrint("文件上传成功:\(localPath)")
+                }else{
+                    debugPrint("文件上传失败:\(localPath)")
+                }
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    completedHandler?(response,data,error)
+                })
+            }
+        }else{
+            debugPrint("没有找到要上传的文件:\(localPath)")
         }
+
     }
+//    class func UpFile1(imageData: NSData, completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){
+//        
+//        let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
+//        let uid = UserInfo.defaultUserInfo().firstUser?.uid
+//        let url = ("http://btl.zhiwx.com/api/crmUpFile.ashx?\(jfeqNo)=\(eqNo)&\(jfuid)=\(uid!)")
+//        UploadFile().uploadFileWithURL(NSURL(string: url)!, data: imageData) { (response, data, error) -> Void in
+//            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+//                completedHandler?(response,data,error)
+//            })
+//        }
+//    }
     
     //MARK: 16. 获取拜访日志
     class func GetWorkLog(canReadLocal: Bool, dic: NSDictionary,completedHandler:((NSURLResponse?,NSData?,NSError?)->Void)?){

@@ -11,7 +11,7 @@ import UIKit
 class UIImagesCollectionViewContrller2: UICollectionViewController {
     
     
-    var product: Product?
+//    var product: Product?
     var productFiles: ProductFiles?
     var initcellIndex = 0
     
@@ -31,27 +31,27 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
         
-        GetProFilesIfNeed()
+//        GetProFilesIfNeed()
         let indexPath = NSIndexPath(forRow: initcellIndex, inSection: 0)
         self.collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
     }
     
     //MARK: function
-    func GetProFilesIfNeed(){
-        if (productFiles == nil)&&(product != nil){
-            let proId = product?.proId
-            WebApi.GetProFilesByID([jfproId: proId!]) { (response, data, error) -> Void in
-                
-                if WebApi.isHttpSucceed(response, data: data, error: error){
-                    
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-                    
-                    self.productFiles = ProductFiles(returnDic: json)
-                    self.collectionView?.reloadData()
-                }
-            }
-        }
-    }
+//    func GetProFilesIfNeed(){
+//        if (productFiles == nil)&&(product != nil){
+//            let proId = product?.proId
+//            WebApi.GetProFilesByID([jfproId: proId!]) { (response, data, error) -> Void in
+//                
+//                if WebApi.isHttpSucceed(response, data: data, error: error){
+//                    
+//                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+//                    
+//                    self.productFiles = ProductFiles(returnDic: json)
+//                    self.collectionView?.reloadData()
+//                }
+//            }
+//        }
+//    }
     func ImageViewTapActive(sender: AnyObject) {
         debugPrint("\(__FUNCTION__)")
         self.dismissViewControllerAnimated(true, completion: nil)

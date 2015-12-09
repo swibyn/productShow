@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class UIProductAndRemarkTableViewCell : UITableViewCell {
+class UIProductAndRemarkTableViewCell : UITableViewCell,UIAlertViewDelegate {
     static let cellid = "ProductAndRemarkTableViewCell"
     static let nibName = "ProductAndRemarkTableViewCell"
     
@@ -22,17 +22,26 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
     @IBOutlet var proThumbImageView: UIImageView!
     @IBOutlet var proNameLabel: UILabel!
     @IBOutlet var proSizeLabel: UILabel!
+    @IBOutlet var quantityButton: UIButton!
     @IBOutlet var remarkLabel: UILabel!
-    @IBOutlet var operationButton: UIButton!
+    @IBOutlet var memoButton: UIButton!
     @IBOutlet var textView: UITextView!
     
-    @IBAction func operationButtonAction(sender: UIButton) {
-        delegate?.productAndRemarkTableViewCellButtonDidClick(self)
+    @IBAction func memoButtonAction(sender: UIButton) {
+        delegate?.productAndRemarkTableViewCellMemoButtonAction(self)
+    }
+    
+    @IBAction func quantityButtonAction(sender: UIButton) {
+        let alertView = UIAlertView(title: "Number", message: "", delegate: self, cancelButtonTitle: "OK")
+        alertView.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        alertView.textFieldAtIndex(0)?.text = "\(product.number)"
+        alertView.show()
     }
     
     func refreshView(){
         self.proNameLabel.text = product.proName
         self.proSizeLabel.text = product.proSize
+        self.quantityButton.setTitle("X\(product.number)", forState: UIControlState.Normal)
         self.remarkLabel.text = product.remark
         self.textView.text = product.additionInfo
         self.textView.font = UIFont.systemFontOfSize(16)
@@ -72,12 +81,23 @@ class UIProductAndRemarkTableViewCell : UITableViewCell {
         
     }
     
+    //MARK: UIAlertViewDelegate
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if (alertView.title == "Number") && (alertView.buttonTitleAtIndex(buttonIndex) == "OK"){
+            let fieldText = alertView.textFieldAtIndex(0)?.text
+            let newQuantity = (fieldText! as NSString).integerValue
+            product.number = newQuantity
+            self.quantityButton.setTitle("X\(product.number)", forState: UIControlState.Normal)
+            delegate?.productAndRemarkTableViewCellQuantityDidChanged(self)
+        }
+    }
+    
     
 }
 
 func ConfigureCell(cell: UIProductAndRemarkTableViewCell, showRightButton:Bool, product: Product, delegate: UIProductAndRemarkTableViewCellDelegate?){
     cell.product = product
-    cell.operationButton.hidden = !showRightButton
+    cell.memoButton.hidden = !showRightButton
     cell.delegate = delegate
     cell.refreshView()
 }
@@ -86,5 +106,11 @@ func ConfigureCell(cell: UIProductAndRemarkTableViewCell, showRightButton:Bool, 
 
 protocol UIProductAndRemarkTableViewCellDelegate : NSObjectProtocol {
     
-    func productAndRemarkTableViewCellButtonDidClick(cell: UIProductAndRemarkTableViewCell)
+    func productAndRemarkTableViewCellMemoButtonAction(cell: UIProductAndRemarkTableViewCell)
+    func productAndRemarkTableViewCellQuantityDidChanged(cell: UIProductAndRemarkTableViewCell)
 }
+
+
+
+
+

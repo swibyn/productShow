@@ -9,6 +9,7 @@
 import UIKit
 
 class PhotoUtil: NSObject {
+    static let compressionQuality: CGFloat = 0.5
     
     class func savePhoto(image: UIImage, var forName name: String?)->String?{
         if name == nil{
@@ -16,41 +17,39 @@ class PhotoUtil: NSObject {
             name = "IMG_\(time).png"
         }
         
-//        let size = image
-        let imgData = UIImageJPEGRepresentation(image,1/4)
-        let bsave = imgData?.writeToFile(NSTemporaryDirectory().stringByAppendingString(name!), atomically: true)
-        return (bsave ?? false) ? name : nil
+        let imgData = UIImageJPEGRepresentation(image, compressionQuality)
+        let savedPath = "\(NSTemporaryDirectory())\(name!)"
+         let bsave = imgData?.writeToFile(savedPath, atomically: true)
+        return (bsave ?? false) ? savedPath : nil
     }
     
-    class func getPhotoData(fileName: String)->NSData?{
-        let filepath = NSTemporaryDirectory().stringByAppendingString(fileName)
-        return NSData(contentsOfFile: filepath)
+    class func getPhotoData(fileName: String?)->NSData?{
+//        let filepath = NSTemporaryDirectory().stringByAppendingString(fileName)
+        if fileName != nil{
+            return NSData(contentsOfFile: fileName!)
+        }
+        return nil
     }
     
-    class func deletePhoto(fileName: String){
-        let filePath = NSTemporaryDirectory().stringByAppendingString(fileName)
-        try! NSFileManager.defaultManager().removeItemAtPath(filePath)
+    //删除订单图片
+    class func removeImagesInOrder(order: Order?){
+        if order == nil { return }
+        let imagePathCount = order?.imagePaths?.count
+        if imagePathCount != nil && imagePathCount! > 0{
+            for index in 0..<imagePathCount!{
+                let imagePath = order?.imagePathAtIndex(index)
+                let localPath = imagePath?.localpath
+                if localPath == nil {continue}
+                let _ = try? NSFileManager.defaultManager().removeItemAtPath(localPath!)
+            }
+        }
     }
+
     
-    class func deletePhotosInOrder(order: Order){
-        order.imagePaths?.enumerateObjectsUsingBlock({ (imagePathDic, index, stop) -> Void in
-            let localPath = imagePathDic.objectForKey(OrderSaveKey.localpath) as? String
-            deletePhoto(localPath!)
-            
-        })
-    }
-    
-    class func getMB(image: UIImage)->CGFloat{
-        let data = UIImageJPEGRepresentation(image, 1)
-        let nMB = CGFloat(data!.length)/(1024*1024)
-        return nMB
-    }
-    
-    class func ImageJPEGRepresentation(image: UIImage, lessThenN: CGFloat)-> UIImage {
-        let nMB = self.getMB(image)
-        let newData = UIImageJPEGRepresentation(image, lessThenN/nMB)
-        let newImage = UIImage(data: newData!)
-        return newImage!
-    }
+//    class func getMB(image: UIImage)->CGFloat{
+//        let data = UIImageJPEGRepresentation(image, 1)
+//        let nMB = CGFloat(data!.length)/(1024*1024)
+//        return nMB
+//    }
 
 }

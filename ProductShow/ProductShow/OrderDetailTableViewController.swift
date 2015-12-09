@@ -97,10 +97,10 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         if let imagePathDic = imagePathDicOpt{
             //有图片需要提交
             let localPath = imagePathDic.objectForKey(OrderSaveKey.localpath) as! String
-            let imageData = PhotoUtil.getPhotoData(localPath)
-            let alertView = UIAlertView(title: "photo uploading...", message: localPath, delegate: self, cancelButtonTitle: "Cancel")
+//            let imageData = PhotoUtil.getPhotoData(localPath)
+            let alertView = UIAlertView(title: "photo uploading...", message: (localPath as NSString).lastPathComponent, delegate: self, cancelButtonTitle: "Cancel")
             alertView.show()
-            WebApi.UpFile1(imageData!, completedHandler: { (response, data, error) -> Void in
+            WebApi.UpFile(localPath, completedHandler: { (response, data, error) -> Void in
                 alertView.dismissWithClickedButtonIndex(-1, animated: true)
                 if WebApi.isHttpSucceed(response, data: data, error: error)
                 {
@@ -183,14 +183,16 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
             UIImageWriteToSavedPhotosAlbum(image!, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
         }
 
-        var saveImage: UIImage = image
-        if PhotoUtil.getMB(image)>2{
-            saveImage = PhotoUtil.ImageJPEGRepresentation(image, lessThenN: 2)
-        }
+//        var saveImage: UIImage = image
+//        if PhotoUtil.getMB(image)>2{
+//            saveImage = PhotoUtil.ImageJPEGRepresentation(image, lessThenN: 2)
+//        }
+        let saveImageData = UIImageJPEGRepresentation(image, 0.5)
+        let saveImage = UIImage(data: saveImageData!)
         
-        let filename = PhotoUtil.savePhoto(saveImage, forName: nil)
-        order.addImagePath(filename!)
-        postOrdersChangedNotification()
+        let filename = PhotoUtil.savePhoto(saveImage!, forName: nil)
+        order.addImageByPath(filename!)
+//        postOrdersChangedNotification()
         self.tableView.reloadData()
         
     }
@@ -272,7 +274,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         // Configure the cell...
         let products = order.products
-        let imgPahts = order.imagePaths
+//        let imgPaths = order.imagePaths
         
         if indexPath.row < products.count{ //显示产品
             let cell = tableView.dequeueReusableCellWithIdentifier("ProductAndRemarkTableViewCell", forIndexPath: indexPath) as! UIProductAndRemarkTableViewCell
@@ -286,8 +288,13 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
             
             let imgIndex = indexPath.row - products.count
             let imageView = cell.viewWithTag(100) as! UIImageView
-            let imageData = PhotoUtil.getPhotoData((imgPahts!.objectAtIndex(imgIndex) as! NSDictionary).objectForKey(OrderSaveKey.localpath) as! String)
-            imageView.image = UIImage(data: imageData!)
+            let imagePath = order.imagePathAtIndex(imgIndex)
+            let localpath = imagePath?.localpath
+            let imageData = PhotoUtil.getPhotoData(localpath)
+            if imageData?.length > 0{
+                imageView.image = UIImage(data: imageData!)
+            }
+            
             return cell
             
         }
@@ -354,7 +361,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     
     //MARK: UIProductAndRemarkTableViewCellDelegate
     var remarkCellIndexPath: NSIndexPath?
-    func productAndRemarkTableViewCellButtonDidClick(cell: UIProductAndRemarkTableViewCell) {
+    func productAndRemarkTableViewCellMemoButtonAction(cell: UIProductAndRemarkTableViewCell) {
         remarkCellIndexPath = self.tableView.indexPathForCell(cell)
         //添加备注
         let product = cell.product
@@ -368,7 +375,9 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         self.navigationController?.pushViewController(textViewVC, animated: true)
     }
     
-
+    func productAndRemarkTableViewCellQuantityDidChanged(cell: UIProductAndRemarkTableViewCell) {
+        
+    }
     /*
     // MARK: - Navigation
 

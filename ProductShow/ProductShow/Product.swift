@@ -85,17 +85,17 @@ class Product: NSObject{
     }
     
     //加入购物车时，多次加入则增加这个值
-    var amount: Int{
+    var number: Int{
         get{
-            var _amount = _productDic?.objectForKey("amount") as? Int
-            if _amount == nil{
-                _amount = 1
+            var _number = _productDic?.objectForKey("number") as? Int
+            if _number == nil{
+                _number = 1
             }
-            return _amount!
+            return _number!
             
         }
         set{
-            _productDic?.setObject(newValue, forKey: "amount")
+            _productDic?.setObject(newValue, forKey: "number")
         }
     }
 }

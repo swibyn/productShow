@@ -61,13 +61,14 @@ class ProductViewController: UIViewController {
     
     func imageViewTapAction(){
         let proId = product?.proId
-        WebApi.GetProFilesByID([jfproId: proId!]) { (response, data, error) -> Void in
+        WebApi.GetProFilesByID([jfproId: proId!,jffileType:1]) { (response, data, error) -> Void in
             
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
                 let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
                 let productFiles = ProductFiles(returnDic: json)
-                if productFiles.filesCount > 0{
+                if productFiles.imageFileArray.count > 0 {
+//                if productFiles.filesCount > 0{
                     
                     let imageCollectionVC2 = UIImagesCollectionViewContrller2.newInstance()
                     imageCollectionVC2.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
@@ -81,6 +82,8 @@ class ProductViewController: UIViewController {
                 }
                 
             }else{
+                let alertView = UIAlertView(title: nil, message: "No image file", delegate: nil, cancelButtonTitle: "OK")
+                alertView.show()
             }
         }
     }

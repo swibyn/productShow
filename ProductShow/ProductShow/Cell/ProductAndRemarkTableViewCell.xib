@@ -67,7 +67,7 @@
                                     </mask>
                                 </variation>
                                 <connections>
-                                    <action selector="operationButtonAction:" destination="awu-hO-opW" eventType="touchUpInside" id="eqH-Ul-df3"/>
+                                    <action selector="memoButtonAction:" destination="awu-hO-opW" eventType="touchUpInside" id="BYv-3h-ZYX"/>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MXL-Nn-mi1">
@@ -80,14 +80,27 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uVk-Yf-0Zu">
+                                <rect key="frame" x="331" y="41" width="100" height="29"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="29" id="hs3-hn-9Pa"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="ohO-j8-kCG"/>
+                                </constraints>
+                                <state key="normal" title="X1"/>
+                                <connections>
+                                    <action selector="quantityButtonAction:" destination="awu-hO-opW" eventType="touchUpInside" id="1si-Dc-s17"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="MXL-Nn-mi1" firstAttribute="top" secondItem="qLN-M9-3m8" secondAttribute="bottom" id="3Tt-f8-xyd"/>
                             <constraint firstItem="MXL-Nn-mi1" firstAttribute="leading" secondItem="ERy-hq-LB6" secondAttribute="leading" constant="15" id="3ZX-Ky-9Vx"/>
                             <constraint firstItem="DAP-OS-3c0" firstAttribute="top" secondItem="qLN-M9-3m8" secondAttribute="top" constant="-2" id="4Q1-px-ktQ"/>
+                            <constraint firstItem="uVk-Yf-0Zu" firstAttribute="trailing" secondItem="DAP-OS-3c0" secondAttribute="trailing" constant="2" id="6yS-0r-C2c"/>
                             <constraint firstItem="l34-8L-mzV" firstAttribute="leading" secondItem="DAP-OS-3c0" secondAttribute="trailing" constant="5" id="8Ig-xT-4SM"/>
                             <constraint firstItem="CfK-FF-jzb" firstAttribute="trailing" secondItem="DAP-OS-3c0" secondAttribute="trailing" id="BFj-XV-lQi"/>
+                            <constraint firstItem="uVk-Yf-0Zu" firstAttribute="centerY" secondItem="nCk-wQ-JGh" secondAttribute="centerY" id="Ndv-WZ-nT6"/>
                             <constraint firstItem="CfK-FF-jzb" firstAttribute="top" secondItem="nCk-wQ-JGh" secondAttribute="bottom" constant="3" id="Nsb-cp-dqY"/>
                             <constraint firstItem="qLN-M9-3m8" firstAttribute="leading" secondItem="ERy-hq-LB6" secondAttribute="leading" constant="15" id="PnT-wL-ewm"/>
                             <constraint firstItem="nCk-wQ-JGh" firstAttribute="leading" secondItem="DAP-OS-3c0" secondAttribute="leading" constant="1" id="WQJ-aH-FBq"/>
@@ -112,10 +125,11 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="operationButton" destination="l34-8L-mzV" id="QQG-5b-6FM"/>
+                <outlet property="memoButton" destination="l34-8L-mzV" id="dy6-8G-xoj"/>
                 <outlet property="proNameLabel" destination="DAP-OS-3c0" id="QYN-fY-Hmg"/>
                 <outlet property="proSizeLabel" destination="nCk-wQ-JGh" id="PGW-w1-eZE"/>
                 <outlet property="proThumbImageView" destination="qLN-M9-3m8" id="fDU-AZ-kCW"/>
+                <outlet property="quantityButton" destination="uVk-Yf-0Zu" id="KGB-Bm-SCM"/>
                 <outlet property="remarkLabel" destination="CfK-FF-jzb" id="SR0-RI-cCM"/>
                 <outlet property="textView" destination="MXL-Nn-mi1" id="X7M-HT-UDv"/>
             </connections>
