@@ -45,30 +45,13 @@ class LoginInfo: NSObject{
         get{
             return _loginDic?.objectForKey(jfusername) as? String
         }
-//        set{
-//            _loginDic?.setValue(newValue, forKey: jfusername)
-//        }
     }
     
     var pwd: String?{
         get{
             return _loginDic?.objectForKey(jfpwd) as? String
         }
-//        set{
-//            _loginDic?.setValue(newValue, forKey: jfpwd)
-//        }
     }
-    
-//    var state: Int{
-//        get{
-//            let _state = _loginDic?.objectForKey("UserState") as? Int
-//            return _state ?? LoginState.SignIn.rawValue
-//        }
-//        set{
-//            _loginDic?.setValue(1, forKey: "UserState")
-//        }
-//    }
-    
 }
 
 class User: NSObject{
@@ -217,7 +200,7 @@ class UserInfo: ReturnDic {
     
     func readLocalLoginData(){
         
-        let loginDicData = NSUserDefaults.standardUserDefaults().valueForKey(UserInfoSaveKey.loginDic) as? NSData
+        let loginDicData = NSUserDefaults.standardUserDefaults().objectForKey(UserInfoSaveKey.loginDic) as? NSData
         if loginDicData != nil{
             let loginDic = try! NSJSONSerialization.JSONObjectWithData(loginDicData!, options: NSJSONReadingOptions.MutableContainers)
             _loginDic = loginDic as? NSDictionary
@@ -227,7 +210,7 @@ class UserInfo: ReturnDic {
     
     func readLocalReturnData(){
         
-        let returnDicData = NSUserDefaults.standardUserDefaults().valueForKey(UserInfoSaveKey.returnDic) as? NSData
+        let returnDicData = NSUserDefaults.standardUserDefaults().objectForKey(UserInfoSaveKey.returnDic) as? NSData
         if returnDicData != nil{
             let returnDic = try! NSJSONSerialization.JSONObjectWithData(returnDicData!, options: NSJSONReadingOptions.MutableContainers)
             _returnDic = returnDic as? NSDictionary
@@ -239,13 +222,13 @@ class UserInfo: ReturnDic {
         if _loginDic != nil{
         
             let data = try! NSJSONSerialization.dataWithJSONObject(_loginDic!, options: NSJSONWritingOptions())
-            NSUserDefaults.standardUserDefaults().setValue(data, forKey: UserInfoSaveKey.loginDic)
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey: UserInfoSaveKey.loginDic)
         }
         
         if _returnDic != nil{
             
             let data = try! NSJSONSerialization.dataWithJSONObject(_returnDic!, options: NSJSONWritingOptions())
-            NSUserDefaults.standardUserDefaults().setValue(data, forKey: UserInfoSaveKey.returnDic)
+            NSUserDefaults.standardUserDefaults().setObject(data, forKey: UserInfoSaveKey.returnDic)
         }
     }
     

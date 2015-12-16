@@ -59,9 +59,9 @@ let ProductFileTypeImage = 1
 let ProductFileTypeVideo = 2
 
 class ProductFile: NSObject{
-    private var _proFileDic: NSDictionary?
+    private var _proFileDic: NSMutableDictionary?
     
-    init(proFileDic: NSDictionary) {
+    init(proFileDic: NSMutableDictionary) {
         _proFileDic = proFileDic
     }
     
@@ -69,7 +69,7 @@ class ProductFile: NSObject{
         
     }
     
-    var fileDic: NSDictionary?{
+    var fileDic: NSMutableDictionary?{
         get{
             return _proFileDic
         }
@@ -98,11 +98,29 @@ class ProductFile: NSObject{
         return _proFileDic?.objectForKey(jfthumbPath) as? String
     }
     
+    var Synced: Bool{
+        get{
+            let _Synced = _proFileDic?.objectForKey("Synced") as? Bool
+            return _Synced ?? false
+        }
+        set{
+            _proFileDic?.setObject(newValue, forKey: "Synced")
+        }
+    }
+    
+    var SyncDescription: String{
+        if Synced{
+            return "Succeed:\(filePath ?? "")"
+        }else{
+            return "Failure:\(filePath ?? "")"
+        }
+    }
+    
 }
 
 class ProductFiles: ReturnDic {
     
-    private var files: NSArray?{
+    var files: NSArray?{
         return data_dt
     }
     
@@ -110,8 +128,30 @@ class ProductFiles: ReturnDic {
         return files?.count ?? 0
     }
     
+//    var syncedFailCount: Int{
+//        var result = 0
+//        for index in 0..<filesCount{
+//            if productFileAtIndex(index)?.Synced == false{
+//                result++
+//            }
+//        }
+//        return result
+//    }
+    
+    func filesWithSynced(synced: Bool)->NSArray{
+        
+        let _fileArray = NSMutableArray()
+        for index in 0..<filesCount{
+            let file = productFileAtIndex(index)
+            if file?.Synced == synced{
+                _fileArray.addObject(file!)
+            }
+        }
+        return _fileArray
+    }
+    
     func productFileAtIndex(index: Int)->ProductFile?{
-        let fileDicOpt = files?.objectAtIndex(index) as? NSDictionary
+        let fileDicOpt = files?.objectAtIndex(index) as? NSMutableDictionary
         if let fileDic = fileDicOpt{
             return ProductFile(proFileDic: fileDic)
         }else{
@@ -127,9 +167,7 @@ class ProductFiles: ReturnDic {
                 imageFileArray.append(productFile!)
             }
         }
-        
         return imageFileArray
-        
     }
     
 

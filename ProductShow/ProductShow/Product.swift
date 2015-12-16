@@ -78,10 +78,12 @@ class Product: NSObject{
             return _productDic?.objectForKey("additionInfo") as? String
         }
         set{
-            _productDic?.setValue(newValue, forKey: "additionInfo")
-            
+            if newValue == nil{
+                _productDic?.removeObjectForKey("additionInfo")
+            }else{
+                _productDic?.setObject(newValue!, forKey: "additionInfo")
+            }
         }
-        
     }
     
     //加入购物车时，多次加入则增加这个值

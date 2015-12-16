@@ -14,8 +14,13 @@ class UITableViewCell0 : UITableViewCell {
     @IBOutlet var userNameLabel: UILabel!
 }
 
+let kAlertTitle = "Select"
+let kStartSynchronization = "Start Synchronization"
+let kRestartSynchronization = "Restart Synchronization"
+let kCancelSynchronization = "Cancel Synchronization"
+let kSynchronizationInfo = "Synchronization Info"
 
-class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
+class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate,DataSyncObjectDelegate {
     
     var progressView: UIProgressView?
     var dataSynLabel: UILabel?
@@ -70,10 +75,7 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
             progressView = cell.viewWithTag(101) as? UIProgressView
             progressView?.hidden = true
             progressView?.transform = CGAffineTransformMakeScale(1.0,3.0);
-            let lastSynTime = NSUserDefaults.standardUserDefaults().valueForKey(kLastSynTime) as? String
-            if lastSynTime != nil{
-                dataSynLabel?.text = "Data Synchronization(\(lastSynTime!))"
-            }
+            dataSynLabel?.text = "Data Synchronization"
         }
         return cell
     }
@@ -90,120 +92,69 @@ class UserCenterTableViewController: UITableViewController,UIAlertViewDelegate {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if indexPath.row == 5{ //数据同步
-            if (synstate == 0)||(synstate == 2){
-                let alertView = UIAlertView(title: nil, message: "Start Synchronization", delegate: self, cancelButtonTitle: "YES")
-                alertView.addButtonWithTitle("NO")
-                alertView.show()
-            }else{
-                
-                let alertView = UIAlertView(title: nil, message: "Cancel Synchronization", delegate: self, cancelButtonTitle: "YES")
-                alertView.addButtonWithTitle("NO")
-                alertView.show()
-            }
+            let dataSyncObj = DataSyncObject.defaultObject()
+            let alertView = UIAlertView(title: nil, message: nil, delegate: self, cancelButtonTitle: "Cancel")
+            switch dataSyncObj.synstate{
+            case .Init,.Canceling,.Canceled,.Finished:
+                alertView.addButtonWithTitle(kStartSynchronization)
+                alertView.addButtonWithTitle(kRestartSynchronization)
+                alertView.addButtonWithTitle(kSynchronizationInfo)
+            case .Synchronizing:
+                alertView.addButtonWithTitle(kCancelSynchronization)
+                alertView.addButtonWithTitle(kRestartSynchronization)
+                alertView.addButtonWithTitle(kSynchronizationInfo)
             
-        }
-    }
-    //MARK: UIAlertViewDelegate 
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        let message = alertView.message
-        let buttonTitle = alertView.buttonTitleAtIndex(buttonIndex)
-        if (message == "Start Synchronization") && (buttonTitle == "YES"){
-            GetAllUrlAndProfiles()
-        }else if(message == "Cancel Synchronization") && (buttonTitle == "YES"){
-            synstate = 2
-            self.progressView?.hidden = true
+            }
+            alertView.show()
+            
         }
     }
     
-    //MARK: 数据同步
-    let allUrl = AllCRMUrl()
-    let allProFiles = ProductFiles()
-    var currentSynIndex = 0
-    var failCount = 0
-    var synstate = 0 //0: 未开始 1:同步中 2:取消
-    func GetAllUrlAndProfiles(){
-        WebApi.GetAllUrl { (response, data, error) -> Void in
-            if WebApi.isHttpSucceed(response, data: data, error: error){
-                
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSArray
-                self.allUrl.urlArray = json
-                
-                WebApi.GetAllProFiles({ (response, data, error) -> Void in
-                    if WebApi.isHttpSucceed(response, data: data, error: error){
-                        let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
-                        self.allProFiles.returnDic = json
-                        self.currentSynIndex = 0
-                        self.failCount = 0
-                        self.synstate = 1
-                        self.SynCrmUrl()
-                    }else{
-                        let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
-                        alertView.show()
-                    }
-                    
-                })
-            }else{
-                let alertView = UIAlertView(title: nil, message: Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
-                alertView.show()
-            }
-        }
-    }
+    //MARK: UIAlertViewDelegate 
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
 
-    //获取该同步的url并同步数据
-    func SynCrmUrl(){
-        if synstate == 2{
-            progressView?.hidden = true
-            dataSynLabel?.text = "Data Synchronization canceled"
-            return
-        }
-        progressView?.hidden = false
-        progressView?.progress = Float(currentSynIndex) / Float(allUrl.urlCount + allProFiles.filesCount)
-        if currentSynIndex < allUrl.urlCount{
-            self.dataSynLabel?.text = "Synchronize product data"
-            let crmUrl = allUrl.urlAtIndex(currentSynIndex)
-            var url = crmUrl?.url
-            if url != nil && url!.containsString(" "){
-                url = url?.URLQueryAllowedString
-            }
-            WebApi.GetUrl(url!, completedHandler: { (response, data, error) -> Void in
-                if WebApi.isHttpSucceed(response, data: data, error: error){
-//                    NSUserDefaults.standardUserDefaults().setValue(data, forKey: url!)//底层就保存了
-                    self.currentSynIndex++
-                    self.performSelector(Selector("SynCrmUrl"))
-                }else{
-                    self.currentSynIndex++
-                    self.failCount++
-                    self.performSelector(Selector("SynCrmUrl"))
-                }
-            })
-            
-        }else if currentSynIndex - allUrl.urlCount < allProFiles.filesCount{
-            let index = currentSynIndex - allUrl.urlCount
-            var filepath = allProFiles.productFileAtIndex(index)?.filePath
-            if filepath != nil && filepath!.containsString(" ")
-            {
-                filepath = filepath?.URLQueryAllowedString
-            }
-            self.dataSynLabel?.text = "File downloading \(filepath!)"
-            
-                WebApi.GetFile(filepath!, completedHandler: { (response, data, error) -> Void in
-                    if WebApi.isHttpSucceed(response, data: data, error: error){
-                        self.currentSynIndex++
-                        self.performSelector(Selector("SynCrmUrl"))
-                    }else{
-                        self.currentSynIndex++
-                        self.failCount++
-                        self.performSelector(Selector("SynCrmUrl"))
-                    }
-                })
-         
-        }else{
-            progressView?.hidden = true
-            let lastSyntime = NSDate().toString("yyyy-MM-dd HH:mm:ss")
-            NSUserDefaults.standardUserDefaults().setValue(lastSyntime, forKey: kLastSynTime)
-            dataSynLabel?.text = "Data Synchronization(\(lastSyntime))"
+        let SyncObj = DataSyncObject.defaultObject()
+        SyncObj.delegate = self
+        
+        let buttonTitle = alertView.buttonTitleAtIndex(buttonIndex)
+        if (buttonTitle == kStartSynchronization){
+            SyncObj.start()
+        }else if(buttonTitle == kCancelSynchronization){
+            SyncObj.cancel()
+        }else if(buttonTitle == kRestartSynchronization){
+            SyncObj.restart()
+        }else if(buttonTitle == kSynchronizationInfo){
+            let contents = SyncObj.descriptionForSynced(false, terminator: "<br />")
+            let noticeDic = [jftitle: kSynchronizationInfo, jfcontents:contents]
+            let notice = Notice(noticeDic: noticeDic)
+            let noticeVC = UINoticeViewController.newInstance()
+            noticeVC.notice = notice
+            self.navigationController?.pushViewController(noticeVC, animated: true)
         }
     }
+    
+    //MARK: DataSyncObjectDelegate
+    func dataSyncObjectDidFinishedSync(dataSyncObject: DataSyncObject) {
+        progressView?.hidden = true
+        dataSynLabel?.text = dataSyncObject.processDescription
+    }
+    
+    func dataSyncObjectDidStopSync(dataSyncObject: DataSyncObject) {
+        progressView?.hidden = true
+        dataSynLabel?.text = dataSyncObject.processDescription
+    }
+    
+    func dataSyncObjectDidSyncNewData(dataSyncObject: DataSyncObject) {
+        progressView?.hidden = false
+        progressView?.progress = dataSyncObject.progress
+        dataSynLabel?.text = dataSyncObject.processDescription
+    }
+    
+    func dataSyncSynStateDidChanged(dataSyncObject: DataSyncObject) {
+        dataSynLabel?.text = dataSyncObject.processDescription
+    }
+    
+   
     
 
     /*

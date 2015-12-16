@@ -203,7 +203,7 @@ class Order: NSObject {
             return _placed ?? false
         }
         set{
-            orderDic.setValue(newValue, forKey: OrderSaveKey.placed)
+            orderDic.setObject(newValue, forKey: OrderSaveKey.placed)
             Orders.defaultOrders().flush()
         }
     }
@@ -263,7 +263,7 @@ class Orders: NSObject {
     }
     
     func flush(){
-        let newOrdersData = try! NSJSONSerialization.dataWithJSONObject(_orders, options: NSJSONWritingOptions())
+        let newOrdersData = try? NSJSONSerialization.dataWithJSONObject(_orders, options: NSJSONWritingOptions())
         NSUserDefaults.standardUserDefaults().setObject(newOrdersData, forKey: OrderSaveKey.orderArray)
     }
     
