@@ -39,6 +39,9 @@ class ProductViewController: UIViewController {
         self.showProductInfo()
         self.imageViewAddTapGesture()
         self.productRemarkTextView.font = UIFont.systemFontOfSize(20)
+        self.productRemarkTextViewAddTapGesture()
+        
+        
     }
     
     //MARK: function
@@ -54,6 +57,7 @@ class ProductViewController: UIViewController {
         }
     }
     
+    //产品图片增加点击事件
     func imageViewAddTapGesture(){
         self.productImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("imageViewTapAction")))
         
@@ -87,6 +91,17 @@ class ProductViewController: UIViewController {
             }
         }
     }
+    
+    //简介增加点击事件
+    func productRemarkTextViewAddTapGesture(){
+        self.productRemarkTextView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("productRemarkTextViewTapAction:")))
+    }
+    
+    func productRemarkTextViewTapAction(sender: AnyObject?){
+        self.performSegueWithIdentifier("ProductDetailVC_Detail", sender: sender)
+        
+    }
+    
     
     // MARK: - Navigation
     

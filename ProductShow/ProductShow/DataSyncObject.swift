@@ -182,7 +182,7 @@ class DataSyncObject: NSObject {
     func start(){
         switch synstate{
         case .Init:
-            currentSynIndex = 0
+//            currentSynIndex = 0 //曾经下载失败的先跳过
             self.synstate = .Synchronizing
             self.delegate?.dataSyncSynStateDidChanged(self)
             self.SynCrmUrl()

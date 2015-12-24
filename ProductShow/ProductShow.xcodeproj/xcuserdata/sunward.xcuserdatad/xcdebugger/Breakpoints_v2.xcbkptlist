@@ -1275,11 +1275,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/ProductViewController.swift"
-            timestampString = "471248764.183833"
+            timestampString = "471950940.308768"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "99"
-            endingLineNumber = "99"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "prepareForSegue(_:sender:)"
             landmarkType = "5">
          </BreakpointContent>
@@ -2663,11 +2663,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/ProductViewController.swift"
-            timestampString = "471239135.116947"
+            timestampString = "471950636.172535"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "50"
-            endingLineNumber = "50"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
             landmarkName = "showProductInfo()"
             landmarkType = "5">
             <Locations>
@@ -2711,11 +2711,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/ProductViewController.swift"
-            timestampString = "471239137.206108"
+            timestampString = "471950636.172535"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "51"
-            endingLineNumber = "51"
+            startingLineNumber = "54"
+            endingLineNumber = "54"
             landmarkName = "showProductInfo()"
             landmarkType = "5">
          </BreakpointContent>
@@ -2727,11 +2727,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/ProductViewController.swift"
-            timestampString = "471239139.210232"
+            timestampString = "471950940.308768"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "imageViewTapAction()"
             landmarkType = "5">
             <Locations>
@@ -2775,11 +2775,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ProductShow/ProductViewController.swift"
-            timestampString = "471239140.453571"
+            timestampString = "471950940.308768"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "66"
-            endingLineNumber = "66"
+            startingLineNumber = "70"
+            endingLineNumber = "70"
             landmarkName = "imageViewTapAction()"
             landmarkType = "5">
          </BreakpointContent>

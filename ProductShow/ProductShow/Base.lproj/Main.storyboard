@@ -1229,7 +1229,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="l4D-wA-MM5" kind="show" id="ovG-db-Wn6"/>
+                                            <segue destination="l4D-wA-MM5" kind="show" identifier="ProductDetailVC_Detail" id="ovG-db-Wn6"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tap-ti-H6O">
