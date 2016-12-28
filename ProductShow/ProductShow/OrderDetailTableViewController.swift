@@ -134,7 +134,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                     if returnDic.status == 1{
                         let remoteUrl = json?.object(forKey: jfimgPath) as? String
                         Order.setRemotePath(remoteUrl!, toDic: imagePathDic)
-                        self.perform(Selector("placeOrder"), with: nil, afterDelay: 1)
+                        self.perform(#selector(OrderDetailTableViewController.placeOrder), with: nil, afterDelay: 1)
                     }else{
                         let msg = json?.object(forKey: jfmsg) as? String
                         let alertView = UIAlertView(title: "Fail", message: msg, delegate: nil, cancelButtonTitle: "OK")
@@ -215,7 +215,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let saveImage = UIImage(data: saveImageData!)
         
         let filename = PhotoUtil.savePhoto(saveImage!, forName: nil)
-        order.addImageByPath(filename!)
+        _ = order.addImageByPath(filename!)
 //        postOrdersChangedNotification()
         self.tableView.reloadData()
         
@@ -277,7 +277,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let product = order.productAtIndex(row!)
         product?.additionInfo = textViewVC.textView.text
         Orders.defaultOrders().flush()
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
         self.tableView.reloadData()
         
     }

@@ -167,7 +167,7 @@ class Order: NSObject {
     func firstImageToBeUpload()->NSMutableDictionary?{
         var returnDic: NSMutableDictionary? = nil
         
-        for (index,obj) in (imagePaths?.enumerated())!{
+        for (_,obj) in (imagePaths?.enumerated())!{
             let imagePathDic = obj as! NSMutableDictionary
             if imagePathDic.object(forKey: OrderSaveKey.remotepath) == nil {
                 returnDic = imagePathDic 

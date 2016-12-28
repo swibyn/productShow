@@ -20,8 +20,8 @@ class PhotoUtil: NSObject {
         
         let imgData = UIImageJPEGRepresentation(image, compressionQuality)
         let savedPath = "\(NSTemporaryDirectory())\(name!)"
-         let bsave = (try? imgData?.write(to: URL(fileURLWithPath: savedPath), options: [.atomic])) != nil
-        return (bsave ?? false) ? savedPath : nil
+        let optSave = try? imgData?.write(to: URL(fileURLWithPath: savedPath), options: [.atomic])
+        return (optSave != nil) ? savedPath : nil
     }
     
     class func getPhotoData(_ fileName: String?)->Data?{

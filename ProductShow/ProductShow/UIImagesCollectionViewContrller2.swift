@@ -105,7 +105,6 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
             if productFile!.fileType! == ProductFileTypeImage{
                 if data?.count > 0{
                     imageView.image = UIImage(data: data!)
-                    
                 }
             }else{
                 imageView.image = UIImage(named: "video")
@@ -116,7 +115,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
         self.dismiss(animated: false, completion: nil)
         
     }

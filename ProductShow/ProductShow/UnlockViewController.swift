@@ -18,7 +18,7 @@ class UnlockViewController: UIViewController {
         let passswordEnter = passwordTextField.text
         let pwd = UserInfo.defaultUserInfo().loginInfo?.pwd
         if passswordEnter == pwd{
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }else{
             let alertView = UIAlertView(title: nil, message: "Error password", delegate: nil, cancelButtonTitle: "OK")
             alertView.show()

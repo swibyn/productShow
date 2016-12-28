@@ -157,7 +157,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     //MARK: OrderDetailTableViewControllerDelegate
     func OrderDetailTableViewDidPlaceOrder(_ detailController: OrderDetailTableViewController) {
 //        self.tableView.reloadData()
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
 

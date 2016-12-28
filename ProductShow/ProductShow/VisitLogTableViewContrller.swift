@@ -314,7 +314,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     //MARK:LogEditorViewControllerDelegate
     func LogEditorViewControllerSubmitSecceed(_ logEditorVC: LogEditorViewController) {
         self.GetWorkLog(false)
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
     }
     
 

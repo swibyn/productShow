@@ -10,7 +10,7 @@ import Foundation
 
 extension URL{
     var localFile: String{
-        let path = self.path ?? ""
+        let path = self.path 
         return "\(NSTemporaryDirectory())\(path)"
     }
 }

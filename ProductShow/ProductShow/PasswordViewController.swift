@@ -107,7 +107,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
         
         let message = alertView.message
         if message == "Password changed"{
-            self.navigationController?.popViewController(animated: true)
+            _ = self.navigationController?.popViewController(animated: true)
         }
         
     }

@@ -185,7 +185,7 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
         product?.additionInfo = textViewVC.textView.text
 //        Orders.defaultOrders().flush()
         cart.flush()
-        self.navigationController?.popViewController(animated: true)
+        _ = self.navigationController?.popViewController(animated: true)
 //        self.tableView.reloadData()
         
     }
