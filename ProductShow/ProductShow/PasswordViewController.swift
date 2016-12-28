@@ -16,20 +16,20 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     @IBOutlet var newPasswordTextField2: UITextField!
     @IBOutlet var submitButton: UIButton!
     
-    @IBAction func submitButtonAction(sender: UIButton) {
+    @IBAction func submitButtonAction(_ sender: UIButton) {
         self.view.endEditing(true)
         ChangePwd()
     }
     
     //MARK: view life
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.addKeyboardNotificationObserver()
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         submitButton.layer.masksToBounds = true
         submitButton.layer.cornerRadius = 5
@@ -39,7 +39,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     }
     
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeKeyboardNotificationObserver()
         
@@ -52,20 +52,20 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     
     
     //MARK: KeyboardNotification
-    override func handleKeyboardWillShow(paramNotification: NSNotification) {
+    override func handleKeyboardWillShow(_ paramNotification: Notification) {
         super.handleKeyboardWillShow(paramNotification)
         
-        UIView.animateWithDuration(1) { () -> Void in
+        UIView.animate(withDuration: 1, animations: { () -> Void in
             self.view.frame.origin.y = -150
-        }
+        }) 
         
     }
     
-    override func handleKeyboardWillHide(paramNotification: NSNotification) {
+    override func handleKeyboardWillHide(_ paramNotification: Notification) {
         super.handleKeyboardWillHide(paramNotification)
-        UIView.animateWithDuration(1.0) { () -> Void in
+        UIView.animate(withDuration: 1.0, animations: { () -> Void in
             self.view.frame.origin.y = 0
-        }
+        }) 
     }
     
     //MARK: function
@@ -77,7 +77,7 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
             WebApi.ChangePwd([jfuid: uid!, jfpwd: pwd!, jfnewPwd: newPwd!]) { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                    let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                     
                     let returnDic = ReturnDic(returnDic: json)
                     
@@ -103,11 +103,11 @@ class PasswordViewController: UIViewController, UIAlertViewDelegate {
     }
     
     //MARK: UIAlertViewDelegate
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
         
         let message = alertView.message
         if message == "Password changed"{
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }
         
     }

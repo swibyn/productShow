@@ -10,26 +10,50 @@
 
 */
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol DataSyncObjectDelegate: NSObjectProtocol{
-    func dataSyncObjectDidStopSync(dataSyncObject: DataSyncObject)
-    func dataSyncObjectDidFinishedSync(dataSyncObject: DataSyncObject)
-    func dataSyncObjectDidSyncNewData(dataSyncObject: DataSyncObject)
-    func dataSyncSynStateDidChanged(dataSyncObject: DataSyncObject)
+    func dataSyncObjectDidStopSync(_ dataSyncObject: DataSyncObject)
+    func dataSyncObjectDidFinishedSync(_ dataSyncObject: DataSyncObject)
+    func dataSyncObjectDidSyncNewData(_ dataSyncObject: DataSyncObject)
+    func dataSyncSynStateDidChanged(_ dataSyncObject: DataSyncObject)
 }
 
 enum Synstate{
-    case Init //初始状态
-    case Synchronizing //同步中
-    case Canceling //取消中，当前还有一个同步任务在执行中
-    case Canceled //取消任务，当前不在同步
-    case Finished //任务结束
+    case `init` //初始状态
+    case synchronizing //同步中
+    case canceling //取消中，当前还有一个同步任务在执行中
+    case canceled //取消任务，当前不在同步
+    case finished //任务结束
 }
 
 
 class DataSyncObject: NSObject {
     //单例
-    private static var _defaultObject: DataSyncObject?
+    fileprivate static var _defaultObject: DataSyncObject?
     class func defaultObject()->DataSyncObject{
         if _defaultObject == nil{
             _defaultObject = DataSyncObject()
@@ -43,25 +67,25 @@ class DataSyncObject: NSObject {
     let allUrl = AllCRMUrl()
     let allProFiles = ProductFiles()
     var currentSynIndex = 0
-    var synstate = Synstate.Init
-    var lastSynstateChangedTime = NSDate()
+    var synstate = Synstate.`init`
+    var lastSynstateChangedTime = Date()
     
     override init() {
         super.init()
         
-        let DataSyncObjectDicDataOpt = NSUserDefaults.standardUserDefaults().objectForKey("DataSyncObjectDic") as? NSData
+        let DataSyncObjectDicDataOpt = UserDefaults.standard.object(forKey: "DataSyncObjectDic") as? Data
         var jsonOpt: AnyObject? = nil
         if let DataSyncObjectDicData = DataSyncObjectDicDataOpt{
-            jsonOpt = try? NSJSONSerialization.JSONObjectWithData(DataSyncObjectDicData, options: NSJSONReadingOptions.MutableContainers)
+            jsonOpt = try! JSONSerialization.jsonObject(with: DataSyncObjectDicData, options: JSONSerialization.ReadingOptions.mutableContainers) as AnyObject?
         }
         
         if let json = jsonOpt{
             let DataSyncObjectDic = json as? NSMutableDictionary
-            let urlArray = DataSyncObjectDic?.objectForKey("urlArray") as? NSMutableArray
+            let urlArray = DataSyncObjectDic?.object(forKey: "urlArray") as? NSMutableArray
             allUrl.urlArray = urlArray
-            let productFilesDic = DataSyncObjectDic?.objectForKey("productFilesDic") as? NSDictionary
+            let productFilesDic = DataSyncObjectDic?.object(forKey: "productFilesDic") as? NSDictionary
             allProFiles.returnDic = productFilesDic
-            let currentSynIndexOpt = DataSyncObjectDic?.objectForKey("currentSynIndex") as? Int
+            let currentSynIndexOpt = DataSyncObjectDic?.object(forKey: "currentSynIndex") as? Int
             currentSynIndex = currentSynIndexOpt ?? 0
         }
     }
@@ -69,14 +93,14 @@ class DataSyncObject: NSObject {
     func flush(){
         let saveDic = NSMutableDictionary()
         if allUrl.urlArray != nil{
-            saveDic.setObject(allUrl.urlArray!, forKey: "urlArray")
+            saveDic.setObject(allUrl.urlArray!, forKey: "urlArray" as NSCopying)
         }
         if allProFiles.returnDic != nil{
-            saveDic.setObject(allProFiles.returnDic!, forKey: "productFilesDic")
+            saveDic.setObject(allProFiles.returnDic!, forKey: "productFilesDic" as NSCopying)
         }
-        saveDic.setObject(currentSynIndex, forKey: "currentSynIndex")
-        let saveDicData = try? NSJSONSerialization.dataWithJSONObject(saveDic, options: NSJSONWritingOptions())
-        NSUserDefaults.standardUserDefaults().setObject(saveDicData, forKey: "DataSyncObjectDic")
+        saveDic.setObject(currentSynIndex, forKey: "currentSynIndex" as NSCopying)
+        let saveDicData = try? JSONSerialization.data(withJSONObject: saveDic, options: JSONSerialization.WritingOptions())
+        UserDefaults.standard.set(saveDicData, forKey: "DataSyncObjectDic")
     }
     
     var progress: Float{
@@ -86,9 +110,9 @@ class DataSyncObject: NSObject {
     var processDescription: String{
         
         switch synstate{
-        case .Init:
+        case .`init`:
             return "wait for start"
-        case .Synchronizing:
+        case .synchronizing:
             if currentSynIndex < allUrl.urlCount{
                 return "Synchronize product data"
             }else if currentSynIndex - allUrl.urlCount < allProFiles.filesCount{
@@ -104,18 +128,18 @@ class DataSyncObject: NSObject {
             }else{
                 return "Sync Completed"
             }
-        case .Canceling:
+        case .canceling:
             return "Canceling"
-        case .Canceled:
+        case .canceled:
             return "Canceled \(lastSynstateChangedTime.toString())"
-        case .Finished:
+        case .finished:
             let syncFaileCount = allUrl.urlArrayWithSynced(false).count + allProFiles.filesWithSynced(false).count
             let syncSucceedCount = allUrl.urlCount + allProFiles.filesCount - syncFaileCount
             return "Finished (\(syncSucceedCount) Success, \(syncFaileCount) Failure)"
         }
     }
     
-    func descriptionForSynced(synced: Bool?, terminator:String)->String{
+    func descriptionForSynced(_ synced: Bool?, terminator:String)->String{
         var urls: NSArray?
         var files: NSArray?
         if synced == nil{
@@ -132,21 +156,21 @@ class DataSyncObject: NSObject {
         let result = NSMutableString()
         let syncFaileCount = allUrl.urlArrayWithSynced(false).count + allProFiles.filesWithSynced(false).count
         let syncSucceedCount = allUrl.urlCount + allProFiles.filesCount - syncFaileCount
-        result.appendString("\(syncSucceedCount) Success, \(syncFaileCount) Failure \(terminator)")
+        result.append("\(syncSucceedCount) Success, \(syncFaileCount) Failure \(terminator)")
         if urls?.count > 0{
-            for (_,obj) in urls!.enumerate(){
+            for (_,obj) in urls!.enumerated(){
                 let url = obj as? CRMUrl
                 if url != nil{
-                    result.appendString("\(url!.SyncDescription) \(terminator)")
+                    result.append("\(url!.SyncDescription) \(terminator)")
                 }
             }
         }
         
         if files?.count > 0{
-            for (_,obj) in files!.enumerate(){
+            for (_,obj) in files!.enumerated(){
                 let file = obj as? ProductFile
                 if file != nil{
-                    result.appendString("\(file!.SyncDescription) \(terminator)")
+                    result.append("\(file!.SyncDescription) \(terminator)")
                 }
             }
         }
@@ -158,7 +182,7 @@ class DataSyncObject: NSObject {
 //    }
     
     func cancel(){
-        synstate = .Canceling
+        synstate = .canceling
         delegate?.dataSyncSynStateDidChanged(self)
     }
     
@@ -166,12 +190,12 @@ class DataSyncObject: NSObject {
     func restart(){
         GetSyncInfo({ (succeed, response, data, error) -> Void in
             if succeed == true{
-                self.synstate = .Synchronizing
+                self.synstate = .synchronizing
                 self.currentSynIndex = 0
                 self.delegate?.dataSyncSynStateDidChanged(self)
                 self.SynCrmUrl()
             }else{
-                self.synstate = .Finished
+                self.synstate = .finished
                 self.delegate?.dataSyncSynStateDidChanged(self)
                 self.delegate?.dataSyncObjectDidFinishedSync(self)
             }
@@ -181,9 +205,9 @@ class DataSyncObject: NSObject {
     
     func start(){
         switch synstate{
-        case .Init:
+        case .init:
 //            currentSynIndex = 0 //曾经下载失败的先跳过
-            self.synstate = .Synchronizing
+            self.synstate = .synchronizing
             self.delegate?.dataSyncSynStateDidChanged(self)
             self.SynCrmUrl()
 //            if (currentSynIndex > 0)&&(currentSynIndex < allUrl.urlCount + allProFiles.filesCount){
@@ -193,24 +217,24 @@ class DataSyncObject: NSObject {
 //            }else{
 //                restart()
 //            }
-        case .Synchronizing: break
+        case .synchronizing: break
             
-        case .Canceling:
-            synstate = .Synchronizing
+        case .canceling:
+            synstate = .synchronizing
             self.delegate?.dataSyncSynStateDidChanged(self)
-        case .Canceled:
-            synstate = .Synchronizing
+        case .canceled:
+            synstate = .synchronizing
             self.delegate?.dataSyncSynStateDidChanged(self)
             SynCrmUrl()
-        case .Finished:
-            synstate = .Synchronizing
+        case .finished:
+            synstate = .synchronizing
             currentSynIndex = 0
             self.delegate?.dataSyncSynStateDidChanged(self)
             SynCrmUrl()
         }
     }
     
-    func GetSyncInfo(completedHandler:((Bool?,NSURLResponse?,NSData?,NSError?)->Void)?){
+    func GetSyncInfo(_ completedHandler:((Bool?,URLResponse?,Data?,NSError?)->Void)?){
         GetAllUrl({ (succeed, response, data, error) -> Void in
             if succeed == true{
                 self.GetAllProFiles({ (succeed, response, data, error) -> Void in
@@ -227,11 +251,11 @@ class DataSyncObject: NSObject {
         
     }
     
-    func GetAllUrl(completedHandler:((Bool?,NSURLResponse?,NSData?,NSError?)->Void)?){
+    func GetAllUrl(_ completedHandler:((Bool?,URLResponse?,Data?,NSError?)->Void)?){
         WebApi.GetAllUrl { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSMutableArray
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSMutableArray
                 self.allUrl.urlArray = json
                 completedHandler?(true,response,data,error)
             }else{
@@ -240,11 +264,11 @@ class DataSyncObject: NSObject {
         }
     }
     
-    func GetAllProFiles(completedHandler:((Bool?,NSURLResponse?,NSData?,NSError?)->Void)?){
+    func GetAllProFiles(_ completedHandler:((Bool?,URLResponse?,Data?,NSError?)->Void)?){
         WebApi.GetAllProFiles { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSMutableDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSMutableDictionary
                 self.allProFiles.returnDic = json
                 completedHandler?(true,response,data,error)
             }else{
@@ -256,21 +280,21 @@ class DataSyncObject: NSObject {
     
     //获取该同步的url并同步数据
     func SynCrmUrl(){
-        if synstate == .Canceling{
-            synstate = .Canceled
-            lastSynstateChangedTime = NSDate()
+        if synstate == .canceling{
+            synstate = .canceled
+            lastSynstateChangedTime = Date()
             self.delegate?.dataSyncSynStateDidChanged(self)
             delegate?.dataSyncObjectDidStopSync(self)
             return
         }
-        if synstate != .Synchronizing{
+        if synstate != .synchronizing{
             return
         }
         
         if currentSynIndex < allUrl.urlCount{
             let crmUrl = allUrl.urlAtIndex(currentSynIndex)
             if crmUrl!.Synced{
-                self.currentSynIndex++
+                self.currentSynIndex += 1
 //                self.performSelector(Selector("SynCrmUrl"))
                 SynCrmUrl()
             }else{
@@ -278,12 +302,12 @@ class DataSyncObject: NSObject {
                 
                 WebApi.GetUrl(crmUrl?.url, completedHandler: { (response, data, error) -> Void in
                     if WebApi.isHttpSucceed(response, data: data, error: error){
-                        self.currentSynIndex++
+                        self.currentSynIndex += 1
                         crmUrl?.Synced = true
                         //self.performSelector(Selector("SynCrmUrl"))
                         self.SynCrmUrl()
                     }else{
-                        self.currentSynIndex++
+                        self.currentSynIndex += 1
                         crmUrl?.Synced = false
 //                        self.performSelector(Selector("SynCrmUrl"))
                         self.SynCrmUrl()
@@ -297,7 +321,7 @@ class DataSyncObject: NSObject {
             let filepath = productFile?.filePath
             
             if WebApi.fileExistsForRemote(filepath){
-                self.currentSynIndex++
+                self.currentSynIndex += 1
                 productFile?.Synced = true
 //                self.performSelector(Selector("SynCrmUrl"))
                 self.SynCrmUrl()
@@ -306,13 +330,13 @@ class DataSyncObject: NSObject {
                 delegate?.dataSyncObjectDidSyncNewData(self)
                 WebApi.GetFile(filepath, completedHandler: { (response, data, error) -> Void in
                     if WebApi.isHttpSucceed(response, data: data, error: error){
-                        self.currentSynIndex++
+                        self.currentSynIndex += 1
                         productFile?.Synced = true
 //                        self.performSelector(Selector("SynCrmUrl"))
                         self.SynCrmUrl()
 
                     }else{
-                        self.currentSynIndex++
+                        self.currentSynIndex += 1
                         productFile?.Synced = false
 //                        self.performSelector(Selector("SynCrmUrl"))
                         self.SynCrmUrl()
@@ -322,8 +346,8 @@ class DataSyncObject: NSObject {
                 })
             }
         }else{
-            synstate = .Finished
-            lastSynstateChangedTime = NSDate()
+            synstate = .finished
+            lastSynstateChangedTime = Date()
             self.delegate?.dataSyncSynStateDidChanged(self)
             delegate?.dataSyncObjectDidFinishedSync(self)
         }

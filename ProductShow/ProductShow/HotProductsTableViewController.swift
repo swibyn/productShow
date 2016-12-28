@@ -24,13 +24,13 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         self.addFirstPageButton()
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+        tableView.register(nib, forCellReuseIdentifier: "productCell")
         
         self.addProductsInCartChangedNotificationObserver()
 //        self.addLoginNotificationObserver()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         if (UserInfo.defaultUserInfo().status == 1) && (products.productsCount == 0){
             showFirstPage()
         }
@@ -54,7 +54,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 //        }
 //    }
     
-    override func handleProductsInCartChangedNotification(paramNotification: NSNotification) {
+    override func handleProductsInCartChangedNotification(_ paramNotification: Notification) {
         super.handleProductsInCartChangedNotification(paramNotification)
         cartBarButton.title = Cart.defaultCart().title
     }
@@ -67,7 +67,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
 //            self.refreshControl?.endRefreshing()
 
             if WebApi.isHttpSucceed(response, data: data, error: error){
-                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
+                let json = (try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSDictionary
                 
                 self.products.returnDic = json
                 self.tableView.reloadData()
@@ -76,7 +76,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
                     //获取成功
 //                    self.tableView.reloadData()
                 }else{
-                    let msgString = json?.objectForKey(jfmessage) as? String
+                    let msgString = json?.object(forKey: jfmessage) as? String
                     let alertView = UIAlertView(title: nil, message: msgString ?? Pleasecheckthenetworkconnection, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
@@ -85,9 +85,9 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     }
     
     //MARK: Table view delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
+        let selectCell = tableView.cellForRow(at: indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productViewController()
 
         let nav = self.navigationController
@@ -96,21 +96,21 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return products.productsCount
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
         ConfigureCell(cell, canAddToCart:true, product: products.productAtIndex(indexPath.row)!, delegate: self)
@@ -118,13 +118,13 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(UIProductTableViewCell.rowHeight)
     }
     
 
     //MARK: UIScrollViewDalegate
-    override func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    override func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 
         if scrollView.contentOffset.y < -200{
             self.showFirstPage()
@@ -168,7 +168,7 @@ class HotProductsTableViewController: UITableViewController,UIProductTableViewCe
     */
     
     //MARK: UIProductTableViewCellDelegate
-    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
+    func productTableViewCellButtonDidClick(_ cell: UIProductTableViewCell) {
         Cart.defaultCart().addProduct(cell.product)
         self.postProductsInCartChangedNotification()
     }

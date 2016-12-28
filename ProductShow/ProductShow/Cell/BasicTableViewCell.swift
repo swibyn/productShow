@@ -13,7 +13,7 @@ class BasicTableViewCell: UITableViewCell {
     
     static let rowHeight = 76
     var delegate: BasicTableViewCellDelegate?
-    var indexPath: NSIndexPath?
+    var indexPath: IndexPath?
     
     @IBOutlet var bgView: UIView!
     @IBOutlet var leftLabel: UILabel!
@@ -22,25 +22,25 @@ class BasicTableViewCell: UITableViewCell {
     @IBOutlet var accessButton: UIButton!
     
     
-    @IBAction func detailButtonAction(sender: UIButton) {
+    @IBAction func detailButtonAction(_ sender: UIButton) {
         delegate?.basicTableViewCellDetailButtonAction(self)
     }
     
-    func initCell(delegate: BasicTableViewCellDelegate?, indexPath: NSIndexPath?, hideRightButtons: Bool){
+    func initCell(_ delegate: BasicTableViewCellDelegate?, indexPath: IndexPath?, hideRightButtons: Bool){
         self.delegate = delegate
         self.indexPath = indexPath
         self.hideRightButtons(hideRightButtons)
     }
     
-    func hideRightButtons(hide: Bool){
-        rightLabel.hidden = hide
-        detailButton.hidden = hide
-        accessButton.hidden = hide
+    func hideRightButtons(_ hide: Bool){
+        rightLabel.isHidden = hide
+        detailButton.isHidden = hide
+        accessButton.isHidden = hide
     }
     
 }
 
 protocol BasicTableViewCellDelegate : NSObjectProtocol {
     
-    func basicTableViewCellDetailButtonAction(cell: BasicTableViewCell)
+    func basicTableViewCellDetailButtonAction(_ cell: BasicTableViewCell)
 }

@@ -8,6 +8,30 @@
 
 import UIKit
 import MediaPlayer
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class UIImagesCollectionViewContrller: UICollectionViewController {
     
@@ -26,7 +50,7 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
             WebApi.GetProFilesByID([jfproId: product.proId!]) { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                    let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                     
                     self.productFiles.returnDic = json
                     self.collectionView?.reloadData()
@@ -37,44 +61,44 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
     
     //MARK: 获取视频的缩略图
     
-    func setThumb(fileName: String, imageView: UIImageView){
+    func setThumb(_ fileName: String, imageView: UIImageView){
         
-        let asset = AVURLAsset(URL: NSURL(fileURLWithPath: fileName))
+        let asset = AVURLAsset(url: URL(fileURLWithPath: fileName))
         let generateImg = AVAssetImageGenerator(asset: asset)
         let time = CMTimeMake(1, 65)
-        let refImg = try? generateImg.copyCGImageAtTime(time, actualTime: nil)
+        let refImg = try? generateImg.copyCGImage(at: time, actualTime: nil)
         if let img = refImg{
-            imageView.image = UIImage(CGImage: img)
+            imageView.image = UIImage(cgImage: img)
         }else{
             imageView.image = nil
         }
     }
     
     //MARK: - UICollectionViewDataSource
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
+    override func numberOfSections(in collectionView: UICollectionView) -> Int{
         return 1
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         return productFiles.filesCount
         
     }
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
    
-    override  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
+    override  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
         let productFile = productFiles.productFileAtIndex(indexPath.row)!
         let cellid = productFile.fileType == ProductFileTypeImage ? "cellImage" : "cellVideo"
         
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellid, forIndexPath: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellid, for: indexPath)
         cell.tag = indexPath.row
         let imageView = cell.viewWithTag(100) as! UIImageView
         imageView.image = UIImage(named: "商品默认图片96X96")
         WebApi.GetFile(productFile.filePath) { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 if productFile.fileType! == ProductFileTypeImage{
-                    if data?.length > 0{
+                    if data?.count > 0{
                         imageView.image = UIImage(data: data!)
                     }
                 }else{
@@ -88,15 +112,15 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath){
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath){
         let productFile = productFiles.productFileAtIndex(indexPath.row)
         if productFile?.fileType == ProductFileTypeImage{
             let imageCollectionVC2 = UIImagesCollectionViewContrller2.newInstance()
-            imageCollectionVC2.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-            imageCollectionVC2.modalPresentationStyle = UIModalPresentationStyle.FullScreen
+            imageCollectionVC2.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+            imageCollectionVC2.modalPresentationStyle = UIModalPresentationStyle.fullScreen
             imageCollectionVC2.productFiles = productFiles
             imageCollectionVC2.initcellIndex = indexPath.row
-            self.presentViewController(imageCollectionVC2, animated: false, completion: nil)
+            self.present(imageCollectionVC2, animated: false, completion: nil)
         }else{
             //先下载后播放
             let filePath =  productFile?.filePath?.URL?.localFile // WebApi.localFileName(productFile?.filePath)
@@ -105,8 +129,8 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
                 alertView.show()
                 return
             }
-            if NSFileManager.defaultManager().fileExistsAtPath(filePath!){
-                let player = MPMoviePlayerViewController(contentURL: NSURL(fileURLWithPath: filePath!))
+            if FileManager.default.fileExists(atPath: filePath!){
+                let player = MPMoviePlayerViewController(contentURL: URL(fileURLWithPath: filePath!))
                 self.presentMoviePlayerViewControllerAnimated(player)
                 
             }else{
@@ -122,9 +146,9 @@ class UIImagesCollectionViewContrller: UICollectionViewController {
     //MARK: - UICollectionViewDelegateFlowLayout
     //定义每个UICollectionView 的大小
     
-    func collectionView(collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
+        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize{
             let width = ((self.collectionView?.bounds.size.width)! - 120)/4
             
             return  CGSize(width: width,height: width)

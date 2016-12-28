@@ -9,7 +9,7 @@
 import UIKit
 
 protocol LogEditorViewControllerDelegate{
-    func LogEditorViewControllerSubmitSecceed(logEditorVC:LogEditorViewController)
+    func LogEditorViewControllerSubmitSecceed(_ logEditorVC:LogEditorViewController)
 }
 
 class LogEditorViewController: UIViewController {
@@ -17,7 +17,7 @@ class LogEditorViewController: UIViewController {
     //MARK: 初始化一个实例
     static func newInstance()->LogEditorViewController{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LogEditorViewController") as! LogEditorViewController
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LogEditorViewController") as! LogEditorViewController
         return aInstance
     }
 
@@ -28,7 +28,7 @@ class LogEditorViewController: UIViewController {
     
     //MARK: @IB
     @IBOutlet var logTextView: UITextView!
-    @IBAction func submitBarButtonItemAction(sender: AnyObject) {
+    @IBAction func submitBarButtonItemAction(_ sender: AnyObject) {
         submitLog()
     }
     
@@ -39,15 +39,15 @@ class LogEditorViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         logTextView.text = log?.logDesc
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.addKeyboardNotificationObserver()
     }
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         self.removeKeyboardNotificationObserver()
     }
     
@@ -57,40 +57,40 @@ class LogEditorViewController: UIViewController {
     }
     
     //MARK: Observer
-    override func handleKeyboardWillShow(paramNotification: NSNotification) {
+    override func handleKeyboardWillShow(_ paramNotification: Notification) {
         super.handleKeyboardWillShow(paramNotification)
 
         var (animationDuration,keyboardEndRect) = keyboardAnimationDurationAndEndRect(paramNotification)
         
-        let window = UIApplication.sharedApplication().keyWindow
+        let window = UIApplication.shared.keyWindow
         
-        keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: window)
-        let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
+        keyboardEndRect = self.view.convert(keyboardEndRect, from: window)
+        let intersectionOfKeyboardRectAndWindowRect = self.view.frame.intersection(keyboardEndRect)
         
-        UIView.animateWithDuration(animationDuration) { () -> Void in
+        UIView.animate(withDuration: animationDuration, animations: { () -> Void in
             self.logTextView.contentInset = UIEdgeInsetsMake(0, 0, intersectionOfKeyboardRectAndWindowRect.size.height, 0)
-        }
+        }) 
     }
     
-    override func handleKeyboardWillHide(paramNotification: NSNotification) {
+    override func handleKeyboardWillHide(_ paramNotification: Notification) {
         super.handleKeyboardWillHide(paramNotification)
 
         let (animationDuration,_) = keyboardAnimationDurationAndEndRect(paramNotification)
         
-        UIView.animateWithDuration(animationDuration) { () -> Void in
-            self.logTextView.contentInset = UIEdgeInsetsZero
-        }
+        UIView.animate(withDuration: animationDuration, animations: { () -> Void in
+            self.logTextView.contentInset = UIEdgeInsets.zero
+        }) 
     }
     
     //MARK: function
     
     func submitLog(){
         
-        let logText = self.logTextView?.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        let logText = self.logTextView?.text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         if logText!.characters.count > 0{
             let uid = UserInfo.defaultUserInfo().firstUser?.uid
             let uName = UserInfo.defaultUserInfo().firstUser?.uname
-            let logDate = NSDate().toString("yyyy-MM-dd")
+            let logDate = Date().toString("yyyy-MM-dd")
             let logDesc = logText!
             let custId = customer?.custId
             let custName = customer?.custName
@@ -98,12 +98,12 @@ class LogEditorViewController: UIViewController {
             let logIdStr = (logId == nil) ? "" : "\(logId!)"
             let caozuo = (log == nil) ? "add" : "modify"
             
-            let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logDesc, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo]
+            let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogContent: logDesc, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo] as [String : Any]
             
-            WebApi.WriteCustLog(dic, completedHandler: { (response, data, error) -> Void in
+            WebApi.WriteCustLog(dic as NSDictionary, completedHandler: { (response, data, error) -> Void in
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                    let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                     
                     let returnDic = ReturnDic(returnDic: json)
                     

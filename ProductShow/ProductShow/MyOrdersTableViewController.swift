@@ -15,7 +15,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         super.viewDidLoad()
 
         let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
+        tableView.register(nib, forCellReuseIdentifier: "CommonTableViewCell")
         
         self.addOrdersChangedNotificationObserver()
     }
@@ -31,7 +31,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     }
     
     //MARK: 消息通知
-    override func handleOrdersChangedNotification(paramNotification: NSNotification) {
+    override func handleOrdersChangedNotification(_ paramNotification: Notification) {
         super.handleOrdersChangedNotification(paramNotification)
         if !self.isEqual(paramNotification.object){
             self.tableView.reloadData()
@@ -39,45 +39,45 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     }
 
     //MARK: - UIAlertViewDelegate
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        let title = alertView.buttonTitleAtIndex(buttonIndex)
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int){
+        let title = alertView.buttonTitle(at: buttonIndex)
         if title == "OK"{
             let order = Orders.defaultOrders().orderAtIndex((indexPathForAccessoryButtonTapped?.row)!)
-                order?.orderName = alertView.textFieldAtIndex(0)?.text ?? ""
+                order?.orderName = alertView.textField(at: 0)?.text ?? ""
             
             self.tableView.reloadData()
         }
     }
     
     //MARK: UICommonTableViewCellDelegate
-    var indexPathForAccessoryButtonTapped: NSIndexPath?
-    func commonTableViewCellDetailButtonAction(cell: UICommonTableViewCell) {
-        indexPathForAccessoryButtonTapped = cell.indexPath
+    var indexPathForAccessoryButtonTapped: IndexPath?
+    func commonTableViewCellDetailButtonAction(_ cell: UICommonTableViewCell) {
+        indexPathForAccessoryButtonTapped = cell.indexPath as IndexPath?
         let alert = UIAlertView(title: "Set order name to", message: nil, delegate: self, cancelButtonTitle: "Cancel")
-        alert.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        alert.alertViewStyle = UIAlertViewStyle.plainTextInput
         
-        alert.textFieldAtIndex(0)?.text = Orders.defaultOrders().orderAtIndex(cell.indexPath!.row)?.orderName
-        alert.addButtonWithTitle("OK")
+        alert.textField(at: 0)?.text = Orders.defaultOrders().orderAtIndex(cell.indexPath!.row)?.orderName
+        alert.addButton(withTitle: "OK")
         alert.show()
     }
     
     // MARK: - Table View Delegate
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return Orders.defaultOrders().orderCount // dataArray?.count ?? 0
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("CommonTableViewCell", forIndexPath: indexPath) as! UICommonTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommonTableViewCell", for: indexPath) as! UICommonTableViewCell
         cell.initCell(self, indexPath: indexPath, hideRightButtons: false)
      
         
@@ -90,11 +90,11 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
         
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(UICommonTableViewCell.rowHeight)
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailVc = OrderDetailTableViewController.newInstance()
         detailVc.order = Orders.defaultOrders().orderAtIndex(indexPath.row)
         detailVc.delegate = self
@@ -102,7 +102,7 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     }
     
     // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
@@ -110,14 +110,14 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
 
     
     // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             // Delete the row from the data source
             
             Orders.defaultOrders().removeOrderAtIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             postOrdersChangedNotification()
-        } else if editingStyle == .Insert {
+        } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
@@ -142,11 +142,11 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let selectedIndexPath = self.tableView.indexPathForSelectedRow!
-        let destVC: UIViewController = segue.destinationViewController
+        let destVC: UIViewController = segue.destination
       
         (destVC as? OrderDetailTableViewController)?.delegate = self
         
@@ -155,9 +155,9 @@ class MyOrdersTableViewController: UITableViewController,UIAlertViewDelegate, Or
     }
     
     //MARK: OrderDetailTableViewControllerDelegate
-    func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController) {
+    func OrderDetailTableViewDidPlaceOrder(_ detailController: OrderDetailTableViewController) {
 //        self.tableView.reloadData()
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
 

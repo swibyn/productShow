@@ -14,11 +14,11 @@ class UnlockViewController: UIViewController {
     @IBOutlet var passwordTextField: UITextField!
     @IBOutlet var unlockButton: UIButton!
     
-    @IBAction func unlockButtonAction(sender: UIButton) {
+    @IBAction func unlockButtonAction(_ sender: UIButton) {
         let passswordEnter = passwordTextField.text
         let pwd = UserInfo.defaultUserInfo().loginInfo?.pwd
         if passswordEnter == pwd{
-            self.navigationController?.popViewControllerAnimated(true)
+            self.navigationController?.popViewController(animated: true)
         }else{
             let alertView = UIAlertView(title: nil, message: "Error password", delegate: nil, cancelButtonTitle: "OK")
             alertView.show()
@@ -27,13 +27,13 @@ class UnlockViewController: UIViewController {
     }
     
     //MARK: view life
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.addKeyboardNotificationObserver()
         self.navigationItem.hidesBackButton = true
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         unlockButton.layer.masksToBounds = true
         unlockButton.layer.cornerRadius = 5
@@ -41,7 +41,7 @@ class UnlockViewController: UIViewController {
         centerView.layer.cornerRadius = 5
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeKeyboardNotificationObserver()
     }
@@ -53,19 +53,19 @@ class UnlockViewController: UIViewController {
     
     
     //MARK: KeyboardNotification
-    override func handleKeyboardWillShow(paramNotification: NSNotification) {
+    override func handleKeyboardWillShow(_ paramNotification: Notification) {
         super.handleKeyboardWillShow(paramNotification)
         
-        UIView.animateWithDuration(1) { () -> Void in
+        UIView.animate(withDuration: 1, animations: { () -> Void in
             self.view.frame.origin.y = -150
-        }
+        }) 
     }
     
-    override func handleKeyboardWillHide(paramNotification: NSNotification) {
+    override func handleKeyboardWillHide(_ paramNotification: Notification) {
         super.handleKeyboardWillHide(paramNotification)
-        UIView.animateWithDuration(1.0) { () -> Void in
+        UIView.animate(withDuration: 1.0, animations: { () -> Void in
             self.view.frame.origin.y = 0
-        }
+        }) 
     }
     
     //MARK: function

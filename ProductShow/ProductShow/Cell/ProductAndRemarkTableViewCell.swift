@@ -8,6 +8,30 @@
 
 import Foundation
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class UIProductAndRemarkTableViewCell : UITableViewCell,UIAlertViewDelegate {
     static let cellid = "ProductAndRemarkTableViewCell"
@@ -27,27 +51,27 @@ class UIProductAndRemarkTableViewCell : UITableViewCell,UIAlertViewDelegate {
     @IBOutlet var memoButton: UIButton!
     @IBOutlet var textView: UITextView!
     
-    @IBAction func memoButtonAction(sender: UIButton) {
+    @IBAction func memoButtonAction(_ sender: UIButton) {
         delegate?.productAndRemarkTableViewCellMemoButtonAction(self)
     }
     
-    @IBAction func quantityButtonAction(sender: UIButton) {
+    @IBAction func quantityButtonAction(_ sender: UIButton) {
         let alertView = UIAlertView(title: "Number", message: "", delegate: self, cancelButtonTitle: "OK")
-        alertView.alertViewStyle = UIAlertViewStyle.PlainTextInput
-        alertView.textFieldAtIndex(0)?.text = "\(product.number)"
+        alertView.alertViewStyle = UIAlertViewStyle.plainTextInput
+        alertView.textField(at: 0)?.text = "\(product.number)"
         alertView.show()
     }
     
     func refreshView(){
         self.proNameLabel.text = product.proName
         self.proSizeLabel.text = product.proSize
-        self.quantityButton.setTitle("X\(product.number)", forState: UIControlState.Normal)
+        self.quantityButton.setTitle("X\(product.number)", for: UIControlState())
         self.remarkLabel.text = product.remark
         self.textView.text = product.additionInfo
-        self.textView.font = UIFont.systemFontOfSize(16)
+        self.textView.font = UIFont.systemFont(ofSize: 16)
         var imageloaded = false
         WebApi.GetFile(product.thumbUrl) { (response, data, error) -> Void in
-            if data?.length > 0{
+            if data?.count > 0{
                 self.proThumbImageView.image = UIImage(data: data!)
                 imageloaded = true
             }
@@ -63,7 +87,7 @@ class UIProductAndRemarkTableViewCell : UITableViewCell,UIAlertViewDelegate {
         return detailVc
     }
     
-    static func heightForProduct(tableView: UITableView, product: Product)->CGFloat{
+    static func heightForProduct(_ tableView: UITableView, product: Product)->CGFloat{
         return CGFloat(rowHeight)
 //        let additionInfo = product.additionInfo
 //        if additionInfo != nil{
@@ -82,12 +106,12 @@ class UIProductAndRemarkTableViewCell : UITableViewCell,UIAlertViewDelegate {
     }
     
     //MARK: UIAlertViewDelegate
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-        if (alertView.title == "Number") && (alertView.buttonTitleAtIndex(buttonIndex) == "OK"){
-            let fieldText = alertView.textFieldAtIndex(0)?.text
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
+        if (alertView.title == "Number") && (alertView.buttonTitle(at: buttonIndex) == "OK"){
+            let fieldText = alertView.textField(at: 0)?.text
             let newQuantity = (fieldText! as NSString).integerValue
             product.number = newQuantity
-            self.quantityButton.setTitle("X\(product.number)", forState: UIControlState.Normal)
+            self.quantityButton.setTitle("X\(product.number)", for: UIControlState())
             delegate?.productAndRemarkTableViewCellQuantityDidChanged(self)
         }
     }
@@ -95,9 +119,9 @@ class UIProductAndRemarkTableViewCell : UITableViewCell,UIAlertViewDelegate {
     
 }
 
-func ConfigureCell(cell: UIProductAndRemarkTableViewCell, showRightButton:Bool, product: Product, delegate: UIProductAndRemarkTableViewCellDelegate?){
+func ConfigureCell(_ cell: UIProductAndRemarkTableViewCell, showRightButton:Bool, product: Product, delegate: UIProductAndRemarkTableViewCellDelegate?){
     cell.product = product
-    cell.memoButton.hidden = !showRightButton
+    cell.memoButton.isHidden = !showRightButton
     cell.delegate = delegate
     cell.refreshView()
 }
@@ -106,8 +130,8 @@ func ConfigureCell(cell: UIProductAndRemarkTableViewCell, showRightButton:Bool, 
 
 protocol UIProductAndRemarkTableViewCellDelegate : NSObjectProtocol {
     
-    func productAndRemarkTableViewCellMemoButtonAction(cell: UIProductAndRemarkTableViewCell)
-    func productAndRemarkTableViewCellQuantityDidChanged(cell: UIProductAndRemarkTableViewCell)
+    func productAndRemarkTableViewCellMemoButtonAction(_ cell: UIProductAndRemarkTableViewCell)
+    func productAndRemarkTableViewCellQuantityDidChanged(_ cell: UIProductAndRemarkTableViewCell)
 }
 
 

@@ -8,7 +8,7 @@
 
 import UIKit
 protocol UITextViewControllerDelegate{
-    func textViewControllerDone(textViewVC:UITextViewController)
+    func textViewControllerDone(_ textViewVC:UITextViewController)
 }
 
 class UITextViewController: UIViewController {
@@ -16,7 +16,7 @@ class UITextViewController: UIViewController {
     //MARK: 初始化一个实例
     static func newInstance()->UITextViewController{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("UITextViewController") as! UITextViewController
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UITextViewController") as! UITextViewController
         return aInstance
     }
     
@@ -25,7 +25,7 @@ class UITextViewController: UIViewController {
     
     //MARK: @IB
     @IBOutlet var textView: UITextView!
-    @IBAction func doneBarButtonAction(sender: UIBarButtonItem) {
+    @IBAction func doneBarButtonAction(_ sender: UIBarButtonItem) {
         delegate?.textViewControllerDone(self)
    }
    
@@ -36,16 +36,16 @@ class UITextViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         textView.text = initTextViewText
 
     }
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.addKeyboardNotificationObserver()
     }
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.removeKeyboardNotificationObserver()
     }
@@ -56,29 +56,29 @@ class UITextViewController: UIViewController {
     }
     
     //MARK: Observer
-    override func handleKeyboardWillShow(paramNotification: NSNotification) {
+    override func handleKeyboardWillShow(_ paramNotification: Notification) {
         super.handleKeyboardWillShow(paramNotification)
         
         var (animationDuration,keyboardEndRect) = keyboardAnimationDurationAndEndRect(paramNotification)
         
-        let window = UIApplication.sharedApplication().keyWindow
+        let window = UIApplication.shared.keyWindow
         
-        keyboardEndRect = self.view.convertRect(keyboardEndRect, fromView: window)
-        let intersectionOfKeyboardRectAndWindowRect = CGRectIntersection(self.view.frame, keyboardEndRect)
+        keyboardEndRect = self.view.convert(keyboardEndRect, from: window)
+        let intersectionOfKeyboardRectAndWindowRect = self.view.frame.intersection(keyboardEndRect)
         
-        UIView.animateWithDuration(animationDuration) { () -> Void in
+        UIView.animate(withDuration: animationDuration, animations: { () -> Void in
             self.textView.contentInset = UIEdgeInsetsMake(0, 0, intersectionOfKeyboardRectAndWindowRect.size.height, 0)
-        }
+        }) 
     }
     
-    override func handleKeyboardWillHide(paramNotification: NSNotification) {
+    override func handleKeyboardWillHide(_ paramNotification: Notification) {
         super.handleKeyboardWillHide(paramNotification)
         
         let (animationDuration,_) = keyboardAnimationDurationAndEndRect(paramNotification)
         
-        UIView.animateWithDuration(animationDuration) { () -> Void in
-            self.textView.contentInset = UIEdgeInsetsZero
-        }
+        UIView.animate(withDuration: animationDuration, animations: { () -> Void in
+            self.textView.contentInset = UIEdgeInsets.zero
+        }) 
         
     }
     

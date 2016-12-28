@@ -9,7 +9,7 @@
 import UIKit
 
 protocol FirstPageViewControllerDelegate : NSObjectProtocol{
-    func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton)
+    func firstPageViewController(_ firstPageViewController: FirstPageViewController, didClickButton button: UIButton)
 }
 
 class FirstPageViewController: UIViewController,LoginViewControllerDelegate {
@@ -23,7 +23,7 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate {
     @IBOutlet var productSearch: UIButton!
     @IBOutlet var userCenter: UIButton!
     
-    @IBAction func buttonClick(sender: UIButton) {
+    @IBAction func buttonClick(_ sender: UIButton) {
         delegate?.firstPageViewController(self, didClickButton: sender)
 //        self.dismissViewControllerAnimated(true, completion: nil)
     }
@@ -36,12 +36,12 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate {
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let bsignin = UserInfo.defaultUserInfo().state == 1
 
         if (!bsignin){
-            presentLoginVC(UIModalTransitionStyle.CoverVertical, animated: true, completion: nil)
+            presentLoginVC(UIModalTransitionStyle.coverVertical, animated: true, completion: nil)
         }
         
     }
@@ -59,36 +59,36 @@ class FirstPageViewController: UIViewController,LoginViewControllerDelegate {
     // MARK: 初始化一个实例
     static func newInstance()->FirstPageViewController{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("FirstPageViewController") as! FirstPageViewController
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FirstPageViewController") as! FirstPageViewController
         return aInstance
     }
     
     // MARK: metheds
     
-    func presentLoginVC(modalTransitionStyle: UIModalTransitionStyle,animated: Bool, completion:(()->Void)?){
+    func presentLoginVC(_ modalTransitionStyle: UIModalTransitionStyle,animated: Bool, completion:(()->Void)?){
         let loginVC = LoginViewController.newInstance()
         loginVC.modalTransitionStyle = modalTransitionStyle
         loginVC.delegate = self
-        self.presentViewController(loginVC, animated: animated, completion: completion)
+        self.present(loginVC, animated: animated, completion: completion)
     }
     
     // MARK: LoginViewControllerDelegate
-    func loginViewController(loginViewController: LoginViewController, userInfo: AnyObject?) {
-        loginViewController.dismissViewControllerAnimated(true, completion: nil)
+    func loginViewController(_ loginViewController: LoginViewController, userInfo: AnyObject?) {
+        loginViewController.dismiss(animated: true, completion: nil)
         //        presentFirstPageVC()
     }
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
     }
     
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.landscape
     }
 
 }

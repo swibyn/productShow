@@ -15,20 +15,20 @@ class CRMUrl: NSObject{
     var urlDic: NSMutableDictionary?
     
     var url: String?{
-        return urlDic?.objectForKey(jfurl) as? String
+        return urlDic?.object(forKey: jfurl) as? String
     }
     
     var fileType: String?{
-        return urlDic?.objectForKey(jffileType) as? String
+        return urlDic?.object(forKey: jffileType) as? String
     }
     
     var Synced: Bool{
         get{
-            let _Synced = urlDic?.objectForKey("Synced") as? Bool
+            let _Synced = urlDic?.object(forKey: "Synced") as? Bool
             return _Synced ?? false
         }
         set{
-            urlDic?.setObject(newValue, forKey: "Synced")
+            urlDic?.setObject(newValue, forKey: "Synced" as NSCopying)
         }
     }
     
@@ -59,20 +59,20 @@ class AllCRMUrl: NSObject {
 //        return result
 //    }
     
-    func urlArrayWithSynced(synced: Bool)->NSArray{
+    func urlArrayWithSynced(_ synced: Bool)->NSArray{
         
         let _urlArray = NSMutableArray()
         for index in 0..<urlCount{
             let url = urlAtIndex(index)
             if url?.Synced == synced{
-                _urlArray.addObject(url!)
+                _urlArray.add(url!)
             }
         }
         return _urlArray
     }
     
-    func urlAtIndex(index: Int)->CRMUrl?{
-        let urlDicOpt = urlArray?.objectAtIndex(index) as? NSMutableDictionary
+    func urlAtIndex(_ index: Int)->CRMUrl?{
+        let urlDicOpt = urlArray?.object(at: index) as? NSMutableDictionary
         if let urlDic = urlDicOpt{
             let crmUrl = CRMUrl()
             crmUrl.urlDic = urlDic

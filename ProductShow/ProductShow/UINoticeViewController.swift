@@ -17,7 +17,7 @@ class UINoticeViewController: UIViewController {
     //MARK: 初始化一个实例
     static func newInstance()->UINoticeViewController{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("UINoticeViewController") as! UINoticeViewController
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UINoticeViewController") as! UINoticeViewController
         return aInstance
     }
 

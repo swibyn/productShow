@@ -59,7 +59,7 @@ let ProductFileTypeImage = 1
 let ProductFileTypeVideo = 2
 
 class ProductFile: NSObject{
-    private var _proFileDic: NSMutableDictionary?
+    fileprivate var _proFileDic: NSMutableDictionary?
     
     init(proFileDic: NSMutableDictionary) {
         _proFileDic = proFileDic
@@ -79,32 +79,32 @@ class ProductFile: NSObject{
     }
     
     var fileId: Int?{
-        return _proFileDic?.objectForKey(jffileId) as? Int
+        return _proFileDic?.object(forKey: jffileId) as? Int
     }
     
     var proId: Int?{
-        return _proFileDic?.objectForKey(jfproId) as? Int
+        return _proFileDic?.object(forKey: jfproId) as? Int
     }
     
     var fileType: Int?{
-        return _proFileDic?.objectForKey(jffileType) as? Int
+        return _proFileDic?.object(forKey: jffileType) as? Int
     }
     
     var filePath: String?{
-        return _proFileDic?.objectForKey(jffilePath) as? String
+        return _proFileDic?.object(forKey: jffilePath) as? String
     }
     
     var thumbPath: String?{
-        return _proFileDic?.objectForKey(jfthumbPath) as? String
+        return _proFileDic?.object(forKey: jfthumbPath) as? String
     }
     
     var Synced: Bool{
         get{
-            let _Synced = _proFileDic?.objectForKey("Synced") as? Bool
+            let _Synced = _proFileDic?.object(forKey: "Synced") as? Bool
             return _Synced ?? false
         }
         set{
-            _proFileDic?.setObject(newValue, forKey: "Synced")
+            _proFileDic?.setObject(newValue, forKey: "Synced" as NSCopying)
         }
     }
     
@@ -138,20 +138,20 @@ class ProductFiles: ReturnDic {
 //        return result
 //    }
     
-    func filesWithSynced(synced: Bool)->NSArray{
+    func filesWithSynced(_ synced: Bool)->NSArray{
         
         let _fileArray = NSMutableArray()
         for index in 0..<filesCount{
             let file = productFileAtIndex(index)
             if file?.Synced == synced{
-                _fileArray.addObject(file!)
+                _fileArray.add(file!)
             }
         }
         return _fileArray
     }
     
-    func productFileAtIndex(index: Int)->ProductFile?{
-        let fileDicOpt = files?.objectAtIndex(index) as? NSMutableDictionary
+    func productFileAtIndex(_ index: Int)->ProductFile?{
+        let fileDicOpt = files?.object(at: index) as? NSMutableDictionary
         if let fileDic = fileDicOpt{
             return ProductFile(proFileDic: fileDic)
         }else{

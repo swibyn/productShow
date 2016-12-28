@@ -9,15 +9,15 @@
 import Foundation
 
 extension NSDictionary{
-    func toString(keyValueSeparator: String, elementSeparator: String)->String{
+    func toString(_ keyValueSeparator: String, elementSeparator: String)->String{
       
         let paraStr = NSMutableString()
         
-        self.enumerateKeysAndObjectsUsingBlock({ (key, obj, stop) -> Void in
+        self.enumerateKeysAndObjects({ (key, obj, stop) -> Void in
             if paraStr.length == 0{
-                paraStr.appendString("\(key)\(keyValueSeparator)\(obj)")
+                paraStr.append("\(key)\(keyValueSeparator)\(obj)")
             }else{
-                paraStr.appendString("\(elementSeparator)\(key)\(keyValueSeparator)\(obj)")
+                paraStr.append("\(elementSeparator)\(key)\(keyValueSeparator)\(obj)")
             }
         })
         return paraStr as String

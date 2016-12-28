@@ -19,12 +19,12 @@ class Categories2CollectionViewController: UICollectionViewController {
         self.title = category1?.catName
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         GetProLeave2()
@@ -43,7 +43,7 @@ class Categories2CollectionViewController: UICollectionViewController {
         WebApi.GetProLeave2([jfpId : catId!], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                 self.categories = Categories(returnDic: json)
                 
                 if (self.categories!.status! == 1){
@@ -64,18 +64,18 @@ class Categories2CollectionViewController: UICollectionViewController {
     
     // MARK: - collection view data source
     
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
         return categories?.categoriesCount ?? 0
     }
     
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         
         // Configure the cell...
         let label = cell.viewWithTag(100) as? UILabel
@@ -89,9 +89,9 @@ class Categories2CollectionViewController: UICollectionViewController {
     }
     
     
-    func collectionView(collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
+        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
             //            let width = self.collectionView?.bounds
             return  CGSize(width: (size!.width - 60)/2 ,height: 97)
@@ -102,11 +102,11 @@ class Categories2CollectionViewController: UICollectionViewController {
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
-        let selectedIndexPath = self.collectionView?.indexPathForCell(sender as! UICollectionViewCell)
-        let destVC = segue.destinationViewController
+        let selectedIndexPath = self.collectionView?.indexPath(for: sender as! UICollectionViewCell)
+        let destVC = segue.destination
         let index = selectedIndexPath?.row
         let category = categories?.categoryAtIndex(index!)
         if (segue.identifier == "category2ToProducts"){
@@ -119,7 +119,7 @@ class Categories2CollectionViewController: UICollectionViewController {
                 
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                    let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                     let products = Products(returnDic: json)
                     
                     productsVc.products = products

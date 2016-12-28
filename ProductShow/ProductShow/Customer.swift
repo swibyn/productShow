@@ -10,7 +10,7 @@ import Foundation
 
 
 class Customer: NSObject{
-    private var _customerDic: NSDictionary?
+    fileprivate var _customerDic: NSDictionary?
     
     init(customerDic: NSDictionary) {
         _customerDic = customerDic
@@ -30,132 +30,132 @@ class Customer: NSObject{
     }
     
     var custId: Int?{
-        return _customerDic?.objectForKey(jfcustId) as? Int
+        return _customerDic?.object(forKey: jfcustId) as? Int
     }
     
     var custNo: String?{
-        return _customerDic?.objectForKey(jfcustNo) as? String
+        return _customerDic?.object(forKey: jfcustNo) as? String
     }
     
     var custName: String?{
-        return _customerDic?.objectForKey(jfcustName) as? String
+        return _customerDic?.object(forKey: jfcustName) as? String
     }
     
     var shortName: String?{
-        return _customerDic?.objectForKey(jfshortName) as? String
+        return _customerDic?.object(forKey: jfshortName) as? String
     }
     
     var state: Int?{
-        return _customerDic?.objectForKey(jfstate) as? Int
+        return _customerDic?.object(forKey: jfstate) as? Int
     }
     
     
     var address: String?{
-        return _customerDic?.objectForKey(jfaddress) as? String
+        return _customerDic?.object(forKey: jfaddress) as? String
     }
     
     var giveAddress: String?{
-        return _customerDic?.objectForKey(jfgiveAddress) as? String
+        return _customerDic?.object(forKey: jfgiveAddress) as? String
     }
     
     var areaId: Int?{
-        return _customerDic?.objectForKey(jfareaId) as? Int
+        return _customerDic?.object(forKey: jfareaId) as? Int
     }
     
     var area: String?{
-        return _customerDic?.objectForKey(jfarea) as? String
+        return _customerDic?.object(forKey: jfarea) as? String
     }
     
     var cityId: Int?{
-        return _customerDic?.objectForKey(jfcityId) as? Int
+        return _customerDic?.object(forKey: jfcityId) as? Int
     }
     
     var city: String?{
-        return _customerDic?.objectForKey(jfcity) as? String
+        return _customerDic?.object(forKey: jfcity) as? String
     }
     
     var linkman: String?{
-        return _customerDic?.objectForKey(jflinkman) as? String
+        return _customerDic?.object(forKey: jflinkman) as? String
     }
     
     var tel: String?{
-        return _customerDic?.objectForKey(jftel) as? String
+        return _customerDic?.object(forKey: jftel) as? String
     }
     
     var mobile: String?{
-        return _customerDic?.objectForKey(jfmobile) as? String
+        return _customerDic?.object(forKey: jfmobile) as? String
     }
     
     var fax: String?{
-        return _customerDic?.objectForKey(jffax) as? String
+        return _customerDic?.object(forKey: jffax) as? String
     }
     
     var bankName: String?{
-        return _customerDic?.objectForKey(jfbankName) as? String
+        return _customerDic?.object(forKey: jfbankName) as? String
     }
     
     var accountNo: String?{
-        return _customerDic?.objectForKey(jfaccountNo) as? String
+        return _customerDic?.object(forKey: jfaccountNo) as? String
     }
     
     var taxNo: String?{
-        return _customerDic?.objectForKey(jftaxNo) as? String
+        return _customerDic?.object(forKey: jftaxNo) as? String
     }
     
     var TaxRate: String?{
-        return _customerDic?.objectForKey(jfTaxRate) as? String
+        return _customerDic?.object(forKey: jfTaxRate) as? String
     }
     
     var boss: String?{
-        return _customerDic?.objectForKey(jfboss) as? String
+        return _customerDic?.object(forKey: jfboss) as? String
     }
     
     var createDate: String?{
-        return _customerDic?.objectForKey(jfcreateDate) as? String
+        return _customerDic?.object(forKey: jfcreateDate) as? String
     }
     
     var invoiceType: Int?{
-        return _customerDic?.objectForKey(jfinvoiceType) as? Int
+        return _customerDic?.object(forKey: jfinvoiceType) as? Int
     }
     
     var receiptType: Int?{
-        return _customerDic?.objectForKey(jfreceiptType) as? Int
+        return _customerDic?.object(forKey: jfreceiptType) as? Int
     }
     
     var payCurrency: String?{
-        return _customerDic?.objectForKey(jfpayCurrency) as? String
+        return _customerDic?.object(forKey: jfpayCurrency) as? String
     }
     
     var payType: Int?{
-        return _customerDic?.objectForKey(jfpayType) as? Int
+        return _customerDic?.object(forKey: jfpayType) as? Int
     }
     
     var deptId: Int?{
-        return _customerDic?.objectForKey(jfdeptId) as? Int
+        return _customerDic?.object(forKey: jfdeptId) as? Int
     }
     
     var saleId: Int?{
-        return _customerDic?.objectForKey(jfsaleId) as? Int
+        return _customerDic?.object(forKey: jfsaleId) as? Int
     }
     
     var dept: String?{
-        return _customerDic?.objectForKey(jfdept) as? String
+        return _customerDic?.object(forKey: jfdept) as? String
     }
     
     var mail: String?{
-        return _customerDic?.objectForKey(jfmail) as? String
+        return _customerDic?.object(forKey: jfmail) as? String
     }
     
     var creditLine: Int?{
-        return _customerDic?.objectForKey(jfcreditLine) as? Int
+        return _customerDic?.object(forKey: jfcreditLine) as? Int
     }
     
     var memo: String?{
-        return _customerDic?.objectForKey(jfmemo) as? String
+        return _customerDic?.object(forKey: jfmemo) as? String
     }
     
-    func stringForKey(key: String)->String?{
-        let objOpt = _customerDic?.objectForKey(key)
+    func stringForKey(_ key: String)->String?{
+        let objOpt = _customerDic?.object(forKey: key)
         if let obj = objOpt{
             return "\(obj)"
         }
@@ -165,7 +165,7 @@ class Customer: NSObject{
 
 class Customers: ReturnDic {
     
-    private var customers: NSArray?{
+    fileprivate var customers: NSArray?{
         return data_dt
 //        //用户信息
 //        let data = _returnDic?.objectForKey(jfdata) as? NSDictionary
@@ -177,8 +177,8 @@ class Customers: ReturnDic {
         return customers?.count ?? 0
     }
     
-    func customerAtIndex(index: Int)->Customer?{
-        let customerDicOpt = customers?.objectAtIndex(index) as? NSDictionary
+    func customerAtIndex(_ index: Int)->Customer?{
+        let customerDicOpt = customers?.object(at: index) as? NSDictionary
         if let customerDic = customerDicOpt{
             return Customer(customerDic: customerDic)
         }else{

@@ -18,7 +18,7 @@ class UINoticeTableViewController: UITableViewController {
         self.title = "Announcements"
         
         let nib = UINib(nibName: "CommonTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "CommonTableViewCell")
+        tableView.register(nib, forCellReuseIdentifier: "CommonTableViewCell")
         
         GetNotice()
     }
@@ -34,7 +34,7 @@ class UINoticeTableViewController: UITableViewController {
         WebApi.GetNotice(nil,  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                 
                 self.notices = Notices(returnDic: json)
                 self.tableView.reloadData()
@@ -50,21 +50,21 @@ class UINoticeTableViewController: UITableViewController {
     }
 
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return notices?.noticesCount ?? 0
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("CommonTableViewCell", forIndexPath: indexPath) as! UICommonTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "CommonTableViewCell", for: indexPath) as! UICommonTableViewCell
         cell.initCell(nil, indexPath: nil, hideRightButtons: false)
-        cell.detailButton.hidden = true
+        cell.detailButton.isHidden = true
         
         
         // Configure the cell...
@@ -75,12 +75,12 @@ class UINoticeTableViewController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(UICommonTableViewCell.rowHeight)
     }
     
     //MARK: - Table view Delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let notice = notices?.noticeAtIndex(indexPath.row)
         let noticeViewController = UINoticeViewController.newInstance()
         noticeViewController.notice = notice
@@ -126,12 +126,12 @@ class UINoticeTableViewController: UITableViewController {
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         let selectedIndexPath = self.tableView.indexPathForSelectedRow!
         let notice = notices?.noticeAtIndex(selectedIndexPath.row)
-        let destVc = segue.destinationViewController
+        let destVc = segue.destination
         
         destVc.setValue(notice, forKey: "notice")
     }

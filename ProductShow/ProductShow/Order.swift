@@ -7,6 +7,30 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 /*保存格式*/
 /*
@@ -48,7 +72,8 @@ class OrderSaveKey {
 class ImagePath: NSObject{
     var pathDic: NSMutableDictionary!
     
-    init(var pathDic: NSMutableDictionary?){
+    init(pathDic: NSMutableDictionary?){
+        var pathDic = pathDic
         super.init()
 
         if pathDic == nil{
@@ -59,19 +84,19 @@ class ImagePath: NSObject{
     
     var localpath: String?{
         get{
-            return pathDic.objectForKey(OrderSaveKey.localpath) as? String
+            return pathDic.object(forKey: OrderSaveKey.localpath) as? String
         }
         set{
-            pathDic.setObject(newValue ?? "", forKey: OrderSaveKey.localpath)
+            pathDic.setObject(newValue ?? "", forKey: OrderSaveKey.localpath as NSCopying)
         }
     }
     
     var remotepath: String?{
         get{
-            return pathDic.objectForKey(OrderSaveKey.remotepath) as? String
+            return pathDic.object(forKey: OrderSaveKey.remotepath) as? String
         }
         set{
-            pathDic.setObject(newValue ?? "", forKey: OrderSaveKey.remotepath)
+            pathDic.setObject(newValue ?? "", forKey: OrderSaveKey.remotepath as NSCopying)
         }
     }
     
@@ -84,7 +109,7 @@ class Order: NSObject {
     override init(){
         super.init()
 
-        let time = NSDate().toString("yyyy-MM-dd HH:mm:ss")
+        let time = Date().toString("yyyy-MM-dd HH:mm:ss")
         self.orderDic = NSMutableDictionary(dictionary:
             [OrderSaveKey.orderId: time,
             OrderSaveKey.orderTime: time,
@@ -105,21 +130,21 @@ class Order: NSObject {
     }
     
     //MARK:Image 相关
-    func addImageByPath(localPath: String)->ImagePath{
+    func addImageByPath(_ localPath: String)->ImagePath{
         let newImagePath = ImagePath(pathDic: nil)
         newImagePath.localpath = localPath
-        imagePaths?.addObject(newImagePath.pathDic)
+        imagePaths?.add(newImagePath.pathDic)
         Orders.defaultOrders().flush()
         return newImagePath
     }
     
     
     var imagePaths: NSMutableArray?{
-        return orderDic.objectForKey(OrderSaveKey.imagePaths) as? NSMutableArray
+        return orderDic.object(forKey: OrderSaveKey.imagePaths) as? NSMutableArray
     }
     
-    func imagePathAtIndex(index: Int)->ImagePath?{
-        let imagePathDic = imagePaths?.objectAtIndex(index) as? NSMutableDictionary
+    func imagePathAtIndex(_ index: Int)->ImagePath?{
+        let imagePathDic = imagePaths?.object(at: index) as? NSMutableDictionary
         let imagePath = ImagePath(pathDic: imagePathDic)
         return imagePath
     }
@@ -127,10 +152,10 @@ class Order: NSObject {
     var imgPathsForSubmit: NSArray{
         let _imgPaths = NSMutableArray()
         
-        imagePaths?.enumerateObjectsUsingBlock({ (imagePathObj, Index, stop) -> Void in
+        imagePaths?.enumerateObjects({ (imagePathObj, Index, stop) -> Void in
             let imagePathDic = imagePathObj as? NSDictionary
-            let imgPath = imagePathDic?.objectForKey(OrderSaveKey.remotepath)
-            _imgPaths.addObject([jfimgPath: imgPath!])
+            let imgPath = imagePathDic?.object(forKey: OrderSaveKey.remotepath)
+            _imgPaths.add([jfimgPath: imgPath!])
         })
         return _imgPaths
         
@@ -141,27 +166,36 @@ class Order: NSObject {
     */
     func firstImageToBeUpload()->NSMutableDictionary?{
         var returnDic: NSMutableDictionary? = nil
-        imagePaths?.enumerateObjectsUsingBlock { (imagePathDic, index, stop) -> Void in
-            if imagePathDic.objectForKey(OrderSaveKey.remotepath) == nil{
-                returnDic = imagePathDic as? NSMutableDictionary
+        
+        for (index,obj) in (imagePaths?.enumerated())!{
+            let imagePathDic = obj as! NSMutableDictionary
+            if imagePathDic.object(forKey: OrderSaveKey.remotepath) == nil {
+                returnDic = imagePathDic 
+                break
             }
         }
         return returnDic
+//        imagePaths?.enumerateObjects { (imagePathDic, index, stop) -> Void in
+//            if imagePathDic.object(forKey: OrderSaveKey.remotepath) == nil{
+//                returnDic = imagePathDic as? NSMutableDictionary
+//            }
+//        }
+//        return returnDic
     }
     
     //设置remotePath
-    class func setRemotePath(remoteUrl: String, toDic dic: NSMutableDictionary){
-        dic.setObject(remoteUrl, forKey: OrderSaveKey.remotepath)
+    class func setRemotePath(_ remoteUrl: String, toDic dic: NSMutableDictionary){
+        dic.setObject(remoteUrl, forKey: OrderSaveKey.remotepath as NSCopying)
         Orders.defaultOrders().flush()
     }
     
     //MARK:product相关
     var products: NSArray{
         get{
-            return orderDic.objectForKey(OrderSaveKey.products) as! NSArray
+            return orderDic.object(forKey: OrderSaveKey.products) as! NSArray
         }
         set{
-            orderDic.setObject(newValue, forKey: OrderSaveKey.products)
+            orderDic.setObject(newValue, forKey: OrderSaveKey.products as NSCopying)
             Orders.defaultOrders().flush()
         }
     }
@@ -170,7 +204,7 @@ class Order: NSObject {
     var productsForSubmit: NSArray{
         let _productsForSubmit = NSMutableArray()
         
-        for (_, productObj) in products.enumerate(){
+        for (_, productObj) in products.enumerated(){
         
 //        products.enumerateObjectsUsingBlock { (productObj, index, stop) -> Void in
             let productDic = productObj as? NSMutableDictionary
@@ -178,14 +212,14 @@ class Order: NSObject {
             let proId = product.proId
             let remark = product.additionInfo ?? ""
             let number = "\(product.number)"
-            let dic = [jfproId: proId!, jfremark: remark, jfnumber: number]
-            _productsForSubmit.addObject(dic)
+            let dic = [jfproId: proId!, jfremark: remark, jfnumber: number] as [String : Any]
+            _productsForSubmit.add(dic)
         }
         return _productsForSubmit
     }
     
-    func productAtIndex(index: Int) -> Product?{
-        let productDicOpt = products.objectAtIndex(index) as? NSMutableDictionary
+    func productAtIndex(_ index: Int) -> Product?{
+        let productDicOpt = products.object(at: index) as? NSMutableDictionary
         if let productDic = productDicOpt{
             return Product(productDic: productDic)
         }
@@ -194,28 +228,28 @@ class Order: NSObject {
     
     //MARK:属性
     var orderId: String?{
-        return orderDic.objectForKey(OrderSaveKey.orderId) as? String
+        return orderDic.object(forKey: OrderSaveKey.orderId) as? String
     }
     
     var placed: Bool{
         get{
-            let _placed = orderDic.objectForKey(OrderSaveKey.placed) as? Bool
+            let _placed = orderDic.object(forKey: OrderSaveKey.placed) as? Bool
             return _placed ?? false
         }
         set{
-            orderDic.setObject(newValue, forKey: OrderSaveKey.placed)
+            orderDic.setObject(newValue, forKey: OrderSaveKey.placed as NSCopying)
             Orders.defaultOrders().flush()
         }
     }
     
     var orderTime: String?{
-        return orderDic.objectForKey(OrderSaveKey.orderTime) as? String
+        return orderDic.object(forKey: OrderSaveKey.orderTime) as? String
     }
     
     var orderName: String{
         get{
-            let _orderName = orderDic.objectForKey(OrderSaveKey.orderName)
-            if _orderName?.length>0{
+            let _orderName = orderDic.object(forKey: OrderSaveKey.orderName)
+            if (_orderName as AnyObject).length>0{
                 return _orderName as! String
             }else if products.count == 1{
                 return "(1 product)"
@@ -224,7 +258,7 @@ class Order: NSObject {
             }
         }
         set{
-            orderDic.setObject(newValue, forKey: OrderSaveKey.orderName)
+            orderDic.setObject(newValue, forKey: OrderSaveKey.orderName as NSCopying)
             Orders.defaultOrders().flush()
         }
     }
@@ -246,10 +280,10 @@ class Orders: NSObject {
     
     override init() {
         //订单列表
-        let oldOrdersDataOpt = NSUserDefaults.standardUserDefaults().objectForKey(OrderSaveKey.orderArray) as? NSData
+        let oldOrdersDataOpt = UserDefaults.standard.object(forKey: OrderSaveKey.orderArray) as? Data
         var jsonOpt : AnyObject? = nil
         if let oldOrdersData = oldOrdersDataOpt{
-            jsonOpt = try? NSJSONSerialization.JSONObjectWithData(oldOrdersData, options: NSJSONReadingOptions.MutableContainers)
+            jsonOpt = try! JSONSerialization.jsonObject(with: oldOrdersData, options: JSONSerialization.ReadingOptions.mutableContainers) as AnyObject?
         }
         
         if let json = jsonOpt{
@@ -257,30 +291,30 @@ class Orders: NSObject {
         }
     }
     
-    private static var _defaultOrders = Orders()
+    fileprivate static var _defaultOrders = Orders()
     class func defaultOrders()->Orders {
         return _defaultOrders
     }
     
     func flush(){
-        let newOrdersData = try? NSJSONSerialization.dataWithJSONObject(_orders, options: NSJSONWritingOptions())
-        NSUserDefaults.standardUserDefaults().setObject(newOrdersData, forKey: OrderSaveKey.orderArray)
+        let newOrdersData = try? JSONSerialization.data(withJSONObject: _orders, options: JSONSerialization.WritingOptions())
+        UserDefaults.standard.set(newOrdersData, forKey: OrderSaveKey.orderArray)
     }
     
-    func addOrder(order: Order){
+    func addOrder(_ order: Order){
         let orderDic = NSMutableDictionary(dictionary: order.orderDic)
-        _orders.addObject(orderDic)
+        _orders.add(orderDic)
         flush()
        
     }
     
     //删除订单
-    func removeOrder(order: Order){
+    func removeOrder(_ order: Order){
         
-        for (_, orderDic) in _orders.enumerate(){
+        for (_, orderDic) in _orders.enumerated(){
             let tmpOrder = Order(orderDic: orderDic as! NSMutableDictionary)
             if tmpOrder.orderId == order.orderId{
-                _orders.removeObject(orderDic)
+                _orders.remove(orderDic)
                 break
             }
         }
@@ -289,15 +323,15 @@ class Orders: NSObject {
         flush()
     }
     
-    func removeOrderAtIndex(index:Int){
+    func removeOrderAtIndex(_ index:Int){
         let order = orderAtIndex(index)
         if order != nil{
             removeOrder(order!)
         }
     }
     
-    func orderAtIndex(index:Int)->Order?{
-        let dicOpt = _orders.objectAtIndex(index) as? NSMutableDictionary
+    func orderAtIndex(_ index:Int)->Order?{
+        let dicOpt = _orders.object(at: index) as? NSMutableDictionary
         if let dic = dicOpt{
             return Order(orderDic: dic)
         }

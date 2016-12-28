@@ -59,7 +59,7 @@ class CustomerInfoTableViewCell: UITableViewCell {
 }
 
 //MARK: ConfigureCell
-func ConfigureCell(cell: CustomerInfoTableViewCell, customer: Customer){
+func ConfigureCell(_ cell: CustomerInfoTableViewCell, customer: Customer){
     cell.customer = customer
     cell.refreshView()
     cell.adjustPosition()
@@ -71,7 +71,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     //MARK: 初始化一个实例
     static func newInstance()->VisitLogTableViewContrller{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("VisitLogTableViewContrller") as! VisitLogTableViewContrller
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "VisitLogTableViewContrller") as! VisitLogTableViewContrller
         return aInstance
     }
 
@@ -82,7 +82,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
 
     //MARK: @IB
     
-    @IBAction func CareProductsButtonAction(sender: UIButton) {
+    @IBAction func CareProductsButtonAction(_ sender: UIButton) {
         let destVc = ProductsTableViewController.newInstance()
         destVc.title = sender.titleLabel?.text
         
@@ -92,7 +92,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
             
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                 let products = Products(returnDic: json)
                 destVc.products = products
                 self.navigationController?.pushViewController(destVc, animated: true)
@@ -106,11 +106,11 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         self.title = "Customer"
         
         let nib = UINib(nibName: "BasicTableViewCell", bundle: nil)
-        self.tableView.registerNib(nib, forCellReuseIdentifier: "BasicTableViewCell")
+        self.tableView.register(nib, forCellReuseIdentifier: "BasicTableViewCell")
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         GetWorkLogOnce()
     }
@@ -124,13 +124,13 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         }
     }
     
-    func GetWorkLog(canReadLocal: Bool){
+    func GetWorkLog(_ canReadLocal: Bool){
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
         let custId = customer.custId
         WebApi.GetWorkLog(canReadLocal, dic: [jfuid: uid!,jfcustId: custId!]) { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSMutableDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSMutableDictionary
                 
                 self.logs = Logs(returnDic: json)
                 self.tableView.reloadData()
@@ -147,7 +147,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         }
     }
     
-    func DeleteLogAtIndexPath(indexPath: NSIndexPath,  completion: ((Bool) -> Void)?){
+    func DeleteLogAtIndexPath(_ indexPath: IndexPath,  completion: ((Bool) -> Void)?){
         
         let uid = UserInfo.defaultUserInfo().firstUser?.uid
         let uName = UserInfo.defaultUserInfo().firstUser?.uname
@@ -161,12 +161,12 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         let logIdStr = (logId == nil) ? "" : "\(logId!)"
         let caozuo = "del"
         
-        let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogDesc: logDesc, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo]
+        let dic = [jfuid: uid!, jfuName: uName!, jflogDate: logDate, jflogDesc: logDesc, jfcustId: custId!, jfcustName: custName!, jflogId: logIdStr, jfcaozuo: caozuo] as [String : Any]
         
-        WebApi.WriteCustLog(dic, completedHandler: { (response, data, error) -> Void in
+        WebApi.WriteCustLog(dic as NSDictionary, completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
 
                 let returnDic = ReturnDic(returnDic: json)
                 
@@ -189,7 +189,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     }
     
     // MARK: - Table view delegate
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == 0{
             if indexPath.row == 0{
                 return 214
@@ -203,7 +203,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     
     
     // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         if indexPath.section == 0{
             return false
@@ -215,19 +215,19 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     
     
     // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             
             DeleteLogAtIndexPath(indexPath, completion: { (bDelete) -> Void in
                 if bDelete{
                     self.logs?.removeLogAtIndex(indexPath.row)
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+                    tableView.deleteRows(at: [indexPath], with: .fade)
                     self.GetWorkLog(false)
                 }else{
-                    tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+                    tableView.reloadRows(at: [indexPath], with: UITableViewRowAnimation.automatic)
                 }
             })
-        } else if editingStyle == .Insert {
+        } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }
     }
@@ -249,12 +249,12 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     */
     
     // MARK: - Table view data source
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 2
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return section == 0 ? 2 : self.logs?.logsCount ?? 0
 //        let logsCount = self.logs?.logsCount ?? 0
@@ -262,20 +262,20 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     }
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if indexPath.section == 0{
             if indexPath.row == 0{
-                let cell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! CustomerInfoTableViewCell
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell0", for: indexPath) as! CustomerInfoTableViewCell
                 ConfigureCell(cell, customer: customer)
                 return cell
             }else{
-                let cell = tableView.dequeueReusableCellWithIdentifier("cell1", forIndexPath: indexPath)
+                let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath)
                 return cell
             }
         }else{
             let log = logs?.logAtIndex(indexPath.row)
-            let cell = tableView.dequeueReusableCellWithIdentifier("BasicTableViewCell", forIndexPath: indexPath) as! BasicTableViewCell
-            let content = log?.logDesc?.stringByReplacingOccurrencesOfString("\n", withString: " ")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "BasicTableViewCell", for: indexPath) as! BasicTableViewCell
+            let content = log?.logDesc?.replacingOccurrences(of: "\n", with: " ")
             cell.leftLabel.text = content//log?.logContent
             cell.rightLabel.text = log?.logDate
             return cell
@@ -283,7 +283,7 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section > 0{
 //            if indexPath.row > 0{
                 let log = logs?.logAtIndex(indexPath.row)
@@ -300,11 +300,11 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         if segue.identifier == "logToEditor"{
-            let editorVc = segue.destinationViewController as! LogEditorViewController
+            let editorVc = segue.destination as! LogEditorViewController
             editorVc.customer = customer
             editorVc.delegate = self
         }
@@ -312,9 +312,9 @@ class VisitLogTableViewContrller: UITableViewController,LogEditorViewControllerD
     
     
     //MARK:LogEditorViewControllerDelegate
-    func LogEditorViewControllerSubmitSecceed(logEditorVC: LogEditorViewController) {
+    func LogEditorViewControllerSubmitSecceed(_ logEditorVC: LogEditorViewController) {
         self.GetWorkLog(false)
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
     }
     
 

@@ -16,7 +16,7 @@ class UIProductDetailViewController: UIViewController {
    
     
     override func viewDidLoad() {
-        let url = NSURL(string: WebApi.baseUrlStr)
+        let url = URL(string: WebApi.baseUrlStr)
         let memo = (product?.promemo)!
         webView.loadHTMLString(memo, baseURL: url!)
     }

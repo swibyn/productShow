@@ -23,19 +23,19 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         self.addFirstPageButton()
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+        tableView.register(nib, forCellReuseIdentifier: "productCell")
         
         self.cartBarButton.title = Cart.defaultCart().title
         self.addProductsInCartChangedNotificationObserver()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         searchTextField.layer.masksToBounds = true
         searchTextField.layer.cornerRadius = 5
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
     }
 
@@ -49,19 +49,19 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     }
     
     //MARK: 消息通知
-    override func handleProductsInCartChangedNotification(paramNotification: NSNotification) {
+    override func handleProductsInCartChangedNotification(_ paramNotification: Notification) {
         super.handleProductsInCartChangedNotification(paramNotification)
         self.cartBarButton.title = Cart.defaultCart().title
     }
     
     //MARK: function
-    func SearchText(text: String){
+    func SearchText(_ text: String){
         
         let searchText = text
         WebApi.SelectProByValue([jfquery : searchText], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                 
                 self.products.returnDic = json
                 self.tableView.reloadData()
@@ -70,7 +70,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
                     //获取成功
 //                    self.tableView.reloadData()
                 }else{
-                    let msgString = json.objectForKey(jfmessage) as! String
+                    let msgString = json.object(forKey: jfmessage) as! String
                     let alertView = UIAlertView(title: "", message: msgString, delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                 }
@@ -82,7 +82,7 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     }
  
     //MARK: - UITextFieldDelegate
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         let searchText = searchTextField.text!
         SearchText(searchText)
@@ -91,9 +91,9 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     
     //MARK: - Table view delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 //        debugPrint("\(self) \(__FUNCTION__)  indexPath=\(indexPath)")
-        let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
+        let selectCell = tableView.cellForRow(at: indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productViewController()
         detailVc?.product = selectCell?.product
         self.navigationController?.pushViewController(detailVc!, animated: true)
@@ -101,13 +101,13 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         
@@ -116,8 +116,8 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
     
     
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
         
@@ -126,15 +126,15 @@ class SearchProductsViewController: UITableViewController, UISearchBarDelegate, 
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(UIProductTableViewCell.rowHeight)
     }
     
     
     //MARK: - UIProductTableViewCellDelegate
-    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
+    func productTableViewCellButtonDidClick(_ cell: UIProductTableViewCell) {
         Cart.defaultCart().addProduct(cell.product)
-        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kProductsInCartChanged), object: self)
     }
     //MARK: 
 

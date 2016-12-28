@@ -9,7 +9,7 @@
 import Foundation
 
 class Category: NSObject{
-    private var _categoryDic: NSDictionary?
+    fileprivate var _categoryDic: NSDictionary?
     
     init(categoryDic: NSDictionary) {
         _categoryDic = categoryDic
@@ -29,26 +29,26 @@ class Category: NSObject{
     }
     
     var catId: Int?{
-        return _categoryDic?.objectForKey(jfcatId) as? Int
+        return _categoryDic?.object(forKey: jfcatId) as? Int
     }
     
     var catName: String?{
-        return _categoryDic?.objectForKey(jfcatName) as? String
+        return _categoryDic?.object(forKey: jfcatName) as? String
     }
     
     var memo: String?{
-        return _categoryDic?.objectForKey(jfmemo) as? String
+        return _categoryDic?.object(forKey: jfmemo) as? String
     }
     
     var catNo: String?{
-        return _categoryDic?.objectForKey(jfcatNo) as? String
+        return _categoryDic?.object(forKey: jfcatNo) as? String
     }
     
 }
 
 class Categories: ReturnDic {
     
-    private var categories: NSArray?{
+    fileprivate var categories: NSArray?{
         
         return data_dt
     }
@@ -57,8 +57,8 @@ class Categories: ReturnDic {
         return categories?.count ?? 0
     }
     
-    func categoryAtIndex(index: Int)->Category?{
-        let categoryDicOpt = categories?.objectAtIndex(index) as? NSDictionary
+    func categoryAtIndex(_ index: Int)->Category?{
+        let categoryDicOpt = categories?.object(at: index) as? NSDictionary
         if let categoryDic = categoryDicOpt{
             return Category(categoryDic: categoryDic)
         }else{

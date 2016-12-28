@@ -7,6 +7,30 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class UIImagesCollectionViewContrller2: UICollectionViewController {
     
@@ -18,7 +42,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     //MARK: 初始化一个实例
     static func newInstance()->UIImagesCollectionViewContrller2{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("UIImagesCollectionViewContrller2") as! UIImagesCollectionViewContrller2
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "UIImagesCollectionViewContrller2") as! UIImagesCollectionViewContrller2
         return aInstance
     }
 
@@ -28,12 +52,12 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
 //        GetProFilesIfNeed()
-        let indexPath = NSIndexPath(forRow: initcellIndex, inSection: 0)
-        self.collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: UICollectionViewScrollPosition.CenteredHorizontally, animated: false)
+        let indexPath = IndexPath(row: initcellIndex, section: 0)
+        self.collectionView?.scrollToItem(at: indexPath, at: UICollectionViewScrollPosition.centeredHorizontally, animated: false)
     }
     
     //MARK: function
@@ -52,34 +76,34 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
 //            }
 //        }
 //    }
-    func ImageViewTapActive(sender: AnyObject) {
-        debugPrint("\(__FUNCTION__)")
-        self.dismissViewControllerAnimated(true, completion: nil)
+    func ImageViewTapActive(_ sender: AnyObject) {
+        debugPrint("\(#function)")
+        self.dismiss(animated: true, completion: nil)
     }
 
     
     //MARK: - UICollectionViewDataSource
-    override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int{
+    override func numberOfSections(in collectionView: UICollectionView) -> Int{
         return 1
     }
     
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int{
         return productFiles?.filesCount ?? 0
         
     }
     
     // The cell that is returned must be retrieved from a call to -dequeueReusableCellWithReuseIdentifier:forIndexPath:
    
-    override  func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell{
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath)
+    override  func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell{
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
         let imageView = cell.viewWithTag(100) as! UIImageView
    
         imageView.image = UIImage(named: "430X430产品详细默认图")
-        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("ImageViewTapActive:")))
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(UIImagesCollectionViewContrller2.ImageViewTapActive(_:))))
         let productFile = productFiles?.productFileAtIndex(indexPath.row)!
         WebApi.GetFile(productFile?.filePath) { (response, data, error) -> Void in
             if productFile!.fileType! == ProductFileTypeImage{
-                if data?.length > 0{
+                if data?.count > 0{
                     imageView.image = UIImage(data: data!)
                     
                 }
@@ -91,18 +115,18 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
         return cell
     }
     
-    override func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        self.navigationController?.popViewControllerAnimated(true)
-        self.dismissViewControllerAnimated(false, completion: nil)
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.navigationController?.popViewController(animated: true)
+        self.dismiss(animated: false, completion: nil)
         
     }
     
     //MARK: - UICollectionViewDelegateFlowLayout
     //定义每个UICollectionView 的大小
     
-    func collectionView(collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
         layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize{
+        sizeForItemAtIndexPath indexPath: IndexPath) -> CGSize{
             let size = self.collectionView?.bounds.size
 //            debugPrint("size=\(size)")
             let productFile = productFiles?.productFileAtIndex(indexPath.row)!
@@ -114,7 +138,7 @@ class UIImagesCollectionViewContrller2: UICollectionViewController {
     }
     
     
-    override func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    override func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         
         let imageview = scrollView.viewWithTag(100) as! UIImageView
         return imageview

@@ -7,22 +7,46 @@
 //
 
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 protocol OrderDetailTableViewControllerDelegate{
-    func OrderDetailTableViewDidPlaceOrder(detailController: OrderDetailTableViewController)
+    func OrderDetailTableViewDidPlaceOrder(_ detailController: OrderDetailTableViewController)
 }
 
 class OrderDetailTableViewController: UITableViewController,UIImagePickerControllerDelegate,UINavigationControllerDelegate,UIActionSheetDelegate,UIProductAndRemarkTableViewCellDelegate,UIAlertViewDelegate,UITextViewControllerDelegate {
     
     var order: Order! //可修改内容，不要重新赋值，不然保存不了订单,由调用者传过来
-    private var bGoOnPlace = false
+    fileprivate var bGoOnPlace = false
     
     var delegate: OrderDetailTableViewControllerDelegate?
     
     //MARK: 初始化一个实例
     static func newInstance()->OrderDetailTableViewController{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("OrderDetailTableViewController") as! OrderDetailTableViewController
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "OrderDetailTableViewController") as! OrderDetailTableViewController
         return aInstance
     }
     
@@ -31,21 +55,21 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     @IBOutlet var submitButton: UIBarButtonItem!
     
     
-    @IBAction func addPictureButtonAction(sender: UIBarButtonItem) {
+    @IBAction func addPictureButtonAction(_ sender: UIBarButtonItem) {
         
-        let isAvailable = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera)
+        let isAvailable = UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.camera)
         
         let actionSheet = UIActionSheet(title: nil, delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: nil)
-        actionSheet.addButtonWithTitle("From photo library")
+        actionSheet.addButton(withTitle: "From photo library")
         if isAvailable {
-            actionSheet.addButtonWithTitle("Take a photo")
+            actionSheet.addButton(withTitle: "Take a photo")
         }
         
-        actionSheet.showInView(self.tableView)
+        actionSheet.show(in: self.tableView)
 
     }
     
-    @IBAction func submitButtonAction(sender: UIBarButtonItem) {
+    @IBAction func submitButtonAction(_ sender: UIBarButtonItem) {
         bGoOnPlace = true
         placeOrder()
         
@@ -60,16 +84,16 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         }
         
         let nib = UINib(nibName: "ProductAndRemarkTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "ProductAndRemarkTableViewCell")
+        tableView.register(nib, forCellReuseIdentifier: "ProductAndRemarkTableViewCell")
 
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.addOrdersChangedNotificationObserver()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeOrdersChangedNotificationObserver()
     }
@@ -80,7 +104,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     }
     
     //处理消息通知
-    override func handleOrdersChangedNotification(paramNotification: NSNotification) {
+    override func handleOrdersChangedNotification(_ paramNotification: Notification) {
         if !self.isEqual(paramNotification.object){
             self.tableView.reloadData()
         }
@@ -96,23 +120,23 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         let imagePathDicOpt = order.firstImageToBeUpload()
         if let imagePathDic = imagePathDicOpt{
             //有图片需要提交
-            let localPath = imagePathDic.objectForKey(OrderSaveKey.localpath) as! String
+            let localPath = imagePathDic.object(forKey: OrderSaveKey.localpath) as! String
 //            let imageData = PhotoUtil.getPhotoData(localPath)
             let alertView = UIAlertView(title: "photo uploading...", message: (localPath as NSString).lastPathComponent, delegate: self, cancelButtonTitle: "Cancel")
             alertView.show()
             WebApi.UpFile(localPath, completedHandler: { (response, data, error) -> Void in
-                alertView.dismissWithClickedButtonIndex(-1, animated: true)
+                alertView.dismiss(withClickedButtonIndex: -1, animated: true)
                 if WebApi.isHttpSucceed(response, data: data, error: error)
                 {
-                    let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
+                    let json = (try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSDictionary
                     let returnDic = ReturnDic(returnDic: json)
                     
                     if returnDic.status == 1{
-                        let remoteUrl = json?.objectForKey(jfimgPath) as? String
+                        let remoteUrl = json?.object(forKey: jfimgPath) as? String
                         Order.setRemotePath(remoteUrl!, toDic: imagePathDic)
-                        self.performSelector(Selector("placeOrder"), withObject: nil, afterDelay: 1)
+                        self.perform(Selector("placeOrder"), with: nil, afterDelay: 1)
                     }else{
-                        let msg = json?.objectForKey(jfmsg) as? String
+                        let msg = json?.object(forKey: jfmsg) as? String
                         let alertView = UIAlertView(title: "Fail", message: msg, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                         
@@ -132,7 +156,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     func sendShopData(){
         
         //设备编号
-        let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
+        let eqNo = UIDevice.current.advertisingIdentifier.uuidString
         
         //用户信息
         let uname = UserInfo.defaultUserInfo().firstUser?.uname
@@ -151,9 +175,9 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
 //                alertView.dismissWithClickedButtonIndex(-1, animated: false)//隐藏弹出的提示
                 if WebApi.isHttpSucceed(response, data: data, error: error){
                     
-                    let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                    let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                     
-                    let statusInt = json.objectForKey(jfstatus) as! Int
+                    let statusInt = json.object(forKey: jfstatus) as! Int
                     if (statusInt == 1){
                         //提交成功
                         //Orders.defaultOrders().removeOrder(self.order)
@@ -163,7 +187,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
                         alertView.delegate = self
                         alertView.show()
                     }else{
-                        let msgString = json.objectForKey(jfmessage) as! String
+                        let msgString = json.object(forKey: jfmessage) as! String
                         let alertView = UIAlertView(title: nil, message: msgString, delegate: nil, cancelButtonTitle: "OK")
                         alertView.show()
                     }
@@ -175,12 +199,12 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     }
     
     //MARK: camera
-    func imagePickerController(picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {//保存图片
+    func imagePickerController(_ picker: UIImagePickerController!, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {//保存图片
         
-        picker.dismissViewControllerAnimated(true, completion: nil)
+        picker.dismiss(animated: true, completion: nil)
         
-        if picker.sourceType == UIImagePickerControllerSourceType.Camera{
-            UIImageWriteToSavedPhotosAlbum(image!, self, Selector("image:didFinishSavingWithError:contextInfo:"), nil)
+        if picker.sourceType == UIImagePickerControllerSourceType.camera{
+            UIImageWriteToSavedPhotosAlbum(image!, self, #selector(OrderDetailTableViewController.image(_:didFinishSavingWithError:contextInfo:)), nil)
         }
 
 //        var saveImage: UIImage = image
@@ -197,11 +221,11 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         
     }
     
-    func imagePickerControllerDidCancel(picker: UIImagePickerController) {
-        picker.dismissViewControllerAnimated(true, completion: nil)
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
     
-    func image(image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
+    func image(_ image: UIImage, didFinishSavingWithError error: NSError?, contextInfo: AnyObject) {
         
 //        if error != nil {
 //            UIAlertView(title: "Hint", message: "Photo save to library fail", delegate: nil, cancelButtonTitle: "OK").show()
@@ -211,8 +235,8 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
 //        }
     }
     //MARK: UIAlertViewDelegate
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int){
-        let buttontitle = alertView.buttonTitleAtIndex(buttonIndex)
+    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int){
+        let buttontitle = alertView.buttonTitle(at: buttonIndex)
         if buttontitle == "Cancel"{
             bGoOnPlace = false
             
@@ -226,72 +250,72 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     // Called when we cancel a view (eg. the user clicks the Home button). This is not called when the user clicks the cancel button.
     // If not defined in the delegate, we simulate a click in the cancel button
     
-    func alertViewCancel(alertView: UIAlertView){
+    func alertViewCancel(_ alertView: UIAlertView){
         
     }
     
     //MARK: UIActionSheetDelegate
-    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+    func actionSheet(_ actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
 
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
 //        imagePicker.allowsEditing = true
         if buttonIndex == 1{
-            imagePicker.sourceType = .PhotoLibrary
+            imagePicker.sourceType = .photoLibrary
         }else if buttonIndex == 2{
-            imagePicker.sourceType = .Camera
+            imagePicker.sourceType = .camera
         }else{
             return
         }
         
-        self.presentViewController(imagePicker, animated: true, completion: nil)
+        self.present(imagePicker, animated: true, completion: nil)
     }
 
     //MARK: UITextViewControllerDelegate
-    func textViewControllerDone(textViewVC: UITextViewController) {
+    func textViewControllerDone(_ textViewVC: UITextViewController) {
         let row = remarkCellIndexPath?.row
         let product = order.productAtIndex(row!)
         product?.additionInfo = textViewVC.textView.text
         Orders.defaultOrders().flush()
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
         self.tableView.reloadData()
         
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return order.products.count + (order.imagePaths?.count ?? 0)
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // Configure the cell...
         let products = order.products
 //        let imgPaths = order.imagePaths
         
         if indexPath.row < products.count{ //显示产品
-            let cell = tableView.dequeueReusableCellWithIdentifier("ProductAndRemarkTableViewCell", forIndexPath: indexPath) as! UIProductAndRemarkTableViewCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: "ProductAndRemarkTableViewCell", for: indexPath) as! UIProductAndRemarkTableViewCell
             
             ConfigureCell(cell, showRightButton:true, product: order.productAtIndex(indexPath.row)!, delegate: self)
             
             return cell
             
         }else{ //显示图片
-            let cell = tableView.dequeueReusableCellWithIdentifier("imagecell", forIndexPath: indexPath)
+            let cell = tableView.dequeueReusableCell(withIdentifier: "imagecell", for: indexPath)
             
             let imgIndex = indexPath.row - products.count
             let imageView = cell.viewWithTag(100) as! UIImageView
             let imagePath = order.imagePathAtIndex(imgIndex)
             let localpath = imagePath?.localpath
             let imageData = PhotoUtil.getPhotoData(localpath)
-            if imageData?.length > 0{
+            if imageData?.count > 0{
                 imageView.image = UIImage(data: imageData!)
             }
             
@@ -301,7 +325,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     }
     
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         let products = order.products 
         if indexPath.row < products.count{
@@ -314,7 +338,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         }
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let products = order.products
         if indexPath.row < products.count{ //点击查看产品详情
@@ -360,9 +384,9 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
     */
     
     //MARK: UIProductAndRemarkTableViewCellDelegate
-    var remarkCellIndexPath: NSIndexPath?
-    func productAndRemarkTableViewCellMemoButtonAction(cell: UIProductAndRemarkTableViewCell) {
-        remarkCellIndexPath = self.tableView.indexPathForCell(cell)
+    var remarkCellIndexPath: IndexPath?
+    func productAndRemarkTableViewCellMemoButtonAction(_ cell: UIProductAndRemarkTableViewCell) {
+        remarkCellIndexPath = self.tableView.indexPath(for: cell)
         //添加备注
         let product = cell.product
         let textViewVC = UITextViewController.newInstance()
@@ -375,7 +399,7 @@ class OrderDetailTableViewController: UITableViewController,UIImagePickerControl
         self.navigationController?.pushViewController(textViewVC, animated: true)
     }
     
-    func productAndRemarkTableViewCellQuantityDidChanged(cell: UIProductAndRemarkTableViewCell) {
+    func productAndRemarkTableViewCellQuantityDidChanged(_ cell: UIProductAndRemarkTableViewCell) {
         
     }
     /*

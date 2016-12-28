@@ -9,7 +9,7 @@
 import Foundation
 
 class Notice: NSObject{
-    private var _noticeDic: NSDictionary?
+    fileprivate var _noticeDic: NSDictionary?
     
     init(noticeDic: NSDictionary) {
         _noticeDic = noticeDic
@@ -29,30 +29,30 @@ class Notice: NSObject{
     }
     
     var noticeId: Int?{
-        return _noticeDic?.objectForKey(jfnoticeId) as? Int
+        return _noticeDic?.object(forKey: jfnoticeId) as? Int
     }
     
     var title: String?{
-        return _noticeDic?.objectForKey(jftitle) as? String
+        return _noticeDic?.object(forKey: jftitle) as? String
     }
     
     var contents: String?{
-        return _noticeDic?.objectForKey(jfcontents) as? String
+        return _noticeDic?.object(forKey: jfcontents) as? String
     }
     
     var releaseDate: String?{
-        return _noticeDic?.objectForKey(jfreleaseDate) as? String
+        return _noticeDic?.object(forKey: jfreleaseDate) as? String
     }
     
     var isUser: Int?{
-        return _noticeDic?.objectForKey(jfisUse) as? Int
+        return _noticeDic?.object(forKey: jfisUse) as? Int
     }
     
 }
 
 class Notices: ReturnDic {
     
-    private var notices: NSArray?{
+    fileprivate var notices: NSArray?{
        
 //        let data = _returnDic?.objectForKey(jfdata) as? NSDictionary
 //        let dt = data?.objectForKey(jfdt) as? NSArray
@@ -63,8 +63,8 @@ class Notices: ReturnDic {
         return notices?.count ?? 0
     }
     
-    func noticeAtIndex(index: Int)->Notice?{
-        let noticeDicOpt = notices?.objectAtIndex(index) as? NSDictionary
+    func noticeAtIndex(_ index: Int)->Notice?{
+        let noticeDicOpt = notices?.object(at: index) as? NSDictionary
         if let noticeDic = noticeDicOpt{
             return Notice(noticeDic: noticeDic)
         }else{

@@ -13,8 +13,8 @@ import AdSupport
 
 extension UIDevice{
     
-    var advertisingIdentifier: NSUUID!{
-        let uuid = ASIdentifierManager.sharedManager().advertisingIdentifier
+    var advertisingIdentifier: UUID!{
+        let uuid = ASIdentifierManager.shared().advertisingIdentifier
         return uuid
     }
     

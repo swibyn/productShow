@@ -9,7 +9,7 @@
 import Foundation
 
 class Product: NSObject{
-    private var _productDic: NSMutableDictionary?
+    fileprivate var _productDic: NSMutableDictionary?
     
     init(productDic: NSMutableDictionary) {
 //        _productDic = NSMutableDictionary(dictionary:  productDic)
@@ -30,58 +30,58 @@ class Product: NSObject{
     }
     
     var proId: Int?{
-        return _productDic?.objectForKey(jfproId) as? Int
+        return _productDic?.object(forKey: jfproId) as? Int
     }
     
     var proName: String?{
-        return _productDic?.objectForKey(jfproName) as? String
+        return _productDic?.object(forKey: jfproName) as? String
     }
     
     var catId: Int?{
-        return _productDic?.objectForKey(jfcatId) as? Int
+        return _productDic?.object(forKey: jfcatId) as? Int
     }
     
     var proSize: String?{
-        return _productDic?.objectForKey(jfproSize) as? String
+        return _productDic?.object(forKey: jfproSize) as? String
     }
     
     var remark: String?{
-        return _productDic?.objectForKey(jfremark) as? String
+        return _productDic?.object(forKey: jfremark) as? String
     }
     
     var imgUrl: String?{
-        return _productDic?.objectForKey(jfimgUrl) as? String
+        return _productDic?.object(forKey: jfimgUrl) as? String
     }
     
     var thumbUrl: String?{
-        return _productDic?.objectForKey(jfthumbUrl) as? String
+        return _productDic?.object(forKey: jfthumbUrl) as? String
     }
     
     var orderIndex: Int?{
-        return _productDic?.objectForKey(jforderIndex) as? Int
+        return _productDic?.object(forKey: jforderIndex) as? Int
     }
     
     var isHot: Int?{
-        return _productDic?.objectForKey(jfisHot) as? Int
+        return _productDic?.object(forKey: jfisHot) as? Int
     }
     
     var promemo: String?{
-        return _productDic?.objectForKey(jfpromemo) as? String
+        return _productDic?.object(forKey: jfpromemo) as? String
     }
     
     var proVer: String?{
-        return _productDic?.objectForKey(jfproVer) as? String
+        return _productDic?.object(forKey: jfproVer) as? String
     }
     
     var additionInfo: String?{
         get{
-            return _productDic?.objectForKey("additionInfo") as? String
+            return _productDic?.object(forKey: "additionInfo") as? String
         }
         set{
             if newValue == nil{
-                _productDic?.removeObjectForKey("additionInfo")
+                _productDic?.removeObject(forKey: "additionInfo")
             }else{
-                _productDic?.setObject(newValue!, forKey: "additionInfo")
+                _productDic?.setObject(newValue!, forKey: "additionInfo" as NSCopying)
             }
         }
     }
@@ -89,7 +89,7 @@ class Product: NSObject{
     //加入购物车时，多次加入则增加这个值
     var number: Int{
         get{
-            var _number = _productDic?.objectForKey("number") as? Int
+            var _number = _productDic?.object(forKey: "number") as? Int
             if _number == nil{
                 _number = 1
             }
@@ -97,7 +97,7 @@ class Product: NSObject{
             
         }
         set{
-            _productDic?.setObject(newValue, forKey: "number")
+            _productDic?.setObject(newValue, forKey: "number" as NSCopying)
         }
     }
 }
@@ -105,7 +105,7 @@ class Product: NSObject{
 class Products: ReturnDic {
     
     
-    private var products: NSArray?{
+    fileprivate var products: NSArray?{
         return data_dt
     }
     
@@ -113,8 +113,8 @@ class Products: ReturnDic {
         return products?.count ?? 0
     }
     
-    func productAtIndex(index: Int)->Product?{
-        let productDicOpt = products?.objectAtIndex(index) as? NSMutableDictionary
+    func productAtIndex(_ index: Int)->Product?{
+        let productDicOpt = products?.object(at: index) as? NSMutableDictionary
         if let productDic = productDicOpt{
             return Product(productDic: productDic)
         }else{

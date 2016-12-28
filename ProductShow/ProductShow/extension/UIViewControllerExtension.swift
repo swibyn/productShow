@@ -18,126 +18,126 @@ extension UIViewController{
     
     //MARK: Home Button
     func addFirstPageButton(){
-        let firstPageButtonItem = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.Plain, target: self, action: Selector("firstPageButtonAction:"))
-        firstPageButtonItem.tintColor = UIColor.whiteColor()
+        let firstPageButtonItem = UIBarButtonItem(title: "Home", style: UIBarButtonItemStyle.plain, target: self, action: #selector(UIViewController.firstPageButtonAction(_:)))
+        firstPageButtonItem.tintColor = UIColor.white
 //        self.navigationItem.leftBarButtonItems?.append(firstPageButtonItem)
         self.navigationItem.leftBarButtonItems = [firstPageButtonItem]
         
     }
     
     //Home Button event
-    func firstPageButtonAction(sender: UIBarButtonItem){
+    func firstPageButtonAction(_ sender: UIBarButtonItem){
         (self.tabBarController as! HomeTabBarViewController).presentFirstPageVC()
     }
     
     //MARK: - Notifications
     //MARK: removeSelfObserver
     func removeSelfObserver() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
     
     //MARK: Keyboard Notification
     func addKeyboardNotificationObserver(){
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("handleKeyboardWillShow:"), name: UIKeyboardWillShowNotification, object: nil)
-        center.addObserver(self, selector: Selector("handleKeyboardWillHide:"), name: UIKeyboardWillHideNotification, object: nil)
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(UIViewController.handleKeyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.addObserver(self, selector: #selector(UIViewController.handleKeyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func removeKeyboardNotificationObserver(){
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        center.removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        center.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func handleKeyboardWillShow(paramNotification: NSNotification){
+    func handleKeyboardWillShow(_ paramNotification: Notification){
         //nothing -to be override
     }
     
-    func handleKeyboardWillHide(paramNotification: NSNotification){
+    func handleKeyboardWillHide(_ paramNotification: Notification){
         //nothing -to be override
     }
     
-    func keyboardAnimationDurationAndEndRect(paramNotification: NSNotification) -> (animationDuration: Double,keyboardEndRect: CGRect){
+    func keyboardAnimationDurationAndEndRect(_ paramNotification: Notification) -> (animationDuration: Double,keyboardEndRect: CGRect){
         let userInfo = paramNotification.userInfo!
         let animationDurationObject = userInfo[UIKeyboardAnimationDurationUserInfoKey]
         let keyboardEndRectObject = userInfo[UIKeyboardFrameEndUserInfoKey]
         var animationDuration = 0.0
-        var keyboardEndRect = CGRectMake(0, 0, 0, 0)
-        animationDurationObject?.getValue(&animationDuration)
-        keyboardEndRectObject?.getValue(&keyboardEndRect)
+        var keyboardEndRect = CGRect(x: 0, y: 0, width: 0, height: 0)
+        (animationDurationObject as AnyObject).getValue(&animationDuration)
+        (keyboardEndRectObject as AnyObject).getValue(&keyboardEndRect)
         return (animationDuration,keyboardEndRect)
         
     }
     
     //MARK: Login Notification
     func postLoginSucceedNotification(){
-        NSNotificationCenter.defaultCenter().postNotificationName(kLoginSucceed, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kLoginSucceed), object: self)
     }
 
     func addLoginNotificationObserver(){
-        let center = NSNotificationCenter.defaultCenter()
-        center.addObserver(self, selector: Selector("handleLoginSucceedNotification:"), name: kLoginSucceed, object: nil)
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(UIViewController.handleLoginSucceedNotification(_:)), name: NSNotification.Name(rawValue: kLoginSucceed), object: nil)
     }
     
     func removeLoginNotificationObserver(){
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self, name: kLoginSucceed, object: nil)
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: NSNotification.Name(rawValue: kLoginSucceed), object: nil)
     }
     
-    func handleLoginSucceedNotification(paramNotification: NSNotification){
+    func handleLoginSucceedNotification(_ paramNotification: Notification){
         //nothing         //to be override
     }
         
     
     //MARK: ProductsInCartChangedNotification
     func postProductsInCartChangedNotification(){
-        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kProductsInCartChanged), object: self)
     }
     
     func addProductsInCartChangedNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleProductsInCartChangedNotification:"), name: kProductsInCartChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.handleProductsInCartChangedNotification(_:)), name: NSNotification.Name(rawValue: kProductsInCartChanged), object: nil)
     }
     
     func removeProductsInCartChangedNotificationObserver(){
-        let center = NSNotificationCenter.defaultCenter()
-        center.removeObserver(self, name: kProductsInCartChanged, object: nil)
+        let center = NotificationCenter.default
+        center.removeObserver(self, name: NSNotification.Name(rawValue: kProductsInCartChanged), object: nil)
     }
     
-    func handleProductsInCartChangedNotification(paramNotification: NSNotification){
+    func handleProductsInCartChangedNotification(_ paramNotification: Notification){
         //nothing         //to be override
     }
     
     //MARK: UserSignOutNotification
     func postUserSignOutNotification(){
-        NSNotificationCenter.defaultCenter().postNotificationName(kUserSignOutNotification, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kUserSignOutNotification), object: self)
     }
 
     func addUserSignOutNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleUserSignOutNotification:"), name: kUserSignOutNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.handleUserSignOutNotification(_:)), name: NSNotification.Name(rawValue: kUserSignOutNotification), object: nil)
     }
     
     func removeUserSignOutNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: kUserSignOutNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name(rawValue: kUserSignOutNotification), object: nil)
     }
     
-    func handleUserSignOutNotification(paramNotification: NSNotification){
+    func handleUserSignOutNotification(_ paramNotification: Notification){
         
     }
     
     //MARK: OrdersChangedNotification
     func postOrdersChangedNotification(){
-        NSNotificationCenter.defaultCenter().postNotificationName(kOrdersChanged, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kOrdersChanged), object: self)
     }
 
     func addOrdersChangedNotificationObserver(){
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("handleOrdersChangedNotification:"), name: kOrdersChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(UIViewController.handleOrdersChangedNotification(_:)), name: NSNotification.Name(rawValue: kOrdersChanged), object: nil)
     }
     
     func removeOrdersChangedNotificationObserver(){
-        NSNotificationCenter.defaultCenter().removeObserver(self,name:kOrdersChanged,object:nil)
+        NotificationCenter.default.removeObserver(self,name:NSNotification.Name(rawValue: kOrdersChanged),object:nil)
     }
     
-    func handleOrdersChangedNotification(paramNotification: NSNotification){
+    func handleOrdersChangedNotification(_ paramNotification: Notification){
         
     }
     

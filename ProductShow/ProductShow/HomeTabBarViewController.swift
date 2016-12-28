@@ -16,12 +16,12 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
         self.addUserSignOutNotificationObserver()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         adjustTabBarItems()
@@ -30,7 +30,7 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
         let bsignin = UserInfo.defaultUserInfo().status == 1
 
         if !bsignin{
-            self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
+            self.presentFirstPageVC(UIModalTransitionStyle.flipHorizontal, animated: false, completion: nil)
         }
 
     }
@@ -50,7 +50,7 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
     func adjustTabBarItems(){
         if !bchangeTabBar{
             bchangeTabBar = true
-            self.tabBar.tintColor = UIColor.whiteColor()
+            self.tabBar.tintColor = UIColor.white
             for i in 0..<self.tabBar.items!.count{
                 adjustTabBarItem(self.tabBar.items![i])
             }
@@ -58,7 +58,7 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
     }
     
     //往下面挪一点
-    func adjustTabBarItem(tabBarItem: UITabBarItem){
+    func adjustTabBarItem(_ tabBarItem: UITabBarItem){
         let old = tabBarItem.imageInsets
         let offset: CGFloat = 5
         
@@ -71,36 +71,36 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
     
     //MARK: 消息通知
     
-    override func handleUserSignOutNotification(paramNotification: NSNotification) {
+    override func handleUserSignOutNotification(_ paramNotification: Notification) {
         super.handleUserSignOutNotification(paramNotification)
-        self.presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: false, completion: nil)
+        self.presentFirstPageVC(UIModalTransitionStyle.flipHorizontal, animated: false, completion: nil)
     }
     
     //MARK: 弹出首页
-    func presentFirstPageVC(modalTransitionStyle: UIModalTransitionStyle, animated: Bool, completion:(()->Void)?){
+    func presentFirstPageVC(_ modalTransitionStyle: UIModalTransitionStyle, animated: Bool, completion:(()->Void)?){
         let firstPageVC = FirstPageViewController.newInstance()
         firstPageVC.delegate = self
         firstPageVC.modalTransitionStyle = modalTransitionStyle
-        self.presentViewController(firstPageVC, animated: animated, completion: nil)
+        self.present(firstPageVC, animated: animated, completion: nil)
     }
     
     func presentFirstPageVC(){
-        presentFirstPageVC(UIModalTransitionStyle.FlipHorizontal, animated: true, completion: nil)
+        presentFirstPageVC(UIModalTransitionStyle.flipHorizontal, animated: true, completion: nil)
     }
     
     
     // MARK: FirstPageViewControllerDelegate
-    func firstPageViewController(firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
+    func firstPageViewController(_ firstPageViewController: FirstPageViewController, didClickButton button: UIButton) {
         
         for vc in self.viewControllers! {
-            if vc.tabBarItem.title == button.titleForState(UIControlState.Normal){
+            if vc.tabBarItem.title == button.title(for: UIControlState()){
                 self.selectedViewController = vc
                 
                 break
             }
         }
 
-        firstPageViewController.dismissViewControllerAnimated(true, completion: nil)
+        firstPageViewController.dismiss(animated: true, completion: nil)
     }
     
 
@@ -117,8 +117,8 @@ class HomeTabBarViewController: UITabBarController, FirstPageViewControllerDeleg
     
     
     //MARK: 支持设备方向
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.landscape
     }
 
 }

@@ -10,7 +10,7 @@ import UIKit
 
 
 protocol LoginViewControllerDelegate : NSObjectProtocol{
-    func loginViewController(loginViewController: LoginViewController, userInfo: AnyObject?)
+    func loginViewController(_ loginViewController: LoginViewController, userInfo: AnyObject?)
 }
 
 
@@ -19,7 +19,7 @@ class LoginViewController: UIViewController {
     //MARK: 初始化一个实例
     static func newInstance()->LoginViewController{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LoginViewController") as! LoginViewController
         return aInstance
     }
 
@@ -33,7 +33,7 @@ class LoginViewController: UIViewController {
     @IBOutlet var loginButton: UIButton!
     
     //MARK: @IBAction
-    @IBAction func loginButtonAction(sender: UIButton) {
+    @IBAction func loginButtonAction(_ sender: UIButton) {
         Login()
     }
     
@@ -46,7 +46,7 @@ class LoginViewController: UIViewController {
         WebApi.Login([jfusername : username, jfpwd : password], completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try? NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as? NSDictionary
+                let json = (try? JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as? NSDictionary
                 //                debugPrint("\(self) \(__FUNCTION__) json=\(json)")
                 
                 UserInfo.defaultUserInfo().returnDic = json
@@ -60,7 +60,7 @@ class LoginViewController: UIViewController {
                     self.postLoginSucceedNotification()
                     
                 }else{
-                    let msgString = json?.objectForKey(jfmessage) as? String
+                    let msgString = json?.object(forKey: jfmessage) as? String
                     let alertView = UIAlertView(title: "Error", message: msgString ?? "", delegate: nil, cancelButtonTitle: "OK")
                     alertView.show()
                     self.SendEquipCode()
@@ -95,13 +95,13 @@ class LoginViewController: UIViewController {
         self.usernameTextField.text = username ?? ""
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.addKeyboardNotificationObserver()
     }
     
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         //loginbutton设置成圆角
         self.loginButton.layer.masksToBounds = true
@@ -110,7 +110,7 @@ class LoginViewController: UIViewController {
     }
     
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.removeKeyboardNotificationObserver()
         
@@ -123,51 +123,51 @@ class LoginViewController: UIViewController {
     
     
     //MARK: KeyboardNotification
-    override func handleKeyboardWillShow(paramNotification: NSNotification) {
+    override func handleKeyboardWillShow(_ paramNotification: Notification) {
         super.handleKeyboardWillShow(paramNotification)
-        UIView.animateWithDuration(1) { () -> Void in
+        UIView.animate(withDuration: 1, animations: { () -> Void in
             self.view.frame.origin.y = -250
-        }
+        }) 
         
     }
 
-    override func handleKeyboardWillHide(paramNotification: NSNotification) {
+    override func handleKeyboardWillHide(_ paramNotification: Notification) {
         super.handleKeyboardWillHide(paramNotification)
-        UIView.animateWithDuration(1.0) { () -> Void in
+        UIView.animate(withDuration: 1.0, animations: { () -> Void in
             self.view.frame.origin.y = 0
-        }
+        }) 
     }
     
     
     // MARK: - Navigation
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
      
     }
     
     
-    override func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool {
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         return true
     }
     
     //MARK: 支持设备方向
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return UIInterfaceOrientationMask.Landscape
+    override var supportedInterfaceOrientations : UIInterfaceOrientationMask {
+        return UIInterfaceOrientationMask.landscape
     }
     
     //MARK: 发送设备编码
     func SendEquipCode(){
         
         //检查设备是否允许访问
-        let eqNo = UIDevice.currentDevice().advertisingIdentifier.UUIDString
-        let eqName = UIDevice.currentDevice().name
+        let eqNo = UIDevice.current.advertisingIdentifier.uuidString
+        let eqName = UIDevice.current.name
         WebApi.SendEquipCode(nil,  completedHandler: { (response, data, error) -> Void in
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                 let returnDic = ReturnDic(returnDic: json)
                 
                 let status = returnDic.status

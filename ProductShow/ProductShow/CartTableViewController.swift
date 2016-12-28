@@ -25,7 +25,7 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
 //        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
         
         let nib = UINib(nibName: tvCell.nibName, bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: tvCell.cellid)
+        tableView.register(nib, forCellReuseIdentifier: tvCell.cellid)
         
         self.addProductsInCartChangedNotificationObserver()
         
@@ -42,7 +42,7 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
     
     
     //MARK: 消息通知    
-    override func handleProductsInCartChangedNotification(paramNotification: NSNotification) {
+    override func handleProductsInCartChangedNotification(_ paramNotification: Notification) {
         super.handleProductsInCartChangedNotification(paramNotification)
         let postObj = paramNotification.object
         if !self.isEqual(postObj){
@@ -53,19 +53,19 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
 
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
         return cart.productsCount
     }
 
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(tvCell.cellid, forIndexPath: indexPath) as! UIProductAndRemarkTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: tvCell.cellid, for: indexPath) as! UIProductAndRemarkTableViewCell
         
         // Configure the cell...
 //        let dic = cart.products.allValues[indexPath.row] as! NSMutableDictionary
@@ -79,13 +79,13 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(UIProductTableViewCell.rowHeight)
     }
 
     
     // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         // Return false if you do not want the specified item to be editable.
         return true
     }
@@ -93,22 +93,22 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
 
     
     // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
             // Delete the row from the data source
 //            let key = cart.products.allKeys[indexPath.row]
 //            cart.products.removeObjectForKey(key)
             cart.removeProductByIndex(indexPath.row)
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
+            tableView.deleteRows(at: [indexPath], with: .fade)
             self.postProductsInCartChangedNotification()
 //            self.performSelector(Selector("postProductsInCartChangedNotification"), withObject: nil, afterDelay: 0.5)
-        } else if editingStyle == .Insert {
+        } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let cell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductAndRemarkTableViewCell
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let cell = tableView.cellForRow(at: indexPath) as? UIProductAndRemarkTableViewCell
         let detailVC = cell?.productViewController()
         self.navigationController?.pushViewController(detailVC!, animated: true)
     }
@@ -129,7 +129,7 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
     */
     
     // MARK: - Navigation
-    override  func shouldPerformSegueWithIdentifier(identifier: String, sender: AnyObject?) -> Bool{
+    override  func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool{
         if identifier == "CartToMyOrders"{
             if cart.productsCount > 0{
                 //订单信息
@@ -152,14 +152,14 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
     }
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
     }
     
     //MARK: UIProductAndRemarkTableViewCellDelegate
     var remarkCell: UIProductAndRemarkTableViewCell?
-    func productAndRemarkTableViewCellMemoButtonAction(cell: UIProductAndRemarkTableViewCell) {
+    func productAndRemarkTableViewCellMemoButtonAction(_ cell: UIProductAndRemarkTableViewCell) {
         remarkCell = cell// self.tableView.indexPathForCell(cell)
         //添加备注
         let product = cell.product
@@ -173,19 +173,19 @@ class CartTableViewController: UITableViewController,UIProductAndRemarkTableView
         self.navigationController?.pushViewController(textViewVC, animated: true)
     }
     
-    func productAndRemarkTableViewCellQuantityDidChanged(cell: UIProductAndRemarkTableViewCell) {
+    func productAndRemarkTableViewCellQuantityDidChanged(_ cell: UIProductAndRemarkTableViewCell) {
         
     }
     
     
     //MARK: UITextViewControllerDelegate
-    func textViewControllerDone(textViewVC: UITextViewController) {
+    func textViewControllerDone(_ textViewVC: UITextViewController) {
 //        let row = remarkCellIndexPath?.row
         let product = remarkCell?.product// order.productAtIndex(row!)
         product?.additionInfo = textViewVC.textView.text
 //        Orders.defaultOrders().flush()
         cart.flush()
-        self.navigationController?.popViewControllerAnimated(true)
+        self.navigationController?.popViewController(animated: true)
 //        self.tableView.reloadData()
         
     }

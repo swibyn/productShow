@@ -8,6 +8,30 @@
 
 import Foundation
 import UIKit
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class UIProductTableViewCell : UITableViewCell {
     
@@ -26,7 +50,7 @@ class UIProductTableViewCell : UITableViewCell {
  
     @IBOutlet var operationButton: UIButton!
     
-    @IBAction func operationButtonAction(sender: UIButton) {
+    @IBAction func operationButtonAction(_ sender: UIButton) {
         delegate?.productTableViewCellButtonDidClick(self)
     }
     
@@ -38,7 +62,7 @@ class UIProductTableViewCell : UITableViewCell {
         var imageloaded = false
         WebApi.GetFile(product.thumbUrl) { (response, data, error) -> Void in
             
-            if data?.length > 0{
+            if data?.count > 0{
                 self.proThumbImageView.image = UIImage(data: data!)
                 imageloaded = true
             }else{
@@ -58,9 +82,9 @@ class UIProductTableViewCell : UITableViewCell {
     }
 }
 
-func ConfigureCell(cell: UIProductTableViewCell, canAddToCart:Bool, product: Product, delegate: UIProductTableViewCellDelegate?){
+func ConfigureCell(_ cell: UIProductTableViewCell, canAddToCart:Bool, product: Product, delegate: UIProductTableViewCellDelegate?){
     cell.product = product
-    cell.operationButton.hidden = !canAddToCart
+    cell.operationButton.isHidden = !canAddToCart
     cell.delegate = delegate
     cell.refreshView()
 }
@@ -69,7 +93,7 @@ func ConfigureCell(cell: UIProductTableViewCell, canAddToCart:Bool, product: Pro
 
 protocol UIProductTableViewCellDelegate : NSObjectProtocol {
    
-    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell)
+    func productTableViewCellButtonDidClick(_ cell: UIProductTableViewCell)
 }
 
 

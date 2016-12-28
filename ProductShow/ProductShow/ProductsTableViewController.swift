@@ -14,7 +14,7 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     //MARK: 初始化一个实例
     static func newInstance()->ProductsTableViewController{
         
-        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProductsTableViewController") as! ProductsTableViewController
+        let aInstance = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProductsTableViewController") as! ProductsTableViewController
         return aInstance
     }
 
@@ -34,14 +34,14 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
         }
         
         let nib = UINib(nibName: "ProductTableViewCell", bundle: nil)
-        tableView.registerNib(nib, forCellReuseIdentifier: "productCell")
+        tableView.register(nib, forCellReuseIdentifier: "productCell")
         
         self.addProductsInCartChangedNotificationObserver()
         self.cartBarButton.title = Cart.defaultCart().title
     
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if products?.status != 1{
             let msgString = self.products?.message
@@ -61,15 +61,15 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     }
     
     //MARK: 消息通知
-    override func handleProductsInCartChangedNotification(paramNotification: NSNotification) {
+    override func handleProductsInCartChangedNotification(_ paramNotification: Notification) {
         super.handleProductsInCartChangedNotification(paramNotification)
         self.cartBarButton.title = Cart.defaultCart().title
     }
     
     
     //MARK: - Table view delegate
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let selectCell = tableView.cellForRowAtIndexPath(indexPath) as? UIProductTableViewCell
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectCell = tableView.cellForRow(at: indexPath) as? UIProductTableViewCell
         let detailVc = selectCell?.productViewController()
        // detailVc?.product = selectCell?.product
         self.navigationController?.pushViewController(detailVc!, animated: true)
@@ -77,20 +77,20 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
     
     // MARK: - Table view data source
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
         return products?.productsCount ?? 0
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! UIProductTableViewCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "productCell", for: indexPath) as! UIProductTableViewCell
         
         // Configure the cell...
         let product = products?.productAtIndex(indexPath.row)
@@ -101,15 +101,15 @@ class ProductsTableViewController: UITableViewController,UIProductTableViewCellD
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return CGFloat(UIProductTableViewCell.rowHeight)
     }
 
     
     //MARK: UIProductTableViewCellDelegate
-    func productTableViewCellButtonDidClick(cell: UIProductTableViewCell) {
+    func productTableViewCellButtonDidClick(_ cell: UIProductTableViewCell) {
         Cart.defaultCart().addProduct(cell.product)
-        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kProductsInCartChanged), object: self)
     }
 
     /*

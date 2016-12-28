@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9059" systemVersion="14F1021" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -12,7 +16,7 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="152"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="btd-bX-WoH" id="t2J-f6-QQQ">
-                <rect key="frame" x="0.0" y="0.0" width="600" height="151"/>
+                <rect key="frame" x="0.0" y="0.0" width="600" height="151.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BNi-k1-2UX">
@@ -20,7 +24,7 @@
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="商品默认图片96X96" translatesAutoresizingMaskIntoConstraints="NO" id="8Em-Jk-fU1">
                                 <rect key="frame" x="15" y="17" width="96" height="97"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="96" id="zaN-WY-y78"/>
                                 </constraints>
@@ -31,7 +35,7 @@
                                     <constraint firstAttribute="height" constant="23" id="1S9-1C-TQx"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="22"/>
-                                <color key="textColor" red="0.35358255004001521" green="0.55496761204481793" blue="0.17361289823239959" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.35358255004001521" green="0.55496761204481793" blue="0.17361289823239959" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="型号" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9OT-Pn-r0q">
@@ -40,7 +44,7 @@
                                     <constraint firstAttribute="height" constant="22" id="BPp-E0-KwD"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
-                                <color key="textColor" red="0.11489207831507009" green="0.18307705026455023" blue="0.025498561817597111" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.11489207831507009" green="0.18307705026455023" blue="0.025498561817597111" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="简介 简介" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zkd-gL-9kB">
@@ -49,7 +53,7 @@
                                     <constraint firstAttribute="height" constant="48" id="oCM-OC-kcS"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                <color key="textColor" red="0.29253472222222221" green="0.29253472222222221" blue="0.29253472222222221" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.29253472222222221" green="0.29253472222222221" blue="0.29253472222222221" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="characterWrap" translatesAutoresizingMaskIntoConstraints="NO" id="cbK-IZ-gmO">
@@ -69,7 +73,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="cbK-IZ-gmO" firstAttribute="leading" secondItem="B0V-xJ-HcK" secondAttribute="trailing" constant="5" id="GNY-zs-y1y"/>
                             <constraint firstItem="9OT-Pn-r0q" firstAttribute="top" secondItem="B0V-xJ-HcK" secondAttribute="bottom" constant="6" id="JQE-V5-Snn"/>
@@ -89,7 +93,7 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
+                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                 <constraints>
                     <constraint firstItem="BNi-k1-2UX" firstAttribute="leading" secondItem="t2J-f6-QQQ" secondAttribute="leadingMargin" constant="10" id="1HH-oG-NWm"/>
                     <constraint firstItem="BNi-k1-2UX" firstAttribute="centerX" secondItem="t2J-f6-QQQ" secondAttribute="centerX" constant="2" id="L6K-dH-kBZ"/>

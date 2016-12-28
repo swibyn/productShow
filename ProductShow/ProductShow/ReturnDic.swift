@@ -30,16 +30,16 @@ class ReturnDic: NSObject{
     }
     
     var status: Int?{
-        return _returnDic?.objectForKey(jfstatus) as? Int
+        return _returnDic?.object(forKey: jfstatus) as? Int
     }
     
     var message: String?{
-        return _returnDic?.objectForKey(jfmessage) as? String
+        return _returnDic?.object(forKey: jfmessage) as? String
     }
     
     var data_dt: NSArray?{
-        let data = _returnDic?.objectForKey(jfdata) as? NSDictionary
-        let dt = data?.objectForKey(jfdt) as? NSArray
+        let data = _returnDic?.object(forKey: jfdata) as? NSDictionary
+        let dt = data?.object(forKey: jfdt) as? NSArray
         return dt
     }
     

@@ -11,28 +11,29 @@ import UIKit
 class PhotoUtil: NSObject {
     static let compressionQuality: CGFloat = 0.5
     
-    class func savePhoto(image: UIImage, var forName name: String?)->String?{
+    class func savePhoto(_ image: UIImage, forName name: String?)->String?{
+        var name = name
         if name == nil{
-            let time = NSDate().toString("yyyyMMdd_HHmmss")
+            let time = Date().toString("yyyyMMdd_HHmmss")
             name = "IMG_\(time).png"
         }
         
         let imgData = UIImageJPEGRepresentation(image, compressionQuality)
         let savedPath = "\(NSTemporaryDirectory())\(name!)"
-         let bsave = imgData?.writeToFile(savedPath, atomically: true)
+         let bsave = (try? imgData?.write(to: URL(fileURLWithPath: savedPath), options: [.atomic])) != nil
         return (bsave ?? false) ? savedPath : nil
     }
     
-    class func getPhotoData(fileName: String?)->NSData?{
+    class func getPhotoData(_ fileName: String?)->Data?{
 //        let filepath = NSTemporaryDirectory().stringByAppendingString(fileName)
         if fileName != nil{
-            return NSData(contentsOfFile: fileName!)
+            return (try? Data(contentsOf: URL(fileURLWithPath: fileName!)))
         }
         return nil
     }
     
     //删除订单图片
-    class func removeImagesInOrder(order: Order?){
+    class func removeImagesInOrder(_ order: Order?){
         if order == nil { return }
         let imagePathCount = order?.imagePaths?.count
         if imagePathCount != nil && imagePathCount! > 0{
@@ -40,7 +41,7 @@ class PhotoUtil: NSObject {
                 let imagePath = order?.imagePathAtIndex(index)
                 let localPath = imagePath?.localpath
                 if localPath == nil {continue}
-                let _ = try? NSFileManager.defaultManager().removeItemAtPath(localPath!)
+                let _ = try? FileManager.default.removeItem(atPath: localPath!)
             }
         }
     }

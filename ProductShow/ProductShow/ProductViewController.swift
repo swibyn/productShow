@@ -14,7 +14,7 @@ class ProductViewController: UIViewController {
     
     //MARK: 初始化一个实例
     static func newInstance()->ProductViewController{
-        return UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("ProductViewController") as! ProductViewController
+        return UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "ProductViewController") as! ProductViewController
         
     }
 
@@ -24,9 +24,9 @@ class ProductViewController: UIViewController {
     @IBOutlet var productSizeLabel: UILabel!
     @IBOutlet var productRemarkTextView: UITextView!
     
-    @IBAction func addToCartButtonAction(sender: AnyObject) {
+    @IBAction func addToCartButtonAction(_ sender: AnyObject) {
         Cart.defaultCart().addProduct(product)
-        NSNotificationCenter.defaultCenter().postNotificationName(kProductsInCartChanged, object: self)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: kProductsInCartChanged), object: self)
         let alertView = UIAlertView(title: "", message: "Add to cart successfully", delegate: nil, cancelButtonTitle: "OK")
         alertView.show()
     }
@@ -38,7 +38,7 @@ class ProductViewController: UIViewController {
         
         self.showProductInfo()
         self.imageViewAddTapGesture()
-        self.productRemarkTextView.font = UIFont.systemFontOfSize(20)
+        self.productRemarkTextView.font = UIFont.systemFont(ofSize: 20)
         self.productRemarkTextViewAddTapGesture()
         
         
@@ -59,7 +59,7 @@ class ProductViewController: UIViewController {
     
     //产品图片增加点击事件
     func imageViewAddTapGesture(){
-        self.productImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("imageViewTapAction")))
+        self.productImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductViewController.imageViewTapAction)))
         
     }
     
@@ -69,16 +69,16 @@ class ProductViewController: UIViewController {
             
             if WebApi.isHttpSucceed(response, data: data, error: error){
                 
-                let json = (try! NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions.MutableContainers)) as! NSDictionary
+                let json = (try! JSONSerialization.jsonObject(with: data!, options: JSONSerialization.ReadingOptions.mutableContainers)) as! NSDictionary
                 let productFiles = ProductFiles(returnDic: json)
                 if productFiles.imageFileArray.count > 0 {
 //                if productFiles.filesCount > 0{
                     
                     let imageCollectionVC2 = UIImagesCollectionViewContrller2.newInstance()
-                    imageCollectionVC2.modalTransitionStyle = UIModalTransitionStyle.CrossDissolve
-                    imageCollectionVC2.modalPresentationStyle = UIModalPresentationStyle.FullScreen
+                    imageCollectionVC2.modalTransitionStyle = UIModalTransitionStyle.crossDissolve
+                    imageCollectionVC2.modalPresentationStyle = UIModalPresentationStyle.fullScreen
                     imageCollectionVC2.productFiles = productFiles
-                    self.presentViewController(imageCollectionVC2, animated: false, completion: nil)
+                    self.present(imageCollectionVC2, animated: false, completion: nil)
                 }else{
                     let alerView = UIAlertView(title: nil, message: productFiles.message, delegate: nil, cancelButtonTitle: "OK")
                     alerView.show()
@@ -94,11 +94,11 @@ class ProductViewController: UIViewController {
     
     //简介增加点击事件
     func productRemarkTextViewAddTapGesture(){
-        self.productRemarkTextView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: Selector("productRemarkTextViewTapAction:")))
+        self.productRemarkTextView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(ProductViewController.productRemarkTextViewTapAction(_:))))
     }
     
-    func productRemarkTextViewTapAction(sender: AnyObject?){
-        self.performSegueWithIdentifier("ProductDetailVC_Detail", sender: sender)
+    func productRemarkTextViewTapAction(_ sender: AnyObject?){
+        self.performSegue(withIdentifier: "ProductDetailVC_Detail", sender: sender)
         
     }
     
@@ -106,12 +106,12 @@ class ProductViewController: UIViewController {
     // MARK: - Navigation
     
     // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         // Get the new view controller using segue.destinationViewController.
         // Pass the selected object to the new view controller.
         
         //
-        let destVc = segue.destinationViewController
+        let destVc = segue.destination
         destVc.setValue(product, forKey: "product")
         
     }

@@ -18,7 +18,7 @@ postDic={
 
 
 class LoginInfo: NSObject{
-    private var _loginDic: NSDictionary?
+    fileprivate var _loginDic: NSDictionary?
     
     init(loginDic: NSDictionary) {
         _loginDic = loginDic
@@ -43,19 +43,19 @@ class LoginInfo: NSObject{
     
     var username: String?{
         get{
-            return _loginDic?.objectForKey(jfusername) as? String
+            return _loginDic?.object(forKey: jfusername) as? String
         }
     }
     
     var pwd: String?{
         get{
-            return _loginDic?.objectForKey(jfpwd) as? String
+            return _loginDic?.object(forKey: jfpwd) as? String
         }
     }
 }
 
 class User: NSObject{
-    private var _userDic: NSDictionary?
+    fileprivate var _userDic: NSDictionary?
     
     init(userDic: NSDictionary) {
         _userDic = userDic
@@ -75,63 +75,63 @@ class User: NSObject{
     }
     
     var uid: Int?{
-        return _userDic?.objectForKey(jfuid) as? Int
+        return _userDic?.object(forKey: jfuid) as? Int
     }
     
     var uname: String?{
-        return _userDic?.objectForKey(jfuname) as? String
+        return _userDic?.object(forKey: jfuname) as? String
     }
     
     var tel: String?{
-        return _userDic?.objectForKey(jftel) as? String
+        return _userDic?.object(forKey: jftel) as? String
     }
     
     var mail: String?{
-        return _userDic?.objectForKey(jfmail) as? String
+        return _userDic?.object(forKey: jfmail) as? String
     }
     
     var weixin: String?{
-        return _userDic?.objectForKey(jfweixin) as? String
+        return _userDic?.object(forKey: jfweixin) as? String
     }
     
     var qq: String?{
-        return _userDic?.objectForKey(jfqq) as? String
+        return _userDic?.object(forKey: jfqq) as? String
     }
     
     var state: Int?{
-        return _userDic?.objectForKey(jfstate) as? Int
+        return _userDic?.object(forKey: jfstate) as? Int
     }
     
     var userNo: String?{
-        return _userDic?.objectForKey(jfuserNo) as? String
+        return _userDic?.object(forKey: jfuserNo) as? String
     }
     
     var sex: Int?{
-        return _userDic?.objectForKey(jfsex) as? Int
+        return _userDic?.object(forKey: jfsex) as? Int
     }
     
     var deptId: Int?{
-        return _userDic?.objectForKey(jfdeptId) as? Int
+        return _userDic?.object(forKey: jfdeptId) as? Int
     }
     
     var dept: String?{
-        return _userDic?.objectForKey(jfdept) as? String
+        return _userDic?.object(forKey: jfdept) as? String
     }
     
     var role: String?{
-        return _userDic?.objectForKey(jfrole) as? String
+        return _userDic?.object(forKey: jfrole) as? String
     }
     
     var deptNo: String?{
-        return _userDic?.objectForKey(jfdeptNo) as? String
+        return _userDic?.object(forKey: jfdeptNo) as? String
     }
     
     var authCode: String?{
-        return _userDic?.objectForKey(jfauthCode) as? String
+        return _userDic?.object(forKey: jfauthCode) as? String
     }
     
-    func stringForKey(key: String)->String?{
-        let objOpt = _userDic?.objectForKey(key)
+    func stringForKey(_ key: String)->String?{
+        let objOpt = _userDic?.object(forKey: key)
         if let obj = objOpt{
             return "\(obj)"
         }
@@ -154,7 +154,7 @@ class UserInfoSaveKey{
 
 class UserInfo: ReturnDic {
     //单例
-    private static var _userInfo: UserInfo?
+    fileprivate static var _userInfo: UserInfo?
     class func defaultUserInfo()->UserInfo {
         if _userInfo == nil{
             _userInfo = UserInfo()
@@ -165,7 +165,7 @@ class UserInfo: ReturnDic {
     }
     
     //提交的信息
-    private var _loginDic: NSDictionary?
+    fileprivate var _loginDic: NSDictionary?
     
     
     //状态 初始状态为“” 登录状态 注销状态
@@ -200,9 +200,9 @@ class UserInfo: ReturnDic {
     
     func readLocalLoginData(){
         
-        let loginDicData = NSUserDefaults.standardUserDefaults().objectForKey(UserInfoSaveKey.loginDic) as? NSData
+        let loginDicData = UserDefaults.standard.object(forKey: UserInfoSaveKey.loginDic) as? Data
         if loginDicData != nil{
-            let loginDic = try! NSJSONSerialization.JSONObjectWithData(loginDicData!, options: NSJSONReadingOptions.MutableContainers)
+            let loginDic = try! JSONSerialization.jsonObject(with: loginDicData!, options: JSONSerialization.ReadingOptions.mutableContainers)
             _loginDic = loginDic as? NSDictionary
         }
         
@@ -210,9 +210,9 @@ class UserInfo: ReturnDic {
     
     func readLocalReturnData(){
         
-        let returnDicData = NSUserDefaults.standardUserDefaults().objectForKey(UserInfoSaveKey.returnDic) as? NSData
+        let returnDicData = UserDefaults.standard.object(forKey: UserInfoSaveKey.returnDic) as? Data
         if returnDicData != nil{
-            let returnDic = try! NSJSONSerialization.JSONObjectWithData(returnDicData!, options: NSJSONReadingOptions.MutableContainers)
+            let returnDic = try! JSONSerialization.jsonObject(with: returnDicData!, options: JSONSerialization.ReadingOptions.mutableContainers)
             _returnDic = returnDic as? NSDictionary
         }
     }
@@ -221,23 +221,23 @@ class UserInfo: ReturnDic {
 
         if _loginDic != nil{
         
-            let data = try! NSJSONSerialization.dataWithJSONObject(_loginDic!, options: NSJSONWritingOptions())
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey: UserInfoSaveKey.loginDic)
+            let data = try! JSONSerialization.data(withJSONObject: _loginDic!, options: JSONSerialization.WritingOptions())
+            UserDefaults.standard.set(data, forKey: UserInfoSaveKey.loginDic)
         }
         
         if _returnDic != nil{
             
-            let data = try! NSJSONSerialization.dataWithJSONObject(_returnDic!, options: NSJSONWritingOptions())
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey: UserInfoSaveKey.returnDic)
+            let data = try! JSONSerialization.data(withJSONObject: _returnDic!, options: JSONSerialization.WritingOptions())
+            UserDefaults.standard.set(data, forKey: UserInfoSaveKey.returnDic)
         }
     }
     
     
     var firstUser: User?{
         //用户信息
-        let data = _returnDic?.objectForKey(jfdata) as? NSDictionary
-        let dt = data?.objectForKey(jfdt) as? NSArray
-        let firstUserDic = dt?.objectAtIndex(0) as? NSDictionary
+        let data = _returnDic?.object(forKey: jfdata) as? NSDictionary
+        let dt = data?.object(forKey: jfdt) as? NSArray
+        let firstUserDic = dt?.object(at: 0) as? NSDictionary
         let user = User()
         user.userDic = firstUserDic
         return user
